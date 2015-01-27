@@ -17,8 +17,9 @@
   </parent>
 
   <modules>
-    <module>chapter11-putting-together</module>
-    <module>chapter11-samples</module>
+    <module>jsf-samples</module>
+    <module>jsf-simple</module>
+    <module>jsf-primefaces</module>
   </modules>
 
 </project>
