@@ -24,4 +24,62 @@ public class Terminal {
     @OneToMany
     private List<Ticket> tickets = new ArrayList<>();
 
+    public Terminal() {
+    }
+
+    public Terminal(Integer number, String firmware, String mobile, Point lastPoint, List<Ticket> tickets) {
+        this.number = number;
+        this.firmware = firmware;
+        this.mobile = mobile;
+        this.lastPoint = lastPoint;
+        this.tickets = tickets;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Integer getNumber() {
+        return number;
+    }
+
+    public void setNumber(Integer number) {
+        this.number = number;
+    }
+
+    public String getFirmware() {
+        return firmware;
+    }
+
+    public void setFirmware(String firmware) {
+        this.firmware = firmware;
+    }
+
+    public String getMobile() {
+        return mobile;
+    }
+
+    public void setMobile(String mobile) {
+        this.mobile = mobile;
+    }
+
+    public Point getLastPoint() {
+        return lastPoint;
+    }
+
+    public void setLastPoint(Point lastPoint) {
+        this.lastPoint = lastPoint;
+    }
+
+    public List<Ticket> getTickets() {
+        return tickets;
+    }
+
+    public void setTickets(List<Ticket> tickets) {
+        this.tickets = tickets;
+    }
 }

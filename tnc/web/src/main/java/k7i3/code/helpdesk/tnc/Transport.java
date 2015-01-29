@@ -26,13 +26,13 @@ public class Transport {
     @NotNull
     @OneToOne
     private Terminal terminal;
-    @ElementCollection
-    private List<String> comments = new ArrayList<>();
+    @OneToMany
+    private List<Comment> comments = new ArrayList<>();
 
     public Transport() {
     }
 
-    public Transport(String project, String branch, String stateNumber, String garageNumber, String model, Terminal terminal, List<String> comments) {
+    public Transport(String project, String branch, String stateNumber, String garageNumber, String model, Terminal terminal, List<Comment> comments) {
         this.project = project;
         this.branch = branch;
         this.stateNumber = stateNumber;
@@ -82,11 +82,11 @@ public class Transport {
         this.terminal = terminal;
     }
 
-    public List<String> getComments() {
+    public List<Comment> getComments() {
         return comments;
     }
 
-    public void setComments(List<String> comments) {
+    public void setComments(List<Comment> comments) {
         this.comments = comments;
     }
 
