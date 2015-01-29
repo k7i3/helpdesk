@@ -9,6 +9,7 @@ import java.util.List;
  * Created by k7i3 on 27.01.15.
  */
 @Entity
+@NamedQuery(name = "findAllTransport", query = "SELECT b FROM Transport b ORDER BY b.project DESC")
 public class Transport {
     @Id
     @GeneratedValue

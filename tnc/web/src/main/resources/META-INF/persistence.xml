@@ -4,8 +4,8 @@
              xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd"
              version="2.1">
 
-  <persistence-unit name="chapter11PU" transaction-type="JTA">
-    <jta-data-source>java:global/jdbc/lab11DS</jta-data-source>
+  <persistence-unit name="helpdeskPU" transaction-type="JTA">
+    <jta-data-source>java:global/jdbc/helpdeskDS</jta-data-source>
     <properties>
       <property name="javax.persistence.schema-generation.database.action" value="drop-and-create"/>
       <property name="eclipselink.logging.level" value="INFO"/>
