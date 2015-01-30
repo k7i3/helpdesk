@@ -26,12 +26,13 @@ public class Ticket {
     @NotNull
     @Enumerated(EnumType.STRING)
     private TicketStatus ticketStatus;
+    @NotNull
     @Enumerated(EnumType.STRING)
     private TicketHeader ticketHeader;
     @NotNull
     private String openedBy;
     private String closedBy;
-    @OneToMany
+    @OneToMany (cascade = CascadeType.PERSIST)
     private List<Comment> comments = new ArrayList<>();
 
     public Ticket() {

@@ -25,15 +25,23 @@ public class Transport {
     @NotNull
     private String model;
     @NotNull
-    @OneToOne
+    @OneToOne (cascade = CascadeType.PERSIST)
     private Terminal terminal;
-    @OneToMany
+    @OneToMany (cascade = CascadeType.PERSIST)
     private List<Comment> comments = new ArrayList<>();
 
     public Transport() {
     }
 
-    public Transport(String project, String branch, String stateNumber, String garageNumber, String model, Terminal terminal, List<Comment> comments) {
+//    public Transport(String project, String branch, String stateNumber, String garageNumber, String model) {
+//        this.project = project;
+//        this.branch = branch;
+//        this.stateNumber = stateNumber;
+//        this.garageNumber = garageNumber;
+//        this.model = model;
+//    }
+
+        public Transport(String project, String branch, String stateNumber, String garageNumber, String model, Terminal terminal, List<Comment> comments) {
         this.project = project;
         this.branch = branch;
         this.stateNumber = stateNumber;

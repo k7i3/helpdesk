@@ -19,9 +19,9 @@ public class Terminal {
     private String firmware;
     @NotNull
     private String mobile;
-    @OneToOne
+    @OneToOne (cascade = CascadeType.PERSIST)
     private Point lastPoint;
-    @OneToMany
+    @OneToMany (cascade = CascadeType.PERSIST)
     private List<Ticket> tickets = new ArrayList<>();
 
     public Terminal() {

@@ -24,12 +24,39 @@ public class DBPopulator {
     private TransportEJB transportEJB;
     private Logger logger = Logger.getLogger("k7i3");
 
-    List<Ticket> mockTickets = new ArrayList<>();
+    Comment mockTicketComment;
     List<Comment> mockTicketComments = new ArrayList<>();
+    Ticket mockTicket;
+    List<Ticket> mockTickets = new ArrayList<>();
+    Point mockPoint;
+    Terminal mockTerminal;
+    Comment mockTransportComment;
     List<Comment> mockTransportComments = new ArrayList<>();
+    Transport transport;
 
     @PostConstruct
     private void createMockData() {
+
+        logger.info("=>=>=>=>=> DBPopulator.createMockData()");
+
+//        transportEJB.createTransport(new Transport("БашАвтоТранс", "Стерлитамак", "105БВ02", "108883", "Нефаз"));
+//
+//        Transport transport = new Transport("БашАвтоТранс", "Стерлитамак", "105БВ02", "108883", "Нефаз");
+//        transportEJB.createTransport(transport);
+
+        transportEJB.createTransport(new Transport("БашАвтоТранс", "Стерлитамак", "105БВ02", "108883", "Нефаз", new Terminal(5546, "REV. 07.627.019", "9177565745", new Point(54.78517, 56.04562, new Date()), null), null));
+
+
+        mockTicketComment = new Comment("Стерлитамак", "шеф все пропало!", new Date(), null, null, null);
+        mockTicketComments.add(mockTicketComment);
+        mockTicket = new Ticket(new Date(), null, null, null, TicketStatus.OPENED, TicketHeader.NOT_ONLINE, "Стерлитамак", null, mockTicketComments);
+        mockTickets.add(mockTicket);
+        mockPoint = new Point(54.78517, 56.04562, new Date());
+        mockTerminal = new Terminal(5546, "REV. 07.627.019", "9177565745", mockPoint, mockTickets);
+        mockTransportComment = new Comment("Администратор", "автобус эксплуатируется?", new Date(), null, null, null);
+        mockTransportComments.add(mockTransportComment);
+        transport = new Transport("БашАвтоТранс", "Стерлитамак", "105БВ02", "108883", "Нефаз", mockTerminal, mockTransportComments);
+        transportEJB.createTransport(transport);
 
         transportEJB.createTransport(new Transport("БашАвтоТранс", "Салават", "105БВ02", "108883", "Нефаз",
                 new Terminal(5546, "REV. 07.627.019", "9177565745", new Point(54.78517, 56.04562, new Date()), mockTickets), mockTransportComments));
