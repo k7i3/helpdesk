@@ -4,7 +4,8 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-      xmlns:p="http://primefaces.org/ui">
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core">
 
 <ui:composition template="layout.xhtml">
 
@@ -15,99 +16,193 @@
     </ui:define>
 
     <ui:define name="content">
-
         <p:tabView dynamic="true" cache="true">
-        <p:tab title="Весь транспорт">
 
-            <p:dataTable var="transport" value="#{transportEJB.findAllTransport()}">
-                <p:column headerText="BD_Id_Transport">
-                    <h:outputText value="#{transport.id}" />
-                </p:column>
+            <p:tab title="Весь транспорт (Admin)">
 
-                <p:column headerText="Проект">
-                    <h:outputText value="#{transport.project}" />
-                </p:column>
+                <p:dataTable var="transport" value="#{transportEJB.findAllTransport()}" rowStyleClass="#{transport.terminal.number le 7000 ? 'tooday' : 'notTooday'}" draggableColumns="true" draggableRows="true" resizableColumns="true" style="margin-bottom:20px"> <!--TODO смена цвета-->
 
-                <p:column headerText="Филиал">
-                    <h:outputText value="#{transport.branch}" />
-                </p:column>
+                    <f:facet name="header">
+                        <!--<p:outputPanel>-->
+                            <!--<h:outputText value="Поиск:" />-->
+                            <!--<p:inputText id="globalFilter" onkeyup="PF('carsTable').filter()" style="width:150px" placeholder="Enter keyword"/>-->
+                        <!--</p:outputPanel>--> <!--TODO глобальный поиск-->
 
-                <p:column headerText="Гос. номер">
-                    <h:outputText value="#{transport.stateNumber}" />
-                </p:column>
+                        <!--<p:commandButton id="toggler" type="button" value="Columns" style="float:right" icon="ui-icon-calculator" />-->
+                        <!--<p:columnToggler datasource="test" trigger="toggler" />--> <!--TODO выбор отображаемых столбцов-->
+                    </f:facet>
 
-                <p:column headerText="Гар. номер">
-                    <h:outputText value="#{transport.garageNumber}" />
-                </p:column>
+                    <p:column headerText="Проект">
+                        <h:outputText value="#{transport.project}" />
+                    </p:column>
 
-                <p:column headerText="Модель">
-                    <h:outputText value="#{transport.model}" />
-                </p:column>
+                    <p:column headerText="Филиал">
+                        <h:outputText value="#{transport.branch}" />
+                    </p:column>
 
-                <p:column headerText="BD_Id_Terminal">
-                    <h:outputText value="#{transport.terminal.id}" />
-                </p:column>
+                    <p:column headerText="Гос. номер">
+                        <h:outputText value="#{transport.stateNumber}" />
+                    </p:column>
 
-                <p:column headerText="Терминал">
-                    <h:outputText value="#{transport.terminal.number}" />
-                </p:column>
+                    <p:column headerText="Гар. номер">
+                        <h:outputText value="#{transport.garageNumber}" />
+                    </p:column>
 
-                <p:column headerText="Прошивка">
-                    <h:outputText value="#{transport.terminal.firmware}" />
-                </p:column>
+                    <p:column headerText="Модель">
+                        <h:outputText value="#{transport.model}" />
+                    </p:column>
 
-                <p:column headerText="Телефон">
-                    <h:outputText value="#{transport.terminal.mobile}" />
-                </p:column>
+                    <p:column headerText="Терминал">
+                        <h:outputText value="#{transport.terminal.number}" />
+                    </p:column>
 
-                <p:column headerText="BD_Id_Point">
-                    <h:outputText value="#{transport.terminal.lastPoint.id}" />
-                </p:column>
+                    <p:column headerText="Прошивка">
+                        <h:outputText value="#{transport.terminal.firmware}" />
+                    </p:column>
 
-                <p:column headerText="longitude">
-                    <h:outputText value="#{transport.terminal.lastPoint.longitude}" />
-                </p:column>
+                    <p:column headerText="Телефон">
+                        <h:outputText value="#{transport.terminal.mobile}" />
+                    </p:column>
 
-                <p:column headerText="latitude">
-                    <h:outputText value="#{transport.terminal.lastPoint.latitude}" />
-                </p:column>
+                    <p:column headerText="Связь">
+                        <h:outputText value="#{transport.terminal.lastPoint.date}" />
+                    </p:column>
 
-                <p:column headerText="Выход на связь">
-                    <h:outputText value="#{transport.terminal.lastPoint.date}" />
-                </p:column>
+                    <p:column headerText="Заявки">
+                        <h:outputText value="#{transport.terminal.tickets.size()}" />
+                    </p:column>
 
-                <p:column headerText="Заявки">
-                    <h:outputText value="#{transport.terminal.tickets.size()}" />
-                </p:column>
+                    <p:column headerText="Комментарии">
+                        <h:outputText value="#{transport.comments.size()}" />
+                    </p:column>
 
-                <p:column headerText="Комментарии">
-                    <h:outputText value="#{transport.comments.size()}" />
-                </p:column>
+                </p:dataTable>
+            </p:tab>
 
-            </p:dataTable>
+            <p:tab title="Весь транспорт (User)">
 
+                    <p:dataTable var="transport" value="#{transportEJB.findAllTransport()}" rowStyleClass="#{transport.terminal.number le 7000 ? 'tooday' : null}">
 
+                        <p:column headerText="Филиал">
+                            <h:outputText value="#{transport.branch}" />
+                        </p:column>
 
+                        <p:column headerText="Гос. номер">
+                            <h:outputText value="#{transport.stateNumber}" />
+                        </p:column>
 
+                        <p:column headerText="Гар. номер">
+                            <h:outputText value="#{transport.garageNumber}" />
+                        </p:column>
 
+                        <p:column headerText="Модель">
+                            <h:outputText value="#{transport.model}" />
+                        </p:column>
 
+                        <p:column headerText="Терминал">
+                            <h:outputText value="#{transport.terminal.number}" />
+                        </p:column>
 
+                        <p:column headerText="Прошивка">
+                            <h:outputText value="#{transport.terminal.firmware}" />
+                        </p:column>
 
+                        <p:column headerText="Телефон">
+                            <h:outputText value="#{transport.terminal.mobile}" />
+                        </p:column>
 
+                        <p:column headerText="Связь">
+                            <h:outputText value="#{transport.terminal.lastPoint.date}" />
+                        </p:column>
 
+                        <p:column headerText="Заявки">
+                            <h:outputText value="#{transport.terminal.tickets.size()}" />
+                        </p:column>
 
+                        <p:column headerText="Комментарии">
+                            <h:outputText value="#{transport.comments.size()}" />
+                        </p:column>
 
+                    </p:dataTable>
+                </p:tab>
 
-        </p:tab>
+            <p:tab title="В норме">
+            </p:tab>
 
-        <p:tab title="В норме">
-        </p:tab>
+            <p:tab title="Заявки">
+            </p:tab>
 
-        <p:tab title="Заявки">
-        </p:tab>
+            <p:tab title="Статистика">
+            </p:tab>
 
-        <p:tab title="Статистика">
-        </p:tab>
+            <p:tab title="TEST">
+                <p:dataTable var="transport" value="#{transportEJB.findAllTransport()}">
+                    <p:column headerText="BD_Id_Transport">
+                        <h:outputText value="#{transport.id}" />
+                    </p:column>
+
+                    <p:column headerText="Проект">
+                        <h:outputText value="#{transport.project}" />
+                    </p:column>
+
+                    <p:column headerText="Филиал">
+                        <h:outputText value="#{transport.branch}" />
+                    </p:column>
+
+                    <p:column headerText="Гос. номер">
+                        <h:outputText value="#{transport.stateNumber}" />
+                    </p:column>
+
+                    <p:column headerText="Гар. номер">
+                        <h:outputText value="#{transport.garageNumber}" />
+                    </p:column>
+
+                    <p:column headerText="Модель">
+                        <h:outputText value="#{transport.model}" />
+                    </p:column>
+
+                    <p:column headerText="BD_Id_Terminal">
+                        <h:outputText value="#{transport.terminal.id}" />
+                    </p:column>
+
+                    <p:column headerText="Терминал">
+                        <h:outputText value="#{transport.terminal.number}" />
+                    </p:column>
+
+                    <p:column headerText="Прошивка">
+                        <h:outputText value="#{transport.terminal.firmware}" />
+                    </p:column>
+
+                    <p:column headerText="Телефон">
+                        <h:outputText value="#{transport.terminal.mobile}" />
+                    </p:column>
+
+                    <p:column headerText="BD_Id_Point">
+                        <h:outputText value="#{transport.terminal.lastPoint.id}" />
+                    </p:column>
+
+                    <p:column headerText="longitude">
+                        <h:outputText value="#{transport.terminal.lastPoint.longitude}" />
+                    </p:column>
+
+                    <p:column headerText="latitude">
+                        <h:outputText value="#{transport.terminal.lastPoint.latitude}" />
+                    </p:column>
+
+                    <p:column headerText="Связь">
+                        <h:outputText value="#{transport.terminal.lastPoint.date}" />
+                    </p:column>
+
+                    <p:column headerText="Заявки">
+                        <h:outputText value="#{transport.terminal.tickets.size()}" />
+                    </p:column>
+
+                    <p:column headerText="Комментарии">
+                        <h:outputText value="#{transport.comments.size()}" />
+                    </p:column>
+                </p:dataTable>
+            </p:tab>
+
         </p:tabView>
 
     </ui:define>
