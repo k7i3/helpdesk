@@ -14,7 +14,7 @@ public class Terminal {
     @GeneratedValue
     private Long id;
     @NotNull
-    private Integer number;
+    private int number;
     @NotNull
     private String firmware;
     @NotNull

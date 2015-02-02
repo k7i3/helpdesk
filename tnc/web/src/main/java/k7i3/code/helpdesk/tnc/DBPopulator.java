@@ -8,6 +8,7 @@ import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Random;
 import java.util.logging.Logger;
 
 /**
@@ -24,69 +25,145 @@ public class DBPopulator {
     private TransportEJB transportEJB;
     private Logger logger = Logger.getLogger("k7i3");
 
-    Comment mockTicketComment;
-    List<Comment> mockTicketComments = new ArrayList<>();
-    Ticket mockTicket;
-    List<Ticket> mockTickets = new ArrayList<>();
-    Point mockPoint;
-    Terminal mockTerminal;
-    Comment mockTransportComment;
-    List<Comment> mockTransportComments = new ArrayList<>();
-    Transport transport;
+    Random random = new Random(new Date().getTime());
+
+    private final static String[] projects;
+    private final static String[] branches;
+    private final static String[] models;
+
+    static {
+        projects = new String[5];
+        projects[0] = "БАТ";
+        projects[1] = "Медицина";
+        projects[2] = "АСС";
+        projects[3] = "Школьники";
+        projects[4] = "БАД";
+
+        branches = new String[5];
+        branches[0] = "Уфа";
+        branches[1] = "Стерлитамак";
+        branches[2] = "Нефтекамск";
+        branches[3] = "Мелеуз";
+        branches[4] = "Салават";
+
+        models = new String[5];
+        models[0] = "Audi";
+        models[1] = "Mersedes";
+        models[2] = "BMW";
+        models[3] = "Нефаз";
+        models[4] = "УАЗ";
+    }
 
     @PostConstruct
     private void createMockData() {
-
         logger.info("=>=>=>=>=> DBPopulator.createMockData()");
 
-//        transportEJB.createTransport(new Transport("БашАвтоТранс", "Стерлитамак", "105БВ02", "108883", "Нефаз"));
-//
-//        Transport transport = new Transport("БашАвтоТранс", "Стерлитамак", "105БВ02", "108883", "Нефаз");
-//        transportEJB.createTransport(transport);
-
-        transportEJB.createTransport(new Transport("БашАвтоТранс", "Стерлитамак", "105БВ02", "108883", "Нефаз", new Terminal(5546, "REV. 07.627.019", "9177565745", new Point(54.78517, 56.04562, new Date()), null), null));
-
-
-        mockTicketComment = new Comment("Стерлитамак", "шеф все пропало!", new Date(), null, null, null);
-        mockTicketComments.add(mockTicketComment);
-        mockTicket = new Ticket(new Date(), null, null, null, TicketStatus.OPENED, TicketHeader.NOT_ONLINE, "Стерлитамак", null, mockTicketComments);
-        mockTickets.add(mockTicket);
-        mockPoint = new Point(54.78517, 56.04562, new Date());
-        mockTerminal = new Terminal(5546, "REV. 07.627.019", "9177565745", mockPoint, mockTickets);
-        mockTransportComment = new Comment("Администратор", "автобус эксплуатируется?", new Date(), null, null, null);
-        mockTransportComments.add(mockTransportComment);
-        transport = new Transport("БашАвтоТранс", "Стерлитамак", "105БВ02", "108883", "Нефаз", mockTerminal, mockTransportComments);
-        transportEJB.createTransport(transport);
-
-        transportEJB.createTransport(new Transport("БашАвтоТранс", "Салават", "105БВ02", "108883", "Нефаз",
-                new Terminal(5546, "REV. 07.627.019", "9177565745", new Point(54.78517, 56.04562, new Date()), mockTickets), mockTransportComments));
-
-        transportEJB.createTransport(new Transport("БашАвтоТранс", "Уфа-1", "А111АА102", "104423", "Mersedes Sprinter",
-                new Terminal(6666, "REV. 07.627.017", "9177677645", new Point(54.78517, 56.04562, new Date()), mockTickets), mockTransportComments));
-
-        transportEJB.createTransport(new Transport("БашАвтоТранс", "Уфа-1", "105ГГ02", "103333", "Нефаз",
-                new Terminal(5111, "REV. 07.627.019", "9177333645", new Point(54.78517, 56.04562, new Date()), mockTickets), mockTransportComments));
-
-        transportEJB.createTransport(new Transport("Медицина", "ГКБ Салават", "А175БВ102", "177723", "УАЗ",
-                new Terminal(5555, "REV. 07.627.020", "9177222245", new Point(54.78517, 56.04562, new Date()), mockTickets), mockTransportComments));
-
-        transportEJB.createTransport(new Transport("Медицина", "ГКБ Нефтекамск", "А777АА102", "106663", "Land Rover",
-                new Terminal(6755, "REV. 07.627.018", "9177635645", new Point(54.78517, 56.04562, new Date()), mockTickets), mockTransportComments));
-
-        transportEJB.createTransport(new Transport("АСС", "Белорецк", "177БВ02", "134223", "Toyota",
-                new Terminal(5578, "REV. 07.627.016", "9176666645", new Point(54.78517, 56.04562, new Date()), mockTickets), mockTransportComments));
-
-        transportEJB.createTransport(new Transport("Школьники", "Янаул", "133НР02", "133333", "ПАЗ",
-                new Terminal(5555, "REV. 07.627.021", "9177667845", new Point(54.78517, 56.04562, new Date()), mockTickets), mockTransportComments));
-
-        mockTicketComments.add(new Comment("Стерлитамак", "шеф все пропало!", new Date(), null, null, null));
-        mockTicketComments.add(new Comment("Администратор", "выпейте чашечку кофе, сейчас все будет", new Date(), null, null, null));
-        mockTransportComments.add(new Comment("Администратор", "автобус эксплуатируется?", new Date(), null, null, null));
-        mockTransportComments.add(new Comment("Стерлитамак", "стоит без двигателя с 90-х", new Date(), null, null, null));
-        mockTickets.add(new Ticket(new Date(), null, null, null, TicketStatus.OPENED, TicketHeader.NOT_ONLINE, "Стерлитамак", null, mockTicketComments));
-        transportEJB.createTransport(new Transport("БашАвтоТранс", "Стерлитамак", "А105БВ102", "105123", "Mersedes Sprinter",
-                new Terminal(5555, "REV. 07.627.018", "9177635645", new Point(54.78517, 56.04562, new Date()), mockTickets), mockTransportComments));
+        for (int i = 0; i < 100; i++) {
+            transportEJB.createTransport(new Transport(getRandomProject(), getRandomBranch(), getRandomStateNumber(), getRandomGarageNumber(), getRandomModel(), getRandomTerminal(), getRandomComments()));
+        }
 
         logger.info("=>=>=>=>=> Inserted " + transportEJB.findAllTransport().size() + " unit(s) of transport");
     }
+
+// RANDOM METHODS BEGIN//
+
+    private String getRandomProject() {
+        return projects[(int) (Math.random() * 5)];
+    }
+
+    private String getRandomBranch() {
+        return branches[(int) (Math.random() * 5)];
+    }
+
+    private String getRandomStateNumber() {
+        return "А" + (int) ((Math.random() * 900) + 100) + "БВ102";
+    }
+
+    private String getRandomGarageNumber() {
+        return "0" + (int) ((Math.random() * 9000) + 1000);
+    }
+
+    private String getRandomModel() {
+        return models[(int) (Math.random() * 5)];
+    }
+
+    private Terminal getRandomTerminal() {
+        return new Terminal(getRandomNumber(), getRandomFirmware(), getRandomMobile(), getRandomPoint(), getRandomTickets());
+    }
+
+    private int getRandomNumber() {
+        return (int) ((Math.random() * 5000) + 5000);
+    }
+
+    private String getRandomFirmware() {
+        return "REV. 07.627.0" + (int) (Math.random() * 10 + 17);
+    }
+
+    private String getRandomMobile() {
+        return "893" + (int) ((Math.random() * 10000000) + 70000000);
+    }
+
+    private Point getRandomPoint() {
+        return new Point(54.78517, 56.04562, getRandomDate());
+    }
+
+    private Date getRandomDate() {
+        if (random.nextBoolean())
+            return new Date();
+
+        return new Date(new Date().getTime() - (long) 86400000);
+    }
+
+    private List<Ticket> getRandomTickets() {
+        ArrayList<Ticket> tickets = new ArrayList<>();
+
+        for (int i = 0; i < (int) (Math.random() * 11); i++) {
+            tickets.add(getRandomTicket(TicketStatus.CLOSED));
+        }
+
+        if (random.nextBoolean()) {
+            if (random.nextBoolean())
+                tickets.add(getRandomTicket(TicketStatus.IN_PROGRESS));
+            else
+                tickets.add(getRandomTicket(TicketStatus.OPENED));
+        }
+        return tickets;
+    }
+
+    private Ticket getRandomTicket(TicketStatus ticketStatus) {
+        switch (ticketStatus) {
+            case CLOSED:
+                return new Ticket(new Date(), new Date(), new Date(), null, TicketStatus.CLOSED, getRandomTicketHeader(), "создатель заявки", "закрыватель заявки", getRandomComments());
+            case IN_PROGRESS:
+                return new Ticket(new Date(), new Date(), null, null, TicketStatus.IN_PROGRESS, getRandomTicketHeader(), "создатель заявки", null, getRandomComments());
+            case OPENED:
+                return new Ticket(new Date(), new Date(), null, null, TicketStatus.OPENED, getRandomTicketHeader(), "создатель заявки", null, getRandomComments());
+            default:
+                return new Ticket(new Date(), new Date(), new Date(), null, TicketStatus.CLOSED, getRandomTicketHeader(), "создатель заявки", "закрыватель заявки", getRandomComments());
+        }
+    }
+
+    private TicketHeader getRandomTicketHeader() {
+        if (random.nextBoolean()) {
+            if (random.nextBoolean()){
+                return TicketHeader.NOT_ONLINE;
+            }
+            return TicketHeader.OTHER;
+        }
+        return TicketHeader.BAD_TRACK;
+    }
+
+    private List<Comment> getRandomComments() {
+        ArrayList<Comment> comments = new ArrayList<>();
+        for (int i = 0; i < (int) (Math.random() * 11); i++) {
+            comments.add(getRandomComment());
+        }
+        return comments;
+    }
+
+    private Comment getRandomComment() {
+        return new Comment("создатель комментария", "содержание комментария", new Date(), new Date(), null, null);
+    }
+
+// RANDOM METHODS END//
 }
