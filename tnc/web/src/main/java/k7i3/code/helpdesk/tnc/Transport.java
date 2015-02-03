@@ -9,7 +9,11 @@ import java.util.List;
  * Created by k7i3 on 27.01.15.
  */
 @Entity
-@NamedQuery(name = "findAllTransport", query = "SELECT b FROM Transport b ORDER BY b.project DESC")
+@NamedQueries({
+      @NamedQuery(name = "findAllTransport", query = "SELECT b FROM Transport b ORDER BY b.project DESC"),
+      @NamedQuery(name = "findAllProjects", query = "SELECT DISTINCT b.project FROM Transport b ORDER BY b.project DESC"),
+      @NamedQuery(name = "findAllBranches", query = "SELECT DISTINCT b.branch FROM Transport b ORDER BY b.branch DESC")
+})
 public class Transport {
     @Id
     @GeneratedValue

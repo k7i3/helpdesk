@@ -38,7 +38,21 @@
         </p:menu>
         <!--menu button-->
 
-            <ui:insert name="title">Default title</ui:insert>
+        <ui:insert name="title">Default title</ui:insert>
+        <hr/>
+
+        <p:outputPanel style="height: 30px; font-size: smaller">
+            <h:outputText value=" запрос: "/>
+            <h:outputText value="#{currentDate}" style="font-weight: bold">
+                <!--<f:convertDateTime pattern="MM/dd/yyyy" pattern="HH:mm:ss dd.MM.yyyy" type="date" />-->
+            </h:outputText>
+
+            <h:outputText value=" сервер: "/>
+            <p:clock mode="server"/>
+            <h:outputText value=" клиент: "/>
+            <p:clock mode="client"/>
+
+        </p:outputPanel>
         <hr/>
 
         <ui:insert name="content">Default content</ui:insert>

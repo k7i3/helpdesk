@@ -30,6 +30,18 @@ public class TransportEJB {
         return em.createNamedQuery("findAllTransport", Transport.class).getResultList();
     }
 
+    public List<String> findAllProjects() {
+        logger.info("=>=>=>=>=> TransportEJB.findAllProjects");
+
+        return em.createNamedQuery("findAllProjects", String.class).getResultList();
+    }
+
+    public List<String> findAllBranches() {
+        logger.info("=>=>=>=>=> TransportEJB.findAllBranches");
+
+        return em.createNamedQuery("findAllBranches", String.class).getResultList();
+    }
+
     public Transport findTransportById(Long id) {
         return em.find(Transport.class, id);
     }

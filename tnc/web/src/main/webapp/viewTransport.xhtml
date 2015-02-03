@@ -5,7 +5,7 @@
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:p="http://primefaces.org/ui"
-      xmlns:f="http://java.sun.com/jsf/core">
+      xmlns:f="http://java.sun.com/jsf/core" xmlns:fn="http://xmlns.jcp.org/jsp/jstl/functions">
 
 <ui:composition template="layout.xhtml">
 
@@ -18,113 +18,90 @@
     <ui:define name="content">
         <p:tabView dynamic="true" cache="true">
 
-            <p:tab title="Весь транспорт (Admin)">
+            <p:tab title="Транспорт">
 
-                <p:dataTable var="transport" value="#{transportEJB.findAllTransport()}" rowStyleClass="#{transport.terminal.number le 7000 ? 'tooday' : 'notTooday'}" draggableColumns="true" draggableRows="true" resizableColumns="true" style="margin-bottom:20px"> <!--TODO смена цвета-->
+                <p:dataTable var="transport"
+                             value="#{transportController.transport}"
+                             widgetVar="transportTable"
+                             emptyMessage="транспорт не найден..."
+                             filteredValue="#{transportController.filteredTransport}"
+                             draggableColumns="true"
+                             draggableRows="true"
+                             resizableColumns="true"
+                             sortMode="multiple"
+                             style="margin-bottom:20px"
+                             id="transportTable">
+                    <!--TODO смена цвета rowStyleClass="{transport.terminal.number le 7000 ? 'tooday' : 'notTooday'}"-->
 
-                    <f:facet name="header">
-                        <!--<p:outputPanel>-->
-                            <!--<h:outputText value="Поиск:" />-->
-                            <!--<p:inputText id="globalFilter" onkeyup="PF('carsTable').filter()" style="width:150px" placeholder="Enter keyword"/>-->
-                        <!--</p:outputPanel>--> <!--TODO глобальный поиск-->
+                    <f:facet name="header" >
+                        <p:outputPanel style="height: 30px">
+                            <p:inputText id="globalFilter" onkeyup="PF('transportTable').filter()" style="width:200px; height: 20px; float:right"  placeholder=""  />
+                            <p:commandButton id="toggler" type="button" style="float:right; height: 30px" icon="ui-icon-calculator" />
+                            <p:columnToggler datasource="transportTable" trigger="toggler" />
+                        </p:outputPanel>
 
-                        <!--<p:commandButton id="toggler" type="button" value="Columns" style="float:right" icon="ui-icon-calculator" />-->
-                        <!--<p:columnToggler datasource="test" trigger="toggler" />--> <!--TODO выбор отображаемых столбцов-->
                     </f:facet>
 
-                    <p:column headerText="Проект">
+                    <p:column headerText="Проект" sortBy="#{transport.project}" filterBy="#{transport.project}" filterMatchMode="in">
+                        <f:facet name="filter">
+                            <p:selectCheckboxMenu label="..." onchange="PF('transportTable').filter()" panelStyle="width:200px" scrollHeight="200">
+                                <f:selectItems value="#{transportController.projects}" />
+                            </p:selectCheckboxMenu>
+                        </f:facet>
                         <h:outputText value="#{transport.project}" />
                     </p:column>
 
-                    <p:column headerText="Филиал">
+                    <p:column headerText="Филиал" sortBy="#{transport.branch}" filterBy="#{transport.branch}" filterMatchMode="in">
+                        <f:facet name="filter">
+                            <p:selectCheckboxMenu label="..." onchange="PF('transportTable').filter()" panelStyle="width:200px" scrollHeight="200">
+                                <f:selectItems value="#{transportController.branches}" />
+                            </p:selectCheckboxMenu>
+                        </f:facet>
                         <h:outputText value="#{transport.branch}" />
                     </p:column>
 
-                    <p:column headerText="Гос. номер">
+                    <p:column headerText="Гос. номер" sortBy="#{transport.stateNumber}" filterBy="#{transport.stateNumber}" filterMatchMode="contains">
                         <h:outputText value="#{transport.stateNumber}" />
                     </p:column>
 
-                    <p:column headerText="Гар. номер">
+                    <p:column headerText="Гар. номер" sortBy="#{transport.garageNumber}" filterBy="#{transport.garageNumber}" filterMatchMode="contains">
                         <h:outputText value="#{transport.garageNumber}" />
                     </p:column>
 
-                    <p:column headerText="Модель">
+                    <p:column headerText="Модель" sortBy="#{transport.model}" filterBy="#{transport.model}" filterMatchMode="contains">
                         <h:outputText value="#{transport.model}" />
                     </p:column>
 
-                    <p:column headerText="Терминал">
+                    <p:column headerText="Терминал" sortBy="#{transport.terminal.number}" filterBy="#{transport.terminal.number}" filterMatchMode="contains">
                         <h:outputText value="#{transport.terminal.number}" />
                     </p:column>
 
-                    <p:column headerText="Прошивка">
+                    <p:column headerText="Прошивка" sortBy="#{transport.terminal.firmware}" filterBy="#{transport.terminal.firmware}" filterMatchMode="contains">
                         <h:outputText value="#{transport.terminal.firmware}" />
                     </p:column>
 
-                    <p:column headerText="Телефон">
+                    <p:column headerText="Телефон" sortBy="#{transport.terminal.mobile}" filterBy="#{transport.terminal.mobile}" filterMatchMode="contains">
                         <h:outputText value="#{transport.terminal.mobile}" />
                     </p:column>
 
-                    <p:column headerText="Связь">
+                    <p:column headerText="Связь" sortBy="#{transport.terminal.lastPoint.date}" filterBy="#{transport.terminal.lastPoint.date}" filterMatchMode="contains">
                         <h:outputText value="#{transport.terminal.lastPoint.date}" />
                     </p:column>
 
-                    <p:column headerText="Заявки">
+                    <p:column headerText="Заявки" sortBy="#{transport.terminal.tickets.size()}" filterBy="#{transport.terminal.tickets.size()}" filterMatchMode="contains">
                         <h:outputText value="#{transport.terminal.tickets.size()}" />
                     </p:column>
 
-                    <p:column headerText="Комментарии">
+                    <p:column headerText="Комментарии" sortBy="#{transport.comments.size()}" filterBy="#{transport.comments.size()}" filterMatchMode="contains">
                         <h:outputText value="#{transport.comments.size()}" />
                     </p:column>
 
+                    <f:facet name="footer">
+                        всего: #{fn:length(transportController.transport)} / фильтр: #{fn:length(transportController.filteredTransport)}
+                    </f:facet>
+
                 </p:dataTable>
             </p:tab>
-
-            <p:tab title="Весь транспорт (User)">
-
-                    <p:dataTable var="transport" value="#{transportEJB.findAllTransport()}" rowStyleClass="#{transport.terminal.number le 7000 ? 'tooday' : null}">
-
-                        <p:column headerText="Филиал">
-                            <h:outputText value="#{transport.branch}" />
-                        </p:column>
-
-                        <p:column headerText="Гос. номер">
-                            <h:outputText value="#{transport.stateNumber}" />
-                        </p:column>
-
-                        <p:column headerText="Гар. номер">
-                            <h:outputText value="#{transport.garageNumber}" />
-                        </p:column>
-
-                        <p:column headerText="Модель">
-                            <h:outputText value="#{transport.model}" />
-                        </p:column>
-
-                        <p:column headerText="Терминал">
-                            <h:outputText value="#{transport.terminal.number}" />
-                        </p:column>
-
-                        <p:column headerText="Прошивка">
-                            <h:outputText value="#{transport.terminal.firmware}" />
-                        </p:column>
-
-                        <p:column headerText="Телефон">
-                            <h:outputText value="#{transport.terminal.mobile}" />
-                        </p:column>
-
-                        <p:column headerText="Связь">
-                            <h:outputText value="#{transport.terminal.lastPoint.date}" />
-                        </p:column>
-
-                        <p:column headerText="Заявки">
-                            <h:outputText value="#{transport.terminal.tickets.size()}" />
-                        </p:column>
-
-                        <p:column headerText="Комментарии">
-                            <h:outputText value="#{transport.comments.size()}" />
-                        </p:column>
-
-                    </p:dataTable>
-                </p:tab>
 
             <p:tab title="В норме">
             </p:tab>
@@ -135,7 +112,7 @@
             <p:tab title="Статистика">
             </p:tab>
 
-            <p:tab title="TEST">
+            <p:tab title="TEST" titleStyle="float: right">
                 <p:dataTable var="transport" value="#{transportEJB.findAllTransport()}">
                     <p:column headerText="BD_Id_Transport">
                         <h:outputText value="#{transport.id}" />
