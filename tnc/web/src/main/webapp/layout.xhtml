@@ -24,7 +24,7 @@
 </h:head>
 
 <h:body>
-    <h:form>
+    <h:form id="form">
         <p:growl id="messages" showDetail="false"/>
 
         <!--menu button-->
@@ -41,7 +41,7 @@
         <ui:insert name="title">Default title</ui:insert>
         <hr/>
 
-        <p:outputPanel style="height: 30px; font-size: smaller">
+        <p:outputPanel style="font-size: smaller">
             <h:outputText value=" запрос: "/>
             <h:outputText value="#{currentDate}" style="font-weight: bold">
                 <!--<f:convertDateTime pattern="MM/dd/yyyy" pattern="HH:mm:ss dd.MM.yyyy" type="date" />-->

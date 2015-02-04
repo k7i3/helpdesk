@@ -20,26 +20,28 @@
 
             <p:tab title="Транспорт">
 
-                <p:dataTable var="transport"
-                             value="#{transportController.transport}"
+                <p:dataTable id="transportTable"
                              widgetVar="transportTable"
-                             emptyMessage="транспорт не найден..."
+                             var="transport"
+                             value="#{transportController.transport}"
                              filteredValue="#{transportController.filteredTransport}"
+                             emptyMessage="транспорт не найден..."
                              draggableColumns="true"
                              draggableRows="true"
                              resizableColumns="true"
+                             stickyHeader="false"
+                             scrollable="false"
+                             scrollHeight="500"
                              sortMode="multiple"
-                             style="margin-bottom:20px"
-                             id="transportTable">
+                             style="margin-bottom:20px">
                     <!--TODO смена цвета rowStyleClass="{transport.terminal.number le 7000 ? 'tooday' : 'notTooday'}"-->
 
                     <f:facet name="header" >
                         <p:outputPanel style="height: 30px">
-                            <p:inputText id="globalFilter" onkeyup="PF('transportTable').filter()" style="width:200px; height: 20px; float:right"  placeholder=""  />
-                            <p:commandButton id="toggler" type="button" style="float:right; height: 30px" icon="ui-icon-calculator" />
-                            <p:columnToggler datasource="transportTable" trigger="toggler" />
+                            <p:inputText id="transportGlobalFilter" onkeyup="PF('transportTable').filter()" style="width:200px; height: 20px; float:right"  placeholder=""  />
+                            <p:commandButton id="transportToggler" type="button" style="float:right; height: 30px" icon="ui-icon-calculator" />
+                            <p:columnToggler datasource="transportTable" trigger="transportToggler" />
                         </p:outputPanel>
-
                     </f:facet>
 
                     <p:column headerText="Проект" sortBy="#{transport.project}" filterBy="#{transport.project}" filterMatchMode="in">
@@ -68,7 +70,12 @@
                         <h:outputText value="#{transport.garageNumber}" />
                     </p:column>
 
-                    <p:column headerText="Модель" sortBy="#{transport.model}" filterBy="#{transport.model}" filterMatchMode="contains">
+                    <p:column headerText="Модель" sortBy="#{transport.model}" filterBy="#{transport.model}" filterMatchMode="in">
+                        <f:facet name="filter">
+                            <p:selectCheckboxMenu label="..." onchange="PF('transportTable').filter()" panelStyle="width:200px" scrollHeight="200">
+                                <f:selectItems value="#{transportController.models}" />
+                            </p:selectCheckboxMenu>
+                        </f:facet>
                         <h:outputText value="#{transport.model}" />
                     </p:column>
 
@@ -76,7 +83,12 @@
                         <h:outputText value="#{transport.terminal.number}" />
                     </p:column>
 
-                    <p:column headerText="Прошивка" sortBy="#{transport.terminal.firmware}" filterBy="#{transport.terminal.firmware}" filterMatchMode="contains">
+                    <p:column headerText="Прошивка" sortBy="#{transport.terminal.firmware}" filterBy="#{transport.terminal.firmware}" filterMatchMode="in">
+                        <f:facet name="filter">
+                            <p:selectCheckboxMenu label="..." onchange="PF('transportTable').filter()" panelStyle="width:200px" scrollHeight="200">
+                                <f:selectItems value="#{transportController.firmware}" />
+                            </p:selectCheckboxMenu>
+                        </f:facet>
                         <h:outputText value="#{transport.terminal.firmware}" />
                     </p:column>
 
@@ -94,10 +106,15 @@
 
                     <p:column headerText="Комментарии" sortBy="#{transport.comments.size()}" filterBy="#{transport.comments.size()}" filterMatchMode="contains">
                         <h:outputText value="#{transport.comments.size()}" />
+                        <p:spacer width="10"/>
+                        <p:commandButton update=":form:transportCommentsPanel" oncomplete="PF('transportDialog').show()" icon="ui-icon-search" title="View">
+                            <f:setPropertyActionListener value="#{transport}" target="#{transportController.selectedTransport}" />
+                            <f:setPropertyActionListener value="#{transport.comments}" target="#{transportController.filteredTransportComments}" />
+                        </p:commandButton>
                     </p:column>
 
                     <f:facet name="footer">
-                        всего: #{fn:length(transportController.transport)} / фильтр: #{fn:length(transportController.filteredTransport)}
+                        <h:outputText value="всего в базе: #{fn:length(transportController.transport)}" style="font-size: small; text-align:left"/>
                     </f:facet>
 
                 </p:dataTable>
@@ -181,6 +198,74 @@
             </p:tab>
 
         </p:tabView>
+
+        <p:dialog
+                header="Комментарии:"
+                modal="true"
+                widgetVar="transportDialog"
+                showEffect="explode"
+                hideEffect="bounce"
+                resizable="false"
+                draggable="false">
+            <!--modal="true" showEffect="fade" hideEffect="fade" resizable="false"-->
+            <p:outputPanel id="transportCommentsPanel">
+
+                <!--style="text-align:center"-->
+
+                <!--<ui:repeat value="{transportController.selectedTransport.comments}" var="comment1">-->
+                    <!--<h:outputText value="{comment1.owner} - {comment1.content}" style="display:block"/>-->
+                <!--</ui:repeat>-->
+
+                <p:dataTable id="transportCommentsTable"
+                             widgetVar="transportCommentsTable"
+                             var="comment"
+                             value="#{transportController.selectedTransport.comments}"
+                             filteredValue="#{transportController.filteredTransportComments}"
+                             emptyMessage="комментарии не найдены..."
+                             draggableColumns="true"
+                             draggableRows="true"
+                             resizableColumns="true"
+                             stickyHeader="false"
+                             scrollable="false"
+                             scrollHeight="500"
+                             sortMode="multiple"
+                             style="margin-bottom:20px">
+
+                    <f:facet name="header" >
+                        <p:outputPanel style="height: 30px">
+                            <p:inputText id="transportCommentsGlobalFilter" onkeyup="PF('transportCommentsTable').filter()" style="width:200px; height: 20px; float:right"  placeholder=""  />
+                            <p:commandButton id="transportCommentsToggler" type="button" style="float:right; height: 30px" icon="ui-icon-calculator" />
+                            <p:columnToggler datasource="transportCommentsTable" trigger="transportCommentsToggler" />
+                        </p:outputPanel>
+                    </f:facet>
+
+                    <p:column headerText="Автор" sortBy="#{comment.owner}" filterBy="#{comment.owner}" filterMatchMode="contains">
+                        <h:outputText value="#{comment.owner}" />
+                    </p:column>
+
+                    <p:column headerText="Создан" sortBy="#{comment.createDate}" filterBy="#{comment.createDate}" filterMatchMode="contains">
+                        <h:outputText value="#{comment.createDate}" />
+                    </p:column>
+
+                    <p:column headerText="Изменен" sortBy="#{comment.updateDate}" filterBy="#{comment.updateDate}" filterMatchMode="contains">
+                        <h:outputText value="#{comment.updateDate}" />
+                    </p:column>
+
+                    <p:column headerText="Удален" sortBy="#{comment.deleteDate}" filterBy="#{comment.deleteDate}" filterMatchMode="contains">
+                        <h:outputText value="#{comment.deleteDate}" />
+                    </p:column>
+
+                    <p:column headerText="Комментарий" sortBy="#{comment.content}" filterBy="#{comment.content}" filterMatchMode="contains">
+                        <h:outputText value="#{comment.content}" />
+                    </p:column>
+
+                    <f:facet name="footer">
+                        <h:outputText value="всего в базе: #{fn:length(transportController.selectedTransport.comments)}" style="font-size: small; text-align:left"/>
+                    </f:facet>
+
+                </p:dataTable>
+            </p:outputPanel>
+        </p:dialog>
 
     </ui:define>
 
