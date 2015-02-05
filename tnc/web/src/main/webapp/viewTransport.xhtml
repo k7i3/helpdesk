@@ -108,9 +108,7 @@
 
                     <p:column headerText="Связь" sortBy="#{transport.terminal.lastPoint.date}" filterBy="#{transport.terminal.lastPoint.date}" filterMatchMode="contains">
 
-                        <!--<p:commandButton id="btn" type="button" icon="ui-icon-pin-s" value="Show Map" onclick="PF('dlg').show()" />-->
-
-                        <p:commandButton id="transportPointButton" update=":form:transportPointDialog:transportPointPanel" type="button" oncomplete="PF('transportPointDialogWidget').show()" icon="ui-icon-pin-s" title="View">
+                        <p:commandButton id="transportPointButton" update=":form:transportPointPanel" oncomplete="PF('transportPointDialogWidget').show()" icon="ui-icon-pin-s" title="View">
                             <f:setPropertyActionListener value="#{transport.terminal.lastPoint}" target="#{transportController.dialogSelectedPoint}" />
                         </p:commandButton>
 
@@ -124,7 +122,7 @@
                     <p:column headerText="Комментарии" sortBy="#{transport.comments.size()}" filterBy="#{transport.comments.size()}" filterMatchMode="contains">
                         <h:outputText value="#{transport.comments.size()}" />
                         <p:spacer width="10"/>
-                        <p:commandButton id="transportCommentsButton" update=":form:transportCommentsDialog:transportCommentsPanel" oncomplete="PF('transportCommentsDialogWidget').show()" icon="ui-icon-search" title="View">
+                        <p:commandButton id="transportCommentsButton" update=":form:transportCommentsPanel" oncomplete="PF('transportCommentsDialogWidget').show()" icon="ui-icon-search" title="View">
                             <f:setPropertyActionListener value="#{transport}" target="#{transportController.dialogSelectedTransport}" />
                         </p:commandButton>
                     </p:column>
@@ -230,32 +228,35 @@
         </p:tabView>
 
         <p:dialog
-                id="transportPointDialog"
                 widgetVar="transportPointDialogWidget"
                 header="Карта:"
                 modal="true"
                 showEffect="fade"
                 hideEffect="fade"
                 resizable="false"
-                draggable="false">
-                <!--width="625"-->
-                <!--height="400"-->
+                draggable="false"
+                width="80%">
+            <!--id="transportPointDialog"-->
+            <!--width="625"-->
+            <!--height="400"-->
 
 
             <p:outputPanel id="transportPointPanel">
-                <p:gmap id="gmap" center="41.381542, 2.122893" zoom="15" type="HYBRID" style="width:100%;height:400px" />
+                <p:gmap id="gmap" center="#{transportController.dialogSelectedPoint.longitude}, #{transportController.dialogSelectedPoint.latitude}" zoom="15" type="HYBRID" style="width:100%; height:400px" />
             </p:outputPanel>
+
         </p:dialog>
 
         <p:dialog
-                id="transportCommentsDialog"
                 widgetVar="transportCommentsDialogWidget"
                 header="Комментарии:"
                 modal="true"
                 showEffect="fade"
                 hideEffect="fade"
                 resizable="false"
-                draggable="false">
+                draggable="false"
+                width="80%">
+            <!--id="transportCommentsDialog"-->
             <!--modal="true" showEffect="explode""fade" hideEffect="bounce""fade" resizable="false"-->
             <p:outputPanel id="transportCommentsPanel">
 
@@ -313,9 +314,9 @@
                     </f:facet>
 
                 </p:dataTable>
+
             </p:outputPanel>
         </p:dialog>
-
     </ui:define>
 
 </ui:composition>
