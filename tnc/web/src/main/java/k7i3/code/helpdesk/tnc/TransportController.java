@@ -14,19 +14,24 @@ import java.util.List;
 public class TransportController {
     @Inject
     private TransportEJB transportEJB;
+
     private List<Transport> transport;
+
     private List<Transport> filteredTransport;
+    private List<Comment> filteredTransportComments;
+
+    private Transport dialogSelectedTransport;
+    private Point dialogSelectedPoint;
+    private List<Transport> checkboxSelectedTransport;
+
     private List<String> projects;
     private List<String> branches;
     private List<String> models;
     private List<String> firmware;
-    private Transport selectedTransport;
-    private List<Comment> filteredTransportComments;
 
     @PostConstruct
     public void doFindAllTransport() {
         transport = transportEJB.findAllTransport();
-//        selectedTransport = transport.get(0);
         doFindAllProjects();
         doFindAllBranches();
         doFindAllModels();
@@ -97,12 +102,12 @@ public class TransportController {
         this.firmware = firmware;
     }
 
-    public Transport getSelectedTransport() {
-        return selectedTransport;
+    public Transport getDialogSelectedTransport() {
+        return dialogSelectedTransport;
     }
 
-    public void setSelectedTransport(Transport selectedTransport) {
-        this.selectedTransport = selectedTransport;
+    public void setDialogSelectedTransport(Transport dialogSelectedTransport) {
+        this.dialogSelectedTransport = dialogSelectedTransport;
     }
 
     public List<Comment> getFilteredTransportComments() {
@@ -111,5 +116,21 @@ public class TransportController {
 
     public void setFilteredTransportComments(List<Comment> filteredTransportComments) {
         this.filteredTransportComments = filteredTransportComments;
+    }
+
+    public List<Transport> getCheckboxSelectedTransport() {
+        return checkboxSelectedTransport;
+    }
+
+    public void setCheckboxSelectedTransport(List<Transport> checkboxSelectedTransport) {
+        this.checkboxSelectedTransport = checkboxSelectedTransport;
+    }
+
+    public Point getDialogSelectedPoint() {
+        return dialogSelectedPoint;
+    }
+
+    public void setDialogSelectedPoint(Point dialogSelectedPoint) {
+        this.dialogSelectedPoint = dialogSelectedPoint;
     }
 }
