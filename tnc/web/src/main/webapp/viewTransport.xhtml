@@ -22,7 +22,7 @@
             <p:tab title="Транспорт">
 
                 <p:dataTable id="transportTable"
-                             widgetVar="transportTableWidget"
+                             widgetVar="transportTable"
                              var="transport"
                              value="#{transportController.transport}"
                              filteredValue="#{transportController.filteredTransport}"
@@ -42,7 +42,7 @@
 
                     <f:facet name="header" >
                         <p:outputPanel style="height: 30px">
-                            <p:inputText id="transportGlobalFilter" onkeyup="PF('transportTableWidget').filter()" style="width:200px; height: 20px; float:right"  placeholder=""  />
+                            <p:inputText id="transportGlobalFilter" onkeyup="PF('transportTable').filter()" style="width:200px; height: 20px; float:right"  placeholder=""  />
                             <p:commandButton id="transportToggler" type="button" style="float:right; height: 30px" icon="ui-icon-calculator" />
                             <p:columnToggler datasource="transportTable" trigger="transportToggler" />
                         </p:outputPanel>
