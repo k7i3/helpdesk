@@ -108,7 +108,7 @@
 
                     <p:column headerText="Связь" sortBy="#{transport.terminal.lastPoint.date}" filterBy="#{transport.terminal.lastPoint.date}" filterMatchMode="contains">
 
-                        <p:commandButton id="transportPointButton" update=":form:transportPointPanel" oncomplete="PF('transportPointDialog').show()" icon="ui-icon-pin-s" title="View">
+                        <p:commandButton id="transportPointButton" update=":form:transportPointPanel" oncomplete="PF('transportPointDialog').show()" icon="ui-icon-pin-s" title="View" style="height: 30px">
                             <f:setPropertyActionListener value="#{transport.terminal.lastPoint}" target="#{transportController.dialogSelectedPoint}" />
                         </p:commandButton>
 
@@ -120,16 +120,18 @@
                     </p:column>
 
                     <p:column headerText="Комментарии" sortBy="#{transport.comments.size()}" filterBy="#{transport.comments.size()}" filterMatchMode="contains">
-                        <h:outputText value="#{transport.comments.size()}" />
-                        <p:spacer width="10"/>
-                        <p:commandButton id="transportCommentsButton" update=":form:transportCommentsPanel" oncomplete="PF('transportCommentsDialog').show()" icon="ui-icon-search" title="View">
+                        <p:commandButton id="transportCommentsButton" update=":form:transportCommentsPanel" oncomplete="PF('transportCommentsDialog').show()" icon="ui-icon-search" title="View" style="height: 30px">
                             <f:setPropertyActionListener value="#{transport}" target="#{transportController.dialogSelectedTransport}" />
                         </p:commandButton>
+                        <h:outputText value="#{transport.comments.size()}" />
+                        <!--<p:spacer width="10"/>-->
                     </p:column>
 
                     <p:rowExpansion>
                         <p:panelGrid>
                             <!--columns="2" columnClasses="label,value" style="width:300px"-->
+                            <p:commandButton id="testButton2" onclick="PF('transportPointDialog').show()" icon="ui-icon-pin-s" title="View" style="height: 30px">
+                            </p:commandButton>
 
                             <ui:repeat value="#{transport.terminal.tickets}" var="ticket">
                                 <h:outputText value="#{ticket.openedBy} - #{ticket.ticketHeader} - #{ticket.ticketStatus}" style="display:block"/>
@@ -267,6 +269,9 @@
                 <!--<ui:repeat value="{transportController.dialogSelectedTransport.comments}" var="comment1">-->
                     <!--<h:outputText value="{comment1.owner} - {comment1.content}" style="display:block"/>-->
                 <!--</ui:repeat>-->
+
+                <p:commandButton id="testButton1" onclick="PF('transportPointDialog').show()" icon="ui-icon-pin-s" title="View" style="height: 30px">
+                </p:commandButton>
 
                 <p:dataTable id="transportCommentsTable"
                              widgetVar="transportCommentsTableWidget"
