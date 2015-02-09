@@ -6,7 +6,8 @@
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:p="http://primefaces.org/ui"
       xmlns:f="http://java.sun.com/jsf/core"
-      xmlns:fn="http://xmlns.jcp.org/jsp/jstl/functions">
+      xmlns:fn="http://xmlns.jcp.org/jsp/jstl/functions"
+        >
 
 <ui:composition template="layout.xhtml">
 
@@ -128,18 +129,80 @@
                     </p:column>
 
                     <p:rowExpansion>
-                        <p:panelGrid>
+                        <p:panelGrid style="width:400px">
                             <!--columns="2" columnClasses="label,value" style="width:300px"-->
-                            <p:commandButton id="testButton2" onclick="PF('transportPointDialog').show()" icon="ui-icon-pin-s" title="View" style="height: 30px">
+
+                            <p:commandButton id="testButton2" update=":form:transportPointPanel" oncomplete="PF('transportPointDialog').show()" icon="ui-icon-pin-s" title="View" style="height: 30px">
+                                <f:setPropertyActionListener value="#{transport.terminal.lastPoint}" target="#{transportController.dialogSelectedPoint}" />
                             </p:commandButton>
 
+                            <hr/>
+
+                            <h:outputText value="информация" style="display:block; font-weight: bold; text-decoration: underline"/>
+
+                            <h:outputText value="проект: #{transport.project} (#{transport.branch})" style="display:block"/>
+                            <h:outputText value="транспорт: #{transport.stateNumber} (#{transport.garageNumber}) - #{transport.model}" style="display:block"/>
+                            <h:outputText value="терминал: #{transport.terminal.number} (#{transport.terminal.firmware}) - #{transport.terminal.mobile} - #{transport.terminal.lastPoint.date}" style="display:block"/>
+
+                            <hr/>
+
+                            <h:outputText value="комментарии к транспорту" style="display:block; font-weight: bold; text-decoration: underline"/>
+                            <ui:repeat value="#{transport.comments}" var="transportComment">
+                                <p/>
+                                <h:outputText value="(#{transportComment.createDate}) #{transportComment.owner}:" style="display:block"/>
+                                <h:outputText value="#{transportComment.content}" style="display:block; font-style: italic;"/>
+                            </ui:repeat>
+
+                            <hr/>
+
+                            <h:outputText value="заявки" style="display:block; font-weight: bold; text-decoration: underline"/>
                             <ui:repeat value="#{transport.terminal.tickets}" var="ticket">
-                                <h:outputText value="#{ticket.openedBy} - #{ticket.ticketHeader} - #{ticket.ticketStatus}" style="display:block"/>
+                                <hr/>
+                                <p/>
+                                <h:outputText value="статус: #{ticket.ticketStatus}" style="display:block"/>
+                                <h:outputText value="заголовок: #{ticket.ticketHeader}" style="display:block"/>
+                                <h:outputText value="открыта: #{ticket.createDate} #{ticket.openedBy}" style="display:block"/>
+                                <h:outputText value="обновлена: #{ticket.updateDate}" style="display:block"/>
+                                <h:outputText value="закрыта: #{ticket.closeDate} #{ticket.closedBy}" style="display:block"/>
+                                <p/>
+                                <h:outputText value="комментарии" style="display:block; font-weight: bold"/>
                                 <ui:repeat value="#{ticket.comments}" var="ticketComment">
-                                    <h:outputText value="#{ticketComment.owner} - #{ticketComment.content} - #{ticketComment.createDate}" style="display:block"/>
+                                    <p/>
+                                    <h:outputText value="(#{ticketComment.createDate}) #{ticketComment.owner}:" style="display:block"/>
+                                    <h:outputText value="#{ticketComment.content}" style="display:block; font-style: italic"/>
                                 </ui:repeat>
                             </ui:repeat>
 
+                            <!--<c:set var="NOT_ONLINE" value="<=TicketHeader.NOT_ONLINE%>"/>-->
+                            <!--<c:set var="BAD_TRACK" value="<=TicketHeader.BAD_TRACK%>"/>-->
+
+                            <!--<c:if test="{!empty ticket}">-->
+                            <!--<c:choose>-->
+                            <!--<c:when test="{ticket.ticketHeader == NOT_ONLINE}">-->
+                            <!--<c:set var="ticketHeader" value="не на связи!!!" />-->
+                            <!--</c:when>-->
+
+                            <!--<c:when test="{ticket.ticketHeader == BAD_TRACK}">-->
+                            <!--<c:set var="ticketHeader" value="некорректный трек!!!" />-->
+                            <!--</c:when>-->
+
+                            <!--<c:otherwise>-->
+                            <!--<c:set var="ticketHeader" value="прочее!!!" />-->
+                            <!--</c:otherwise>-->
+                            <!--</c:choose>-->
+                            <!--<h:outputText value="{ticketHeader}" style="display:block"/>-->
+
+
+                                <!--<c:set value="{ticket.updateDate}" var="ticketUpdateDate"/>-->
+                                <!--<c:if test="{not empty ticketUpdateDate}">-->
+                                    <!--<h:outputText value="(обновлена!!!: {ticketUpdateDate})"/>-->
+                                <!--</c:if>-->
+
+                                <!--<c:set value="{ticket.closeDate}" var="tiecketClosDate"/>-->
+                                <!--<c:if test="{not empty fn:trim(tiecketClosDate)}">-->
+                                    <!--<h:outputText value="(закрыта!!!: {tiecketClosDate} / {ticket.closedBy})"/>-->
+                                <!--</c:if>-->
+                                <!--</c:if>-->
                         </p:panelGrid>
                     </p:rowExpansion>
 

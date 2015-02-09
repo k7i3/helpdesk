@@ -5,7 +5,18 @@ package k7i3.code.helpdesk.tnc;
  */
 public enum TicketHeader {
     //TODO
-    NOT_ONLINE,
-    BAD_TRACK,
-    OTHER;
+    NOT_ONLINE("не на связи"),
+    BAD_TRACK("некорректный трек"),
+    OTHER("прочее");
+
+    private final String description;
+
+    TicketHeader(String description) {
+        this.description = description;
+    }
+
+    @Override
+    public String toString() {
+        return description;
+    }
 }

@@ -162,7 +162,10 @@ public class DBPopulator {
     }
 
     private Comment getRandomComment() {
-        return new Comment("создатель комментария", "содержание комментария", new Date(), new Date(), null, null);
+        if (random.nextBoolean())
+            return new Comment("Вася", "короткий комментарий с датой изменения - Монолог Гамлета (Быть или не быть?)", new Date(), new Date(), null, null);
+        else
+            return new Comment("Шекспир", "длинный комментарий без даты изменения - Монолог «To be, or not to be» является, пожалуй, одним из наиболее известных фрагментов наследия Шекспира. Даже человек, не читавший «Гамлета», наверняка слышал слова «Быть или не быть – вот в чём вопрос?»", new Date(), null, null, null);
     }
 
 // RANDOM METHODS END//
