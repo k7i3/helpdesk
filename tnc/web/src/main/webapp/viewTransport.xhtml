@@ -18,42 +18,13 @@
     </ui:define>
 
     <ui:define name="content">
-        <p:tabView id="transportTabView" dynamic="true" cache="true">
-
+        <p:tabView id="transportTabView" dynamic="true" cache="true" style="font-size: small">
             <p:tab title="Транспорт">
-
-                <!--<p:toolbar>-->
-                    <!--<f:facet name="left">-->
-                        <!--<p:commandButton type="button" value="New" icon="ui-icon-document" />-->
-                        <!--<p:commandButton type="button" value="Open" icon="ui-icon-folder-open" />-->
-
-                                <!--<span class="ui-separator">-->
-                                    <!--<span class="ui-icon ui-icon-grip-dotted-vertical" />-->
-                                <!--</span>-->
-
-                        <!--<p:commandButton type="button" title="Save" icon="ui-icon-disk" />-->
-                        <!--<p:commandButton type="button" title="Delete" icon="ui-icon-trash" />-->
-                        <!--<p:commandButton type="button" title="Print" icon="ui-icon-print" />-->
-                        <!--&lt;!&ndash;<p:commandButton id="transportToggler" type="button"  icon="ui-icon-calculator" />&ndash;&gt;-->
-                        <!--&lt;!&ndash;<p:columnToggler datasource="transportTable" trigger="transportToggler" />&ndash;&gt;-->
-                    <!--</f:facet>-->
-
-                    <!--<f:facet name="right">-->
-                        <!--<p:menuButton value="Options">-->
-                            <!--<p:menuitem value="Save"  icon="ui-icon-disk" />-->
-                            <!--<p:menuitem value="Update"  icon="ui-icon-arrowrefresh-1-w" />-->
-                            <!--<p:menuitem value="Delete"  icon="ui-icon-close" />-->
-                            <!--<p:menuitem value="Homepage" url="http://www.primefaces.org" icon="ui-icon-extlink" />-->
-                        <!--</p:menuButton>-->
-                    <!--</f:facet>-->
-                <!--</p:toolbar>-->
-
-                <!--<p/>-->
-
                 <p:dataTable id="transportTable"
                              widgetVar="transportTable"
                              var="transport"
                              value="#{transportController.transport}"
+                             varStatus="transportVarStatus"
                              filteredValue="#{transportController.filteredTransport}"
                              selection="#{transportController.checkboxSelectedTransport}"
                              rowKey="#{transport.id}"
@@ -66,6 +37,7 @@
                              scrollHeight="500"
                              sortMode="multiple"
                              style="margin-bottom:20px; word-wrap: break-word; table-layout: fixed; white-space: normal" >
+                    <!--rowKey="{transport.id}" перестал видеть после добавления varStatus="transportVarStatus"-->
 
                     <!--TODO смена цвета rowStyleClass="{transport.terminal.number le 7000 ? 'tooday' : 'notTooday'}"-->
 
@@ -196,22 +168,16 @@
                     </p:column>
 
                     <p:rowExpansion>
-
-                        <p/>
-
-                        <p:panelGrid>
+                        <p:panelGrid style="margin-bottom: 20px">
                             <p:commandButton id="transportPointButton" update=":form:transportPointPanel" oncomplete="PF('transportPointDialog').show()" icon="ui-icon-pin-s" title="View">
                                 <f:setPropertyActionListener value="#{transport.terminal.lastPoint}" target="#{transportController.dialogSelectedPoint}" />
                             </p:commandButton>
-
                             <p:commandButton id="transportCommentsButton" update=":form:transportCommentsPanel" oncomplete="PF('transportCommentsDialog').show()" icon="ui-icon-search" title="View">
                                 <f:setPropertyActionListener value="#{transport}" target="#{transportController.dialogSelectedTransport}" />
                             </p:commandButton>
                         </p:panelGrid>
 
-                        <p/>
-
-                        <p:accordionPanel multiple="true" activeIndex="">
+                        <p:accordionPanel multiple="true" activeIndex="" style="margin-bottom: 20px">
                             <p:tab title="Информация">
                                 <p:panelGrid>
                                     <h:outputText value="проект: #{transport.project} - #{transport.branch}" style="display:block"/>
@@ -222,60 +188,50 @@
                             </p:tab>
 
                             <p:tab title="Комментарии к транспорту">
-                                <p:panelGrid columns="1">
+                                <!--<p:panelGrid columns="1">-->
                                     <ui:repeat value="#{transport.comments}" var="transportComment">
                                         <p:fieldset legend="(#{transportComment.createDate}) #{transportComment.owner}:" toggleable="true" toggleSpeed="500" collapsed="true">
                                             <p:panelGrid>
-                                                <!--<p:scrollPanel mode="native" style="width:50%">-->
-                                                    <!--&lt;!&ndash;style="width:250px;height:200px"&ndash;&gt;-->
-                                                    <!--<p>{transportComment.content}</p>-->
-                                                <!--</p:scrollPanel>-->
-                                                <!--style="word-wrap: normal"-->
-                                                <!--style="width: 400px; max-width: 500px"-->
-                                                <!--<h:outputText value="{transportComment.content}" style="width:100%; display:block; word-wrap: break-word; font-style: italic; white-space: normal"/>-->
-                                                <h:outputText value="#{transportComment.content}" style="width:70%; display:block; word-wrap: break-word; font-style: italic; white-space: normal"/>
-
-                                                <!--word-break: break-all;-->
-
-
-                                                <!--<p style="width:100%; word-break: break-all; display:block; word-wrap: break-word;  white-space: normal">{transportComment.content}</p>-->
-                                                <!--style="white-space: normal"-->
-
+                                                <h:outputText value="#{transportComment.content}" style="width:100%; display:block; word-wrap: break-word; font-style: italic; white-space: normal"/> <!--word-break: break-all;-->
+                                                <h:outputText value=" изменен: #{transportComment.updateDate}" style="width:100%; display:block; word-wrap: break-word; font-style: normal; font-weight: bold; white-space: normal"/>
                                             </p:panelGrid>
                                         </p:fieldset>
                                     </ui:repeat>
-                                </p:panelGrid>
+                                <!--</p:panelGrid>-->
                             </p:tab>
 
                             <p:tab title="Заявки">
-                                <p:panelGrid>
-                                    <ui:repeat value="#{transport.terminal.tickets}" var="ticket">
-                                        <p/>
-                                        <p style="background: #84f0b0">
-                                            <h:outputText value="статус: #{ticket.ticketStatus}" style="display:block"/>
-                                            <h:outputText value="заголовок: #{ticket.ticketHeader}" style="display:block"/>
-                                            <h:outputText value="открыта: #{ticket.createDate} #{ticket.openedBy}" style="display:block"/>
-                                            <h:outputText value="обновлена: #{ticket.updateDate}" style="display:block"/>
-                                            <h:outputText value="закрыта: #{ticket.closeDate} #{ticket.closedBy}" style="display:block"/>
-                                        </p>
-                                        <p/>
-                                        <p style="background: #f0c19b">
-                                            <h:outputText value="комментарии" style="display:block; font-weight: bold"/>
-                                            <ui:repeat value="#{ticket.comments}" var="ticketComment">
-                                                <p/>
-                                                <p style="background: #f0c19b">
-                                                    <h:outputText value="(#{ticketComment.createDate}) #{ticketComment.owner}:" style="display:block"/>
-                                                    <h:outputText value="#{ticketComment.content}" style="display:block; font-style: italic"/>
-                                                </p>
-                                            </ui:repeat>
-                                        </p>
-                                    </ui:repeat>
-                                </p:panelGrid>
+                                <ui:repeat value="#{transport.terminal.tickets}" var="ticket" varStatus="ticketVarStatus">
+                                    <p:panel id="ticketPanel#{ticketVarStatus.index}-#{ticket.id}" collapsed="true" toggleable="true" closable="true" toggleSpeed="500" closeSpeed="500" widgetVar="ticketPanel#{ticketVarStatus.index}-#{ticket.id}" style="margin-bottom: 10px"
+                                             header="#{ticketVarStatus.index + 1} (#{ticket.ticketStatus}) #{ticket.ticketHeader}"
+                                             footer="открыта: #{ticket.createDate} (#{ticket.openedBy}) / изменена: #{ticket.updateDate} () / закрыта: #{ticket.closeDate} (#{ticket.closedBy})">
+                                        <!--<p:ajax event="close" listener="{panelView.onClose}" update="msgs" />-->
+                                        <!--<p:ajax event="toggle" listener="{panelView.onToggle}" update="msgs" />-->
+                                        <ui:repeat value="#{ticket.comments}" var="ticketComment">
+                                            <p:fieldset legend="(#{ticketComment.createDate}) #{ticketComment.owner}:" toggleable="true" toggleSpeed="500" collapsed="true">
+                                                <p:panelGrid>
+                                                    <h:outputText value="#{ticketComment.content}" style="width:100%; display:block; word-wrap: break-word; font-style: italic; white-space: normal"/> <!--word-break: break-all;-->
+                                                    <h:outputText value=" изменен: #{ticketComment.updateDate}" style="width:100%; display:block; word-wrap: break-word; font-style: normal; font-weight: bold; white-space: normal"/>
+                                                </p:panelGrid>
+                                            </p:fieldset>
+                                        </ui:repeat>
+                                        <!--<f:facet name="options">-->
+                                            <!--<p:menu>-->
+                                                <!--<p:submenu label="Settings">-->
+                                                    <!--<p:menuitem value="Toggle" url="#" icon="ui-icon-newwin" onclick="PF('ticketPanel{transportVarStatus.index}{ticketVarStatus.index}').toggle()" />-->
+                                                    <!--<p:menuitem value="Remove" url="#" icon="ui-icon-close" onclick="PF('ticketPanel{transportVarStatus.index}{ticketVarStatus.index}').close()" />-->
+                                                <!--</p:submenu>-->
+                                            <!--</p:menu>-->
+                                        <!--</f:facet>-->
+                                        <!--<f:facet name="actions">-->
+                                            <!--<h:commandLink styleClass="ui-panel-titlebar-icon ui-corner-all ui-state-default"><h:outputText styleClass="ui-icon ui-icon-help" /></h:commandLink>-->
+                                            <!--<h:commandLink styleClass="ui-panel-titlebar-icon ui-corner-all ui-state-default"><h:outputText styleClass="ui-icon ui-icon-star" /></h:commandLink>-->
+                                        <!--</f:facet>-->
+                                    </p:panel>
+                                </ui:repeat>
                             </p:tab>
                         </p:accordionPanel>
-
-                        <p/>
-
+                    </p:rowExpansion>
                                 <!--<c:set var="NOT_ONLINE" value="<=TicketHeader.NOT_ONLINE%>"/>-->
                                 <!--<c:set var="BAD_TRACK" value="<=TicketHeader.BAD_TRACK%>"/>-->
 
@@ -305,9 +261,6 @@
                                     <!--<h:outputText value="(закрыта!!!: {tiecketClosDate} / {ticket.closedBy})"/>-->
                                 <!--</c:if>-->
                                 <!--</c:if>-->
-
-                    </p:rowExpansion>
-
                     <f:facet name="footer">
                         <h:outputText value="всего в базе: #{fn:length(transportController.transport)}" style="font-size: small; text-align:left"/>
                     </f:facet>
@@ -402,14 +355,14 @@
                 hideEffect="fade"
                 resizable="false"
                 draggable="false"
-                width="80%">
+                width="50%">
             <!--id="transportPointDialog"-->
             <!--width="625"-->
             <!--height="400"-->
 
 
             <p:outputPanel id="transportPointPanel">
-                <p:gmap id="gmap" center="#{transportController.dialogSelectedPoint.longitude}, #{transportController.dialogSelectedPoint.latitude}" zoom="15" type="HYBRID" style="width:100%; height:400px" />
+                <p:gmap id="gmap" center="#{transportController.dialogSelectedPoint.longitude}, #{transportController.dialogSelectedPoint.latitude}" zoom="15" type="HYBRID" style="width:100%; height:500px" />
             </p:outputPanel>
 
         </p:dialog>
