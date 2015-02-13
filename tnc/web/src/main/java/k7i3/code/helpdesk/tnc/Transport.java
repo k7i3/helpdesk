@@ -3,6 +3,7 @@ package k7i3.code.helpdesk.tnc;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -10,83 +11,69 @@ import java.util.List;
  */
 @Entity
 @NamedQueries({
-        @NamedQuery(name = "findAllTransport", query = "SELECT b FROM Transport b ORDER BY b.project DESC"),
-        @NamedQuery(name = "findAllProjects", query = "SELECT DISTINCT b.project FROM Transport b ORDER BY b.project DESC"),
-        @NamedQuery(name = "findAllBranches", query = "SELECT DISTINCT b.branch FROM Transport b ORDER BY b.branch DESC"),
-        @NamedQuery(name = "findAllModels", query = "SELECT DISTINCT b.model FROM Transport b ORDER BY b.model DESC"),
-        @NamedQuery(name = "findAllFirmware", query = "SELECT DISTINCT b.terminal.firmware FROM Transport b ORDER BY b.terminal.firmware DESC")
+        @NamedQuery(name = "findAllTransport", query = "SELECT b FROM Transport b ORDER BY b.createDate DESC"),
+        @NamedQuery(name = "findAllProjects", query = "SELECT DISTINCT b.transportInfo.project FROM Transport b ORDER BY b.transportInfo.project DESC"),
+        @NamedQuery(name = "findAllBranches", query = "SELECT DISTINCT b.transportInfo.branch FROM Transport b ORDER BY b.transportInfo.branch DESC"),
+        @NamedQuery(name = "findAllModels", query = "SELECT DISTINCT b.transportInfo.model FROM Transport b ORDER BY b.transportInfo.model DESC"),
+        @NamedQuery(name = "findAllFirmware", query = "SELECT DISTINCT b.terminal.terminalInfo.firmware FROM Transport b ORDER BY b.terminal.terminalInfo.firmware DESC")
 })
 public class Transport {
     @Id
     @GeneratedValue
     private Long id;
     @NotNull
-    private String project;
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date createDate;
     @NotNull
-    private String branch;
+    @OneToOne(cascade = CascadeType.ALL)
+    private TransportInfo transportInfo;
+    @OneToMany (cascade = CascadeType.ALL)
+    private List<TerminalInfo> transportInfoHistory = new ArrayList<>();
     @NotNull
-    private String stateNumber;
-    @NotNull
-    private String garageNumber;
-    @NotNull
-    private String model;
-    @NotNull
-    @OneToOne (cascade = CascadeType.PERSIST)
+    @OneToOne(cascade = CascadeType.ALL)
     private Terminal terminal;
-    @OneToMany (cascade = CascadeType.PERSIST)
+    @OneToOne(cascade = CascadeType.ALL)
+    private Point point;
+    @OneToMany (cascade = CascadeType.ALL)
+    private List<Ticket> tickets = new ArrayList<>();
+    @OneToMany (cascade = CascadeType.ALL)
     private List<Comment> comments = new ArrayList<>();
 
     public Transport() {
     }
 
-//    public Transport(String project, String branch, String stateNumber, String garageNumber, String model) {
-//        this.project = project;
-//        this.branch = branch;
-//        this.stateNumber = stateNumber;
-//        this.garageNumber = garageNumber;
-//        this.model = model;
-//    }
-
-        public Transport(String project, String branch, String stateNumber, String garageNumber, String model, Terminal terminal, List<Comment> comments) {
-        this.project = project;
-        this.branch = branch;
-        this.stateNumber = stateNumber;
-        this.garageNumber = garageNumber;
-        this.model = model;
+    public Transport(Date createDate, TransportInfo transportInfo, Terminal terminal) {
+        this.createDate = createDate;
+        this.transportInfo = transportInfo;
         this.terminal = terminal;
-        this.comments = comments;
     }
 
     public Long getId() {
         return id;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public Date getCreateDate() {
+        return createDate;
     }
 
-    public String getStateNumber() {
-        return stateNumber;
+    public void setCreateDate(Date createDate) {
+        this.createDate = createDate;
     }
 
-    public void setStateNumber(String stateNumber) {
-        this.stateNumber = stateNumber;
+    public TransportInfo getTransportInfo() {
+        return transportInfo;
     }
 
-    public String getGarageNumber() {
-        return garageNumber;
+    public void setTransportInfo(TransportInfo transportInfo) {
+        this.transportInfo = transportInfo;
     }
 
-    public void setGarageNumber(String garageNumber) {
-        this.garageNumber = garageNumber;
+    public List<TerminalInfo> getTransportInfoHistory() {
+        return transportInfoHistory;
     }
 
-    public String getModel() {
-        return model;
-    }
-
-    public void setModel(String model) {
-        this.model = model;
+    public void setTransportInfoHistory(List<TerminalInfo> transportInfoHistory) {
+        this.transportInfoHistory = transportInfoHistory;
     }
 
     public Terminal getTerminal() {
@@ -97,27 +84,27 @@ public class Transport {
         this.terminal = terminal;
     }
 
+    public Point getPoint() {
+        return point;
+    }
+
+    public void setPoint(Point point) {
+        this.point = point;
+    }
+
+    public List<Ticket> getTickets() {
+        return tickets;
+    }
+
+    public void setTickets(List<Ticket> tickets) {
+        this.tickets = tickets;
+    }
+
     public List<Comment> getComments() {
         return comments;
     }
 
     public void setComments(List<Comment> comments) {
         this.comments = comments;
-    }
-
-    public String getProject() {
-        return project;
-    }
-
-    public void setProject(String project) {
-        this.project = project;
-    }
-
-    public String getBranch() {
-        return branch;
-    }
-
-    public void setBranch(String branch) {
-        this.branch = branch;
     }
 }

@@ -14,72 +14,35 @@ public class Terminal {
     @GeneratedValue
     private Long id;
     @NotNull
-    private int number;
-    @NotNull
-    private String firmware;
-    @NotNull
-    private String mobile;
-    @OneToOne (cascade = CascadeType.PERSIST)
-    private Point lastPoint;
-    @OneToMany (cascade = CascadeType.PERSIST)
-    private List<Ticket> tickets = new ArrayList<>();
+    @OneToOne(cascade = CascadeType.ALL)
+    private TerminalInfo terminalInfo;
+    @OneToMany(cascade = CascadeType.ALL)
+    private List<TerminalInfo> terminalInfoHistory = new ArrayList<>();
 
     public Terminal() {
     }
 
-    public Terminal(Integer number, String firmware, String mobile, Point lastPoint, List<Ticket> tickets) {
-        this.number = number;
-        this.firmware = firmware;
-        this.mobile = mobile;
-        this.lastPoint = lastPoint;
-        this.tickets = tickets;
+    public Terminal(TerminalInfo terminalInfo) {
+        this.terminalInfo = terminalInfo;
     }
 
     public Long getId() {
         return id;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public TerminalInfo getTerminalInfo() {
+        return terminalInfo;
     }
 
-    public Integer getNumber() {
-        return number;
+    public void setTerminalInfo(TerminalInfo terminalInfo) {
+        this.terminalInfo = terminalInfo;
     }
 
-    public void setNumber(Integer number) {
-        this.number = number;
+    public List<TerminalInfo> getTerminalInfoHistory() {
+        return terminalInfoHistory;
     }
 
-    public String getFirmware() {
-        return firmware;
-    }
-
-    public void setFirmware(String firmware) {
-        this.firmware = firmware;
-    }
-
-    public String getMobile() {
-        return mobile;
-    }
-
-    public void setMobile(String mobile) {
-        this.mobile = mobile;
-    }
-
-    public Point getLastPoint() {
-        return lastPoint;
-    }
-
-    public void setLastPoint(Point lastPoint) {
-        this.lastPoint = lastPoint;
-    }
-
-    public List<Ticket> getTickets() {
-        return tickets;
-    }
-
-    public void setTickets(List<Ticket> tickets) {
-        this.tickets = tickets;
+    public void setTerminalInfoHistory(List<TerminalInfo> terminalInfoHistory) {
+        this.terminalInfoHistory = terminalInfoHistory;
     }
 }
