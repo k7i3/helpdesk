@@ -30,6 +30,8 @@ public class DBPopulator {
     private final static String[] projects;
     private final static String[] branches;
     private final static String[] models;
+    private final static String[] commentCreatedBy;
+    private final static String[] commentContent;
 
     static {
         projects = new String[5];
@@ -48,10 +50,24 @@ public class DBPopulator {
 
         models = new String[5];
         models[0] = "Audi";
-        models[1] = "Mersedes";
+        models[1] = "Mercedes";
         models[2] = "BMW";
-        models[3] = "Нефаз";
-        models[4] = "УАЗ";
+        models[3] = "Opel";
+        models[4] = "Нефаз";
+
+        commentCreatedBy = new String[5];
+        commentCreatedBy[0] = "Audi";
+        commentCreatedBy[1] = "Mersedes";
+        commentCreatedBy[2] = "BMW";
+        commentCreatedBy[3] = "Нефаз";
+        commentCreatedBy[4] = "УАЗ";
+
+        commentContent = new String[5];
+        commentContent[0] = "Audi";
+        commentContent[1] = "Mersedes";
+        commentContent[2] = "BMW";
+        commentContent[3] = "Нефаз";
+        commentContent[4] = "УАЗ";
     }
 
     @PostConstruct

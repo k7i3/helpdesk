@@ -16,6 +16,8 @@ public class TerminalInfo {
     @Temporal(TemporalType.TIMESTAMP)
     private Date updateDate;
     @NotNull
+    private String updatedBy;
+    @NotNull
     private int number;
     private String firmware;
     private String mobileNumber;
@@ -25,8 +27,9 @@ public class TerminalInfo {
     public TerminalInfo() {
     }
 
-    public TerminalInfo(int number) {
+    public TerminalInfo(String updatedBy, int number) {
         this.updateDate = new Date();
+        this.updatedBy = updatedBy;
         this.number = number;
     }
 
@@ -40,6 +43,14 @@ public class TerminalInfo {
 
     public void setUpdateDate(Date updateDate) {
         this.updateDate = updateDate;
+    }
+
+    public String getUpdatedBy() {
+        return updatedBy;
+    }
+
+    public void setUpdatedBy(String updatedBy) {
+        this.updatedBy = updatedBy;
     }
 
     public int getNumber() {

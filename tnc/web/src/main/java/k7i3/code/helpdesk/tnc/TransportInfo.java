@@ -16,6 +16,8 @@ public class TransportInfo {
     @Temporal(TemporalType.TIMESTAMP)
     private Date updateDate;
     @NotNull
+    private String updatedBy;
+    @NotNull
     private String project;
     private String branch;
     @NotNull
@@ -33,8 +35,9 @@ public class TransportInfo {
     public TransportInfo() {
     }
 
-    public TransportInfo(String project, String stateNumber) {
+    public TransportInfo(String updatedBy, String project, String stateNumber) {
         this.updateDate = new Date();
+        this.updatedBy = updatedBy;
         this.project = project;
         this.stateNumber = stateNumber;
     }
@@ -49,6 +52,14 @@ public class TransportInfo {
 
     public void setUpdateDate(Date updateDate) {
         this.updateDate = updateDate;
+    }
+
+    public String getUpdatedBy() {
+        return updatedBy;
+    }
+
+    public void setUpdatedBy(String updatedBy) {
+        this.updatedBy = updatedBy;
     }
 
     public String getProject() {
