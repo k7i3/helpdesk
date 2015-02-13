@@ -56,28 +56,26 @@ public class DBPopulator {
         models[4] = "Нефаз";
 
         commentCreatedBy = new String[5];
-        commentCreatedBy[0] = "Audi";
-        commentCreatedBy[1] = "Mersedes";
-        commentCreatedBy[2] = "BMW";
-        commentCreatedBy[3] = "Нефаз";
-        commentCreatedBy[4] = "УАЗ";
+        commentCreatedBy[0] = "Агент Смит";
+        commentCreatedBy[1] = "Тринити";
+        commentCreatedBy[2] = "Сайфер";
+        commentCreatedBy[3] = "Морфеус";
+        commentCreatedBy[4] = "Мальчик";
 
         commentContent = new String[5];
-        commentContent[0] = "Audi";
-        commentContent[1] = "Mersedes";
-        commentContent[2] = "BMW";
-        commentContent[3] = "Нефаз";
-        commentContent[4] = "УАЗ";
+        commentContent[0] = "Я этот город… ненавижу. Этот зоопарк, тюрьму, эту реальность — называйте как хотите — меня просто выворачивает. Даже ваш запах. Я дышу им, ощущаю кожей вашу вонь. И хотя, я понимаю, что это глупо, я опасаюсь подхватить вашу заразу, каждый день думаю об этом!";
+        commentContent[1] = "Следуй за белым кроликом.";
+        commentContent[2] = "Информации, получаемой из Матрицы, гораздо больше, чем ты можешь расшифровать. Ты привыкаешь к этому. Скоро твой мозг сам делает перевод. Я уже даже не вижу код. Я вижу блондинку, брюнетку и рыжую.";
+        commentContent[3] = "Рано или поздно ты поймешь, как и я. Знать путь и пройти его — не одно и тоже.";
+        commentContent[4] = "Не пытайся согнуть ложку; это невозможно. Вместо этого, попытайся понять главное.";
     }
 
     @PostConstruct
     private void createMockData() {
         logger.info("=>=>=>=>=> DBPopulator.createMockData()");
-
         for (int i = 0; i < 100; i++) {
             transportEJB.createTransport(new Transport(getRandomProject(), getRandomBranch(), getRandomStateNumber(), getRandomGarageNumber(), getRandomModel(), getRandomTerminal(), getRandomComments()));
         }
-
         logger.info("=>=>=>=>=> Inserted " + transportEJB.findAllTransport().size() + " unit(s) of transport");
     }
 

@@ -18,7 +18,7 @@ public class TerminalInfo {
     @NotNull
     private String updatedBy;
     @NotNull
-    private int number;
+    private Integer number;
     private String firmware;
     private String mobileNumber;
     private String serialNumber;
@@ -27,7 +27,7 @@ public class TerminalInfo {
     public TerminalInfo() {
     }
 
-    public TerminalInfo(String updatedBy, int number) {
+    public TerminalInfo(String updatedBy, Integer number) {
         this.updateDate = new Date();
         this.updatedBy = updatedBy;
         this.number = number;
@@ -53,11 +53,11 @@ public class TerminalInfo {
         this.updatedBy = updatedBy;
     }
 
-    public int getNumber() {
+    public Integer getNumber() {
         return number;
     }
 
-    public void setNumber(int number) {
+    public void setNumber(Integer number) {
         this.number = number;
     }
 
