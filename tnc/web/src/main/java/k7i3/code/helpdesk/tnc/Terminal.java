@@ -3,6 +3,7 @@ package k7i3.code.helpdesk.tnc;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -14,6 +15,11 @@ public class Terminal {
     @GeneratedValue
     private Long id;
     @NotNull
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date createDate;
+    @NotNull
+    private String createdBy;
+    @NotNull
     @OneToOne(cascade = CascadeType.ALL)
     private TerminalInfo terminalInfo;
     @OneToMany(cascade = CascadeType.ALL)
@@ -22,12 +28,30 @@ public class Terminal {
     public Terminal() {
     }
 
-    public Terminal(TerminalInfo terminalInfo) {
+    public Terminal(String createdBy, TerminalInfo terminalInfo) {
+        this.createDate = new Date();
+        this.createdBy = createdBy;
         this.terminalInfo = terminalInfo;
     }
 
     public Long getId() {
         return id;
+    }
+
+    public Date getCreateDate() {
+        return createDate;
+    }
+
+    public void setCreateDate(Date createDate) {
+        this.createDate = createDate;
+    }
+
+    public String getCreatedBy() {
+        return createdBy;
+    }
+
+    public void setCreatedBy(String createdBy) {
+        this.createdBy = createdBy;
     }
 
     public TerminalInfo getTerminalInfo() {

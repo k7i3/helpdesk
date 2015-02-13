@@ -20,15 +20,12 @@ public class TicketInfo {
     private TicketHeader ticketHeader;
     @NotNull
     @Temporal(TemporalType.TIMESTAMP)
-    private Date createDate;
-    @Temporal(TemporalType.TIMESTAMP)
     private Date updateDate;
     @Temporal(TemporalType.TIMESTAMP)
     private Date closeDate;
     @Temporal(TemporalType.TIMESTAMP)
     private Date deleteDate;
     @NotNull
-    private String createdBy;
     private String updatedBy;
     private String closedBy;
     private String deletedBy;
@@ -59,11 +56,11 @@ public class TicketInfo {
     public TicketInfo() {
     }
 
-    public TicketInfo(TicketStatus ticketStatus, TicketHeader ticketHeader, Date createDate, String createdBy, TransportInfo transportInfo, TerminalInfo terminalInfo, PointInfo pointInfo, Boolean isTherePossibilityToGetDefaultPlace, Boolean isInspected, String place, String mobileNumberOfDriver, String mobileNumberOfAgent) {
+    public TicketInfo(TicketStatus ticketStatus, TicketHeader ticketHeader, String updatedBy, TransportInfo transportInfo, TerminalInfo terminalInfo, PointInfo pointInfo, Boolean isTherePossibilityToGetDefaultPlace, Boolean isInspected, String place, String mobileNumberOfDriver, String mobileNumberOfAgent) {
         this.ticketStatus = ticketStatus;
         this.ticketHeader = ticketHeader;
-        this.createDate = createDate;
-        this.createdBy = createdBy;
+        this.updateDate = new Date();
+        this.updatedBy = updatedBy;
         this.transportInfo = transportInfo;
         this.terminalInfo = terminalInfo;
         this.pointInfo = pointInfo;
@@ -94,14 +91,6 @@ public class TicketInfo {
         this.ticketHeader = ticketHeader;
     }
 
-    public Date getCreateDate() {
-        return createDate;
-    }
-
-    public void setCreateDate(Date createDate) {
-        this.createDate = createDate;
-    }
-
     public Date getUpdateDate() {
         return updateDate;
     }
@@ -124,14 +113,6 @@ public class TicketInfo {
 
     public void setDeleteDate(Date deleteDate) {
         this.deleteDate = deleteDate;
-    }
-
-    public String getCreatedBy() {
-        return createdBy;
-    }
-
-    public void setCreatedBy(String createdBy) {
-        this.createdBy = createdBy;
     }
 
     public String getUpdatedBy() {

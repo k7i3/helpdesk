@@ -27,8 +27,8 @@ public class PointInfo {
     public PointInfo() {
     }
 
-    public PointInfo(Date updateDate, Double latitude, Double longitude, Date date) {
-        this.updateDate = updateDate;
+    public PointInfo(Double latitude, Double longitude, Date date) {
+        this.updateDate = new Date();
         this.latitude = latitude;
         this.longitude = longitude;
         this.date = date;

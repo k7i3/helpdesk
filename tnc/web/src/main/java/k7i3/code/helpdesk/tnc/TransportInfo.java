@@ -33,8 +33,8 @@ public class TransportInfo {
     public TransportInfo() {
     }
 
-    public TransportInfo(Date updateDate, String project, String stateNumber) {
-        this.updateDate = updateDate;
+    public TransportInfo(String project, String stateNumber) {
+        this.updateDate = new Date();
         this.project = project;
         this.stateNumber = stateNumber;
     }

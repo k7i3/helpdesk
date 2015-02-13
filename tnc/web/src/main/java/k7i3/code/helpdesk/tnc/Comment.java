@@ -15,49 +15,30 @@ public class Comment {
     @GeneratedValue
     private Long id;
     @NotNull
-    private String owner;
-    @NotNull
-    private String content;
-    @NotNull
     @Temporal(TemporalType.TIMESTAMP)
     private Date createDate;
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date updateDate;
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date deleteDate;
-    @ElementCollection
-    private List<String> contentHistory = new ArrayList<>();
+    @NotNull
+    private String createdBy;
+    @NotNull
+    @OneToOne(cascade = CascadeType.ALL)
+    private CommentInfo commentInfo;
+    @OneToMany(cascade = CascadeType.ALL)
+    private List<CommentInfo> commentInfoHistory = new ArrayList<>();
+
+//    @ElementCollection
+//    private List<String> contentHistory = new ArrayList<>();
 
     public Comment() {
     }
 
-    public Comment(String owner, String content, Date createDate, Date updateDate, Date deleteDate, List<String> contentHistory) {
-        this.owner = owner;
-        this.content = content;
-        this.createDate = createDate;
-        this.updateDate = updateDate;
-        this.deleteDate = deleteDate;
-        this.contentHistory = contentHistory;
+    public Comment(String createdBy, CommentInfo commentInfo) {
+        this.createDate = new Date();
+        this.createdBy = createdBy;
+        this.commentInfo = commentInfo;
     }
 
     public Long getId() {
         return id;
-    }
-
-    public String getOwner() {
-        return owner;
-    }
-
-    public void setOwner(String owner) {
-        this.owner = owner;
-    }
-
-    public String getContent() {
-        return content;
-    }
-
-    public void setContent(String content) {
-        this.content = content;
     }
 
     public Date getCreateDate() {
@@ -68,27 +49,27 @@ public class Comment {
         this.createDate = createDate;
     }
 
-    public Date getUpdateDate() {
-        return updateDate;
+    public String getCreatedBy() {
+        return createdBy;
     }
 
-    public void setUpdateDate(Date updateDate) {
-        this.updateDate = updateDate;
+    public void setCreatedBy(String createdBy) {
+        this.createdBy = createdBy;
     }
 
-    public Date getDeleteDate() {
-        return deleteDate;
+    public CommentInfo getCommentInfo() {
+        return commentInfo;
     }
 
-    public void setDeleteDate(Date deleteDate) {
-        this.deleteDate = deleteDate;
+    public void setCommentInfo(CommentInfo commentInfo) {
+        this.commentInfo = commentInfo;
     }
 
-    public List<String> getContentHistory() {
-        return contentHistory;
+    public List<CommentInfo> getCommentInfoHistory() {
+        return commentInfoHistory;
     }
 
-    public void setContentHistory(List<String> contentHistory) {
-        this.contentHistory = contentHistory;
+    public void setCommentInfoHistory(List<CommentInfo> commentInfoHistory) {
+        this.commentInfoHistory = commentInfoHistory;
     }
 }

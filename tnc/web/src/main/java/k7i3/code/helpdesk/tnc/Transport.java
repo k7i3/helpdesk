@@ -25,6 +25,8 @@ public class Transport {
     @Temporal(TemporalType.TIMESTAMP)
     private Date createDate;
     @NotNull
+    private String createdBy;
+    @NotNull
     @OneToOne(cascade = CascadeType.ALL)
     private TransportInfo transportInfo;
     @OneToMany (cascade = CascadeType.ALL)
@@ -42,8 +44,9 @@ public class Transport {
     public Transport() {
     }
 
-    public Transport(Date createDate, TransportInfo transportInfo, Terminal terminal) {
-        this.createDate = createDate;
+    public Transport(String createdBy, TransportInfo transportInfo, Terminal terminal) {
+        this.createDate = new Date();
+        this.createdBy = createdBy;
         this.transportInfo = transportInfo;
         this.terminal = terminal;
     }
@@ -58,6 +61,14 @@ public class Transport {
 
     public void setCreateDate(Date createDate) {
         this.createDate = createDate;
+    }
+
+    public String getCreatedBy() {
+        return createdBy;
+    }
+
+    public void setCreatedBy(String createdBy) {
+        this.createdBy = createdBy;
     }
 
     public TransportInfo getTransportInfo() {

@@ -25,8 +25,8 @@ public class TerminalInfo {
     public TerminalInfo() {
     }
 
-    public TerminalInfo(Date updateDate, int number) {
-        this.updateDate = updateDate;
+    public TerminalInfo(int number) {
+        this.updateDate = new Date();
         this.number = number;
     }
 
