@@ -3,7 +3,6 @@ package k7i3.code.helpdesk.tnc;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -15,10 +14,8 @@ public class Comment {
     @GeneratedValue
     private Long id;
     @NotNull
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date createDate;
-    @NotNull
-    private String createdBy;
+    @Embedded
+    private LifeCycleInfo creation;
     @NotNull
     @OneToOne(cascade = CascadeType.ALL)
     private CommentInfo commentInfo;
@@ -31,9 +28,8 @@ public class Comment {
     public Comment() {
     }
 
-    public Comment(String createdBy, CommentInfo commentInfo) {
-        this.createDate = new Date();
-        this.createdBy = createdBy;
+    public Comment(LifeCycleInfo creation, CommentInfo commentInfo) {
+        this.creation = creation;
         this.commentInfo = commentInfo;
     }
 
@@ -41,20 +37,12 @@ public class Comment {
         return id;
     }
 
-    public Date getCreateDate() {
-        return createDate;
+    public LifeCycleInfo getCreation() {
+        return creation;
     }
 
-    public void setCreateDate(Date createDate) {
-        this.createDate = createDate;
-    }
-
-    public String getCreatedBy() {
-        return createdBy;
-    }
-
-    public void setCreatedBy(String createdBy) {
-        this.createdBy = createdBy;
+    public void setCreation(LifeCycleInfo creation) {
+        this.creation = creation;
     }
 
     public CommentInfo getCommentInfo() {

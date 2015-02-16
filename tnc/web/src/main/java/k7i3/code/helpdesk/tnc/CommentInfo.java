@@ -1,8 +1,10 @@
 package k7i3.code.helpdesk.tnc;
 
-import javax.persistence.*;
+import javax.persistence.Embedded;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 import javax.validation.constraints.NotNull;
-import java.util.Date;
 
 /**
  * Created by k7i3 on 13.02.15.
@@ -13,22 +15,18 @@ public class CommentInfo {
     @GeneratedValue
     private Long id;
     @NotNull
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date updateDate;
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date deleteDate;
-    @NotNull
-    private String updatedBy;
-    private String deletedBy;
+    @Embedded
+    private LifeCycleInfo modification;
+    @Embedded
+    private LifeCycleInfo deletion;
     @NotNull
     private String content;
 
     public CommentInfo() {
     }
 
-    public CommentInfo(String updatedBy, String content) {
-        this.updateDate = new Date();
-        this.updatedBy = updatedBy;
+    public CommentInfo(LifeCycleInfo modification, String content) {
+        this.modification = modification;
         this.content = content;
     }
 
@@ -36,36 +34,20 @@ public class CommentInfo {
         return id;
     }
 
-    public Date getUpdateDate() {
-        return updateDate;
+    public LifeCycleInfo getModification() {
+        return modification;
     }
 
-    public void setUpdateDate(Date updateDate) {
-        this.updateDate = updateDate;
+    public void setModification(LifeCycleInfo modification) {
+        this.modification = modification;
     }
 
-    public Date getDeleteDate() {
-        return deleteDate;
+    public LifeCycleInfo getDeletion() {
+        return deletion;
     }
 
-    public void setDeleteDate(Date deleteDate) {
-        this.deleteDate = deleteDate;
-    }
-
-    public String getUpdatedBy() {
-        return updatedBy;
-    }
-
-    public void setUpdatedBy(String updatedBy) {
-        this.updatedBy = updatedBy;
-    }
-
-    public String getDeletedBy() {
-        return deletedBy;
-    }
-
-    public void setDeletedBy(String deletedBy) {
-        this.deletedBy = deletedBy;
+    public void setDeletion(LifeCycleInfo deletion) {
+        this.deletion = deletion;
     }
 
     public String getContent() {

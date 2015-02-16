@@ -13,8 +13,8 @@ public class PointInfo {
     @GeneratedValue
     private Long id;
     @NotNull
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date updateDate;
+    @Embedded
+    private LifeCycleInfo modification;
     @NotNull
     private Double latitude;
     @NotNull
@@ -27,8 +27,8 @@ public class PointInfo {
     public PointInfo() {
     }
 
-    public PointInfo(Double latitude, Double longitude, Date date) {
-        this.updateDate = new Date();
+    public PointInfo(LifeCycleInfo modification, Double latitude, Double longitude, Date date) {
+        this.modification = modification;
         this.latitude = latitude;
         this.longitude = longitude;
         this.date = date;
@@ -38,12 +38,12 @@ public class PointInfo {
         return id;
     }
 
-    public Date getUpdateDate() {
-        return updateDate;
+    public LifeCycleInfo getModification() {
+        return modification;
     }
 
-    public void setUpdateDate(Date updateDate) {
-        this.updateDate = updateDate;
+    public void setModification(LifeCycleInfo modification) {
+        this.modification = modification;
     }
 
     public Double getLatitude() {

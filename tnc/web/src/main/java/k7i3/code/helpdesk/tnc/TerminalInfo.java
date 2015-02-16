@@ -1,8 +1,10 @@
 package k7i3.code.helpdesk.tnc;
 
-import javax.persistence.*;
+import javax.persistence.Embedded;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 import javax.validation.constraints.NotNull;
-import java.util.Date;
 
 /**
  * Created by k7i3 on 12.02.15.
@@ -13,10 +15,8 @@ public class TerminalInfo {
     @GeneratedValue
     private Long id;
     @NotNull
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date updateDate;
-    @NotNull
-    private String updatedBy;
+    @Embedded
+    private LifeCycleInfo modification;
     @NotNull
     private Integer number;
     private String firmware;
@@ -27,9 +27,8 @@ public class TerminalInfo {
     public TerminalInfo() {
     }
 
-    public TerminalInfo(String updatedBy, Integer number) {
-        this.updateDate = new Date();
-        this.updatedBy = updatedBy;
+    public TerminalInfo(LifeCycleInfo modification, Integer number) {
+        this.modification = modification;
         this.number = number;
     }
 
@@ -37,20 +36,12 @@ public class TerminalInfo {
         return id;
     }
 
-    public Date getUpdateDate() {
-        return updateDate;
+    public LifeCycleInfo getModification() {
+        return modification;
     }
 
-    public void setUpdateDate(Date updateDate) {
-        this.updateDate = updateDate;
-    }
-
-    public String getUpdatedBy() {
-        return updatedBy;
-    }
-
-    public void setUpdatedBy(String updatedBy) {
-        this.updatedBy = updatedBy;
+    public void setModification(LifeCycleInfo modification) {
+        this.modification = modification;
     }
 
     public Integer getNumber() {

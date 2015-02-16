@@ -2,7 +2,6 @@ package k7i3.code.helpdesk.tnc;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import java.util.Date;
 
 /**
  * Created by k7i3 on 12.02.15.
@@ -19,18 +18,17 @@ public class TicketInfo {
     @Enumerated(EnumType.STRING)
     private TicketHeader ticketHeader;
     @NotNull
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date updateDate;
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date closeDate;
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date deleteDate;
+    @Embedded
+    private LifeCycleInfo modification;
+    @Embedded
+    private LifeCycleInfo closing;
+    @Embedded
+    private LifeCycleInfo deletion;
     @NotNull
-    private String updatedBy;
-    private String closedBy;
-    private String deletedBy;
+    @OneToOne (cascade = CascadeType.ALL)
+    private TicketDetails ticketDetails;
 
-    //Current Info
+    //Current Info for history
     @NotNull
     @OneToOne (cascade = CascadeType.ALL)
     private TransportInfo transportInfo;
@@ -41,34 +39,17 @@ public class TicketInfo {
     @OneToOne (cascade = CascadeType.ALL)
     private  PointInfo pointInfo;
 
-    //Details
-    @NotNull
-    private Boolean isTherePossibilityToGetDefaultPlace;
-    @NotNull
-    private Boolean isInspected;
-    @NotNull
-    private String place;
-    @NotNull
-    private String mobileNumberOfDriver;
-    @NotNull
-    private String mobileNumberOfAgent;
-
     public TicketInfo() {
     }
 
-    public TicketInfo(TicketStatus ticketStatus, TicketHeader ticketHeader, String updatedBy, TransportInfo transportInfo, TerminalInfo terminalInfo, PointInfo pointInfo, Boolean isTherePossibilityToGetDefaultPlace, Boolean isInspected, String place, String mobileNumberOfDriver, String mobileNumberOfAgent) {
+    public TicketInfo(TicketStatus ticketStatus, TicketHeader ticketHeader, LifeCycleInfo modification, TicketDetails ticketDetails, TransportInfo transportInfo, TerminalInfo terminalInfo, PointInfo pointInfo) {
         this.ticketStatus = ticketStatus;
         this.ticketHeader = ticketHeader;
-        this.updateDate = new Date();
-        this.updatedBy = updatedBy;
+        this.modification = modification;
+        this.ticketDetails = ticketDetails;
         this.transportInfo = transportInfo;
         this.terminalInfo = terminalInfo;
         this.pointInfo = pointInfo;
-        this.isTherePossibilityToGetDefaultPlace = isTherePossibilityToGetDefaultPlace;
-        this.isInspected = isInspected;
-        this.place = place;
-        this.mobileNumberOfDriver = mobileNumberOfDriver;
-        this.mobileNumberOfAgent = mobileNumberOfAgent;
     }
 
     public Long getId() {
@@ -91,52 +72,36 @@ public class TicketInfo {
         this.ticketHeader = ticketHeader;
     }
 
-    public Date getUpdateDate() {
-        return updateDate;
+    public LifeCycleInfo getModification() {
+        return modification;
     }
 
-    public void setUpdateDate(Date updateDate) {
-        this.updateDate = updateDate;
+    public void setModification(LifeCycleInfo modification) {
+        this.modification = modification;
     }
 
-    public Date getCloseDate() {
-        return closeDate;
+    public LifeCycleInfo getClosing() {
+        return closing;
     }
 
-    public void setCloseDate(Date closeDate) {
-        this.closeDate = closeDate;
+    public void setClosing(LifeCycleInfo closing) {
+        this.closing = closing;
     }
 
-    public Date getDeleteDate() {
-        return deleteDate;
+    public LifeCycleInfo getDeletion() {
+        return deletion;
     }
 
-    public void setDeleteDate(Date deleteDate) {
-        this.deleteDate = deleteDate;
+    public void setDeletion(LifeCycleInfo deletion) {
+        this.deletion = deletion;
     }
 
-    public String getUpdatedBy() {
-        return updatedBy;
+    public TicketDetails getTicketDetails() {
+        return ticketDetails;
     }
 
-    public void setUpdatedBy(String updatedBy) {
-        this.updatedBy = updatedBy;
-    }
-
-    public String getClosedBy() {
-        return closedBy;
-    }
-
-    public void setClosedBy(String closedBy) {
-        this.closedBy = closedBy;
-    }
-
-    public String getDeletedBy() {
-        return deletedBy;
-    }
-
-    public void setDeletedBy(String deletedBy) {
-        this.deletedBy = deletedBy;
+    public void setTicketDetails(TicketDetails ticketDetails) {
+        this.ticketDetails = ticketDetails;
     }
 
     public TransportInfo getTransportInfo() {
@@ -161,45 +126,5 @@ public class TicketInfo {
 
     public void setPointInfo(PointInfo pointInfo) {
         this.pointInfo = pointInfo;
-    }
-
-    public Boolean getIsTherePossibilityToGetDefaultPlace() {
-        return isTherePossibilityToGetDefaultPlace;
-    }
-
-    public void setIsTherePossibilityToGetDefaultPlace(Boolean isTherePossibilityToGetDefaultPlace) {
-        this.isTherePossibilityToGetDefaultPlace = isTherePossibilityToGetDefaultPlace;
-    }
-
-    public Boolean getIsInspected() {
-        return isInspected;
-    }
-
-    public void setIsInspected(Boolean isInspected) {
-        this.isInspected = isInspected;
-    }
-
-    public String getPlace() {
-        return place;
-    }
-
-    public void setPlace(String place) {
-        this.place = place;
-    }
-
-    public String getMobileNumberOfDriver() {
-        return mobileNumberOfDriver;
-    }
-
-    public void setMobileNumberOfDriver(String mobileNumberOfDriver) {
-        this.mobileNumberOfDriver = mobileNumberOfDriver;
-    }
-
-    public String getMobileNumberOfAgent() {
-        return mobileNumberOfAgent;
-    }
-
-    public void setMobileNumberOfAgent(String mobileNumberOfAgent) {
-        this.mobileNumberOfAgent = mobileNumberOfAgent;
     }
 }

@@ -3,7 +3,6 @@ package k7i3.code.helpdesk.tnc;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -15,10 +14,8 @@ public class Ticket {
     @GeneratedValue
     private Long id;
     @NotNull
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date createDate;
-    @NotNull
-    private String createdBy;
+    @Embedded
+    private LifeCycleInfo creation;
     @NotNull
     @OneToOne(cascade = CascadeType.ALL)
     private TicketInfo ticketInfo;
@@ -30,30 +27,21 @@ public class Ticket {
     public Ticket() {
     }
 
-    public Ticket(String createdBy, TicketInfo ticketInfo) {
-        this.createDate = new Date();
-        this.createdBy = createdBy;
+    public Ticket(TicketInfo ticketInfo, LifeCycleInfo creation) {
         this.ticketInfo = ticketInfo;
+        this.creation = creation;
     }
 
     public Long getId() {
         return id;
     }
 
-    public Date getCreateDate() {
-        return createDate;
+    public LifeCycleInfo getCreation() {
+        return creation;
     }
 
-    public void setCreateDate(Date createDate) {
-        this.createDate = createDate;
-    }
-
-    public String getCreatedBy() {
-        return createdBy;
-    }
-
-    public void setCreatedBy(String createdBy) {
-        this.createdBy = createdBy;
+    public void setCreation(LifeCycleInfo creation) {
+        this.creation = creation;
     }
 
     public TicketInfo getTicketInfo() {

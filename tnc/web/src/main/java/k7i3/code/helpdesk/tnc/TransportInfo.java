@@ -1,8 +1,10 @@
 package k7i3.code.helpdesk.tnc;
 
-import javax.persistence.*;
+import javax.persistence.Embedded;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 import javax.validation.constraints.NotNull;
-import java.util.Date;
 
 /**
  * Created by k7i3 on 12.02.15.
@@ -13,10 +15,8 @@ public class TransportInfo {
     @GeneratedValue
     private Long id;
     @NotNull
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date updateDate;
-    @NotNull
-    private String updatedBy;
+    @Embedded
+    private LifeCycleInfo modification;
     @NotNull
     private String project;
     private String branch;
@@ -27,17 +27,16 @@ public class TransportInfo {
     private String route;
 
     //Equipment
-    private Boolean isThereSpeaker;
-    private Boolean isTherePtt;
-    private Boolean isThereDvr;
-    private Boolean isThereInformer;
+    private Boolean hasSpeaker;
+    private Boolean hasPtt;
+    private Boolean hasDvr;
+    private Boolean hasInformer;
 
     public TransportInfo() {
     }
 
-    public TransportInfo(String updatedBy, String project, String stateNumber) {
-        this.updateDate = new Date();
-        this.updatedBy = updatedBy;
+    public TransportInfo(LifeCycleInfo modification, String project, String stateNumber) {
+        this.modification = modification;
         this.project = project;
         this.stateNumber = stateNumber;
     }
@@ -46,20 +45,12 @@ public class TransportInfo {
         return id;
     }
 
-    public Date getUpdateDate() {
-        return updateDate;
+    public LifeCycleInfo getModification() {
+        return modification;
     }
 
-    public void setUpdateDate(Date updateDate) {
-        this.updateDate = updateDate;
-    }
-
-    public String getUpdatedBy() {
-        return updatedBy;
-    }
-
-    public void setUpdatedBy(String updatedBy) {
-        this.updatedBy = updatedBy;
+    public void setModification(LifeCycleInfo modification) {
+        this.modification = modification;
     }
 
     public String getProject() {
@@ -110,35 +101,35 @@ public class TransportInfo {
         this.route = route;
     }
 
-    public Boolean getIsThereSpeaker() {
-        return isThereSpeaker;
+    public Boolean getHasSpeaker() {
+        return hasSpeaker;
     }
 
-    public void setIsThereSpeaker(Boolean isThereSpeaker) {
-        this.isThereSpeaker = isThereSpeaker;
+    public void setHasSpeaker(Boolean hasSpeaker) {
+        this.hasSpeaker = hasSpeaker;
     }
 
-    public Boolean getIsTherePtt() {
-        return isTherePtt;
+    public Boolean getHasPtt() {
+        return hasPtt;
     }
 
-    public void setIsTherePtt(Boolean isTherePtt) {
-        this.isTherePtt = isTherePtt;
+    public void setHasPtt(Boolean hasPtt) {
+        this.hasPtt = hasPtt;
     }
 
-    public Boolean getIsThereDvr() {
-        return isThereDvr;
+    public Boolean getHasDvr() {
+        return hasDvr;
     }
 
-    public void setIsThereDvr(Boolean isThereDvr) {
-        this.isThereDvr = isThereDvr;
+    public void setHasDvr(Boolean hasDvr) {
+        this.hasDvr = hasDvr;
     }
 
-    public Boolean getIsThereInformer() {
-        return isThereInformer;
+    public Boolean getHasInformer() {
+        return hasInformer;
     }
 
-    public void setIsThereInformer(Boolean isThereInformer) {
-        this.isThereInformer = isThereInformer;
+    public void setHasInformer(Boolean hasInformer) {
+        this.hasInformer = hasInformer;
     }
 }

@@ -3,7 +3,6 @@ package k7i3.code.helpdesk.tnc;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -22,10 +21,8 @@ public class Transport {
     @GeneratedValue
     private Long id;
     @NotNull
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date createDate;
-    @NotNull
-    private String createdBy;
+    @Embedded
+    private LifeCycleInfo creation;
     @NotNull
     @OneToOne(cascade = CascadeType.ALL)
     private TransportInfo transportInfo;
@@ -44,10 +41,9 @@ public class Transport {
     public Transport() {
     }
 
-    public Transport(String createdBy, TransportInfo transportInfo, Terminal terminal) {
-        this.createDate = new Date();
-        this.createdBy = createdBy;
+    public Transport(TransportInfo transportInfo, LifeCycleInfo creation, Terminal terminal) {
         this.transportInfo = transportInfo;
+        this.creation = creation;
         this.terminal = terminal;
     }
 
@@ -55,20 +51,12 @@ public class Transport {
         return id;
     }
 
-    public Date getCreateDate() {
-        return createDate;
+    public LifeCycleInfo getCreation() {
+        return creation;
     }
 
-    public void setCreateDate(Date createDate) {
-        this.createDate = createDate;
-    }
-
-    public String getCreatedBy() {
-        return createdBy;
-    }
-
-    public void setCreatedBy(String createdBy) {
-        this.createdBy = createdBy;
+    public void setCreation(LifeCycleInfo creation) {
+        this.creation = creation;
     }
 
     public TransportInfo getTransportInfo() {
