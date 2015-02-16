@@ -27,7 +27,7 @@ public class Transport {
     @OneToOne(cascade = CascadeType.ALL)
     private TransportInfo transportInfo;
     @OneToMany (cascade = CascadeType.ALL)
-    private List<TerminalInfo> transportInfoHistory = new ArrayList<>();
+    private List<TransportInfo> transportInfoHistory = new ArrayList<>();
     @NotNull
     @OneToOne(cascade = CascadeType.ALL)
     private Terminal terminal;
@@ -67,11 +67,11 @@ public class Transport {
         this.transportInfo = transportInfo;
     }
 
-    public List<TerminalInfo> getTransportInfoHistory() {
+    public List<TransportInfo> getTransportInfoHistory() {
         return transportInfoHistory;
     }
 
-    public void setTransportInfoHistory(List<TerminalInfo> transportInfoHistory) {
+    public void setTransportInfoHistory(List<TransportInfo> transportInfoHistory) {
         this.transportInfoHistory = transportInfoHistory;
     }
 

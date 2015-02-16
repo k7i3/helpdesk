@@ -25,12 +25,8 @@ public class TransportInfo {
     private String garageNumber;
     private String model;
     private String route;
-
-    //Equipment
-    private Boolean hasSpeaker;
-    private Boolean hasPtt;
-    private Boolean hasDvr;
-    private Boolean hasInformer;
+    @Embedded
+    private TransportEquipment transportEquipment;
 
     public TransportInfo() {
     }
@@ -101,35 +97,11 @@ public class TransportInfo {
         this.route = route;
     }
 
-    public Boolean getHasSpeaker() {
-        return hasSpeaker;
+    public TransportEquipment getTransportEquipment() {
+        return transportEquipment;
     }
 
-    public void setHasSpeaker(Boolean hasSpeaker) {
-        this.hasSpeaker = hasSpeaker;
-    }
-
-    public Boolean getHasPtt() {
-        return hasPtt;
-    }
-
-    public void setHasPtt(Boolean hasPtt) {
-        this.hasPtt = hasPtt;
-    }
-
-    public Boolean getHasDvr() {
-        return hasDvr;
-    }
-
-    public void setHasDvr(Boolean hasDvr) {
-        this.hasDvr = hasDvr;
-    }
-
-    public Boolean getHasInformer() {
-        return hasInformer;
-    }
-
-    public void setHasInformer(Boolean hasInformer) {
-        this.hasInformer = hasInformer;
+    public void setTransportEquipment(TransportEquipment transportEquipment) {
+        this.transportEquipment = transportEquipment;
     }
 }
