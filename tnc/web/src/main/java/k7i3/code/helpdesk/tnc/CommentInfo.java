@@ -1,9 +1,6 @@
 package k7i3.code.helpdesk.tnc;
 
-import javax.persistence.Embedded;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
 /**
@@ -15,8 +12,16 @@ public class CommentInfo {
     @GeneratedValue
     private Long id;
     @NotNull
+    @AttributeOverrides({
+            @AttributeOverride(name="date", column= @Column(name="modification_Date")),
+            @AttributeOverride(name="didBy", column= @Column(name="modification_DidBy"))
+    })
     @Embedded
     private LifeCycleInfo modification;
+    @AttributeOverrides({
+            @AttributeOverride(name="date", column= @Column(name="deletion_Date")),
+            @AttributeOverride(name="didBy", column= @Column(name="deletion_DidBy"))
+    })
     @Embedded
     private LifeCycleInfo deletion;
     @NotNull

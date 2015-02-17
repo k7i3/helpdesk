@@ -14,6 +14,10 @@ public class Comment {
     @GeneratedValue
     private Long id;
     @NotNull
+    @AttributeOverrides({
+            @AttributeOverride(name="date", column= @Column(name="creation_Date")),
+            @AttributeOverride(name="didBy", column= @Column(name="creation_DidBy"))
+    })
     @Embedded
     private LifeCycleInfo creation;
     @NotNull

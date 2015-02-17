@@ -6,7 +6,8 @@ package k7i3.code.helpdesk.tnc;
 public enum TicketStatus {
     OPENED("открыта"),
     IN_PROGRESS("принята"),
-    CLOSED("закрыта");
+    CLOSED("закрыта"),
+    DELETED("удалена");
 
     private final String description;
 

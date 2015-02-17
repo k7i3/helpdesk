@@ -13,6 +13,10 @@ public class PointInfo {
     @GeneratedValue
     private Long id;
     @NotNull
+    @AttributeOverrides({
+            @AttributeOverride(name="date", column= @Column(name="modification_Date")),
+            @AttributeOverride(name="didBy", column= @Column(name="modification_DidBy"))
+    })
     @Embedded
     private LifeCycleInfo modification;
     @NotNull

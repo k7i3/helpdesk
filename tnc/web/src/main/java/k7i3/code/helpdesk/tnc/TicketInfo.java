@@ -18,10 +18,22 @@ public class TicketInfo {
     @Enumerated(EnumType.STRING)
     private TicketHeader ticketHeader;
     @NotNull
+    @AttributeOverrides({
+            @AttributeOverride(name="date", column= @Column(name="modification_Date")),
+            @AttributeOverride(name="didBy", column= @Column(name="modification_DidBy"))
+    })
     @Embedded
     private LifeCycleInfo modification;
+    @AttributeOverrides({
+            @AttributeOverride(name="date", column= @Column(name="closingn_Date")),
+            @AttributeOverride(name="didBy", column= @Column(name="closing_DidBy"))
+    })
     @Embedded
     private LifeCycleInfo closing;
+    @AttributeOverrides({
+            @AttributeOverride(name="date", column= @Column(name="deletion_Date")),
+            @AttributeOverride(name="didBy", column= @Column(name="deletion_DidBy"))
+    })
     @Embedded
     private LifeCycleInfo deletion;
     @NotNull

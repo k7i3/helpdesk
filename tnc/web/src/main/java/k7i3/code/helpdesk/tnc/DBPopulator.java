@@ -64,7 +64,8 @@ public class DBPopulator {
         didBy[4] = "Мальчик";
 
         commentContent = new String[5];
-        commentContent[0] = "Я этот город… ненавижу. Этот зоопарк, тюрьму, эту реальность — называйте как хотите — меня просто выворачивает. Даже ваш запах. Я дышу им, ощущаю кожей вашу вонь. И хотя, я понимаю, что это глупо, я опасаюсь подхватить вашу заразу, каждый день думаю об этом!";
+//        commentContent[0] = "Я этот город… ненавижу. Этот зоопарк, тюрьму, эту реальность — называйте как хотите — меня просто выворачивает. Даже ваш запах. Я дышу им, ощущаю кожей вашу вонь. И хотя, я понимаю, что это глупо, я опасаюсь подхватить вашу заразу, каждый день думаю об этом!";
+        commentContent[0] = "ку-ку";
         commentContent[1] = "Следуй за белым кроликом.";
         commentContent[2] = "Информации, получаемой из Матрицы, гораздо больше, чем ты можешь расшифровать. Ты привыкаешь к этому. Скоро твой мозг сам делает перевод. Я уже даже не вижу код. Я вижу блондинку, брюнетку и рыжую.";
         commentContent[3] = "Рано или поздно ты поймешь, как и я. Знать путь и пройти его — не одно и тоже.";
@@ -209,7 +210,7 @@ public class DBPopulator {
 
         for (int i = 0; i < (int) (Math.random() * 11); i++) {
             tickets.add(getRandomTicket(TicketStatus.CLOSED));
-            tickets.add(getRandomTicket(null)); //deleted
+            tickets.add(getRandomTicket(TicketStatus.DELETED));
         }
 
         if (random.nextBoolean()) {
@@ -228,21 +229,27 @@ public class DBPopulator {
         }
 
     private TicketInfo getRandomTicketInfo(TicketStatus ticketStatus) {
+        logger.info("=>=>=>=>=> DBPopulator.getRandomTicketInfo() - before TicketInfo ticketInfo = new TicketInfo(...)");
         TicketInfo ticketInfo = new TicketInfo(ticketStatus, getRandomTicketHeader(), getRandomLifeCycleInfo(), getRandomTicketDetails(), getRandomTransportInfo(), getRandomTerminalInfo(), getRandomPointInfo());
+        logger.info("=>=>=>=>=> DBPopulator.getRandomTicketInfo() - before switch (ticketStatus)");
         switch (ticketStatus) {
             case CLOSED:
-                ticketInfo.setModification(getRandomLifeCycleInfo());
+                logger.info("=>=>=>=>=> DBPopulator.getRandomTicketInfo() - switch (CLOSED)");
                 ticketInfo.setClosing(getRandomLifeCycleInfo());
                 return ticketInfo;
             case IN_PROGRESS:
-                ticketInfo.setModification(getRandomLifeCycleInfo());
+                logger.info("=>=>=>=>=> DBPopulator.getRandomTicketInfo() - switch (IN_PROGRESS)");
                 return ticketInfo;
             case OPENED:
-                ticketInfo.setModification(getRandomLifeCycleInfo());
+                logger.info("=>=>=>=>=> DBPopulator.getRandomTicketInfo() - switch (OPENED)");
                 return ticketInfo;
-            default: //deleted
-                ticketInfo.setModification(getRandomLifeCycleInfo());
+            case DELETED:
+                logger.info("=>=>=>=>=> DBPopulator.getRandomTicketInfo() - switch (DELETED)");
+                ticketInfo.setClosing(getRandomLifeCycleInfo());
                 ticketInfo.setDeletion(getRandomLifeCycleInfo());
+                return ticketInfo;
+            default:
+                logger.info("=>=>=>=>=> DBPopulator.getRandomTicketInfo() - switch (default)");
                 return ticketInfo;
         }
     }
@@ -257,9 +264,7 @@ public class DBPopulator {
 
     private TicketStatus getRandomTicketStatus() {
         TicketStatus[] ticketStatuses = TicketStatus.values();
-        if (random.nextBoolean())
-            return ticketStatuses[random.nextInt(ticketStatuses.length)];
-        return null;
+        return ticketStatuses[random.nextInt(ticketStatuses.length)];
     }
 
     private TicketDetails getRandomTicketDetails() {

@@ -10,7 +10,7 @@ import java.util.List;
  */
 @Entity
 @NamedQueries({
-        @NamedQuery(name = "findAllTransport", query = "SELECT b FROM Transport b ORDER BY b.createDate DESC"),
+        @NamedQuery(name = "findAllTransport", query = "SELECT b FROM Transport b ORDER BY b.creation.date DESC"),
         @NamedQuery(name = "findAllProjects", query = "SELECT DISTINCT b.transportInfo.project FROM Transport b ORDER BY b.transportInfo.project DESC"),
         @NamedQuery(name = "findAllBranches", query = "SELECT DISTINCT b.transportInfo.branch FROM Transport b ORDER BY b.transportInfo.branch DESC"),
         @NamedQuery(name = "findAllModels", query = "SELECT DISTINCT b.transportInfo.model FROM Transport b ORDER BY b.transportInfo.model DESC"),
@@ -21,6 +21,10 @@ public class Transport {
     @GeneratedValue
     private Long id;
     @NotNull
+    @AttributeOverrides({
+            @AttributeOverride(name="date", column= @Column(name="creation_Date")),
+            @AttributeOverride(name="didBy", column= @Column(name="creation_DidBy"))
+    })
     @Embedded
     private LifeCycleInfo creation;
     @NotNull
