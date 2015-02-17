@@ -6,8 +6,7 @@
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:p="http://primefaces.org/ui"
       xmlns:f="http://java.sun.com/jsf/core"
-      xmlns:fn="http://xmlns.jcp.org/jsp/jstl/functions"
-        >
+      xmlns:fn="http://xmlns.jcp.org/jsp/jstl/functions">
 
 <ui:composition template="layout.xhtml">
 
@@ -91,77 +90,77 @@
                         <p:rowToggler />
                     </p:column>
 
-                    <p:column headerText="Проект" sortBy="#{transport.project}" filterBy="#{transport.project}" filterMatchMode="in">
+                    <p:column headerText="Проект" sortBy="#{transport.transportInfo.project}" filterBy="#{transport.transportInfo.project}" filterMatchMode="in">
                         <f:facet name="filter">
                             <p:selectCheckboxMenu label="..." onchange="PF('transportTable').filter()" panelStyle="width:200px" scrollHeight="200">
                                 <f:selectItems value="#{transportController.projects}" />
                             </p:selectCheckboxMenu>
                         </f:facet>
-                        <h:outputText value="#{transport.project}" />
+                        <h:outputText value="#{transport.transportInfo.project}" />
                     </p:column>
 
-                    <p:column headerText="Филиал" sortBy="#{transport.branch}" filterBy="#{transport.branch}" filterMatchMode="in">
+                    <p:column headerText="Филиал" sortBy="#{transport.transportInfo.branch}" filterBy="#{transport.transportInfo.branch}" filterMatchMode="in">
                         <f:facet name="filter">
                             <p:selectCheckboxMenu label="..." onchange="PF('transportTable').filter()" panelStyle="width:200px" scrollHeight="200">
                                 <f:selectItems value="#{transportController.branches}" />
                             </p:selectCheckboxMenu>
                         </f:facet>
-                        <h:outputText value="#{transport.branch}" />
+                        <h:outputText value="#{transport.transportInfo.branch}" />
                     </p:column>
 
-                    <p:column headerText="Гос. номер" sortBy="#{transport.stateNumber}" filterBy="#{transport.stateNumber}" filterMatchMode="contains">
-                        <h:outputText value="#{transport.stateNumber}" />
+                    <p:column headerText="Гос. номер" sortBy="#{transport.transportInfo.stateNumber}" filterBy="#{transport.transportInfo.stateNumber}" filterMatchMode="contains">
+                        <h:outputText value="#{transport.transportInfo.stateNumber}" />
                     </p:column>
 
-                    <p:column headerText="Гар. номер" sortBy="#{transport.garageNumber}" filterBy="#{transport.garageNumber}" filterMatchMode="contains">
-                        <h:outputText value="#{transport.garageNumber}" />
+                    <p:column headerText="Гар. номер" sortBy="#{transport.transportInfo.garageNumber}" filterBy="#{transport.transportInfo.garageNumber}" filterMatchMode="contains">
+                        <h:outputText value="#{transport.transportInfo.garageNumber}" />
                     </p:column>
 
-                    <p:column headerText="Модель" sortBy="#{transport.model}" filterBy="#{transport.model}" filterMatchMode="in">
+                    <p:column headerText="Модель" sortBy="#{transport.transportInfo.model}" filterBy="#{transport.transportInfo.model}" filterMatchMode="in">
                         <f:facet name="filter">
                             <p:selectCheckboxMenu label="..." onchange="PF('transportTable').filter()" panelStyle="width:200px" scrollHeight="200">
                                 <f:selectItems value="#{transportController.models}" />
                             </p:selectCheckboxMenu>
                         </f:facet>
-                        <h:outputText value="#{transport.model}" />
+                        <h:outputText value="#{transport.transportInfo.model}" />
                     </p:column>
 
-                    <p:column headerText="Терминал" sortBy="#{transport.terminal.number}" filterBy="#{transport.terminal.number}" filterMatchMode="contains">
-                        <h:outputText value="#{transport.terminal.number}" />
+                    <p:column headerText="Терминал" sortBy="#{transport.terminal.terminalInfo.number}" filterBy="#{transport.terminal.terminalInfo.number}" filterMatchMode="contains">
+                        <h:outputText value="#{transport.terminal.terminalInfo.number}" />
                     </p:column>
 
-                    <p:column headerText="Прошивка" sortBy="#{transport.terminal.firmware}" filterBy="#{transport.terminal.firmware}" filterMatchMode="in">
+                    <p:column headerText="Прошивка" sortBy="#{transport.terminal.terminalInfo.firmware}" filterBy="#{transport.terminal.terminalInfo.firmware}" filterMatchMode="in">
                         <f:facet name="filter">
                             <p:selectCheckboxMenu label="..." onchange="PF('transportTable').filter()" panelStyle="width:200px" scrollHeight="200">
                                 <f:selectItems value="#{transportController.firmware}" />
                             </p:selectCheckboxMenu>
                         </f:facet>
-                        <h:outputText value="#{transport.terminal.firmware}" />
+                        <h:outputText value="#{transport.terminal.terminalInfo.firmware}" />
                     </p:column>
 
-                    <p:column headerText="Телефон" sortBy="#{transport.terminal.mobile}" filterBy="#{transport.terminal.mobile}" filterMatchMode="contains">
-                        <h:outputText value="#{transport.terminal.mobile}" />
+                    <p:column headerText="Телефон" sortBy="#{transport.terminal.terminalInfo.mobileNumber}" filterBy="#{transport.terminal.terminalInfo.mobileNumber}" filterMatchMode="contains">
+                        <h:outputText value="#{transport.terminal.terminalInfo.mobileNumber}" />
                     </p:column>
 
-                    <p:column headerText="Связь" sortBy="#{transport.terminal.lastPoint.date}" filterBy="#{transport.terminal.lastPoint.date}" filterMatchMode="contains">
+                    <p:column headerText="Связь" sortBy="#{transport.point.pointInfo.date}" filterBy="#{transport.point.pointInfo.date}" filterMatchMode="contains">
 
                         <!--style="white-space: normal"-->
 
                         <!--<p:commandButton id="transportPointButton" update=":form:transportPointPanel" oncomplete="PF('transportPointDialog').show()" icon="ui-icon-pin-s" title="View">-->
-                            <!--<f:setPropertyActionListener value="#{transport.terminal.lastPoint}" target="#{transportController.dialogSelectedPoint}" />-->
+                            <!--<f:setPropertyActionListener value="{transport.terminal.lastPoint}" target="{transportController.dialogSelectedPoint}" />-->
                         <!--</p:commandButton>-->
 
-                        <h:outputText value="#{transport.terminal.lastPoint.date}" />
+                        <h:outputText value="#{transport.point.pointInfo.date}" />
                     </p:column>
 
-                    <p:column headerText="Заявки" sortBy="#{transport.terminal.tickets.size()}" filterBy="#{transport.terminal.tickets.size()}" filterMatchMode="contains">
-                        <h:outputText value="#{transport.terminal.tickets.size()}" />
+                    <p:column headerText="Заявки" sortBy="#{transport.tickets.size()}" filterBy="#{transport.tickets.size()}" filterMatchMode="contains">
+                        <h:outputText value="#{transport.tickets.size()}" />
                     </p:column>
 
                     <p:column headerText="Комментарии" sortBy="#{transport.comments.size()}" filterBy="#{transport.comments.size()}" filterMatchMode="contains">
 
                         <!--<p:commandButton id="transportCommentsButton" update=":form:transportCommentsPanel" oncomplete="PF('transportCommentsDialog').show()" icon="ui-icon-search" title="View">-->
-                            <!--<f:setPropertyActionListener value="#{transport}" target="#{transportController.dialogSelectedTransport}" />-->
+                            <!--<f:setPropertyActionListener value="{transport}" target="{transportController.dialogSelectedTransport}" />-->
                         <!--</p:commandButton>-->
 
                         <h:outputText value="#{transport.comments.size()}" />
@@ -170,7 +169,7 @@
                     <p:rowExpansion>
                         <p:panelGrid style="margin-bottom: 20px">
                             <p:commandButton id="transportPointButton" update=":form:transportPointPanel" oncomplete="PF('transportPointDialog').show()" icon="ui-icon-pin-s" title="View">
-                                <f:setPropertyActionListener value="#{transport.terminal.lastPoint}" target="#{transportController.dialogSelectedPoint}" />
+                                <f:setPropertyActionListener value="#{transport.point}" target="#{transportController.dialogSelectedPoint}" />
                             </p:commandButton>
                             <p:commandButton id="transportCommentsButton" update=":form:transportCommentsPanel" oncomplete="PF('transportCommentsDialog').show()" icon="ui-icon-search" title="View">
                                 <f:setPropertyActionListener value="#{transport}" target="#{transportController.dialogSelectedTransport}" />
@@ -180,9 +179,9 @@
                         <p:accordionPanel multiple="true" activeIndex="" style="margin-bottom: 20px">
                             <p:tab title="Информация">
                                 <p:panelGrid>
-                                    <h:outputText value="проект: #{transport.project} - #{transport.branch}" style="display:block"/>
-                                    <h:outputText value="транспорт: #{transport.stateNumber} - #{transport.garageNumber} - #{transport.model}" style="display:block"/>
-                                    <h:outputText value="терминал: #{transport.terminal.number} - серийник - #{transport.terminal.firmware} - #{transport.terminal.mobile} - #{transport.terminal.lastPoint.date}" style="display:block"/>
+                                    <h:outputText value="проект: #{transport.transportInfo.project} - #{transport.transportInfo.branch}" style="display:block"/>
+                                    <h:outputText value="транспорт: #{transport.transportInfo.stateNumber} - #{transport.transportInfo.garageNumber} - #{transport.transportInfo.model}" style="display:block"/>
+                                    <h:outputText value="терминал: #{transport.terminal.terminalInfo.number} - серийник - #{transport.terminal.terminalInfo.firmware} - #{transport.terminal.terminalInfo.mobileNumber} - #{transport.point.pointInfo.date}" style="display:block"/>
                                     <h:outputText value="комплект: " style="display:block"/>
                                 </p:panelGrid>
                             </p:tab>
@@ -190,10 +189,10 @@
                             <p:tab title="Комментарии к транспорту">
                                 <!--<p:panelGrid columns="1">-->
                                     <ui:repeat value="#{transport.comments}" var="transportComment">
-                                        <p:fieldset legend="(#{transportComment.createDate}) #{transportComment.owner}:" toggleable="true" toggleSpeed="500" collapsed="true">
+                                        <p:fieldset legend="(#{transportComment.creation.date}) #{transportComment.creation.didBy}:" toggleable="true" toggleSpeed="500" collapsed="true">
                                             <p:panelGrid>
-                                                <h:outputText value="#{transportComment.content}" style="width:100%; display:block; word-wrap: break-word; font-style: italic; white-space: normal"/> <!--word-break: break-all;-->
-                                                <h:outputText value=" изменен: #{transportComment.updateDate}" style="width:100%; display:block; word-wrap: break-word; font-style: normal; font-weight: bold; white-space: normal"/>
+                                                <h:outputText value="#{transportComment.commentInfo.content}" style="width:100%; display:block; word-wrap: break-word; font-style: italic; white-space: normal"/> <!--word-break: break-all;-->
+                                                <h:outputText value=" изменен: #{transportComment.commentInfo.modification.date}" style="width:100%; display:block; word-wrap: break-word; font-style: normal; font-weight: bold; white-space: normal"/>
                                             </p:panelGrid>
                                         </p:fieldset>
                                     </ui:repeat>
@@ -201,17 +200,17 @@
                             </p:tab>
 
                             <p:tab title="Заявки">
-                                <ui:repeat value="#{transport.terminal.tickets}" var="ticket" varStatus="ticketVarStatus">
+                                <ui:repeat value="#{transport.tickets}" var="ticket" varStatus="ticketVarStatus">
                                     <p:panel id="ticketPanel#{ticketVarStatus.index}-#{ticket.id}" collapsed="true" toggleable="true" closable="true" toggleSpeed="500" closeSpeed="500" widgetVar="ticketPanel#{ticketVarStatus.index}-#{ticket.id}" style="margin-bottom: 10px"
-                                             header="#{ticketVarStatus.index + 1} (#{ticket.ticketStatus}) #{ticket.ticketHeader}"
-                                             footer="открыта: #{ticket.createDate} (#{ticket.openedBy}) / изменена: #{ticket.updateDate} () / закрыта: #{ticket.closeDate} (#{ticket.closedBy})">
+                                             header="#{ticketVarStatus.index + 1} (#{ticket.ticketInfo.ticketStatus}) #{ticket.ticketInfo.ticketHeader}"
+                                             footer="открыта: #{ticket.creation.date} (#{ticket.creation.didBy}) / изменена: #{ticket.ticketInfo.modification.date} (#{ticket.ticketInfo.modification.didBy}) / закрыта: #{ticket.ticketInfo.closing.date} (#{ticket.ticketInfo.closing.didBy})">
                                         <!--<p:ajax event="close" listener="{panelView.onClose}" update="msgs" />-->
                                         <!--<p:ajax event="toggle" listener="{panelView.onToggle}" update="msgs" />-->
                                         <ui:repeat value="#{ticket.comments}" var="ticketComment">
-                                            <p:fieldset legend="(#{ticketComment.createDate}) #{ticketComment.owner}:" toggleable="true" toggleSpeed="500" collapsed="true">
+                                            <p:fieldset legend="(#{ticketComment.creation.date}) #{ticketComment.creation.didBy}:" toggleable="true" toggleSpeed="500" collapsed="true">
                                                 <p:panelGrid>
-                                                    <h:outputText value="#{ticketComment.content}" style="width:100%; display:block; word-wrap: break-word; font-style: italic; white-space: normal"/> <!--word-break: break-all;-->
-                                                    <h:outputText value=" изменен: #{ticketComment.updateDate}" style="width:100%; display:block; word-wrap: break-word; font-style: normal; font-weight: bold; white-space: normal"/>
+                                                    <h:outputText value="#{ticketComment.commentInfo.content}" style="width:100%; display:block; word-wrap: break-word; font-style: italic; white-space: normal"/> <!--word-break: break-all;-->
+                                                    <h:outputText value=" изменен: #{ticketComment.commentInfo.modification.date}" style="width:100%; display:block; word-wrap: break-word; font-style: normal; font-weight: bold; white-space: normal"/>
                                                 </p:panelGrid>
                                             </p:fieldset>
                                         </ui:repeat>
@@ -278,71 +277,71 @@
             </p:tab>
 
             <p:tab title="TEST" titleStyle="float: right">
-                <p:dataTable var="transport" value="#{transportEJB.findAllTransport()}">
-                    <p:column headerText="BD_Id_Transport">
-                        <h:outputText value="#{transport.id}" />
-                    </p:column>
+                <!--<p:dataTable var="transport" value="#{transportEJB.findAllTransport()}">-->
+                    <!--<p:column headerText="BD_Id_Transport">-->
+                        <!--<h:outputText value="#{transport.id}" />-->
+                    <!--</p:column>-->
 
-                    <p:column headerText="Проект">
-                        <h:outputText value="#{transport.project}" />
-                    </p:column>
+                    <!--<p:column headerText="Проект">-->
+                        <!--<h:outputText value="#{transport.project}" />-->
+                    <!--</p:column>-->
 
-                    <p:column headerText="Филиал">
-                        <h:outputText value="#{transport.branch}" />
-                    </p:column>
+                    <!--<p:column headerText="Филиал">-->
+                        <!--<h:outputText value="#{transport.branch}" />-->
+                    <!--</p:column>-->
 
-                    <p:column headerText="Гос. номер">
-                        <h:outputText value="#{transport.stateNumber}" />
-                    </p:column>
+                    <!--<p:column headerText="Гос. номер">-->
+                        <!--<h:outputText value="#{transport.stateNumber}" />-->
+                    <!--</p:column>-->
 
-                    <p:column headerText="Гар. номер">
-                        <h:outputText value="#{transport.garageNumber}" />
-                    </p:column>
+                    <!--<p:column headerText="Гар. номер">-->
+                        <!--<h:outputText value="#{transport.garageNumber}" />-->
+                    <!--</p:column>-->
 
-                    <p:column headerText="Модель">
-                        <h:outputText value="#{transport.model}" />
-                    </p:column>
+                    <!--<p:column headerText="Модель">-->
+                        <!--<h:outputText value="#{transport.model}" />-->
+                    <!--</p:column>-->
 
-                    <p:column headerText="BD_Id_Terminal">
-                        <h:outputText value="#{transport.terminal.id}" />
-                    </p:column>
+                    <!--<p:column headerText="BD_Id_Terminal">-->
+                        <!--<h:outputText value="#{transport.terminal.id}" />-->
+                    <!--</p:column>-->
 
-                    <p:column headerText="Терминал">
-                        <h:outputText value="#{transport.terminal.number}" />
-                    </p:column>
+                    <!--<p:column headerText="Терминал">-->
+                        <!--<h:outputText value="#{transport.terminal.number}" />-->
+                    <!--</p:column>-->
 
-                    <p:column headerText="Прошивка">
-                        <h:outputText value="#{transport.terminal.firmware}" />
-                    </p:column>
+                    <!--<p:column headerText="Прошивка">-->
+                        <!--<h:outputText value="#{transport.terminal.firmware}" />-->
+                    <!--</p:column>-->
 
-                    <p:column headerText="Телефон">
-                        <h:outputText value="#{transport.terminal.mobile}" />
-                    </p:column>
+                    <!--<p:column headerText="Телефон">-->
+                        <!--<h:outputText value="#{transport.terminal.mobile}" />-->
+                    <!--</p:column>-->
 
-                    <p:column headerText="BD_Id_Point">
-                        <h:outputText value="#{transport.terminal.lastPoint.id}" />
-                    </p:column>
+                    <!--<p:column headerText="BD_Id_Point">-->
+                        <!--<h:outputText value="#{transport.terminal.lastPoint.id}" />-->
+                    <!--</p:column>-->
 
-                    <p:column headerText="longitude">
-                        <h:outputText value="#{transport.terminal.lastPoint.longitude}" />
-                    </p:column>
+                    <!--<p:column headerText="longitude">-->
+                        <!--<h:outputText value="#{transport.terminal.lastPoint.longitude}" />-->
+                    <!--</p:column>-->
 
-                    <p:column headerText="latitude">
-                        <h:outputText value="#{transport.terminal.lastPoint.latitude}" />
-                    </p:column>
+                    <!--<p:column headerText="latitude">-->
+                        <!--<h:outputText value="#{transport.terminal.lastPoint.latitude}" />-->
+                    <!--</p:column>-->
 
-                    <p:column headerText="Связь">
-                        <h:outputText value="#{transport.terminal.lastPoint.date}" />
-                    </p:column>
+                    <!--<p:column headerText="Связь">-->
+                        <!--<h:outputText value="#{transport.terminal.lastPoint.date}" />-->
+                    <!--</p:column>-->
 
-                    <p:column headerText="Заявки">
-                        <h:outputText value="#{transport.terminal.tickets.size()}" />
-                    </p:column>
+                    <!--<p:column headerText="Заявки">-->
+                        <!--<h:outputText value="#{transport.terminal.tickets.size()}" />-->
+                    <!--</p:column>-->
 
-                    <p:column headerText="Комментарии">
-                        <h:outputText value="#{transport.comments.size()}" />
-                    </p:column>
-                </p:dataTable>
+                    <!--<p:column headerText="Комментарии">-->
+                        <!--<h:outputText value="#{transport.comments.size()}" />-->
+                    <!--</p:column>-->
+                <!--</p:dataTable>-->
             </p:tab>
 
         </p:tabView>
@@ -360,9 +359,9 @@
             <!--width="625"-->
             <!--height="400"-->
 
-
             <p:outputPanel id="transportPointPanel">
-                <p:gmap id="gmap" center="#{transportController.dialogSelectedPoint.longitude}, #{transportController.dialogSelectedPoint.latitude}" zoom="15" type="HYBRID" style="width:100%; height:500px" />
+                <h:outputText value="latitude = #{transportController.dialogSelectedPoint.pointInfo.latitude} / longitude = #{transportController.dialogSelectedPoint.pointInfo.longitude}" style="display:block"/>
+                <p:gmap id="gmap" center="#{transportController.dialogSelectedPoint.pointInfo.latitude}, #{transportController.dialogSelectedPoint.pointInfo.longitude}" zoom="5" type="HYBRID" style="width:100%; height:500px" />
             </p:outputPanel>
 
         </p:dialog>
@@ -412,24 +411,24 @@
                         </p:outputPanel>
                     </f:facet>
 
-                    <p:column headerText="Автор" sortBy="#{comment.owner}" filterBy="#{comment.owner}" filterMatchMode="contains">
-                        <h:outputText value="#{comment.owner}" />
+                    <p:column headerText="Автор" sortBy="#{comment.creation.didBy}" filterBy="#{comment.creation.didBy}" filterMatchMode="contains">
+                        <h:outputText value="#{comment.creation.didBy}" />
                     </p:column>
 
-                    <p:column headerText="Создан" sortBy="#{comment.createDate}" filterBy="#{comment.createDate}" filterMatchMode="contains">
-                        <h:outputText value="#{comment.createDate}" />
+                    <p:column headerText="Создан" sortBy="#{comment.creation.date}" filterBy="#{comment.creation.date}" filterMatchMode="contains">
+                        <h:outputText value="#{comment.creation.date}" />
                     </p:column>
 
-                    <p:column headerText="Изменен" sortBy="#{comment.updateDate}" filterBy="#{comment.updateDate}" filterMatchMode="contains">
-                        <h:outputText value="#{comment.updateDate}" />
+                    <p:column headerText="Изменен" sortBy="#{comment.commentInfo.modification.date}" filterBy="#{comment.commentInfo.modification.date}" filterMatchMode="contains">
+                        <h:outputText value="#{comment.commentInfo.modification.date}" />
                     </p:column>
 
-                    <p:column headerText="Удален" sortBy="#{comment.deleteDate}" filterBy="#{comment.deleteDate}" filterMatchMode="contains">
-                        <h:outputText value="#{comment.deleteDate}" />
+                    <p:column headerText="Удален" sortBy="#{comment.commentInfo.deletion.date}" filterBy="#{comment.commentInfo.deletion.date}" filterMatchMode="contains">
+                        <h:outputText value="#{comment.commentInfo.deletion.date}" />
                     </p:column>
 
-                    <p:column headerText="Комментарий" sortBy="#{comment.content}" filterBy="#{comment.content}" filterMatchMode="contains">
-                        <h:outputText value="#{comment.content}" />
+                    <p:column headerText="Комментарий" sortBy="#{comment.commentInfo.content}" filterBy="#{comment.commentInfo.content}" filterMatchMode="contains">
+                        <h:outputText value="#{comment.commentInfo.content}" />
                     </p:column>
 
                     <f:facet name="footer">

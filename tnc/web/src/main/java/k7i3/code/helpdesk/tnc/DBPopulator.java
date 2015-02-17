@@ -57,15 +57,14 @@ public class DBPopulator {
         models[4] = "Нефаз";
 
         didBy = new String[5];
-        didBy[0] = "Агент Смит";
+        didBy[0] = "Пифия";
         didBy[1] = "Тринити";
         didBy[2] = "Сайфер";
         didBy[3] = "Морфеус";
         didBy[4] = "Мальчик";
 
         commentContent = new String[5];
-//        commentContent[0] = "Я этот город… ненавижу. Этот зоопарк, тюрьму, эту реальность — называйте как хотите — меня просто выворачивает. Даже ваш запах. Я дышу им, ощущаю кожей вашу вонь. И хотя, я понимаю, что это глупо, я опасаюсь подхватить вашу заразу, каждый день думаю об этом!";
-        commentContent[0] = "ку-ку";
+        commentContent[0] = "Быть Избранным все равно что быть влюблённым. Никто не говорит тебе, что ты влюблён. Ты просто знаешь это.";
         commentContent[1] = "Следуй за белым кроликом.";
         commentContent[2] = "Информации, получаемой из Матрицы, гораздо больше, чем ты можешь расшифровать. Ты привыкаешь к этому. Скоро твой мозг сам делает перевод. Я уже даже не вижу код. Я вижу блондинку, брюнетку и рыжую.";
         commentContent[3] = "Рано или поздно ты поймешь, как и я. Знать путь и пройти его — не одно и тоже.";
@@ -225,6 +224,7 @@ public class DBPopulator {
     private Ticket getRandomTicket(TicketStatus ticketStatus) {
         Ticket ticket = new Ticket(getRandomTicketInfo(ticketStatus), getRandomLifeCycleInfo());
         ticket.getTicketInfoHistory().addAll(getRandomTicketInfoHistory());
+        ticket.getComments().addAll(getRandomComments());
         return ticket;
         }
 
