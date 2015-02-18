@@ -26,16 +26,20 @@ public class TransportController {
 
     private List<String> projects;
     private List<String> branches;
-    private List<String> models;
+    private List<String> transportModels;
+    private List<String> terminalModels;
     private List<String> firmware;
+    private List<String> routes;
 
     @PostConstruct
     public void doFindAllTransport() {
         transport = transportEJB.findAllTransport();
         doFindAllProjects();
         doFindAllBranches();
-        doFindAllModels();
+        doFindAllTransportModels();
+        doFindAllTerminalModels();
         doFindAllFirmware();
+        doFindAllRoutes();
     }
 
     public void doFindAllProjects() {
@@ -46,13 +50,23 @@ public class TransportController {
         branches = transportEJB.findAllBranches();
     }
 
-    public void doFindAllModels() {
-        models = transportEJB.findAllModels();
+    public void doFindAllTransportModels() {
+        transportModels = transportEJB.findAllTransportModels();
+    }
+
+    public void doFindAllTerminalModels() {
+        transportModels = transportEJB.findAllTerminalModels();
     }
 
     public void doFindAllFirmware() {
         firmware = transportEJB.findAllFirmware();
     }
+
+    public void doFindAllRoutes() {
+        routes = transportEJB.findAllRoutes();
+    }
+
+
 
     public List<Transport> getTransport() {
         return transport;
@@ -86,12 +100,20 @@ public class TransportController {
         this.branches = branches;
     }
 
-    public List<String> getModels() {
-        return models;
+    public List<String> getTransportModels() {
+        return transportModels;
     }
 
-    public void setModels(List<String> models) {
-        this.models = models;
+    public void setTransportModels(List<String> transportModels) {
+        this.transportModels = transportModels;
+    }
+
+    public List<String> getTerminalModels() {
+        return terminalModels;
+    }
+
+    public void setTerminalModels(List<String> terminalModels) {
+        this.terminalModels = terminalModels;
     }
 
     public List<String> getFirmware() {
@@ -100,6 +122,14 @@ public class TransportController {
 
     public void setFirmware(List<String> firmware) {
         this.firmware = firmware;
+    }
+
+    public List<String> getRoutes() {
+        return routes;
+    }
+
+    public void setRoutes(List<String> routes) {
+        this.routes = routes;
     }
 
     public Transport getDialogSelectedTransport() {

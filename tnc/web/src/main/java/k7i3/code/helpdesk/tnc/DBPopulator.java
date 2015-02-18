@@ -29,6 +29,7 @@ public class DBPopulator {
     private final static String[] projects;
     private final static String[] branches;
     private final static String[] models;
+    private final static String[] terminalModels;
     private final static String[] didBy;
     private final static String[] commentContent;
     private final static String[] route;
@@ -55,6 +56,13 @@ public class DBPopulator {
         models[2] = "BMW";
         models[3] = "Opel";
         models[4] = "Нефаз";
+
+        terminalModels = new String[5];
+        terminalModels[0] = "Voyager 2N";
+        terminalModels[1] = "Voyager 3N";
+        terminalModels[2] = "Voyager 4N";
+        terminalModels[3] = "Voyager 5N";
+        terminalModels[4] = "Скаут";
 
         didBy = new String[5];
         didBy[0] = "Пифия";
@@ -88,7 +96,7 @@ public class DBPopulator {
     @PostConstruct
     private void createMockData() {
         logger.info("=>=>=>=>=> DBPopulator.createMockData()");
-        for (int i = 0; i < 100; i++) {
+        for (int i = 0; i < 50; i++) {
             Transport transport = new Transport(getRandomTransportInfo(), getRandomLifeCycleInfo(), getRandomTerminal());
             transport.getTickets().addAll(getRandomTickets());
             transport.getComments().addAll(getRandomComments());
@@ -162,8 +170,12 @@ public class DBPopulator {
         terminalInfo.setFirmware(getRandomFirmware());
         terminalInfo.setMobileNumber(getRandomMobile());
         terminalInfo.setSerialNumber(getRandomSerialNumber());
-        terminalInfo.setModel(getRandomModel());
+        terminalInfo.setModel(getRandomTerminalModel());
         return terminalInfo;
+    }
+
+    private String getRandomTerminalModel() {
+        return terminalModels[(int) (Math.random() * 5)];
     }
 
     private List<TerminalInfo> getRandomTerminalInfoHistory() {

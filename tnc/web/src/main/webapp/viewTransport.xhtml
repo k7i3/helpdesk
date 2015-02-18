@@ -108,6 +108,15 @@
                         <h:outputText value="#{transport.transportInfo.branch}" />
                     </p:column>
 
+                    <p:column headerText="Маршрут" sortBy="#{transport.transportInfo.route}" filterBy="#{transport.transportInfo.route}" filterMatchMode="in">
+                        <f:facet name="filter">
+                            <p:selectCheckboxMenu label="..." onchange="PF('transportTable').filter()" panelStyle="width:200px" scrollHeight="200">
+                                <f:selectItems value="#{transportController.routes}" />
+                            </p:selectCheckboxMenu>
+                        </f:facet>
+                        <h:outputText value="#{transport.transportInfo.route}" />
+                    </p:column>
+
                     <p:column headerText="Гос. номер" sortBy="#{transport.transportInfo.stateNumber}" filterBy="#{transport.transportInfo.stateNumber}" filterMatchMode="contains">
                         <h:outputText value="#{transport.transportInfo.stateNumber}" />
                     </p:column>
@@ -119,7 +128,7 @@
                     <p:column headerText="Модель" sortBy="#{transport.transportInfo.model}" filterBy="#{transport.transportInfo.model}" filterMatchMode="in">
                         <f:facet name="filter">
                             <p:selectCheckboxMenu label="..." onchange="PF('transportTable').filter()" panelStyle="width:200px" scrollHeight="200">
-                                <f:selectItems value="#{transportController.models}" />
+                                <f:selectItems value="#{transportController.transportModels}" />
                             </p:selectCheckboxMenu>
                         </f:facet>
                         <h:outputText value="#{transport.transportInfo.model}" />
@@ -127,6 +136,15 @@
 
                     <p:column headerText="Терминал" sortBy="#{transport.terminal.terminalInfo.number}" filterBy="#{transport.terminal.terminalInfo.number}" filterMatchMode="contains">
                         <h:outputText value="#{transport.terminal.terminalInfo.number}" />
+                    </p:column>
+
+                    <p:column headerText="Модель" sortBy="#{transport.terminal.terminalInfo.model}" filterBy="#{transport.terminal.terminalInfo.model}" filterMatchMode="in">
+                        <f:facet name="filter">
+                            <p:selectCheckboxMenu label="..." onchange="PF('transportTable').filter()" panelStyle="width:200px" scrollHeight="200">
+                                <f:selectItems value="#{transportController.terminalModels}" />
+                            </p:selectCheckboxMenu>
+                        </f:facet>
+                        <h:outputText value="#{transport.terminal.terminalInfo.model}" />
                     </p:column>
 
                     <p:column headerText="Прошивка" sortBy="#{transport.terminal.terminalInfo.firmware}" filterBy="#{transport.terminal.terminalInfo.firmware}" filterMatchMode="in">

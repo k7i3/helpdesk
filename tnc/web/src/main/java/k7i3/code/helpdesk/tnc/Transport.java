@@ -13,8 +13,10 @@ import java.util.List;
         @NamedQuery(name = "findAllTransport", query = "SELECT b FROM Transport b ORDER BY b.creation.date DESC"),
         @NamedQuery(name = "findAllProjects", query = "SELECT DISTINCT b.transportInfo.project FROM Transport b ORDER BY b.transportInfo.project DESC"),
         @NamedQuery(name = "findAllBranches", query = "SELECT DISTINCT b.transportInfo.branch FROM Transport b ORDER BY b.transportInfo.branch DESC"),
-        @NamedQuery(name = "findAllModels", query = "SELECT DISTINCT b.transportInfo.model FROM Transport b ORDER BY b.transportInfo.model DESC"),
-        @NamedQuery(name = "findAllFirmware", query = "SELECT DISTINCT b.terminal.terminalInfo.firmware FROM Transport b ORDER BY b.terminal.terminalInfo.firmware DESC")
+        @NamedQuery(name = "findAllTransportModels", query = "SELECT DISTINCT b.transportInfo.model FROM Transport b ORDER BY b.transportInfo.model DESC"),
+        @NamedQuery(name = "findAllTerminalModels", query = "SELECT DISTINCT b.terminal.terminalInfo.model FROM Transport b ORDER BY b.terminal.terminalInfo.model DESC"),
+        @NamedQuery(name = "findAllFirmware", query = "SELECT DISTINCT b.terminal.terminalInfo.firmware FROM Transport b ORDER BY b.terminal.terminalInfo.firmware DESC"),
+        @NamedQuery(name = "findAllRoutes", query = "SELECT DISTINCT b.transportInfo.route FROM Transport b ORDER BY b.transportInfo.route DESC")
 })
 public class Transport {
     @Id
