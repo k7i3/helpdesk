@@ -156,6 +156,10 @@
                         <h:outputText value="#{transport.terminal.terminalInfo.firmware}" />
                     </p:column>
 
+                    <p:column headerText="SN" sortBy="#{transport.terminal.terminalInfo.serialNumber}" filterBy="#{transport.terminal.terminalInfo.serialNumber}" filterMatchMode="contains">
+                        <h:outputText value="#{transport.terminal.terminalInfo.serialNumber}" />
+                    </p:column>
+
                     <p:column headerText="Телефон" sortBy="#{transport.terminal.terminalInfo.mobileNumber}" filterBy="#{transport.terminal.terminalInfo.mobileNumber}" filterMatchMode="contains">
                         <h:outputText value="#{transport.terminal.terminalInfo.mobileNumber}" />
                     </p:column>
@@ -198,9 +202,10 @@
                             <p:tab title="Информация">
                                 <p:panelGrid>
                                     <h:outputText value="проект: #{transport.transportInfo.project} - #{transport.transportInfo.branch}" style="display:block"/>
-                                    <h:outputText value="транспорт: #{transport.transportInfo.stateNumber} - #{transport.transportInfo.garageNumber} - #{transport.transportInfo.model}" style="display:block"/>
-                                    <h:outputText value="терминал: #{transport.terminal.terminalInfo.number} - серийник - #{transport.terminal.terminalInfo.firmware} - #{transport.terminal.terminalInfo.mobileNumber} - #{transport.point.pointInfo.date}" style="display:block"/>
-                                    <h:outputText value="комплект: " style="display:block"/>
+                                    <h:outputText value="транспорт: #{transport.transportInfo.route} - #{transport.transportInfo.stateNumber} - #{transport.transportInfo.garageNumber} - #{transport.transportInfo.model}" style="display:block"/>
+                                    <h:outputText value="терминал: #{transport.terminal.terminalInfo.number} - #{transport.terminal.terminalInfo.model} - #{transport.terminal.terminalInfo.serialNumber} - #{transport.terminal.terminalInfo.firmware} - #{transport.terminal.terminalInfo.mobileNumber}" style="display:block"/>
+                                    <h:outputText value="координаты: #{transport.point.pointInfo.latitude} - #{transport.point.pointInfo.longitude} - #{transport.point.pointInfo.date}"/>
+                                    <h:outputText value="комплект: тангента(#{transport.transportInfo.transportEquipment.hasPtt}) - динамик(#{transport.transportInfo.transportEquipment.hasSpeaker}) - информатор(#{transport.transportInfo.transportEquipment.hasInformer}) - регистратор(#{transport.transportInfo.transportEquipment.hasDvr})" style="display:block"/>
                                 </p:panelGrid>
                             </p:tab>
 
@@ -224,6 +229,13 @@
                                              footer="открыта: #{ticket.creation.date} (#{ticket.creation.didBy}) / изменена: #{ticket.ticketInfo.modification.date} (#{ticket.ticketInfo.modification.didBy}) / закрыта: #{ticket.ticketInfo.closing.date} (#{ticket.ticketInfo.closing.didBy})">
                                         <!--<p:ajax event="close" listener="{panelView.onClose}" update="msgs" />-->
                                         <!--<p:ajax event="toggle" listener="{panelView.onToggle}" update="msgs" />-->
+                                        <p:panelGrid style="margin-bottom: 10px">
+                                            <h:outputText value="подача в Уфу: #{ticket.ticketInfo.ticketDetails.possibilityOfServiceAtTheDefaultPlace}" style="display:block"/>
+                                            <h:outputText value="внешний осмотр: #{ticket.ticketInfo.ticketDetails.isInspected}" style="display:block"/>
+                                            <h:outputText value="место подачи: #{ticket.ticketInfo.ticketDetails.place}" style="display:block"/>
+                                            <h:outputText value="телефон водителя: #{ticket.ticketInfo.ticketDetails.mobileNumberOfDriver}" style="display:block"/>
+                                            <h:outputText value="телефон ответственного: #{ticket.ticketInfo.ticketDetails.mobileNumberOfAgent}" style="display:block"/>
+                                        </p:panelGrid>
                                         <ui:repeat value="#{ticket.comments}" var="ticketComment">
                                             <p:fieldset legend="(#{ticketComment.creation.date}) #{ticketComment.creation.didBy}:" toggleable="true" toggleSpeed="500" collapsed="true">
                                                 <p:panelGrid>
