@@ -55,7 +55,7 @@ public class TransportController {
     }
 
     public void doFindAllTerminalModels() {
-        transportModels = transportEJB.findAllTerminalModels();
+        terminalModels = transportEJB.findAllTerminalModels();
     }
 
     public void doFindAllFirmware() {
