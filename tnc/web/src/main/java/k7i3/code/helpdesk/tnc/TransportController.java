@@ -1,7 +1,11 @@
 package k7i3.code.helpdesk.tnc;
 
+import org.primefaces.event.RowEditEvent;
+
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.RequestScoped;
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 import java.util.List;
@@ -42,6 +46,8 @@ public class TransportController {
         doFindAllRoutes();
     }
 
+    //Do
+
     public void doFindAllProjects() {
         projects = transportEJB.findAllProjects();
     }
@@ -66,7 +72,37 @@ public class TransportController {
         routes = transportEJB.findAllRoutes();
     }
 
+    //On
 
+    public void onRowEdit(RowEditEvent event) {
+        transportEJB.updateTransport((Transport) event.getObject());
+        FacesMessage msg = new FacesMessage("сохранено", ((Transport) event.getObject()).getId().toString());
+        FacesContext.getCurrentInstance().addMessage(null, msg);
+    }
+
+    public void onRowCancel(RowEditEvent event) {
+        FacesMessage msg = new FacesMessage("отмена", ((Transport) event.getObject()).getId().toString());
+        FacesContext.getCurrentInstance().addMessage(null, msg);
+    }
+
+//    public void onCellEdit(CellEditEvent event) {
+//        Object oldValue = event.getOldValue();
+//        Object newValue = event.getNewValue();
+//
+//        if(newValue != null && !newValue.equals(oldValue)) {
+//            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Cell Changed", "Old: " + oldValue + ", New:" + newValue);
+//            FacesContext.getCurrentInstance().addMessage(null, msg);
+//        }
+//    }
+
+
+
+
+
+
+
+
+    //Get & Set
 
     public List<Transport> getTransport() {
         return transport;

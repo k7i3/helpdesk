@@ -35,10 +35,14 @@
                              scrollable="false"
                              scrollHeight="500"
                              sortMode="multiple"
+                             editable="true"
                              style="margin-bottom:20px; word-wrap: break-word; table-layout: fixed; white-space: normal" >
                     <!--rowKey="{transport.id}" перестал видеть после добавления varStatus="transportVarStatus"-->
 
                     <!--TODO смена цвета rowStyleClass="{transport.terminal.number le 7000 ? 'tooday' : 'notTooday'}"-->
+
+                    <p:ajax event="rowEdit" listener="#{transportController.onRowEdit}" update=":form:msgs" />
+                    <p:ajax event="rowEditCancel" listener="#{transportController.onRowCancel}" update=":form:msgs" />
 
                     <f:facet name="header" >
                         <!--<p:outputPanel style="height: 35px">-->
@@ -78,16 +82,19 @@
                                     <p:commandButton id="transportToggler" type="button"  icon="ui-icon-calculator" />
                                     <p:columnToggler datasource="transportTable" trigger="transportToggler" />
                                 </f:facet>
-
                             </p:toolbar>
                         <!--</p:panelGrid>-->
                         <!--</p:outputPanel>-->
                     </f:facet>
 
-                    <p:column headerText="+" selectionMode="multiple" style="width:16px;text-align:center"/>
+                    <p:column headerText="-" selectionMode="multiple" style="width:16px;text-align:center"/>
 
-                    <p:column headerText="i" style="width:16px">
+                    <p:column headerText="-" style="width:16px">
                         <p:rowToggler />
+                    </p:column>
+
+                    <p:column headerText="-" style="width:16px">
+                        <p:rowEditor />
                     </p:column>
 
                     <p:column headerText="Проект" sortBy="#{transport.transportInfo.project}" filterBy="#{transport.transportInfo.project}" filterMatchMode="in">
@@ -96,7 +103,15 @@
                                 <f:selectItems value="#{transportController.projects}" />
                             </p:selectCheckboxMenu>
                         </f:facet>
-                        <h:outputText value="#{transport.transportInfo.project}" />
+                        <p:cellEditor>
+                            <f:facet name="output">
+                                <h:outputText value="#{transport.transportInfo.project}" />
+                            </f:facet>
+                            <f:facet name="input">
+                                <p:inputText value="#{transport.transportInfo.project}" style="width:100%"/>
+                                <!--id="modelInput" label="Year"-->
+                            </f:facet>
+                        </p:cellEditor>
                     </p:column>
 
                     <p:column headerText="Филиал" sortBy="#{transport.transportInfo.branch}" filterBy="#{transport.transportInfo.branch}" filterMatchMode="in">
@@ -105,7 +120,14 @@
                                 <f:selectItems value="#{transportController.branches}" />
                             </p:selectCheckboxMenu>
                         </f:facet>
-                        <h:outputText value="#{transport.transportInfo.branch}" />
+                        <p:cellEditor>
+                            <f:facet name="output">
+                                <h:outputText value="#{transport.transportInfo.branch}" />
+                            </f:facet>
+                            <f:facet name="input">
+                                <p:inputText value="#{transport.transportInfo.branch}" style="width:100%"/>
+                            </f:facet>
+                        </p:cellEditor>
                     </p:column>
 
                     <p:column headerText="Маршрут" sortBy="#{transport.transportInfo.route}" filterBy="#{transport.transportInfo.route}" filterMatchMode="in">
@@ -114,15 +136,36 @@
                                 <f:selectItems value="#{transportController.routes}" />
                             </p:selectCheckboxMenu>
                         </f:facet>
-                        <h:outputText value="#{transport.transportInfo.route}" />
+                        <p:cellEditor>
+                            <f:facet name="output">
+                                <h:outputText value="#{transport.transportInfo.route}" />
+                            </f:facet>
+                            <f:facet name="input">
+                                <p:inputText value="#{transport.transportInfo.route}" style="width:100%"/>
+                            </f:facet>
+                        </p:cellEditor>
                     </p:column>
 
                     <p:column headerText="Гос. номер" sortBy="#{transport.transportInfo.stateNumber}" filterBy="#{transport.transportInfo.stateNumber}" filterMatchMode="contains">
-                        <h:outputText value="#{transport.transportInfo.stateNumber}" />
+                        <p:cellEditor>
+                            <f:facet name="output">
+                                <h:outputText value="#{transport.transportInfo.stateNumber}" />
+                            </f:facet>
+                            <f:facet name="input">
+                                <p:inputText value="#{transport.transportInfo.stateNumber}" style="width:100%"/>
+                            </f:facet>
+                        </p:cellEditor>
                     </p:column>
 
                     <p:column headerText="Гар. номер" sortBy="#{transport.transportInfo.garageNumber}" filterBy="#{transport.transportInfo.garageNumber}" filterMatchMode="contains">
-                        <h:outputText value="#{transport.transportInfo.garageNumber}" />
+                        <p:cellEditor>
+                            <f:facet name="output">
+                                <h:outputText value="#{transport.transportInfo.garageNumber}" />
+                            </f:facet>
+                            <f:facet name="input">
+                                <p:inputText value="#{transport.transportInfo.garageNumber}" style="width:100%"/>
+                            </f:facet>
+                        </p:cellEditor>
                     </p:column>
 
                     <p:column headerText="Модель" sortBy="#{transport.transportInfo.model}" filterBy="#{transport.transportInfo.model}" filterMatchMode="in">
@@ -131,11 +174,25 @@
                                 <f:selectItems value="#{transportController.transportModels}" />
                             </p:selectCheckboxMenu>
                         </f:facet>
-                        <h:outputText value="#{transport.transportInfo.model}" />
+                        <p:cellEditor>
+                            <f:facet name="output">
+                                <h:outputText value="#{transport.transportInfo.model}" />
+                            </f:facet>
+                            <f:facet name="input">
+                                <p:inputText value="#{transport.transportInfo.model}" style="width:100%"/>
+                            </f:facet>
+                        </p:cellEditor>
                     </p:column>
 
                     <p:column headerText="Терминал" sortBy="#{transport.terminal.terminalInfo.number}" filterBy="#{transport.terminal.terminalInfo.number}" filterMatchMode="contains">
-                        <h:outputText value="#{transport.terminal.terminalInfo.number}" />
+                        <p:cellEditor>
+                            <f:facet name="output">
+                                <h:outputText value="#{transport.terminal.terminalInfo.number}" />
+                            </f:facet>
+                            <f:facet name="input">
+                                <p:inputText value="#{transport.terminal.terminalInfo.number}" style="width:100%"/>
+                            </f:facet>
+                        </p:cellEditor>
                     </p:column>
 
                     <p:column headerText="Модель" sortBy="#{transport.terminal.terminalInfo.model}" filterBy="#{transport.terminal.terminalInfo.model}" filterMatchMode="in">
@@ -144,7 +201,14 @@
                                 <f:selectItems value="#{transportController.terminalModels}" />
                             </p:selectCheckboxMenu>
                         </f:facet>
-                        <h:outputText value="#{transport.terminal.terminalInfo.model}" />
+                        <p:cellEditor>
+                            <f:facet name="output">
+                                <h:outputText value="#{transport.terminal.terminalInfo.model}" />
+                            </f:facet>
+                            <f:facet name="input">
+                                <p:inputText value="#{transport.terminal.terminalInfo.model}" style="width:100%"/>
+                            </f:facet>
+                        </p:cellEditor>
                     </p:column>
 
                     <p:column headerText="Прошивка" sortBy="#{transport.terminal.terminalInfo.firmware}" filterBy="#{transport.terminal.terminalInfo.firmware}" filterMatchMode="in">
@@ -153,15 +217,36 @@
                                 <f:selectItems value="#{transportController.firmware}" />
                             </p:selectCheckboxMenu>
                         </f:facet>
-                        <h:outputText value="#{transport.terminal.terminalInfo.firmware}" />
+                        <p:cellEditor>
+                            <f:facet name="output">
+                                <h:outputText value="#{transport.terminal.terminalInfo.firmware}" />
+                            </f:facet>
+                            <f:facet name="input">
+                                <p:inputText value="#{transport.terminal.terminalInfo.firmware}" style="width:100%"/>
+                            </f:facet>
+                        </p:cellEditor>
                     </p:column>
 
                     <p:column headerText="SN" sortBy="#{transport.terminal.terminalInfo.serialNumber}" filterBy="#{transport.terminal.terminalInfo.serialNumber}" filterMatchMode="contains">
-                        <h:outputText value="#{transport.terminal.terminalInfo.serialNumber}" />
+                        <p:cellEditor>
+                            <f:facet name="output">
+                                <h:outputText value="#{transport.terminal.terminalInfo.serialNumber}" />
+                            </f:facet>
+                            <f:facet name="input">
+                                <p:inputText value="#{transport.terminal.terminalInfo.serialNumber}" style="width:100%"/>
+                            </f:facet>
+                        </p:cellEditor>
                     </p:column>
 
                     <p:column headerText="Телефон" sortBy="#{transport.terminal.terminalInfo.mobileNumber}" filterBy="#{transport.terminal.terminalInfo.mobileNumber}" filterMatchMode="contains">
-                        <h:outputText value="#{transport.terminal.terminalInfo.mobileNumber}" />
+                        <p:cellEditor>
+                            <f:facet name="output">
+                                <h:outputText value="#{transport.terminal.terminalInfo.mobileNumber}" />
+                            </f:facet>
+                            <f:facet name="input">
+                                <p:inputText value="#{transport.terminal.terminalInfo.mobileNumber}" style="width:100%"/>
+                            </f:facet>
+                        </p:cellEditor>
                     </p:column>
 
                     <p:column headerText="Связь" sortBy="#{transport.point.pointInfo.date}" filterBy="#{transport.point.pointInfo.date}" filterMatchMode="contains">
@@ -172,7 +257,15 @@
                             <!--<f:setPropertyActionListener value="{transport.terminal.lastPoint}" target="{transportController.dialogSelectedPoint}" />-->
                         <!--</p:commandButton>-->
 
-                        <h:outputText value="#{transport.point.pointInfo.date}" />
+                        <p:cellEditor>
+                            <f:facet name="output">
+                                <h:outputText value="#{transport.point.pointInfo.date}" />
+                            </f:facet>
+                            <f:facet name="input">
+                                <p:calendar id="datetime" value="#{transport.point.pointInfo.date}" pattern="MM/dd/yyyy HH:mm:ss" />
+                                <!--<p:inputText value="{transport.point.pointInfo.date}" style="width:100%"/>-->
+                            </f:facet>
+                        </p:cellEditor>
                     </p:column>
 
                     <p:column headerText="Заявки" sortBy="#{transport.tickets.size()}" filterBy="#{transport.tickets.size()}" filterMatchMode="contains">
@@ -393,7 +486,6 @@
                 <h:outputText value="latitude = #{transportController.dialogSelectedPoint.pointInfo.latitude} / longitude = #{transportController.dialogSelectedPoint.pointInfo.longitude}" style="display:block"/>
                 <p:gmap id="gmap" center="#{transportController.dialogSelectedPoint.pointInfo.latitude}, #{transportController.dialogSelectedPoint.pointInfo.longitude}" zoom="5" type="HYBRID" style="width:100%; height:500px" />
             </p:outputPanel>
-
         </p:dialog>
 
         <p:dialog

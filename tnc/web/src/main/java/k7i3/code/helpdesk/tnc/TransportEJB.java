@@ -24,6 +24,12 @@ public class TransportEJB {
         return transport;
     }
 
+    public Transport updateTransport(Transport transport) {
+        logger.info("=>=>=>=>=> TransportEJB.updateTransport()");
+        em.merge(transport);
+        return transport;
+    }
+
     public List<Transport> findAllTransport() {
         logger.info("=>=>=>=>=> TransportEJB.findAllTransport");
 
