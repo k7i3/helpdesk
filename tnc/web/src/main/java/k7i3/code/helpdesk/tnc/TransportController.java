@@ -8,6 +8,7 @@ import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -19,21 +20,22 @@ public class TransportController {
     @Inject
     private TransportEJB transportEJB;
 
-    private List<Transport> transport;
-
-    private List<Transport> filteredTransport;
-    private List<Comment> filteredTransportComments;
-
-    private Transport dialogSelectedTransport;
-    private Point dialogSelectedPoint;
-    private List<Transport> checkboxSelectedTransport;
-
+    private List<Transport> transport; // transport table
     private List<String> projects;
     private List<String> branches;
     private List<String> transportModels;
     private List<String> terminalModels;
     private List<String> firmware;
     private List<String> routes;
+
+    private List<Transport> filteredTransport; // transport table
+    private List<Transport> checkboxSelectedTransport; // transport table
+
+    private List<Comment> filteredTransportComments; // in table at comments dialog (will be deleted)
+
+    private Transport dialogSelectedTransport; // comments dialog + add comment (unitOfTransport )
+    private Point dialogSelectedPoint; // point dialog (point)
+    private String commentContent;
 
     @PostConstruct
     public void doFindAllTransport() {
@@ -46,7 +48,7 @@ public class TransportController {
         doFindAllRoutes();
     }
 
-    //Do
+    //Do FIND
 
     public void doFindAllProjects() {
         projects = transportEJB.findAllProjects();
@@ -72,6 +74,17 @@ public class TransportController {
         routes = transportEJB.findAllRoutes();
     }
 
+    //Do ADD
+
+    public void doAddTransportComment(Transport transport, String commentDidBy) {
+        Comment comment = new Comment(new LifeCycleInfo(new Date(), commentDidBy), new CommentInfo(new LifeCycleInfo(new Date(), commentDidBy), commentContent));
+        transport.getComments().add(comment);
+        transportEJB.updateTransport(transport);
+
+        FacesMessage msg = new FacesMessage("сохранено", (dialogSelectedTransport.getId().toString()));
+        FacesContext.getCurrentInstance().addMessage(null, msg);
+    }
+
     //On
 
     public void onRowEdit(RowEditEvent event) {
@@ -81,7 +94,7 @@ public class TransportController {
     }
 
     public void onRowCancel(RowEditEvent event) {
-        FacesMessage msg = new FacesMessage("отмена", ((Transport) event.getObject()).getId().toString());
+        FacesMessage msg = new FacesMessage("отменено", ((Transport) event.getObject()).getId().toString());
         FacesContext.getCurrentInstance().addMessage(null, msg);
     }
 
@@ -198,5 +211,13 @@ public class TransportController {
 
     public void setDialogSelectedPoint(Point dialogSelectedPoint) {
         this.dialogSelectedPoint = dialogSelectedPoint;
+    }
+
+    public String getCommentContent() {
+        return commentContent;
+    }
+
+    public void setCommentContent(String commentContent) {
+        this.commentContent = commentContent;
     }
 }
