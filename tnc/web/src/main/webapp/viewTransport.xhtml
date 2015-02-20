@@ -293,7 +293,7 @@
                             </p:commandButton>
                         </p:panelGrid>
 
-                        <p:accordionPanel multiple="true" activeIndex="" style="margin-bottom: 20px">
+                        <p:accordionPanel multiple="true" activeIndex="1" style="margin-bottom: 20px">
                             <p:tab title="Информация">
                                 <p:panelGrid>
                                     <h:outputText value="проект: #{transport.transportInfo.project} - #{transport.transportInfo.branch}" style="display:block"/>
@@ -306,22 +306,23 @@
 
                             <p:tab title="Комментарии к транспорту">
                                 <!--<p:panelGrid columns="1">-->
-                                    <ui:repeat value="#{transport.comments}" var="transportComment" id="test">
-                                        <p:fieldset legend="(#{transportComment.creation.date}) #{transportComment.creation.didBy}:" toggleable="true" toggleSpeed="500" collapsed="true" style="margin-bottom: 10px">
-                                            <p:panelGrid>
-                                                <h:outputText value="#{transportComment.commentInfo.content}" style="width:100%; display:block; word-wrap: break-word; font-style: italic; white-space: normal"/> <!--word-break: break-all;-->
-                                                <h:outputText value=" изменен: #{transportComment.commentInfo.modification.date}" style="width:100%; display:block; word-wrap: break-word; font-style: normal; font-weight: bold; white-space: normal"/>
-                                            </p:panelGrid>
-                                        </p:fieldset>
-                                    </ui:repeat>
+                                <ui:repeat value="#{transport.comments}" var="transportComment">
+                                    <p:fieldset legend="(#{transportComment.creation.date}) #{transportComment.creation.didBy}:" toggleable="true" toggleSpeed="500" collapsed="true" style="margin-bottom: 10px">
+                                        <p:panelGrid>
+                                            <h:outputText value="#{transportComment.commentInfo.content}" style="width:100%; display:block; word-wrap: break-word; font-style: italic; white-space: normal"/> <!--word-break: break-all;-->
+                                            <h:outputText value=" изменен: #{transportComment.commentInfo.modification.date}" style="width:100%; display:block; word-wrap: break-word; font-style: normal; font-weight: bold; white-space: normal"/>
+                                        </p:panelGrid>
+                                    </p:fieldset>
+                                </ui:repeat>
                                 <!--</p:panelGrid>-->
 
                                 <p:inputTextarea rows="3" cols="100" value="#{transportController.commentContent}" style="display:block; margin-bottom: 10px"/>
                                 <c:set var="commentDidBy" value="Администратор"/>
-                                <p:commandButton id="transportCommentButton" update=":form:msgs" actionListener="#{transportController.doAddTransportComment(transport, commentDidBy)}" value="Отправить" icon="ui-icon-disk">
+                                <p:commandButton id="transportCommentButton" process="@parent" update="@parent:@parent :form:msgs" actionListener="#{transportController.doAddTransportComment(transport, commentDidBy)}" value="Отправить" icon="ui-icon-disk">
                                     <!--<f:setPropertyActionListener value="Администратор" target="{transportController.commentDidBy}" />-->
                                     <!--<f:setPropertyActionListener value="{transport}" target="{transportController.dialogSelectedTransport}" />-->
-                                    <!--oncomplete="PF('transportPointDialog').show()" update=":form:transportPointPanel" title="View"-->
+                                    <!--oncomplete="PF('transportPointDialog').show()" update=":form:transportPointPanel" title="View" update=":form:msgs"-->
+                                    <!--actionListener="{transportController.doAddTransportComment(transport, commentDidBy)}"-->
                                 </p:commandButton>
 
                             </p:tab>
