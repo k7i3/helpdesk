@@ -31,6 +31,26 @@
       <artifactId>primefaces</artifactId>
       <version>5.1</version>
     </dependency>
+
+    <dependency>
+      <groupId>org.primefaces.themes</groupId>
+      <artifactId>rocket</artifactId>
+      <version>1.0.10</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.primefaces.themes</groupId>
+      <artifactId>hot-sneaks</artifactId>
+      <version>1.0.10</version>
+    </dependency>
   </dependencies>
+
+  <repositories>
+    <repository>
+      <id>prime-repo</id>
+      <name>Prime Repo</name>
+      <url>http://repository.primefaces.org</url>
+    </repository>
+  </repositories>
 
 </project>
