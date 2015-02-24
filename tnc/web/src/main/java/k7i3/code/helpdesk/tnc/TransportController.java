@@ -86,6 +86,16 @@ public class TransportController {
         FacesContext.getCurrentInstance().addMessage(null, msg);
     }
 
+    public void doAddTicketComment(Ticket ticket, String commentDidBy) {
+        Comment comment = new Comment(new LifeCycleInfo(new Date(), commentDidBy), new CommentInfo(new LifeCycleInfo(new Date(), commentDidBy), commentContent));
+        ticket.getComments().add(comment);
+        transportEJB.updateTicket(ticket);
+        commentContent = null;
+
+        FacesMessage msg = new FacesMessage("сохранено", ticket.getId().toString());
+        FacesContext.getCurrentInstance().addMessage(null, msg);
+    }
+
 //    public void doAddTransportComment(ActionEvent event) {
 //        FacesMessage msg = new FacesMessage("сохранено", event.getSource().getClass().getSimpleName()); // component from xhtml (commandButton)
 //        FacesContext.getCurrentInstance().addMessage(null, msg);

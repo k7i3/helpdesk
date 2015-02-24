@@ -293,7 +293,7 @@
                             </p:commandButton>
                         </p:panelGrid>
 
-                        <p:accordionPanel multiple="true" activeIndex="1" style="margin-bottom: 20px">
+                        <p:accordionPanel multiple="true" activeIndex="" style="margin-bottom: 20px">
                             <p:tab title="Информация">
                                 <p:panelGrid>
                                     <h:outputText value="проект: #{transport.transportInfo.project} - #{transport.transportInfo.branch}" style="display:block"/>
@@ -320,19 +320,16 @@
 
                                 <p:inputTextarea rows="3" cols="100" value="#{transportController.commentContent}" style="display:block; margin-bottom: 10px"/>
                                 <c:set var="commentDidBy" value="Администратор"/>
-                                <p:commandButton id="transportCommentButton" process="@parent" update="@parent:@parent :form:msgs" actionListener="#{transportController.doAddTransportComment(transport, commentDidBy)}" value="Отправить" icon="ui-icon-disk">
+                                <p:commandButton id="transportCommentButton" process="@parent" update="@parent:@child(1) @parent:@child(3) :form:msgs" action="#{transportController.doAddTransportComment(transport, commentDidBy)}" value="Отправить" icon="ui-icon-disk"/>
                                     <!--<f:setPropertyActionListener value="Администратор" target="{transportController.commentDidBy}" />-->
                                     <!--<f:setPropertyActionListener value="{transport}" target="{transportController.dialogSelectedTransport}" />-->
-                                    <!--oncomplete="PF('transportPointDialog').show()" update=":form:transportPointPanel" title="View" update=":form:msgs"-->
                                     <!--actionListener="{transportController.doAddTransportComment(transport, commentDidBy)}"-->
-                                </p:commandButton>
-
                             </p:tab>
 
                             <p:tab title="Заявки">
                                 <ui:repeat value="#{transport.tickets}" var="ticket" varStatus="ticketVarStatus">
-                                    <p:panel id="ticketPanel#{ticketVarStatus.index}-#{ticket.id}" collapsed="true" toggleable="true" closable="true" toggleSpeed="500" closeSpeed="500" widgetVar="ticketPanel#{ticketVarStatus.index}-#{ticket.id}" style="margin-bottom: 10px"
-                                             header="#{ticketVarStatus.index + 1} (#{ticket.ticketInfo.ticketStatus}) #{ticket.ticketInfo.ticketHeader}"
+                                    <p:panel id="ticketPanel#{ticketVarStatus.index}-#{ticket.id}" collapsed="true" toggleable="true" closable="true" toggleSpeed="500" closeSpeed="500" widgetVar="ticketPanel#{ticketVarStatus.index}-#{ticket.id}" style="margin-bottom: 10px; width: 70%"
+                                             header="#{ticketVarStatus.index + 1} - #{ticket.ticketInfo.ticketHeader} (#{ticket.ticketInfo.ticketStatus})"
                                              footer="открыта: #{ticket.creation.date} (#{ticket.creation.didBy}) / изменена: #{ticket.ticketInfo.modification.date} (#{ticket.ticketInfo.modification.didBy}) / закрыта: #{ticket.ticketInfo.closing.date} (#{ticket.ticketInfo.closing.didBy})">
                                         <!--<p:ajax event="close" listener="{panelView.onClose}" update="msgs" />-->
                                         <!--<p:ajax event="toggle" listener="{panelView.onToggle}" update="msgs" />-->
@@ -343,14 +340,19 @@
                                             <h:outputText value="телефон водителя: #{ticket.ticketInfo.ticketDetails.mobileNumberOfDriver}" style="display:block"/>
                                             <h:outputText value="телефон ответственного: #{ticket.ticketInfo.ticketDetails.mobileNumberOfAgent}" style="display:block"/>
                                         </p:panelGrid>
+                                        <p:scrollPanel mode="native" style="width: 800px; height: 300px; margin-bottom: 10px; padding: 10px">
                                         <ui:repeat value="#{ticket.comments}" var="ticketComment">
-                                            <p:fieldset legend="(#{ticketComment.creation.date}) #{ticketComment.creation.didBy}:" toggleable="true" toggleSpeed="500" collapsed="true" style="margin-bottom: 10px">
+                                            <p:fieldset legend="(#{ticketComment.creation.date}) #{ticketComment.creation.didBy}:" toggleable="true" toggleSpeed="500" collapsed="false" style="margin-bottom: 10px">
                                                 <p:panelGrid>
                                                     <h:outputText value="#{ticketComment.commentInfo.content}" style="width:100%; display:block; word-wrap: break-word; font-style: italic; white-space: normal"/> <!--word-break: break-all;-->
                                                     <h:outputText value=" изменен: #{ticketComment.commentInfo.modification.date}" style="width:100%; display:block; word-wrap: break-word; font-style: normal; font-weight: bold; white-space: normal"/>
                                                 </p:panelGrid>
                                             </p:fieldset>
                                         </ui:repeat>
+                                        </p:scrollPanel>
+                                        <p:inputTextarea rows="3" cols="100" value="#{transportController.commentContent}" style="display:block; margin-bottom: 10px"/>
+                                        <c:set var="commentDidBy" value="Администратор"/>
+                                        <p:commandButton id="ticketCommentButton" process="@parent" update="@parent:@child(2) @parent:@child(3) :form:msgs" action="#{transportController.doAddTicketComment(ticket, commentDidBy)}" value="Отправить" icon="ui-icon-disk"/>
                                         <!--<f:facet name="options">-->
                                             <!--<p:menu>-->
                                                 <!--<p:submenu label="Settings">-->

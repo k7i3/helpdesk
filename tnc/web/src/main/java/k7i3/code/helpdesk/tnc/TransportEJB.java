@@ -30,6 +30,12 @@ public class TransportEJB {
         return transport;
     }
 
+    public Ticket updateTicket(Ticket ticket) {
+        logger.info("=>=>=>=>=> TransportEJB.updateTicket()");
+        em.merge(ticket);
+        return ticket;
+    }
+
     public List<Transport> findAllTransport() {
         logger.info("=>=>=>=>=> TransportEJB.findAllTransport");
 
