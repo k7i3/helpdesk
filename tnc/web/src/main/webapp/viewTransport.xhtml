@@ -291,6 +291,7 @@
                             <p:commandButton id="transportCommentsButton" update=":form:transportCommentsPanel" oncomplete="PF('transportCommentsDialog').show()" icon="ui-icon-search" title="View">
                                 <f:setPropertyActionListener value="#{transport}" target="#{transportController.dialogSelectedTransport}" />
                             </p:commandButton>
+                            <!--<p:commandButton id="createTicketButton" actionlistener="{transportController.showAddTicketDialog}" value="Создать заявку" icon="ui-icon-disk"/>-->
                         </p:panelGrid>
 
                         <p:accordionPanel multiple="true" activeIndex="" style="margin-bottom: 20px">
@@ -351,8 +352,8 @@
                                         </ui:repeat>
                                         </p:scrollPanel>
                                         <p:inputTextarea rows="3" cols="100" value="#{transportController.commentContent}" style="display:block; margin-bottom: 10px"/>
-                                        <c:set var="commentDidBy" value="Администратор"/>
-                                        <p:commandButton id="ticketCommentButton" process="@parent" update="@parent:@child(2) @parent:@child(3) :form:msgs" action="#{transportController.doAddTicketComment(ticket, commentDidBy)}" value="Отправить" icon="ui-icon-disk"/>
+                                        <c:set var="ticketCommentDidBy" value="Администратор"/>
+                                        <p:commandButton id="ticketCommentButton" process="@parent" update="@parent:@child(2) @parent:@child(3) :form:msgs" action="#{transportController.doAddTicketComment(ticket, ticketCommentDidBy)}" value="Отправить" icon="ui-icon-disk"/>
                                         <!--<f:facet name="options">-->
                                             <!--<p:menu>-->
                                                 <!--<p:submenu label="Settings">-->
@@ -367,6 +368,8 @@
                                         <!--</f:facet>-->
                                     </p:panel>
                                 </ui:repeat>
+                                <c:set var="ticketDidBy" value="Администратор"/>
+                                <p:commandButton update=":form:msgs" actionListener="#{ticketController.showAddTicketDialog(transport, ticketDidBy)}" value="Создать заявку" icon="ui-icon-disk"/>
                             </p:tab>
                         </p:accordionPanel>
                     </p:rowExpansion>
