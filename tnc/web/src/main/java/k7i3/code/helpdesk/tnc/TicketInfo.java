@@ -38,7 +38,7 @@ public class TicketInfo {
     private LifeCycleInfo deletion;
     @NotNull
     @OneToOne (cascade = CascadeType.ALL)
-    private TicketDetails ticketDetails;
+    private TicketDetails ticketDetails = new TicketDetails();
 
     //Current Info for history
     @NotNull

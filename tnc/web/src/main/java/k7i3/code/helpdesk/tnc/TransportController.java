@@ -86,8 +86,8 @@ public class TransportController {
         FacesContext.getCurrentInstance().addMessage(null, msg);
     }
 
-    public void doAddTicketComment(Ticket ticket, String commentDidBy) {
-        Comment comment = new Comment(new LifeCycleInfo(new Date(), commentDidBy), new CommentInfo(new LifeCycleInfo(new Date(), commentDidBy), commentContent));
+    public void doAddTicketComment(Ticket ticket, String didBy) {
+        Comment comment = new Comment(new LifeCycleInfo(new Date(), didBy), new CommentInfo(new LifeCycleInfo(new Date(), didBy), commentContent));
         ticket.getComments().add(comment);
         transportEJB.updateTicket(ticket);
         commentContent = null;

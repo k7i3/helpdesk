@@ -22,7 +22,7 @@ public class Ticket {
     private LifeCycleInfo creation;
     @NotNull
     @OneToOne(cascade = CascadeType.ALL)
-    private TicketInfo ticketInfo;
+    private TicketInfo ticketInfo = new TicketInfo();
     @OneToMany(cascade = CascadeType.ALL)
     private List<TicketInfo> ticketInfoHistory = new ArrayList<>();
     @OneToMany (cascade = CascadeType.ALL)

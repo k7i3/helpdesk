@@ -7,8 +7,10 @@ import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.logging.Logger;
 
 /**
  * Created by k7i3 on 24.02.15.
@@ -18,34 +20,46 @@ import java.util.Map;
 public class TicketController {
     @Inject
     private TransportEJB transportEJB;
+    private Logger logger = Logger.getLogger("k7i3");
 
     private Transport transport;
     private String didBy;
-    private Ticket ticket;
-    private TicketInfo ticketInfo;
-    private TicketDetails ticketDetails;
+    private Ticket ticket = new Ticket();
+    private TicketHeader ticketHeader;
+//    List<TicketHeader> ticketHeaders = Arrays.asList(TicketHeader.values());
+    private String commentContent;
 
-    public void showAddTicketDialog(Transport transport, String ticketDidBy) {
+    public void showTicketDialog(Transport transport, String didBy) {
         this.transport = transport;
-        didBy = ticketDidBy;
+        this.didBy = didBy;
 
         Map<String,Object> options = new HashMap<>();
         options.put("modal", true);
-        options.put("draggable", false);
-        options.put("resizable", false);
-////        options.put("contentHeight", 320);
+        options.put("draggable", true);
+        options.put("resizable", true);
+//        options.put("contentHeight", 320);
 
-//
         FacesMessage msg = new FacesMessage("!!!", "!!!");
         FacesContext.getCurrentInstance().addMessage(null, msg);
 
         RequestContext.getCurrentInstance().openDialog("addTicket", options, null);
-
-//        RequestContext.getCurrentInstance().showMessageInDialog(msg);
     }
 
     public void doAddTicket() {
+        logger.info("=>=>=>=>=> TicketController.doAddTicket()");
+        ticket.setCreation(new LifeCycleInfo(new Date(), didBy));
+        ticket.getTicketInfo().setModification(ticket.getCreation());
+        ticket.getTicketInfo().setTicketStatus(TicketStatus.OPENED);
+        ticket.getTicketInfo().setTicketHeader(TicketHeader.OTHER); // temporary
+        ticket.getTicketInfo().setTransportInfo(transport.getTransportInfo());
+        ticket.getTicketInfo().setTerminalInfo(transport.getTerminal().getTerminalInfo());
+        ticket.getTicketInfo().setPointInfo(transport.getPoint().getPointInfo());
+//        ticket.getComments().add(new Comment(ticket.getCreation(), new CommentInfo(ticket.getCreation(), commentContent)));
+//        transport.getTickets().add(ticket);
+//        transportEJB.updateTransport(transport);
 
+        FacesMessage msg = new FacesMessage("!!!", "!!!");
+        FacesContext.getCurrentInstance().addMessage(null, msg);
     }
 
     public Transport getTransport() {
@@ -72,19 +86,19 @@ public class TicketController {
         this.ticket = ticket;
     }
 
-    public TicketInfo getTicketInfo() {
-        return ticketInfo;
+    public TicketHeader getTicketHeader() {
+        return ticketHeader;
     }
 
-    public void setTicketInfo(TicketInfo ticketInfo) {
-        this.ticketInfo = ticketInfo;
+    public void setTicketHeader(TicketHeader ticketHeader) {
+        this.ticketHeader = ticketHeader;
     }
 
-    public TicketDetails getTicketDetails() {
-        return ticketDetails;
+    public String getCommentContent() {
+        return commentContent;
     }
 
-    public void setTicketDetails(TicketDetails ticketDetails) {
-        this.ticketDetails = ticketDetails;
+    public void setCommentContent(String commentContent) {
+        this.commentContent = commentContent;
     }
 }

@@ -7,7 +7,7 @@
       xmlns:p="http://primefaces.org/ui"
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:fn="http://xmlns.jcp.org/jsp/jstl/functions"
-        xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
 
 <ui:composition template="layout.xhtml">
 
@@ -43,6 +43,7 @@
 
                     <!--TODO смена цвета rowStyleClass="{transport.terminal.number le 7000 ? 'tooday' : 'notTooday'}"-->
 
+                    <c:set var="didBy" value="Администратор"/>
                     <p:ajax event="rowEdit" listener="#{transportController.onRowEdit}" update=":form:msgs" />
                     <p:ajax event="rowEditCancel" listener="#{transportController.onRowCancel}" update=":form:msgs" />
 
@@ -318,10 +319,8 @@
                                 </ui:repeat>
                                 </p:scrollPanel>
                                 <!--</p:panelGrid>-->
-
                                 <p:inputTextarea rows="3" cols="100" value="#{transportController.commentContent}" style="display:block; margin-bottom: 10px"/>
-                                <c:set var="commentDidBy" value="Администратор"/>
-                                <p:commandButton id="transportCommentButton" process="@parent" update="@parent:@child(1) @parent:@child(3) :form:msgs" action="#{transportController.doAddTransportComment(transport, commentDidBy)}" value="Отправить" icon="ui-icon-disk"/>
+                                <p:commandButton id="transportCommentButton" process="@parent" update="@parent:@child(1) @parent:@child(3) :form:msgs" action="#{transportController.doAddTransportComment(transport, didBy)}" value="Отправить" icon="ui-icon-disk"/>
                                     <!--<f:setPropertyActionListener value="Администратор" target="{transportController.commentDidBy}" />-->
                                     <!--<f:setPropertyActionListener value="{transport}" target="{transportController.dialogSelectedTransport}" />-->
                                     <!--actionListener="{transportController.doAddTransportComment(transport, commentDidBy)}"-->
@@ -368,8 +367,7 @@
                                         <!--</f:facet>-->
                                     </p:panel>
                                 </ui:repeat>
-                                <c:set var="ticketDidBy" value="Администратор"/>
-                                <p:commandButton update=":form:msgs" actionListener="#{ticketController.showAddTicketDialog(transport, ticketDidBy)}" value="Создать заявку" icon="ui-icon-disk"/>
+                                <p:commandButton process="@this" update=":form:msgs" actionListener="#{ticketController.showTicketDialog(transport, didBy)}" value="Создать заявку" icon="ui-icon-disk"/>
                             </p:tab>
                         </p:accordionPanel>
                     </p:rowExpansion>

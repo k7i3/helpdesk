@@ -3,7 +3,8 @@
         "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:p="http://primefaces.org/ui">
+      xmlns:p="http://primefaces.org/ui"
+        >
 
 <h:head>
     <title>Новая заявка</title>
@@ -15,10 +16,37 @@
 </h:head>
 
 <h:body>
-    <!--<h:panelGrid columns="2" style="margin-bottom:10px" cellpadding="5">-->
-        <h:outputText value="Возможность подачи в Уфу:"/>
-        <p:selectBooleanCheckbox id="possibilityOfServiceAtTheDefaultPlace" value="{ticketController.ticketDetails.possibilityOfServiceAtTheDefaultPlace}" />
-    <!--</h:panelGrid>-->
+    <!--<h:outputText value="Причина:"/>-->
+    <!--<p:selectOneListbox value="{ticketController.ticket.ticketInfo.ticketHeader}">-->
+    <!--<f:selectItem itemLabel="Не на связи" itemValue="{ticketController.ticketHeader.NOT_ONLINE}" />-->
+    <!--<f:selectItem itemLabel="Некорректный трек" itemValue="{ticketController.ticketHeader.BAD_TRACK}" />-->
+    <!--<f:selectItem itemLabel="Прочее" itemValue="{ticketController.ticketHeader.OTHER}" />-->
+    <!--&lt;!&ndash;<f:selectItems value="{ticketController.ticketHeaders}" var="ticketHeader" itemLabel="{ticketHeader.toString()}" itemValue="{ticketHeader}"/>&ndash;&gt;-->
+    <!--</p:selectOneListbox>-->
+    <h:form id="form">
+        <p:growl id="msgs" showDetail="true"/>
+        <h:panelGrid columns="2" style="margin-bottom:10px" cellpadding="5">
+            <h:outputText value="Возможность подачи в Уфу:"/>
+            <p:selectBooleanButton value="#{ticketController.ticket.ticketInfo.ticketDetails.possibilityOfServiceAtTheDefaultPlace}" onLabel="Есть" offLabel="Нет" onIcon="ui-icon-check" offIcon="ui-icon-close"/>
+
+            <h:outputText value="Внешний осмотр:"/>
+            <p:selectBooleanButton value="#{ticketController.ticket.ticketInfo.ticketDetails.isInspected}" onLabel="Произведен" offLabel="Не произведен" onIcon="ui-icon-check" offIcon="ui-icon-close"/>
+
+            <h:outputText value="Место подачи:"/>
+            <p:inputText value="#{ticketController.ticket.ticketInfo.ticketDetails.place}"/>
+
+            <h:outputText value="Телефон водителя:"/>
+            <p:inputText value="#{ticketController.ticket.ticketInfo.ticketDetails.mobileNumberOfDriver}"/>
+
+            <h:outputText value="Телефон ответственного:"/>
+            <p:inputText value="#{ticketController.ticket.ticketInfo.ticketDetails.mobileNumberOfAgent}"/>
+
+            <h:outputText value="Комментарий:"/>
+            <p:inputTextarea rows="5" cols="50" value="#{ticketController.commentContent}"/>
+
+            <p:commandButton update=":form:msgs" actionListener="#{ticketController.doAddTicket}" value="Создать" icon="ui-icon-disk"/>
+        </h:panelGrid>
+    </h:form>
 </h:body>
 
 
