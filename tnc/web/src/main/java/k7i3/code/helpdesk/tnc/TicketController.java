@@ -1,6 +1,7 @@
 package k7i3.code.helpdesk.tnc;
 
 import org.primefaces.context.RequestContext;
+import org.primefaces.event.SelectEvent;
 
 import javax.enterprise.context.RequestScoped;
 import javax.faces.application.FacesMessage;
@@ -29,9 +30,9 @@ public class TicketController {
 //    List<TicketHeader> ticketHeaders = Arrays.asList(TicketHeader.values());
     private String commentContent;
 
-    public void showTicketDialog(Transport transport, String didBy) {
-        this.transport = transport;
-        this.didBy = didBy;
+    public void doOpenTicketDialog() {
+//        this.transport = transport;
+//        this.didBy = didBy;
 
         Map<String,Object> options = new HashMap<>();
         options.put("modal", true);
@@ -45,8 +46,15 @@ public class TicketController {
         RequestContext.getCurrentInstance().openDialog("addTicket", options, null);
     }
 
-    public void doAddTicket() {
-        logger.info("=>=>=>=>=> TicketController.doAddTicket()");
+    public void doCloseTicketDialog() {
+        logger.info("=>=>=>=>=> TicketController.doCloseTicketDialog()");
+        RequestContext.getCurrentInstance().closeDialog(ticket);
+    }
+
+    public void doAddTicket(SelectEvent event) {
+        didBy = "Администратор!";
+        ticket = (Ticket) event.getObject();
+
         ticket.setCreation(new LifeCycleInfo(new Date(), didBy));
         ticket.getTicketInfo().setModification(ticket.getCreation());
         ticket.getTicketInfo().setTicketStatus(TicketStatus.OPENED);
@@ -54,11 +62,11 @@ public class TicketController {
         ticket.getTicketInfo().setTransportInfo(transport.getTransportInfo());
         ticket.getTicketInfo().setTerminalInfo(transport.getTerminal().getTerminalInfo());
         ticket.getTicketInfo().setPointInfo(transport.getPoint().getPointInfo());
-//        ticket.getComments().add(new Comment(ticket.getCreation(), new CommentInfo(ticket.getCreation(), commentContent)));
-//        transport.getTickets().add(ticket);
-//        transportEJB.updateTransport(transport);
+        ticket.getComments().add(new Comment(ticket.getCreation(), new CommentInfo(ticket.getCreation(), commentContent)));
+        transport.getTickets().add(ticket);
+        transportEJB.updateTransport(transport);
 
-        FacesMessage msg = new FacesMessage("!!!", "!!!");
+        FacesMessage msg = new FacesMessage("сохранено", transport.getId().toString());
         FacesContext.getCurrentInstance().addMessage(null, msg);
     }
 

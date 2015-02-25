@@ -367,7 +367,11 @@
                                         <!--</f:facet>-->
                                     </p:panel>
                                 </ui:repeat>
-                                <p:commandButton process="@this" update=":form:msgs" actionListener="#{ticketController.showTicketDialog(transport, didBy)}" value="Создать заявку" icon="ui-icon-disk"/>
+                                <p:commandButton process="@this" update=":form:msgs" actionListener="#{ticketController.doOpenTicketDialog}" value="Создать заявку" icon="ui-icon-disk">
+                                    <p:ajax event="dialogReturn" listener="#{ticketController.doAddTicket}" update=":form:msgs" />
+                                </p:commandButton>
+
+
                             </p:tab>
                         </p:accordionPanel>
                     </p:rowExpansion>

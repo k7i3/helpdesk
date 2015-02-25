@@ -44,7 +44,7 @@
             <h:outputText value="Комментарий:"/>
             <p:inputTextarea rows="5" cols="50" value="#{ticketController.commentContent}"/>
 
-            <p:commandButton update=":form:msgs" actionListener="#{ticketController.doAddTicket}" value="Создать" icon="ui-icon-disk"/>
+            <p:commandButton update=":form:msgs" actionListener="#{ticketController.doCloseTicketDialog}" value="Создать" icon="ui-icon-disk"/>
         </h:panelGrid>
     </h:form>
 </h:body>
