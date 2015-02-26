@@ -41,7 +41,7 @@
                     <!--sortBy="null" sortOrder="ascending"-->
                     <!--rowKey="{transport.id}" перестал видеть после добавления varStatus="transportVarStatus"-->
 
-                    <!--TODO смена цвета rowStyleClass="{transport.terminal.number le 7000 ? 'tooday' : 'notTooday'}"-->
+                    <!--TODO change color rowStyleClass="{transport.terminal.number le 7000 ? 'tooday' : 'notTooday'}"-->
 
                     <c:set var="didBy" value="Администратор"/>
                     <p:ajax event="rowEdit" listener="#{transportController.onRowEdit}" update=":form:msgs" />
@@ -309,7 +309,7 @@
                             <p:tab title="Комментарии к транспорту">
                                 <!--<p:panelGrid columns="1">-->
                                 <p:scrollPanel mode="native" style="width: 800px; height: 300px; margin-bottom: 10px; padding: 10px">
-                                <ui:repeat value="#{transport.comments}" var="transportComment">
+                                    <ui:repeat value="#{transport.comments}" var="transportComment">
                                     <p:fieldset legend="(#{transportComment.creation.date}) #{transportComment.creation.didBy}:" toggleable="true" toggleSpeed="500" collapsed="false" style="margin-bottom: 10px">
                                         <p:panelGrid>
                                             <h:outputText value="#{transportComment.commentInfo.content}" style="width:100%; display:block; word-wrap: break-word; font-style: italic; white-space: normal"/> <!--word-break: break-all;-->
@@ -327,46 +327,48 @@
                             </p:tab>
 
                             <p:tab title="Заявки">
-                                <ui:repeat value="#{transport.tickets}" var="ticket" varStatus="ticketVarStatus">
-                                    <p:panel id="ticketPanel#{ticketVarStatus.index}-#{ticket.id}" collapsed="true" toggleable="true" closable="true" toggleSpeed="500" closeSpeed="500" widgetVar="ticketPanel#{ticketVarStatus.index}-#{ticket.id}" style="margin-bottom: 10px; width: 70%"
-                                             header="#{ticketVarStatus.index + 1} - #{ticket.ticketInfo.ticketHeader} (#{ticket.ticketInfo.ticketStatus})"
-                                             footer="открыта: #{ticket.creation.date} (#{ticket.creation.didBy}) / изменена: #{ticket.ticketInfo.modification.date} (#{ticket.ticketInfo.modification.didBy}) / закрыта: #{ticket.ticketInfo.closing.date} (#{ticket.ticketInfo.closing.didBy})">
-                                        <!--<p:ajax event="close" listener="{panelView.onClose}" update="msgs" />-->
-                                        <!--<p:ajax event="toggle" listener="{panelView.onToggle}" update="msgs" />-->
-                                        <p:panelGrid style="margin-bottom: 10px">
-                                            <h:outputText value="подача в Уфу: #{ticket.ticketInfo.ticketDetails.possibilityOfServiceAtTheDefaultPlace}" style="display:block"/>
-                                            <h:outputText value="внешний осмотр: #{ticket.ticketInfo.ticketDetails.isInspected}" style="display:block"/>
-                                            <h:outputText value="место подачи: #{ticket.ticketInfo.ticketDetails.place}" style="display:block"/>
-                                            <h:outputText value="телефон водителя: #{ticket.ticketInfo.ticketDetails.mobileNumberOfDriver}" style="display:block"/>
-                                            <h:outputText value="телефон ответственного: #{ticket.ticketInfo.ticketDetails.mobileNumberOfAgent}" style="display:block"/>
-                                        </p:panelGrid>
-                                        <p:scrollPanel mode="native" style="width: 800px; height: 300px; margin-bottom: 10px; padding: 10px">
-                                        <ui:repeat value="#{ticket.comments}" var="ticketComment">
-                                            <p:fieldset legend="(#{ticketComment.creation.date}) #{ticketComment.creation.didBy}:" toggleable="true" toggleSpeed="500" collapsed="false" style="margin-bottom: 10px">
-                                                <p:panelGrid>
-                                                    <h:outputText value="#{ticketComment.commentInfo.content}" style="width:100%; display:block; word-wrap: break-word; font-style: italic; white-space: normal"/> <!--word-break: break-all;-->
-                                                    <h:outputText value=" изменен: #{ticketComment.commentInfo.modification.date}" style="width:100%; display:block; word-wrap: break-word; font-style: normal; font-weight: bold; white-space: normal"/>
-                                                </p:panelGrid>
-                                            </p:fieldset>
-                                        </ui:repeat>
-                                        </p:scrollPanel>
-                                        <p:inputTextarea rows="3" cols="100" value="#{transportController.commentContent}" style="display:block; margin-bottom: 10px"/>
-                                        <p:commandButton id="ticketCommentButton" process="@parent" update="@parent:@child(2) @parent:@child(3) :form:msgs" action="#{transportController.doAddTicketComment(ticket, didBy)}" value="Отправить" icon="ui-icon-disk"/>
-                                        <!--<f:facet name="options">-->
-                                            <!--<p:menu>-->
-                                                <!--<p:submenu label="Settings">-->
-                                                    <!--<p:menuitem value="Toggle" url="#" icon="ui-icon-newwin" onclick="PF('ticketPanel{transportVarStatus.index}{ticketVarStatus.index}').toggle()" />-->
-                                                    <!--<p:menuitem value="Remove" url="#" icon="ui-icon-close" onclick="PF('ticketPanel{transportVarStatus.index}{ticketVarStatus.index}').close()" />-->
-                                                <!--</p:submenu>-->
-                                            <!--</p:menu>-->
-                                        <!--</f:facet>-->
-                                        <!--<f:facet name="actions">-->
-                                            <!--<h:commandLink styleClass="ui-panel-titlebar-icon ui-corner-all ui-state-default"><h:outputText styleClass="ui-icon ui-icon-help" /></h:commandLink>-->
-                                            <!--<h:commandLink styleClass="ui-panel-titlebar-icon ui-corner-all ui-state-default"><h:outputText styleClass="ui-icon ui-icon-star" /></h:commandLink>-->
-                                        <!--</f:facet>-->
-                                    </p:panel>
-                                </ui:repeat>
+                                    <ui:repeat value="#{transport.tickets}" var="ticket" varStatus="ticketVarStatus">
+                                        <p:panel id="ticketPanel#{ticketVarStatus.index}-#{ticket.id}" collapsed="true" toggleable="true" closable="true" toggleSpeed="500" closeSpeed="500" widgetVar="ticketPanel#{ticketVarStatus.index}-#{ticket.id}" style="margin-bottom: 10px; width: 70%"
+                                                 header="#{ticketVarStatus.index + 1} - #{ticket.ticketInfo.ticketHeader} (#{ticket.ticketInfo.ticketStatus})"
+                                                 footer="открыта: #{ticket.creation.date} (#{ticket.creation.didBy}) / изменена: #{ticket.ticketInfo.modification.date} (#{ticket.ticketInfo.modification.didBy}) / закрыта: #{ticket.ticketInfo.closing.date} (#{ticket.ticketInfo.closing.didBy})">
+                                            <!--<p:ajax event="close" listener="{panelView.onClose}" update="msgs" />-->
+                                            <!--<p:ajax event="toggle" listener="{panelView.onToggle}" update="msgs" />-->
+                                            <p:panelGrid style="margin-bottom: 10px">
+                                                <h:outputText value="подача в Уфу: #{ticket.ticketInfo.ticketDetails.possibilityOfServiceAtTheDefaultPlace}" style="display:block"/>
+                                                <h:outputText value="внешний осмотр: #{ticket.ticketInfo.ticketDetails.isInspected}" style="display:block"/>
+                                                <h:outputText value="место подачи: #{ticket.ticketInfo.ticketDetails.place}" style="display:block"/>
+                                                <h:outputText value="телефон водителя: #{ticket.ticketInfo.ticketDetails.mobileNumberOfDriver}" style="display:block"/>
+                                                <h:outputText value="телефон ответственного: #{ticket.ticketInfo.ticketDetails.mobileNumberOfAgent}" style="display:block"/>
+                                            </p:panelGrid>
+                                            <p:scrollPanel mode="native" style="width: 800px; height: 300px; margin-bottom: 10px; padding: 10px">
+                                            <ui:repeat value="#{ticket.comments}" var="ticketComment">
+                                                <p:fieldset legend="(#{ticketComment.creation.date}) #{ticketComment.creation.didBy}:" toggleable="true" toggleSpeed="500" collapsed="false" style="margin-bottom: 10px">
+                                                    <p:panelGrid>
+                                                        <h:outputText value="#{ticketComment.commentInfo.content}" style="width:100%; display:block; word-wrap: break-word; font-style: italic; white-space: normal"/> <!--word-break: break-all;-->
+                                                        <h:outputText value=" изменен: #{ticketComment.commentInfo.modification.date}" style="width:100%; display:block; word-wrap: break-word; font-style: normal; font-weight: bold; white-space: normal"/>
+                                                    </p:panelGrid>
+                                                </p:fieldset>
+                                            </ui:repeat>
+                                            </p:scrollPanel>
+                                            <p:inputTextarea rows="3" cols="100" value="#{transportController.commentContent}" style="display:block; margin-bottom: 10px"/>
+                                            <p:commandButton id="ticketCommentButton" process="@parent" update="@parent:@child(2) @parent:@child(3) :form:msgs" action="#{transportController.doAddTicketComment(ticket, didBy)}" value="Отправить" icon="ui-icon-disk"/>
+                                            <!--<f:facet name="options">-->
+                                                <!--<p:menu>-->
+                                                    <!--<p:submenu label="Settings">-->
+                                                        <!--<p:menuitem value="Toggle" url="#" icon="ui-icon-newwin" onclick="PF('ticketPanel{transportVarStatus.index}{ticketVarStatus.index}').toggle()" />-->
+                                                        <!--<p:menuitem value="Remove" url="#" icon="ui-icon-close" onclick="PF('ticketPanel{transportVarStatus.index}{ticketVarStatus.index}').close()" />-->
+                                                    <!--</p:submenu>-->
+                                                <!--</p:menu>-->
+                                            <!--</f:facet>-->
+                                            <!--<f:facet name="actions">-->
+                                                <!--<h:commandLink styleClass="ui-panel-titlebar-icon ui-corner-all ui-state-default"><h:outputText styleClass="ui-icon ui-icon-help" /></h:commandLink>-->
+                                                <!--<h:commandLink styleClass="ui-panel-titlebar-icon ui-corner-all ui-state-default"><h:outputText styleClass="ui-icon ui-icon-star" /></h:commandLink>-->
+                                            <!--</f:facet>-->
+                                        </p:panel>
+                                    </ui:repeat>
+
                                 <p:commandButton process="@this" update=":form:msgs" actionListener="#{ticketController.doOpenTicketDialog(transport, didBy)}" value="Создать заявку" icon="ui-icon-disk">
+                                    <!--<p:ajax event="dialogReturn" update="@parent:@parent" />TODO catch child for update-->
                                     <!--<p:ajax event="dialogReturn" listener="{ticketController.doAddTicket}" update=":form:msgs" />-->
                                 </p:commandButton>
 
@@ -522,14 +524,9 @@
                 resizable="true"
                 draggable="true">
 
-            <c:set var="didByTest" value="#{ticketController.didBy}"/>
-            <c:set var="transportTest" value="#{ticketController.transport}"/>
-
             <p:outputPanel id="addTicketPanel">
                 <p:growl id="test-msgs" showDetail="true"/>
 
-                <h:outputText value="didByTest = #{didByTest}" style="display:block"/>
-                <h:outputText value="transportTest = #{transportTest}" style="display:block"/>
                 <h:outputText value="didBy = #{ticketController.didBy}" style="display:block"/>
                 <h:outputText value="transport = #{ticketController.transport}" style="display:block"/>
 

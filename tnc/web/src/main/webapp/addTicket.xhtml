@@ -25,7 +25,6 @@
     <!--</p:selectOneListbox>-->
     <h:form id="form">
         <p:growl id="msgs" showDetail="true"/>
-        <h:outputText value="didBy = #{ticketController.didBy}"/>
         <h:panelGrid columns="2" style="margin-bottom:10px" cellpadding="5">
             <h:outputText value="Возможность подачи в Уфу:"/>
             <p:selectBooleanButton value="#{ticketController.ticket.ticketInfo.ticketDetails.possibilityOfServiceAtTheDefaultPlace}" onLabel="Есть" offLabel="Нет" onIcon="ui-icon-check" offIcon="ui-icon-close"/>

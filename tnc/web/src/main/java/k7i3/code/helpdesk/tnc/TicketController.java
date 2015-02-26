@@ -2,14 +2,11 @@ package k7i3.code.helpdesk.tnc;
 
 import org.primefaces.context.RequestContext;
 
-import javax.annotation.PostConstruct;
-import javax.enterprise.context.Conversation;
-import javax.enterprise.context.ConversationScoped;
-import javax.faces.application.FacesMessage;
-import javax.faces.context.FacesContext;
+import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.Serializable;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Logger;
@@ -18,10 +15,8 @@ import java.util.logging.Logger;
  * Created by k7i3 on 24.02.15.
  */
 @Named
-@ConversationScoped
+@SessionScoped
 public class TicketController implements Serializable {
-    @Inject
-    private Conversation conversation;
     @Inject
     private TransportEJB transportEJB;
     private Logger logger = Logger.getLogger("k7i3");
@@ -33,15 +28,7 @@ public class TicketController implements Serializable {
 //    List<TicketHeader> ticketHeaders = Arrays.asList(TicketHeader.values());
     private String commentContent;
 
-    @PostConstruct
-    void initialize() {
-        if (conversation.isTransient()) {
-            conversation.begin();
-        }
-    }
-
     public void doOpenTicketDialog(Transport transport, String didBy) {
-//        conversation.begin();
         this.transport = transport;
         this.didBy = didBy;
 
@@ -49,43 +36,48 @@ public class TicketController implements Serializable {
         options.put("modal", true);
         options.put("draggable", true);
         options.put("resizable", true);
-//        options.put("contentHeight", 320);
-
-        FacesMessage msg = new FacesMessage(didBy, transport.toString());
-        FacesContext.getCurrentInstance().addMessage(null, msg);
 
         RequestContext.getCurrentInstance().openDialog("addTicket", options, null);
-    }
 
-    public void doCloseTicketDialog() {
-        logger.info("=>=>=>=>=> TicketController.doCloseTicketDialog()");
-        RequestContext.getCurrentInstance().closeDialog(ticket);
+//        FacesMessage msg = new FacesMessage(didBy, transport.getId().toString());
+//        FacesContext.getCurrentInstance().addMessage(null, msg);
     }
 
     public void doAddTicket() {
         logger.info("=>=>=>=>=> TicketController.doAddTicket()");
-//        ticket.setCreation(new LifeCycleInfo(new Date(), didBy));
-//        ticket.getTicketInfo().setModification(ticket.getCreation());
-//        ticket.getTicketInfo().setTicketStatus(TicketStatus.OPENED);
-//        ticket.getTicketInfo().setTicketHeader(TicketHeader.OTHER); // temporary
-//        ticket.getTicketInfo().setTransportInfo(transport.getTransportInfo());
-//        ticket.getTicketInfo().setTerminalInfo(transport.getTerminal().getTerminalInfo());
-//        ticket.getTicketInfo().setPointInfo(transport.getPoint().getPointInfo());
-//        ticket.getComments().add(new Comment(ticket.getCreation(), new CommentInfo(ticket.getCreation(), commentContent)));
-//        transport.getTickets().add(ticket);
-//        transportEJB.updateTransport(transport);
-
-        conversation.end();
-
-        FacesMessage msg = new FacesMessage(didBy, "!!!");
-        FacesContext.getCurrentInstance().addMessage(null, msg);
-
-
-
-//        RequestContext.getCurrentInstance().closeDialog(null);
-
-
+        ticket.setCreation(new LifeCycleInfo(new Date(), didBy));
+        ticket.getTicketInfo().setModification(ticket.getCreation());
+        ticket.getTicketInfo().setTicketStatus(TicketStatus.OPENED);
+        ticket.getTicketInfo().setTicketHeader(TicketHeader.OTHER); // temporary
+        ticket.getTicketInfo().setTransportInfo(transport.getTransportInfo());
+        ticket.getTicketInfo().setTerminalInfo(transport.getTerminal().getTerminalInfo());
+        ticket.getTicketInfo().setPointInfo(transport.getPoint().getPointInfo());
+        ticket.getComments().add(new Comment(ticket.getCreation(), new CommentInfo(ticket.getCreation(), commentContent)));
+        transport.getTickets().add(ticket);
+        transportEJB.updateTransport(transport);
+        doReset();
+        RequestContext.getCurrentInstance().closeDialog(null);
     }
+
+    public void doReset() {
+        transport = null;
+        didBy = null;
+        ticket = new Ticket();
+        commentContent = null;
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     public Transport getTransport() {
         return transport;
