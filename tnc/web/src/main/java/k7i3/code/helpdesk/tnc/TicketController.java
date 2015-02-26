@@ -19,6 +19,8 @@ import java.util.logging.Logger;
 @Named
 @SessionScoped
 public class TicketController implements Serializable {
+//    @Inject
+//    private Conversation conversation;
     @Inject
     private TransportEJB transportEJB;
     private Logger logger = Logger.getLogger("k7i3");
@@ -51,7 +53,7 @@ public class TicketController implements Serializable {
         RequestContext.getCurrentInstance().closeDialog(ticket);
     }
 
-    public void doAddTicket(Transport transportTest, String didByTest) {
+    public void doAddTicket() {
         logger.info("=>=>=>=>=> TicketController.doAddTicket()");
         ticket.setCreation(new LifeCycleInfo(new Date(), didBy));
         ticket.getTicketInfo().setModification(ticket.getCreation());
@@ -64,7 +66,8 @@ public class TicketController implements Serializable {
         transport.getTickets().add(ticket);
         transportEJB.updateTransport(transport);
 
-        FacesMessage msg = new FacesMessage(didByTest, transport.toString());
+
+        FacesMessage msg = new FacesMessage(didBy, transport.toString());
         FacesContext.getCurrentInstance().addMessage(null, msg);
     }
 
