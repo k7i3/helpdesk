@@ -1,13 +1,13 @@
 package k7i3.code.helpdesk.tnc;
 
 import org.primefaces.context.RequestContext;
-import org.primefaces.event.SelectEvent;
 
-import javax.enterprise.context.RequestScoped;
+import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
+import java.io.Serializable;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -17,8 +17,8 @@ import java.util.logging.Logger;
  * Created by k7i3 on 24.02.15.
  */
 @Named
-@RequestScoped
-public class TicketController {
+@SessionScoped
+public class TicketController implements Serializable {
     @Inject
     private TransportEJB transportEJB;
     private Logger logger = Logger.getLogger("k7i3");
@@ -51,10 +51,8 @@ public class TicketController {
         RequestContext.getCurrentInstance().closeDialog(ticket);
     }
 
-    public void doAddTicket(SelectEvent event) {
-        didBy = "Администратор!";
-        ticket = (Ticket) event.getObject();
-
+    public void doAddTicket(Transport transportTest, String didByTest) {
+        logger.info("=>=>=>=>=> TicketController.doAddTicket()");
         ticket.setCreation(new LifeCycleInfo(new Date(), didBy));
         ticket.getTicketInfo().setModification(ticket.getCreation());
         ticket.getTicketInfo().setTicketStatus(TicketStatus.OPENED);
@@ -66,7 +64,7 @@ public class TicketController {
         transport.getTickets().add(ticket);
         transportEJB.updateTransport(transport);
 
-        FacesMessage msg = new FacesMessage("сохранено", transport.getId().toString());
+        FacesMessage msg = new FacesMessage(didByTest, transport.toString());
         FacesContext.getCurrentInstance().addMessage(null, msg);
     }
 

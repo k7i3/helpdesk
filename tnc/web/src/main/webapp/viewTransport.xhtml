@@ -351,8 +351,7 @@
                                         </ui:repeat>
                                         </p:scrollPanel>
                                         <p:inputTextarea rows="3" cols="100" value="#{transportController.commentContent}" style="display:block; margin-bottom: 10px"/>
-                                        <c:set var="ticketCommentDidBy" value="Администратор"/>
-                                        <p:commandButton id="ticketCommentButton" process="@parent" update="@parent:@child(2) @parent:@child(3) :form:msgs" action="#{transportController.doAddTicketComment(ticket, ticketCommentDidBy)}" value="Отправить" icon="ui-icon-disk"/>
+                                        <p:commandButton id="ticketCommentButton" process="@parent" update="@parent:@child(2) @parent:@child(3) :form:msgs" action="#{transportController.doAddTicketComment(ticket, didBy)}" value="Отправить" icon="ui-icon-disk"/>
                                         <!--<f:facet name="options">-->
                                             <!--<p:menu>-->
                                                 <!--<p:submenu label="Settings">-->
@@ -367,10 +366,13 @@
                                         <!--</f:facet>-->
                                     </p:panel>
                                 </ui:repeat>
-                                <p:commandButton process="@this" update=":form:msgs" actionListener="#{ticketController.doOpenTicketDialog}" value="Создать заявку" icon="ui-icon-disk">
-                                    <p:ajax event="dialogReturn" listener="#{ticketController.doAddTicket}" update=":form:msgs" />
+                                <!--<p:commandButton process="@this" update=":form:msgs" actionListener="{ticketController.doOpenTicketDialog}" value="Создать заявку" icon="ui-icon-disk">-->
+                                    <!--<p:ajax event="dialogReturn" listener="{ticketController.doAddTicket}" update=":form:msgs" />-->
+                                <!--</p:commandButton>-->
+                                <p:commandButton update=":form:addTicketPanel" oncomplete="PF('addTicketDialog').show()" value="Создать заявку" icon="ui-icon-disk" title="View">
+                                    <f:setPropertyActionListener value="#{transport}" target="#{ticketController.transport}"/>
+                                    <f:setPropertyActionListener value="#{didBy}" target="#{ticketController.didBy}"/>
                                 </p:commandButton>
-
 
                             </p:tab>
                         </p:accordionPanel>
@@ -510,6 +512,49 @@
         </p:dialog>
 
         <p:dialog
+                widgetVar="addTicketDialog"
+                header="Новая заявка:"
+                modal="true"
+                showEffect="fade"
+                hideEffect="fade"
+                resizable="true"
+                draggable="true">
+
+            <c:set var="didByTest" value="#{ticketController.didBy}"/>
+            <c:set var="transportTest" value="#{ticketController.transport}"/>
+
+            <p:outputPanel id="addTicketPanel">
+                <p:growl id="test-msgs" showDetail="true"/>
+                <h:outputText value="didByTest = #{didByTest}" style="display:block"/>
+                <h:outputText value="transportTest = #{transportTest}" style="display:block"/>
+                <h:outputText value="didBy = #{ticketController.didBy}" style="display:block"/>
+                <h:outputText value="transport = #{ticketController.transport}" style="display:block"/>
+
+                <h:panelGrid columns="2" style="margin-bottom:10px" cellpadding="5">
+                    <h:outputText value="Возможность подачи в Уфу:"/>
+                    <p:selectBooleanButton value="#{ticketController.ticket.ticketInfo.ticketDetails.possibilityOfServiceAtTheDefaultPlace}" onLabel="Есть" offLabel="Нет" onIcon="ui-icon-check" offIcon="ui-icon-close"/>
+
+                    <h:outputText value="Внешний осмотр:"/>
+                    <p:selectBooleanButton value="#{ticketController.ticket.ticketInfo.ticketDetails.isInspected}" onLabel="Произведен" offLabel="Не произведен" onIcon="ui-icon-check" offIcon="ui-icon-close"/>
+
+                    <h:outputText value="Место подачи:"/>
+                    <p:inputText value="#{ticketController.ticket.ticketInfo.ticketDetails.place}"/>
+
+                    <h:outputText value="Телефон водителя:"/>
+                    <p:inputText value="#{ticketController.ticket.ticketInfo.ticketDetails.mobileNumberOfDriver}"/>
+
+                    <h:outputText value="Телефон ответственного:"/>
+                    <p:inputText value="#{ticketController.ticket.ticketInfo.ticketDetails.mobileNumberOfAgent}"/>
+
+                    <h:outputText value="Комментарий:"/>
+                    <p:inputTextarea rows="5" cols="50" value="#{ticketController.commentContent}"/>
+
+                    <p:commandButton update=":form:addTicketPanel" actionListener="#{ticketController.doAddTicket(transportTest, didByTest)}" value="Создать" icon="ui-icon-disk"/>
+                </h:panelGrid>
+            </p:outputPanel>
+        </p:dialog>
+
+        <p:dialog
                 widgetVar="transportCommentsDialog"
                 header="Комментарии:"
                 modal="true"
@@ -582,6 +627,8 @@
 
             </p:outputPanel>
         </p:dialog>
+
+
     </ui:define>
 
 </ui:composition>

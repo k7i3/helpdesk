@@ -4,6 +4,7 @@ import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.persistence.EntityManager;
+import java.io.Serializable;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -12,7 +13,7 @@ import java.util.logging.Logger;
  */
 @Named
 @Stateless
-public class TransportEJB {
+public class TransportEJB implements Serializable {
     @Inject
     private EntityManager em;
     private Logger logger = Logger.getLogger("k7i3");
