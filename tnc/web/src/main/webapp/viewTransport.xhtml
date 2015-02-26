@@ -366,10 +366,11 @@
                                         <!--</f:facet>-->
                                     </p:panel>
                                 </ui:repeat>
-                                <!--<p:commandButton process="@this" update=":form:msgs" actionListener="{ticketController.doOpenTicketDialog}" value="Создать заявку" icon="ui-icon-disk">-->
+                                <p:commandButton process="@this" update=":form:msgs" actionListener="#{ticketController.doOpenTicketDialog(transport, didBy)}" value="Создать заявку" icon="ui-icon-disk">
                                     <!--<p:ajax event="dialogReturn" listener="{ticketController.doAddTicket}" update=":form:msgs" />-->
-                                <!--</p:commandButton>-->
-                                <p:commandButton update=":form:addTicketPanel" oncomplete="PF('addTicketDialog').show()" value="Создать заявку" icon="ui-icon-disk" title="View">
+                                </p:commandButton>
+
+                                <p:commandButton update=":form:addTicketPanel" oncomplete="PF('addTicketDialog').show()" value="Создать заявку (JS)" icon="ui-icon-disk" title="View">
                                     <f:setPropertyActionListener value="#{transport}" target="#{ticketController.transport}"/>
                                     <f:setPropertyActionListener value="#{didBy}" target="#{ticketController.didBy}"/>
                                     <!--<p:ajax event="dialogReturn" update="@parent:@parent" />-->
