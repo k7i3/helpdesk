@@ -1,21 +1,19 @@
 package k7i3.code.helpdesk.tnc;
 
-import org.primefaces.context.RequestContext;
-
-import javax.enterprise.context.SessionScoped;
+import javax.enterprise.context.RequestScoped;
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.Serializable;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.logging.Logger;
 
 /**
  * Created by k7i3 on 24.02.15.
  */
 @Named
-@SessionScoped
+@RequestScoped
 public class TicketController implements Serializable {
     @Inject
     private TransportEJB transportEJB;
@@ -27,21 +25,6 @@ public class TicketController implements Serializable {
     private TicketHeader ticketHeader;
 //    List<TicketHeader> ticketHeaders = Arrays.asList(TicketHeader.values());
     private String commentContent;
-
-    public void doOpenTicketDialog(Transport transport, String didBy) {
-        this.transport = transport;
-        this.didBy = didBy;
-
-        Map<String,Object> options = new HashMap<>();
-        options.put("modal", true);
-        options.put("draggable", true);
-        options.put("resizable", true);
-
-        RequestContext.getCurrentInstance().openDialog("addTicket", options, null);
-
-//        FacesMessage msg = new FacesMessage(didBy, transport.getId().toString());
-//        FacesContext.getCurrentInstance().addMessage(null, msg);
-    }
 
     public void doAddTicket() {
         logger.info("=>=>=>=>=> TicketController.doAddTicket()");
@@ -55,16 +38,34 @@ public class TicketController implements Serializable {
         ticket.getComments().add(new Comment(ticket.getCreation(), new CommentInfo(ticket.getCreation(), commentContent)));
         transport.getTickets().add(ticket);
         transportEJB.updateTransport(transport);
-        doReset();
-        RequestContext.getCurrentInstance().closeDialog(null);
+//        doReset(); for PF('addTicketDialog').show() via JS (@SessionScoped) and for Primefaces dialog framework (@SessionScoped)
+//        RequestContext.getCurrentInstance().closeDialog(null); for Primefaces dialog framework (@SessionScoped)
+
+        FacesMessage msg = new FacesMessage("Заявка сохранена", transport.getTransportInfo().getStateNumber());
+        FacesContext.getCurrentInstance().addMessage(null, msg);
     }
 
-    public void doReset() {
-        transport = null;
-        didBy = null;
-        ticket = new Ticket();
-        commentContent = null;
-    }
+//    public void doOpenTicketDialog(Transport transport, String didBy) {
+//        this.transport = transport;
+//        this.didBy = didBy;
+//
+//        Map<String,Object> options = new HashMap<>();
+//        options.put("modal", true);
+//        options.put("draggable", true);
+//        options.put("resizable", true);
+//
+//        RequestContext.getCurrentInstance().openDialog("addTicket", options, null);
+//
+////        FacesMessage msg = new FacesMessage(didBy, transport.getId().toString());
+////        FacesContext.getCurrentInstance().addMessage(null, msg);
+//    }
+
+//    public void doReset() {
+//        transport = null;
+//        didBy = null;
+//        ticket = new Ticket();
+//        commentContent = null;
+//    }
 
 
 

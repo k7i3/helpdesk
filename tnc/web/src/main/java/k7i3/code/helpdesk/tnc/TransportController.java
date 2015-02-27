@@ -82,7 +82,7 @@ public class TransportController {
         transportEJB.updateTransport(transport);
         commentContent = null;
 
-        FacesMessage msg = new FacesMessage("сохранено", transport.getId().toString());
+        FacesMessage msg = new FacesMessage("Комментарий к транспорту сохранен", transport.getTransportInfo().getStateNumber());
         FacesContext.getCurrentInstance().addMessage(null, msg);
     }
 
@@ -92,7 +92,7 @@ public class TransportController {
         transportEJB.updateTicket(ticket);
         commentContent = null;
 
-        FacesMessage msg = new FacesMessage("сохранено", ticket.getId().toString());
+        FacesMessage msg = new FacesMessage("Комментарий к заявке сохранен", ticket.getTicketInfo().getTransportInfo().getStateNumber());
         FacesContext.getCurrentInstance().addMessage(null, msg);
     }
 
@@ -105,12 +105,12 @@ public class TransportController {
 
     public void onRowEdit(RowEditEvent event) {
         transportEJB.updateTransport((Transport) event.getObject());
-        FacesMessage msg = new FacesMessage("сохранено", ((Transport) event.getObject()).getId().toString());
+        FacesMessage msg = new FacesMessage("Информация сохранена", ((Transport) event.getObject()).getTransportInfo().getStateNumber());
         FacesContext.getCurrentInstance().addMessage(null, msg);
     }
 
     public void onRowCancel(RowEditEvent event) {
-        FacesMessage msg = new FacesMessage("отменено", ((Transport) event.getObject()).getId().toString());
+        FacesMessage msg = new FacesMessage("Информация не сохранена", ((Transport) event.getObject()).getTransportInfo().getStateNumber());
         FacesContext.getCurrentInstance().addMessage(null, msg);
     }
 
