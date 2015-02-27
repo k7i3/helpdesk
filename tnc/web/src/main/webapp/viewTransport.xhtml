@@ -292,7 +292,6 @@
                             <p:commandButton id="transportCommentsButton" update=":form:transportCommentsPanel" oncomplete="PF('transportCommentsDialog').show()" icon="ui-icon-search" title="View">
                                 <f:setPropertyActionListener value="#{transport}" target="#{transportController.dialogSelectedTransport}" />
                             </p:commandButton>
-                            <!--<p:commandButton id="createTicketButton" actionlistener="{transportController.showAddTicketDialog}" value="Создать заявку" icon="ui-icon-disk"/>-->
                         </p:panelGrid>
 
                         <p:accordionPanel multiple="true" activeIndex="" style="margin-bottom: 20px">
@@ -369,6 +368,11 @@
 
                                 <p:panel id="horizontal" header="Новая заявка" collapsed="true" toggleable="true" toggleOrientation="horizontal" style="max-width: 70%">
                                     <p:panelGrid columns="2" columnClasses="label,value" style="margin-bottom:10px; width: auto" cellpadding="5">
+                                        <h:outputText value="Причина:"/>
+                                        <p:selectOneListbox value="#{ticketController.ticket.ticketInfo.ticketHeader}">
+                                            <f:selectItems value="#{ticketController.ticketHeaders}" var="ticketHeader" itemLabel="#{ticketHeader.toString()}" itemValue="#{ticketHeader}"/>
+                                        </p:selectOneListbox>
+
                                         <h:outputText value="Возможность подачи в Уфу:"/>
                                         <p:selectBooleanButton value="#{ticketController.ticket.ticketInfo.ticketDetails.possibilityOfServiceAtTheDefaultPlace}" onLabel="Есть" offLabel="Нет" onIcon="ui-icon-check" offIcon="ui-icon-close"/>
 
@@ -376,7 +380,7 @@
                                         <p:selectBooleanButton value="#{ticketController.ticket.ticketInfo.ticketDetails.isInspected}" onLabel="Произведен" offLabel="Не произведен" onIcon="ui-icon-check" offIcon="ui-icon-close"/>
 
                                         <h:outputText value="Место подачи:"/>
-                                        <p:inputText value="#{ticketController.ticket.ticketInfo.ticketDetails.place}"/>
+                                        <p:inputText value="#{ticketController.ticket.ticketInfo.ticketDetails.place}" style="width: 380px"/>
 
                                         <h:outputText value="Телефон водителя:"/>
                                         <p:inputText value="#{ticketController.ticket.ticketInfo.ticketDetails.mobileNumberOfDriver}"/>

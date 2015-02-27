@@ -104,6 +104,7 @@ public class TransportController {
     //On
 
     public void onRowEdit(RowEditEvent event) {
+        //TODO save previous info
         transportEJB.updateTransport((Transport) event.getObject());
         FacesMessage msg = new FacesMessage("Информация сохранена", ((Transport) event.getObject()).getTransportInfo().getStateNumber());
         FacesContext.getCurrentInstance().addMessage(null, msg);

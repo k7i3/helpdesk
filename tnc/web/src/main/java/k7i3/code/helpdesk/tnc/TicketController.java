@@ -6,7 +6,9 @@ import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.Serializable;
+import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
 import java.util.logging.Logger;
 
 /**
@@ -23,7 +25,7 @@ public class TicketController implements Serializable {
     private String didBy;
     private Ticket ticket = new Ticket();
     private TicketHeader ticketHeader;
-//    List<TicketHeader> ticketHeaders = Arrays.asList(TicketHeader.values());
+    List<TicketHeader> ticketHeaders = Arrays.asList(TicketHeader.values());
     private String commentContent;
 
     public void doAddTicket() {
@@ -31,7 +33,7 @@ public class TicketController implements Serializable {
         ticket.setCreation(new LifeCycleInfo(new Date(), didBy));
         ticket.getTicketInfo().setModification(ticket.getCreation());
         ticket.getTicketInfo().setTicketStatus(TicketStatus.OPENED);
-        ticket.getTicketInfo().setTicketHeader(TicketHeader.OTHER); // temporary
+//        ticket.getTicketInfo().setTicketHeader(TicketHeader.OTHER); // temporary
         ticket.getTicketInfo().setTransportInfo(transport.getTransportInfo());
         ticket.getTicketInfo().setTerminalInfo(transport.getTerminal().getTerminalInfo());
         ticket.getTicketInfo().setPointInfo(transport.getPoint().getPointInfo());
@@ -118,5 +120,13 @@ public class TicketController implements Serializable {
 
     public void setCommentContent(String commentContent) {
         this.commentContent = commentContent;
+    }
+
+    public List<TicketHeader> getTicketHeaders() {
+        return ticketHeaders;
+    }
+
+    public void setTicketHeaders(List<TicketHeader> ticketHeaders) {
+        this.ticketHeaders = ticketHeaders;
     }
 }
