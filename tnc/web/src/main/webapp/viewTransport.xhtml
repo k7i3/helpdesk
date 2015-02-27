@@ -286,10 +286,10 @@
 
                     <p:rowExpansion>
                         <p:panelGrid style="margin-bottom: 20px">
-                            <p:commandButton id="transportPointButton" update=":form:transportPointPanel" oncomplete="PF('transportPointDialog').show()" icon="ui-icon-pin-s" title="View">
-                                <f:setPropertyActionListener value="#{transport.point}" target="#{transportController.dialogSelectedPoint}" />
+                            <p:commandButton process="@this" id="transportPointButton" update=":form:transportPointPanel" action="#{pointController.initModel}" oncomplete="PF('transportPointDialog').show()" icon="ui-icon-pin-s" title="View">
+                                <f:setPropertyActionListener value="#{transport.point}" target="#{pointController.point}" />
                             </p:commandButton>
-                            <p:commandButton id="transportCommentsButton" update=":form:transportCommentsPanel" oncomplete="PF('transportCommentsDialog').show()" icon="ui-icon-search" title="View">
+                            <p:commandButton process="@this" id="transportCommentsButton" update=":form:transportCommentsPanel" oncomplete="PF('transportCommentsDialog').show()" icon="ui-icon-search" title="View">
                                 <f:setPropertyActionListener value="#{transport}" target="#{transportController.dialogSelectedTransport}" />
                             </p:commandButton>
                         </p:panelGrid>
@@ -303,6 +303,7 @@
                                     <h:outputText value="координаты: #{transport.point.pointInfo.latitude} - #{transport.point.pointInfo.longitude} - #{transport.point.pointInfo.date}"/>
                                     <h:outputText value="комплект: тангента(#{transport.transportInfo.transportEquipment.hasPtt}) - динамик(#{transport.transportInfo.transportEquipment.hasSpeaker}) - информатор(#{transport.transportInfo.transportEquipment.hasInformer}) - регистратор(#{transport.transportInfo.transportEquipment.hasDvr})" style="display:block"/>
                                 </p:panelGrid>
+                                    <!--<p:gmap center="{transport.point.pointInfo.latitude}, {transport.point.pointInfo.longitude}" zoom="5" type="HYBRID" style="width:100%; height:400px" />-->
                             </p:tab>
 
                             <p:tab title="Комментарии к транспорту">
@@ -366,6 +367,10 @@
                                     </p:panel>
                                 </ui:repeat>
 
+                                <!--<p:selectOneMenu value="{ticketController.ticket.ticketInfo.ticketHeader}">-->
+                                <!--<f:selectItem itemLabel="Выбор..." itemValue="" />-->
+                                    <!--<f:selectItems value="{ticketController.ticketHeaders}" var="ticketHeader" itemLabel="{ticketHeader.toString()}" itemValue="{ticketHeader}"/>-->
+                                <!--</p:selectOneMenu>-->
                                 <p:panel id="horizontal" header="Новая заявка" collapsed="true" toggleable="true" toggleOrientation="horizontal" style="max-width: 70%">
                                     <p:panelGrid columns="2" columnClasses="label,value" style="margin-bottom:10px; width: auto" cellpadding="5">
                                         <h:outputText value="Причина:"/>
@@ -399,18 +404,6 @@
                                         </f:facet>
                                     </p:panelGrid>
                                 </p:panel>
-
-                                <!--<p:commandButton process="@this" update=":form:msgs" actionListener="{ticketController.doOpenTicketDialog(transport, didBy)}" value="Создать заявку" icon="ui-icon-disk">-->
-                                    <!--&lt;!&ndash;<p:ajax event="dialogReturn" update="@parent:@parent" />TODO catch child for update&ndash;&gt;-->
-                                    <!--&lt;!&ndash;<p:ajax event="dialogReturn" listener="{ticketController.doAddTicket}" update=":form:msgs" />&ndash;&gt;-->
-                                <!--</p:commandButton>-->
-
-                                <!--<p:commandButton update=":form:addTicketPanel" oncomplete="PF('addTicketDialog').show()" value="Создать заявку (JS)" icon="ui-icon-disk" title="View">-->
-                                    <!--<f:setPropertyActionListener value="{transport}" target="{ticketController.transport}"/>-->
-                                    <!--<f:setPropertyActionListener value="{didBy}" target="{ticketController.didBy}"/>-->
-                                    <!--&lt;!&ndash;<p:ajax event="dialogReturn" update="@parent:@parent" />&ndash;&gt;-->
-                                <!--</p:commandButton>-->
-
                             </p:tab>
                         </p:accordionPanel>
                     </p:rowExpansion>
@@ -543,8 +536,9 @@
             <!--height="400"-->
 
             <p:outputPanel id="transportPointPanel">
-                <h:outputText value="latitude = #{transportController.dialogSelectedPoint.pointInfo.latitude} / longitude = #{transportController.dialogSelectedPoint.pointInfo.longitude}" style="display:block"/>
-                <p:gmap id="gmap" center="#{transportController.dialogSelectedPoint.pointInfo.latitude}, #{transportController.dialogSelectedPoint.pointInfo.longitude}" zoom="5" type="HYBRID" style="width:100%; height:500px" />
+                <h:outputText value="point = #{pointController.point}" style="display:block"/>
+                <h:outputText value="latitude = #{pointController.point.pointInfo.latitude} / longitude = #{pointController.point.pointInfo.longitude}" style="display:block"/>
+                <p:gmap id="gmap" center="#{pointController.point.pointInfo.latitude}, #{pointController.point.pointInfo.longitude}" model="#{pointController.model}" zoom="5" type="HYBRID" style="width:100%; height:500px" />
             </p:outputPanel>
         </p:dialog>
 
