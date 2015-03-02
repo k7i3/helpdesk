@@ -21,35 +21,48 @@ public class TicketController {
     private Logger logger = Logger.getLogger("k7i3");
 
     private Transport transport;
-    private String didBy;
     private Ticket ticket = new Ticket();
-    private TicketHeader ticketHeader;
-    List<TicketHeader> ticketHeaders = Arrays.asList(TicketHeader.values());
+    private List<TicketHeader> ticketHeaders = Arrays.asList(TicketHeader.values());
+    private String didBy;
     private String commentContent;
 
-//    @PostConstruct // attempt to fix problem with rowEdit event - not helped (when event is executed, validation ticketHeader at TicketController execute too, and broke everything)
-//    value is set, but bug not resolved
-//    public void init() {
-//        ticket.getTicketInfo().setTicketHeader(TicketHeader.NOT_ONLINE);
-//    }
+    public void doAddTransportComment(Transport transport, String commentDidBy) {
+        Comment comment = new Comment(new LifeCycleInfo(new Date(), commentDidBy), new CommentInfo(new LifeCycleInfo(new Date(), commentDidBy), commentContent));
+        transport.getComments().add(comment);
+        transportEJB.updateTransport(transport);
+        commentContent = null;
+
+        FacesMessage msg = new FacesMessage("Комментарий к транспорту сохранен", transport.getTransportInfo().getStateNumber());
+        FacesContext.getCurrentInstance().addMessage(null, msg);
+    }
+
+    public void doAddTicketComment(Ticket ticket, String didBy) {
+        Comment comment = new Comment(new LifeCycleInfo(new Date(), didBy), new CommentInfo(new LifeCycleInfo(new Date(), didBy), commentContent));
+        ticket.getComments().add(comment);
+        transportEJB.updateTicket(ticket);
+        commentContent = null;
+
+        FacesMessage msg = new FacesMessage("Комментарий к заявке сохранен", ticket.getTicketInfo().getTransportInfo().getStateNumber());
+        FacesContext.getCurrentInstance().addMessage(null, msg);
+    }
 
     public void doAddTicket() {
         logger.info("=>=>=>=>=> TicketController.doAddTicket()");
         ticket.setCreation(new LifeCycleInfo(new Date(), didBy));
         ticket.getTicketInfo().setModification(ticket.getCreation());
         ticket.getTicketInfo().setTicketStatus(TicketStatus.OPENED);
-//        ticket.getTicketInfo().setTicketHeader(TicketHeader.OTHER); // temporary
         ticket.getTicketInfo().setTransportInfo(transport.getTransportInfo());
         ticket.getTicketInfo().setTerminalInfo(transport.getTerminal().getTerminalInfo());
         ticket.getTicketInfo().setPointInfo(transport.getPoint().getPointInfo());
         ticket.getComments().add(new Comment(ticket.getCreation(), new CommentInfo(ticket.getCreation(), commentContent)));
         transport.getTickets().add(ticket);
         transportEJB.updateTransport(transport);
-//        doReset(); for PF('addTicketDialog').show() via JS (@SessionScoped) and for Primefaces dialog framework (@SessionScoped)
-//        RequestContext.getCurrentInstance().closeDialog(null); for Primefaces dialog framework (@SessionScoped)
 
         FacesMessage msg = new FacesMessage("Заявка сохранена", transport.getTransportInfo().getStateNumber());
         FacesContext.getCurrentInstance().addMessage(null, msg);
+
+//        doReset(); for PF('addTicketDialog').show() via JS (@SessionScoped) and for Primefaces dialog framework (@SessionScoped)
+//        RequestContext.getCurrentInstance().closeDialog(null); for Primefaces dialog framework (@SessionScoped)
     }
 
 //    public void doOpenTicketDialog(Transport transport, String didBy) {
@@ -87,6 +100,10 @@ public class TicketController {
 
 
 
+
+
+
+
     public Transport getTransport() {
         return transport;
     }
@@ -109,14 +126,6 @@ public class TicketController {
 
     public void setTicket(Ticket ticket) {
         this.ticket = ticket;
-    }
-
-    public TicketHeader getTicketHeader() {
-        return ticketHeader;
-    }
-
-    public void setTicketHeader(TicketHeader ticketHeader) {
-        this.ticketHeader = ticketHeader;
     }
 
     public String getCommentContent() {

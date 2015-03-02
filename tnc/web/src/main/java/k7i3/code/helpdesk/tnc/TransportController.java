@@ -8,8 +8,8 @@ import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
-import java.util.Date;
 import java.util.List;
+import java.util.logging.Logger;
 
 /**
  * Created by k7i3 on 29.01.15.
@@ -19,6 +19,7 @@ import java.util.List;
 public class TransportController {
     @Inject
     private TransportEJB transportEJB;
+    private Logger logger = Logger.getLogger("k7i3");
 
     private List<Transport> transport; // transport table
     private List<String> projects;
@@ -31,11 +32,7 @@ public class TransportController {
     private List<Transport> filteredTransport; // transport table
     private List<Transport> checkboxSelectedTransport; // transport table
 
-    private List<Comment> filteredTransportComments; // in table at comments dialog (will be deleted)
-
-    private Transport dialogSelectedTransport; // comments dialog + add comment (unitOfTransport )
-    private Point dialogSelectedPoint; // point dialog (point)
-    private String commentContent;
+    private Transport unitOfTransport;
 
     @PostConstruct
     public void doFindAllTransport() {
@@ -74,34 +71,7 @@ public class TransportController {
         routes = transportEJB.findAllRoutes();
     }
 
-    //Do ADD
-
-    public void doAddTransportComment(Transport transport, String commentDidBy) {
-        Comment comment = new Comment(new LifeCycleInfo(new Date(), commentDidBy), new CommentInfo(new LifeCycleInfo(new Date(), commentDidBy), commentContent));
-        transport.getComments().add(comment);
-        transportEJB.updateTransport(transport);
-        commentContent = null;
-
-        FacesMessage msg = new FacesMessage("Комментарий к транспорту сохранен", transport.getTransportInfo().getStateNumber());
-        FacesContext.getCurrentInstance().addMessage(null, msg);
-    }
-
-    public void doAddTicketComment(Ticket ticket, String didBy) {
-        Comment comment = new Comment(new LifeCycleInfo(new Date(), didBy), new CommentInfo(new LifeCycleInfo(new Date(), didBy), commentContent));
-        ticket.getComments().add(comment);
-        transportEJB.updateTicket(ticket);
-        commentContent = null;
-
-        FacesMessage msg = new FacesMessage("Комментарий к заявке сохранен", ticket.getTicketInfo().getTransportInfo().getStateNumber());
-        FacesContext.getCurrentInstance().addMessage(null, msg);
-    }
-
-//    public void doAddTransportComment(ActionEvent event) {
-//        FacesMessage msg = new FacesMessage("сохранено", event.getSource().getClass().getSimpleName()); // component from xhtml (commandButton)
-//        FacesContext.getCurrentInstance().addMessage(null, msg);
-//    }
-
-    //On
+    //AJAX
 
     public void onRowEdit(RowEditEvent event) {
         //TODO save previous info
@@ -132,7 +102,12 @@ public class TransportController {
 
 
 
-    //Get & Set
+
+
+
+
+
+
 
     public List<Transport> getTransport() {
         return transport;
@@ -198,20 +173,12 @@ public class TransportController {
         this.routes = routes;
     }
 
-    public Transport getDialogSelectedTransport() {
-        return dialogSelectedTransport;
+    public Transport getUnitOfTransport() {
+        return unitOfTransport;
     }
 
-    public void setDialogSelectedTransport(Transport dialogSelectedTransport) {
-        this.dialogSelectedTransport = dialogSelectedTransport;
-    }
-
-    public List<Comment> getFilteredTransportComments() {
-        return filteredTransportComments;
-    }
-
-    public void setFilteredTransportComments(List<Comment> filteredTransportComments) {
-        this.filteredTransportComments = filteredTransportComments;
+    public void setUnitOfTransport(Transport unitOfTransport) {
+        this.unitOfTransport = unitOfTransport;
     }
 
     public List<Transport> getCheckboxSelectedTransport() {
@@ -220,21 +187,5 @@ public class TransportController {
 
     public void setCheckboxSelectedTransport(List<Transport> checkboxSelectedTransport) {
         this.checkboxSelectedTransport = checkboxSelectedTransport;
-    }
-
-    public Point getDialogSelectedPoint() {
-        return dialogSelectedPoint;
-    }
-
-    public void setDialogSelectedPoint(Point dialogSelectedPoint) {
-        this.dialogSelectedPoint = dialogSelectedPoint;
-    }
-
-    public String getCommentContent() {
-        return commentContent;
-    }
-
-    public void setCommentContent(String commentContent) {
-        this.commentContent = commentContent;
     }
 }

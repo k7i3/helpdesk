@@ -286,12 +286,9 @@
 
                     <p:rowExpansion>
                         <p:panelGrid style="margin-bottom: 20px">
-                            <p:commandButton process="@this" id="transportPointButton" update=":form:transportPointPanel" action="#{pointController.initModel}" oncomplete="PF('transportPointDialog').show()" icon="ui-icon-pin-s" title="View">
+                            <p:commandLink value="показать на карте" process="@this" id="transportPointButton" update=":form:transportPointPanel" action="#{pointController.initModel}" oncomplete="PF('transportPointDialog').show()" title="View">
                                 <f:setPropertyActionListener value="#{transport.point}" target="#{pointController.point}" />
-                            </p:commandButton>
-                            <p:commandButton process="@this" id="transportCommentsButton" update=":form:transportCommentsPanel" oncomplete="PF('transportCommentsDialog').show()" icon="ui-icon-search" title="View">
-                                <f:setPropertyActionListener value="#{transport}" target="#{transportController.dialogSelectedTransport}" />
-                            </p:commandButton>
+                            </p:commandLink>
                         </p:panelGrid>
 
                         <p:accordionPanel multiple="true" activeIndex="" style="margin-bottom: 20px">
@@ -319,8 +316,8 @@
                                 </ui:repeat>
                                 </p:scrollPanel>
                                 <!--</p:panelGrid>-->
-                                <p:inputTextarea rows="3" cols="100" value="#{transportController.commentContent}" style="display:block; margin-bottom: 10px"/>
-                                <p:commandButton id="transportCommentButton" process="@parent" update="@parent:@child(1) @parent:@child(3) :form:msgs" action="#{transportController.doAddTransportComment(transport, didBy)}" value="Отправить" icon="ui-icon-disk"/>
+                                <p:inputTextarea rows="3" cols="100" value="#{ticketController.commentContent}" style="display:block; margin-bottom: 10px"/>
+                                <p:commandButton id="transportCommentButton" process="@parent" update="@parent:@child(1) @parent:@child(3) :form:msgs" action="#{ticketController.doAddTransportComment(transport, didBy)}" value="Отправить" icon="ui-icon-disk"/>
                                     <!--<f:setPropertyActionListener value="Администратор" target="{transportController.commentDidBy}" />-->
                                     <!--<f:setPropertyActionListener value="{transport}" target="{transportController.dialogSelectedTransport}" />-->
                                     <!--actionListener="{transportController.doAddTransportComment(transport, commentDidBy)}"-->
@@ -350,8 +347,8 @@
                                             </p:fieldset>
                                         </ui:repeat>
                                         </p:scrollPanel>
-                                        <p:inputTextarea rows="3" cols="100" value="#{transportController.commentContent}" style="display:block; margin-bottom: 10px"/>
-                                        <p:commandButton id="ticketCommentButton" process="@parent" update="@parent:@child(2) @parent:@child(3) :form:msgs" action="#{transportController.doAddTicketComment(ticket, didBy)}" value="Отправить" icon="ui-icon-disk"/>
+                                        <p:inputTextarea rows="3" cols="100" value="#{ticketController.commentContent}" style="display:block; margin-bottom: 10px"/>
+                                        <p:commandButton id="ticketCommentButton" process="@parent" update="@parent:@child(2) @parent:@child(3) :form:msgs" action="#{ticketController.doAddTicketComment(ticket, didBy)}" value="Отправить" icon="ui-icon-disk"/>
                                         <!--<f:facet name="options">-->
                                             <!--<p:menu>-->
                                                 <!--<p:submenu label="Settings">-->
@@ -525,138 +522,22 @@
 
         <p:dialog
                 widgetVar="transportPointDialog"
-                header="Карта:"
+                header="Местоположение транспорта:"
                 modal="true"
                 showEffect="fade"
                 hideEffect="fade"
                 resizable="false"
                 draggable="false"
-                width="50%">
+                width="50%"
+                style="font-size: small">
             <!--id="transportPointDialog"-->
             <!--width="625"-->
             <!--height="400"-->
 
             <p:outputPanel id="transportPointPanel">
-                <h:outputText value="point = #{pointController.point}" style="display:block"/>
-                <h:outputText value="latitude = #{pointController.point.pointInfo.latitude} / longitude = #{pointController.point.pointInfo.longitude}" style="display:block"/>
                 <p:gmap id="gmap" center="#{pointController.point.pointInfo.latitude}, #{pointController.point.pointInfo.longitude}" model="#{pointController.model}" zoom="5" type="HYBRID" style="width:100%; height:500px" />
             </p:outputPanel>
         </p:dialog>
-
-        <p:dialog
-                widgetVar="addTicketDialog"
-                header="Новая заявка:"
-                modal="true"
-                showEffect="fade"
-                hideEffect="fade"
-                resizable="true"
-                draggable="true">
-
-            <p:outputPanel id="addTicketPanel">
-                <p:growl id="test-msgs" showDetail="true"/>
-
-                <h:outputText value="didBy = #{ticketController.didBy}" style="display:block"/>
-                <h:outputText value="transport = #{ticketController.transport}" style="display:block"/>
-
-                <h:panelGrid columns="2" style="margin-bottom:10px" cellpadding="5">
-
-                    <h:outputText value="Возможность подачи в Уфу:"/>
-                    <p:selectBooleanButton value="#{ticketController.ticket.ticketInfo.ticketDetails.possibilityOfServiceAtTheDefaultPlace}" onLabel="Есть" offLabel="Нет" onIcon="ui-icon-check" offIcon="ui-icon-close"/>
-
-                    <h:outputText value="Внешний осмотр:"/>
-                    <p:selectBooleanButton value="#{ticketController.ticket.ticketInfo.ticketDetails.isInspected}" onLabel="Произведен" offLabel="Не произведен" onIcon="ui-icon-check" offIcon="ui-icon-close"/>
-
-                    <h:outputText value="Место подачи:"/>
-                    <p:inputText value="#{ticketController.ticket.ticketInfo.ticketDetails.place}"/>
-
-                    <h:outputText value="Телефон водителя:"/>
-                    <p:inputText value="#{ticketController.ticket.ticketInfo.ticketDetails.mobileNumberOfDriver}"/>
-
-                    <h:outputText value="Телефон ответственного:"/>
-                    <p:inputText value="#{ticketController.ticket.ticketInfo.ticketDetails.mobileNumberOfAgent}"/>
-
-                    <h:outputText value="Комментарий:"/>
-                    <p:inputTextarea rows="5" cols="50" value="#{ticketController.commentContent}"/>
-
-                    <p:commandButton update=":form:addTicketPanel" actionListener="#{ticketController.doAddTicket}" oncomplete="PF('addTicketDialog').hide()" value="Создать" icon="ui-icon-disk"/>
-                </h:panelGrid>
-            </p:outputPanel>
-        </p:dialog>
-
-        <p:dialog
-                widgetVar="transportCommentsDialog"
-                header="Комментарии:"
-                modal="true"
-                showEffect="fade"
-                hideEffect="fade"
-                resizable="false"
-                draggable="false"
-                width="80%">
-            <!--id="transportCommentsDialog"-->
-            <!--modal="true" showEffect="explode""fade" hideEffect="bounce""fade" resizable="false"-->
-            <p:outputPanel id="transportCommentsPanel">
-
-                <!--style="text-align:center"-->
-
-                <!--<ui:repeat value="{transportController.dialogSelectedTransport.comments}" var="comment1">-->
-                    <!--<h:outputText value="{comment1.owner} - {comment1.content}" style="display:block"/>-->
-                <!--</ui:repeat>-->
-
-                <p:commandButton id="testButton1" onclick="PF('transportPointDialog').show()" icon="ui-icon-pin-s" title="View" style="height: 30px">
-                </p:commandButton>
-
-                <p:dataTable id="transportCommentsTable"
-                             widgetVar="transportCommentsTableWidget"
-                             var="comment"
-                             value="#{transportController.dialogSelectedTransport.comments}"
-                             filteredValue="#{transportController.filteredTransportComments}"
-                             emptyMessage="комментарии не найдены..."
-                             draggableColumns="true"
-                             draggableRows="false"
-                             resizableColumns="true"
-                             stickyHeader="false"
-                             scrollable="false"
-                             scrollHeight="500"
-                             sortMode="multiple"
-                             style="margin-bottom:20px">
-
-                    <f:facet name="header" >
-                        <p:outputPanel style="height: 30px">
-                            <p:inputText id="transportCommentsGlobalFilter" onkeyup="PF('transportCommentsTableWidget').filter()" style="width:200px; height: 20px; float:right"  placeholder=""  />
-                            <p:commandButton id="transportCommentsToggler" type="button" style="float:right; height: 30px" icon="ui-icon-calculator" />
-                            <p:columnToggler datasource="transportCommentsTable" trigger="transportCommentsToggler" />
-                        </p:outputPanel>
-                    </f:facet>
-
-                    <p:column headerText="Автор" sortBy="#{comment.creation.didBy}" filterBy="#{comment.creation.didBy}" filterMatchMode="contains">
-                        <h:outputText value="#{comment.creation.didBy}" />
-                    </p:column>
-
-                    <p:column headerText="Создан" sortBy="#{comment.creation.date}" filterBy="#{comment.creation.date}" filterMatchMode="contains">
-                        <h:outputText value="#{comment.creation.date}" />
-                    </p:column>
-
-                    <p:column headerText="Изменен" sortBy="#{comment.commentInfo.modification.date}" filterBy="#{comment.commentInfo.modification.date}" filterMatchMode="contains">
-                        <h:outputText value="#{comment.commentInfo.modification.date}" />
-                    </p:column>
-
-                    <p:column headerText="Удален" sortBy="#{comment.commentInfo.deletion.date}" filterBy="#{comment.commentInfo.deletion.date}" filterMatchMode="contains">
-                        <h:outputText value="#{comment.commentInfo.deletion.date}" />
-                    </p:column>
-
-                    <p:column headerText="Комментарий" sortBy="#{comment.commentInfo.content}" filterBy="#{comment.commentInfo.content}" filterMatchMode="contains">
-                        <h:outputText value="#{comment.commentInfo.content}" />
-                    </p:column>
-
-                    <f:facet name="footer">
-                        <h:outputText value="всего в базе: #{fn:length(transportController.dialogSelectedTransport.comments)}" style="font-size: small; text-align:left"/>
-                    </f:facet>
-
-                </p:dataTable>
-
-            </p:outputPanel>
-        </p:dialog>
-
 
     </ui:define>
 
