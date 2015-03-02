@@ -8,6 +8,7 @@ import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
+import java.util.Date;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -32,7 +33,8 @@ public class TransportController {
     private List<Transport> filteredTransport; // transport table
     private List<Transport> checkboxSelectedTransport; // transport table
 
-    private Transport unitOfTransport;
+    private Transport unitOfTransport = new Transport(new Terminal());
+    private String didBy;
 
     @PostConstruct
     public void doFindAllTransport() {
@@ -71,11 +73,26 @@ public class TransportController {
         routes = transportEJB.findAllRoutes();
     }
 
+    //Do ADD
+
+    public void doAddTransport() {
+        LifeCycleInfo lifeCycleInfo = new LifeCycleInfo(new Date(), didBy);
+        unitOfTransport.setCreation(lifeCycleInfo);
+        unitOfTransport.getTransportInfo().setModification(lifeCycleInfo);
+        unitOfTransport.getTerminal().setCreation(lifeCycleInfo);
+        unitOfTransport.getTerminal().getTerminalInfo().setModification(lifeCycleInfo);
+        transportEJB.createTransport(unitOfTransport);
+
+        FacesMessage msg = new FacesMessage("Транспорт сохранен", unitOfTransport.getTransportInfo().getStateNumber());
+        FacesContext.getCurrentInstance().addMessage(null, msg);
+    }
+
     //AJAX
 
     public void onRowEdit(RowEditEvent event) {
         //TODO save previous info
         transportEJB.updateTransport((Transport) event.getObject());
+
         FacesMessage msg = new FacesMessage("Информация сохранена", ((Transport) event.getObject()).getTransportInfo().getStateNumber());
         FacesContext.getCurrentInstance().addMessage(null, msg);
     }
@@ -187,5 +204,13 @@ public class TransportController {
 
     public void setCheckboxSelectedTransport(List<Transport> checkboxSelectedTransport) {
         this.checkboxSelectedTransport = checkboxSelectedTransport;
+    }
+
+    public String getDidBy() {
+        return didBy;
+    }
+
+    public void setDidBy(String didBy) {
+        this.didBy = didBy;
     }
 }

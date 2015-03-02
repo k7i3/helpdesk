@@ -27,7 +27,7 @@ public class TransportInfo {
     private String model;
     private String route;
     @Embedded
-    private TransportEquipment transportEquipment;
+    private TransportEquipment transportEquipment = new TransportEquipment();
 
     public TransportInfo() {
     }

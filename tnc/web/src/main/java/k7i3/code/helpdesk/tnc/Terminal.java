@@ -22,7 +22,7 @@ public class Terminal {
     private LifeCycleInfo creation;
     @NotNull
     @OneToOne(cascade = CascadeType.ALL)
-    private TerminalInfo terminalInfo;
+    private TerminalInfo terminalInfo = new TerminalInfo();
     @OneToMany(cascade = CascadeType.ALL)
     private List<TerminalInfo> terminalInfoHistory = new ArrayList<>();
 

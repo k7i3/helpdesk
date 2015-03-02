@@ -12,7 +12,7 @@
 <ui:composition template="layout.xhtml">
 
     <ui:define name="title">
-        <p:outputLabel>
+        <p:outputLabel style="font-size: small">
             Транспорт
         </p:outputLabel>
     </ui:define>
@@ -52,8 +52,11 @@
                         <!--<p:panelGrid>-->
                             <p:toolbar>
                                 <f:facet name="left">
-                                    <p:commandButton type="button" value="New" icon="ui-icon-document" />
-                                    <p:commandButton type="button" value="Open" icon="ui-icon-folder-open" />
+                                    <p:commandButton process="@this" value="Добавить" icon="ui-icon-document" update=":form:addTransportPanel" oncomplete="PF('addTransportDialog').show()"/>
+                                    <span class="ui-separator">
+                                        <span class="ui-icon ui-icon-grip-dotted-vertical" />
+                                    </span>
+                                    <p:commandButton type="button" value="Редактировать" icon="ui-icon-folder-open" />
 
                                     <span class="ui-separator">
                                         <span class="ui-icon ui-icon-grip-dotted-vertical" />
@@ -67,7 +70,7 @@
                                         <span class="ui-icon ui-icon-grip-dotted-vertical" />
                                     </span>
 
-                                    <p:menuButton value="Options">
+                                    <p:menuButton value="Настройки">
                                         <p:menuitem value="Save"  icon="ui-icon-disk" />
                                         <p:menuitem value="Update"  icon="ui-icon-arrowrefresh-1-w" />
                                         <p:menuitem value="Delete"  icon="ui-icon-close" />
@@ -286,7 +289,7 @@
 
                     <p:rowExpansion>
                         <p:panelGrid style="margin-bottom: 20px">
-                            <p:commandLink value="показать на карте" process="@this" id="transportPointButton" update=":form:transportPointPanel" action="#{pointController.initModel}" oncomplete="PF('transportPointDialog').show()" title="View">
+                            <p:commandLink value="показать на карте" process="@this" update=":form:showPointPanel" action="#{pointController.initModel}" oncomplete="PF('showPointDialog').show()" title="нажмите, чтобы увидеть транспорт на карте">
                                 <f:setPropertyActionListener value="#{transport.point}" target="#{pointController.point}" />
                             </p:commandLink>
                         </p:panelGrid>
@@ -521,7 +524,7 @@
         </p:tabView>
 
         <p:dialog
-                widgetVar="transportPointDialog"
+                widgetVar="showPointDialog"
                 header="Местоположение транспорта:"
                 modal="true"
                 showEffect="fade"
@@ -530,12 +533,79 @@
                 draggable="false"
                 width="50%"
                 style="font-size: small">
-            <!--id="transportPointDialog"-->
-            <!--width="625"-->
-            <!--height="400"-->
 
-            <p:outputPanel id="transportPointPanel">
+            <p:outputPanel id="showPointPanel">
                 <p:gmap id="gmap" center="#{pointController.point.pointInfo.latitude}, #{pointController.point.pointInfo.longitude}" model="#{pointController.model}" zoom="5" type="HYBRID" style="width:100%; height:500px" />
+            </p:outputPanel>
+        </p:dialog>
+
+        <p:dialog
+                widgetVar="addTransportDialog"
+                header="Добавление транспорта:"
+                modal="true"
+                showEffect="fade"
+                hideEffect="fade"
+                resizable="false"
+                draggable="false"
+                width="auto"
+                style="font-size: small">
+
+            <p:outputPanel id="addTransportPanel">
+                <p:panelGrid columns="2" style="margin-bottom:10px; width: auto" cellpadding="5">
+
+                    <h:outputText value="Проект:"/>
+                    <p:selectOneListbox value="#{transportController.unitOfTransport.transportInfo.project}">
+                        <f:selectItems value="#{transportController.projects}"/>
+                    </p:selectOneListbox>
+
+                    <h:outputText value="Филиал:"/>
+                    <p:selectOneListbox value="#{transportController.unitOfTransport.transportInfo.branch}">
+                        <f:selectItems value="#{transportController.branches}"/>
+                    </p:selectOneListbox>
+
+                    <h:outputText value="Гос. номер:"/>
+                    <p:inputText value="#{transportController.unitOfTransport.transportInfo.stateNumber}"/>
+
+                    <h:outputText value="Гар. номер:"/>
+                    <p:inputText value="#{transportController.unitOfTransport.transportInfo.garageNumber}"/>
+
+                    <h:outputText value="Модель транспорта:"/>
+                    <p:inputText value="#{transportController.unitOfTransport.transportInfo.model}"/>
+
+                    <h:outputText value="Маршрут:"/>
+                    <p:inputText value="#{transportController.unitOfTransport.transportInfo.route}"/>
+
+                    <h:outputText value="Тангента:"/>
+                    <p:selectBooleanButton value="#{transportController.unitOfTransport.transportInfo.transportEquipment.hasPtt}" onLabel="В комплекте" offLabel="Нет" onIcon="ui-icon-check" offIcon="ui-icon-close"/>
+
+                    <h:outputText value="Динамик:"/>
+                    <p:selectBooleanButton value="#{transportController.unitOfTransport.transportInfo.transportEquipment.hasSpeaker}" onLabel="В комплекте" offLabel="Нет" onIcon="ui-icon-check" offIcon="ui-icon-close"/>
+
+                    <h:outputText value="Информатор:"/>
+                    <p:selectBooleanButton value="#{transportController.unitOfTransport.transportInfo.transportEquipment.hasInformer}" onLabel="В комплекте" offLabel="Нет" onIcon="ui-icon-check" offIcon="ui-icon-close"/>
+
+                    <h:outputText value="Регистратор:"/>
+                    <p:selectBooleanButton value="#{transportController.unitOfTransport.transportInfo.transportEquipment.hasDvr}" onLabel="В комплекте" offLabel="Нет" onIcon="ui-icon-check" offIcon="ui-icon-close"/>
+
+                    <h:outputText value="Терминал:"/>
+                    <p:inputText value="#{transportController.unitOfTransport.terminal.terminalInfo.number}"/>
+
+                    <h:outputText value="Телефон:"/>
+                    <p:inputText value="#{transportController.unitOfTransport.terminal.terminalInfo.mobileNumber}"/>
+
+                    <h:outputText value="Модель терминала:"/>
+                    <p:inputText value="#{transportController.unitOfTransport.terminal.terminalInfo.model}"/>
+
+                    <h:outputText value="Прошивка:"/>
+                    <p:inputText value="#{transportController.unitOfTransport.terminal.terminalInfo.firmware}"/>
+
+                    <h:outputText value="Серийный номер:"/>
+                    <p:inputText value="#{transportController.unitOfTransport.terminal.terminalInfo.serialNumber}"/>
+                </p:panelGrid>
+
+                <p:commandButton process="@parent" update=":form:msgs :form:transportTabView" action="#{transportController.doAddTransport}" value="Создать" icon="ui-icon-disk">
+                    <f:setPropertyActionListener value="#{didBy}" target="#{transportController.didBy}"/>
+                </p:commandButton>
             </p:outputPanel>
         </p:dialog>
 

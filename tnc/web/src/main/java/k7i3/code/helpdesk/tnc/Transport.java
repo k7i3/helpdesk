@@ -31,7 +31,7 @@ public class Transport {
     private LifeCycleInfo creation;
     @NotNull
     @OneToOne(cascade = CascadeType.ALL)
-    private TransportInfo transportInfo;
+    private TransportInfo transportInfo = new TransportInfo();
     @OneToMany (cascade = CascadeType.ALL)
     private List<TransportInfo> transportInfoHistory = new ArrayList<>();
     @NotNull
@@ -50,6 +50,10 @@ public class Transport {
     public Transport(TransportInfo transportInfo, LifeCycleInfo creation, Terminal terminal) {
         this.transportInfo = transportInfo;
         this.creation = creation;
+        this.terminal = terminal;
+    }
+
+    public Transport(Terminal terminal) {
         this.terminal = terminal;
     }
 

@@ -26,8 +26,8 @@ public class TicketController {
     private String didBy;
     private String commentContent;
 
-    public void doAddTransportComment(Transport transport, String commentDidBy) {
-        Comment comment = new Comment(new LifeCycleInfo(new Date(), commentDidBy), new CommentInfo(new LifeCycleInfo(new Date(), commentDidBy), commentContent));
+    public void doAddTransportComment(Transport transport, String didBy) {
+        Comment comment = new Comment(new LifeCycleInfo(new Date(), didBy), new CommentInfo(new LifeCycleInfo(new Date(), didBy), commentContent));
         transport.getComments().add(comment);
         transportEJB.updateTransport(transport);
         commentContent = null;
