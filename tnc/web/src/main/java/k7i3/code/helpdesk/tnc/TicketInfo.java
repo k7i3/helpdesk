@@ -14,7 +14,7 @@ public class TicketInfo {
     @NotNull
     @Enumerated(EnumType.STRING)
     private TicketStatus ticketStatus;
-    @NotNull
+//    @NotNull - it is attempt to fix problem with ajax rowEdit event (when event is executed, validation ticketHeader at TicketController execute to, and broke everything)
     @Enumerated(EnumType.STRING)
     private TicketHeader ticketHeader;
     @NotNull

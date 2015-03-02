@@ -371,8 +371,9 @@
                                 <!--<f:selectItem itemLabel="Выбор..." itemValue="" />-->
                                     <!--<f:selectItems value="{ticketController.ticketHeaders}" var="ticketHeader" itemLabel="{ticketHeader.toString()}" itemValue="{ticketHeader}"/>-->
                                 <!--</p:selectOneMenu>-->
+
                                 <p:panel id="horizontal" header="Новая заявка" collapsed="true" toggleable="true" toggleOrientation="horizontal" style="max-width: 70%">
-                                    <p:panelGrid columns="2" columnClasses="label,value" style="margin-bottom:10px; width: auto" cellpadding="5">
+                                    <p:panelGrid columns="2" style="margin-bottom:10px; width: auto" cellpadding="5">
                                         <h:outputText value="Причина:"/>
                                         <p:selectOneListbox value="#{ticketController.ticket.ticketInfo.ticketHeader}">
                                             <f:selectItems value="#{ticketController.ticketHeaders}" var="ticketHeader" itemLabel="#{ticketHeader.toString()}" itemValue="#{ticketHeader}"/>

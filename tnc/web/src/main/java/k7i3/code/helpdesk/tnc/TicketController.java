@@ -27,6 +27,12 @@ public class TicketController {
     List<TicketHeader> ticketHeaders = Arrays.asList(TicketHeader.values());
     private String commentContent;
 
+//    @PostConstruct // attempt to fix problem with rowEdit event - not helped (when event is executed, validation ticketHeader at TicketController execute too, and broke everything)
+//    value is set, but bug not resolved
+//    public void init() {
+//        ticket.getTicketInfo().setTicketHeader(TicketHeader.NOT_ONLINE);
+//    }
+
     public void doAddTicket() {
         logger.info("=>=>=>=>=> TicketController.doAddTicket()");
         ticket.setCreation(new LifeCycleInfo(new Date(), didBy));
