@@ -52,7 +52,7 @@
                         <!--<p:panelGrid>-->
                             <p:toolbar>
                                 <f:facet name="left">
-                                    <p:commandButton process="@this" value="Добавить" icon="ui-icon-document" update=":form:addTransportPanel" oncomplete="PF('addTransportDialog').show()" onsuccess="PF('addTransportDialog').hide()"/>
+                                    <p:commandButton process="@this" value="Добавить" icon="ui-icon-document" update=":form:addTransportPanel" oncomplete="PF('addTransportDialog').show()"/>
                                     <span class="ui-separator">
                                         <span class="ui-icon ui-icon-grip-dotted-vertical" />
                                     </span>
@@ -554,14 +554,16 @@
                 <p:panelGrid columns="2" style="margin-bottom:10px; width: auto" cellpadding="5">
 
                     <h:outputText value="Проект:"/>
-                    <p:selectOneListbox value="#{transportController.unitOfTransport.transportInfo.project}">
+                    <p:selectOneMenu value="#{transportController.unitOfTransport.transportInfo.project}" editable="true">
+                        <f:selectItem itemLabel="*новый или из списка:" itemValue=""/>
                         <f:selectItems value="#{transportController.projects}"/>
-                    </p:selectOneListbox>
+                    </p:selectOneMenu>
 
                     <h:outputText value="Филиал:"/>
-                    <p:selectOneListbox value="#{transportController.unitOfTransport.transportInfo.branch}">
+                    <p:selectOneMenu value="#{transportController.unitOfTransport.transportInfo.branch}" editable="true">
+                        <f:selectItem itemLabel="*новый или из списка:" itemValue=""/>
                         <f:selectItems value="#{transportController.branches}"/>
-                    </p:selectOneListbox>
+                    </p:selectOneMenu>
 
                     <h:outputText value="Гос. номер:"/>
                     <p:inputText value="#{transportController.unitOfTransport.transportInfo.stateNumber}"/>
@@ -570,10 +572,16 @@
                     <p:inputText value="#{transportController.unitOfTransport.transportInfo.garageNumber}"/>
 
                     <h:outputText value="Модель транспорта:"/>
-                    <p:inputText value="#{transportController.unitOfTransport.transportInfo.model}"/>
+                    <p:selectOneMenu value="#{transportController.unitOfTransport.transportInfo.model}" editable="true">
+                        <f:selectItem itemLabel="*новый или из списка:" itemValue=""/>
+                        <f:selectItems value="#{transportController.transportModels}"/>
+                    </p:selectOneMenu>
 
                     <h:outputText value="Маршрут:"/>
-                    <p:inputText value="#{transportController.unitOfTransport.transportInfo.route}"/>
+                    <p:selectOneMenu value="#{transportController.unitOfTransport.transportInfo.route}" editable="true">
+                        <f:selectItem itemLabel="*новый или из списка:" itemValue=""/>
+                        <f:selectItems value="#{transportController.routes}"/>
+                    </p:selectOneMenu>
 
                     <h:outputText value="Тангента:"/>
                     <p:selectBooleanButton value="#{transportController.unitOfTransport.transportInfo.transportEquipment.hasPtt}" onLabel="В комплекте" offLabel="Нет" onIcon="ui-icon-check" offIcon="ui-icon-close"/>
@@ -594,16 +602,22 @@
                     <p:inputText value="#{transportController.unitOfTransport.terminal.terminalInfo.mobileNumber}"/>
 
                     <h:outputText value="Модель терминала:"/>
-                    <p:inputText value="#{transportController.unitOfTransport.terminal.terminalInfo.model}"/>
+                    <p:selectOneMenu value="#{transportController.unitOfTransport.terminal.terminalInfo.model}" editable="true">
+                        <f:selectItem itemLabel="*новый или из списка:" itemValue=""/>
+                        <f:selectItems value="#{transportController.terminalModels}"/>
+                    </p:selectOneMenu>
 
                     <h:outputText value="Прошивка:"/>
-                    <p:inputText value="#{transportController.unitOfTransport.terminal.terminalInfo.firmware}"/>
+                    <p:selectOneMenu value="#{transportController.unitOfTransport.terminal.terminalInfo.firmware}" editable="true">
+                        <f:selectItem itemLabel="*новый или из списка:" itemValue=""/>
+                        <f:selectItems value="#{transportController.firmware}"/>
+                    </p:selectOneMenu>
 
                     <h:outputText value="Серийный номер:"/>
                     <p:inputText value="#{transportController.unitOfTransport.terminal.terminalInfo.serialNumber}"/>
                 </p:panelGrid>
 
-                <p:commandButton process="@parent" update=":form:msgs :form:transportTabView" action="#{transportController.doAddTransport}" value="Создать" icon="ui-icon-disk">
+                <p:commandButton process="@parent" update=":form:msgs :form:transportTabView:transportTable" action="#{transportController.doAddTransport}" onsuccess="PF('addTransportDialog').hide()" value="Создать" icon="ui-icon-disk">
                     <f:setPropertyActionListener value="#{didBy}" target="#{transportController.didBy}"/>
                 </p:commandButton>
             </p:outputPanel>
