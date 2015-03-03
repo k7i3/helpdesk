@@ -88,6 +88,15 @@ public class TransportController {
         FacesContext.getCurrentInstance().addMessage(null, msg);
     }
 
+    //Do UPDATE
+
+    public void doUpdateTransport() {
+        transportEJB.updateTransport(unitOfTransport);
+
+        FacesMessage msg = new FacesMessage("Сохранено (комплектация)", unitOfTransport.getTransportInfo().getStateNumber());
+        FacesContext.getCurrentInstance().addMessage(null, msg);
+    }
+
     //AJAX
 
     public void onRowEdit(RowEditEvent event) {

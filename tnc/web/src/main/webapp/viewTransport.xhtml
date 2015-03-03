@@ -295,15 +295,36 @@
                         </p:panelGrid>
 
                         <p:accordionPanel multiple="true" activeIndex="" style="margin-bottom: 20px">
-                            <p:tab title="Информация">
-                                <p:panelGrid>
-                                    <h:outputText value="проект: #{transport.transportInfo.project} - #{transport.transportInfo.branch}" style="display:block"/>
-                                    <h:outputText value="транспорт: #{transport.transportInfo.route} - #{transport.transportInfo.stateNumber} - #{transport.transportInfo.garageNumber} - #{transport.transportInfo.model}" style="display:block"/>
-                                    <h:outputText value="терминал: #{transport.terminal.terminalInfo.number} - #{transport.terminal.terminalInfo.model} - #{transport.terminal.terminalInfo.serialNumber} - #{transport.terminal.terminalInfo.firmware} - #{transport.terminal.terminalInfo.mobileNumber}" style="display:block"/>
-                                    <h:outputText value="координаты: #{transport.point.pointInfo.latitude} - #{transport.point.pointInfo.longitude} - #{transport.point.pointInfo.date}"/>
-                                    <h:outputText value="комплект: тангента(#{transport.transportInfo.transportEquipment.hasPtt}) - динамик(#{transport.transportInfo.transportEquipment.hasSpeaker}) - информатор(#{transport.transportInfo.transportEquipment.hasInformer}) - регистратор(#{transport.transportInfo.transportEquipment.hasDvr})" style="display:block"/>
+                            <p:tab title="Дополнительное оборудование">
+                                <p:panelGrid columns="1" style="border: hidden white; width: auto">
+                                    <h:panelGrid columns="1" style="border: hidden white">
+                                        <p:panelGrid columns="2" style="width: auto">
+                                            <h:outputText value="Тангента:"/>
+                                            <p:inplace label="#{transport.transportInfo.transportEquipment.hasPtt? 'В комплекте':'Нет'}" style="display:block">
+                                                <p:selectBooleanButton value="#{transport.transportInfo.transportEquipment.hasPtt}" onLabel="В комплекте" offLabel="Нет" onIcon="ui-icon-check" offIcon="ui-icon-close"/>
+                                            </p:inplace>
+
+                                            <h:outputText value="Динамик:"/>
+                                            <p:inplace label="#{transport.transportInfo.transportEquipment.hasSpeaker? 'В комплекте':'Нет'}" style="display:block">
+                                                <p:selectBooleanButton value="#{transport.transportInfo.transportEquipment.hasSpeaker}" onLabel="В комплекте" offLabel="Нет" onIcon="ui-icon-check" offIcon="ui-icon-close"/>
+                                            </p:inplace>
+
+                                            <h:outputText value="Информатор:"/>
+                                            <p:inplace label="#{transport.transportInfo.transportEquipment.hasInformer? 'В комплекте':'Нет'}" style="display:block">
+                                                <p:selectBooleanButton value="#{transport.transportInfo.transportEquipment.hasInformer}" onLabel="В комплекте" offLabel="Нет" onIcon="ui-icon-check" offIcon="ui-icon-close"/>
+                                            </p:inplace>
+
+                                            <h:outputText value="Регистратор:"/>
+                                            <p:inplace label="#{transport.transportInfo.transportEquipment.hasDvr? 'В комплекте':'Нет'}" style="display:block">
+                                                <p:selectBooleanButton value="#{transport.transportInfo.transportEquipment.hasDvr}" onLabel="В комплекте" offLabel="Нет" onIcon="ui-icon-check" offIcon="ui-icon-close"/>
+                                            </p:inplace>
+                                        </p:panelGrid>
+
+                                        <p:commandLink value="обновить" process="@parent" update=":form:msgs @parent:@parent" action="#{transportController.doUpdateTransport}" title="нажмите, чтобы сохранить изменения">
+                                            <f:setPropertyActionListener value="#{transport}" target="#{transportController.unitOfTransport}" />
+                                        </p:commandLink>
+                                    </h:panelGrid>
                                 </p:panelGrid>
-                                    <!--<p:gmap center="{transport.point.pointInfo.latitude}, {transport.point.pointInfo.longitude}" zoom="5" type="HYBRID" style="width:100%; height:400px" />-->
                             </p:tab>
 
                             <p:tab title="Комментарии к транспорту">
