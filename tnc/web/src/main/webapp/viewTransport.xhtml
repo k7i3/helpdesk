@@ -52,7 +52,7 @@
                         <!--<p:panelGrid>-->
                             <p:toolbar>
                                 <f:facet name="left">
-                                    <p:commandButton process="@this" value="Добавить" icon="ui-icon-document" update=":form:addTransportPanel" oncomplete="PF('addTransportDialog').show()"/>
+                                    <p:commandButton process="@this" value="Добавить" icon="ui-icon-document" update=":form:addTransportPanel" oncomplete="PF('addTransportDialog').show()" onsuccess="PF('addTransportDialog').hide()"/>
                                     <span class="ui-separator">
                                         <span class="ui-icon ui-icon-grip-dotted-vertical" />
                                     </span>

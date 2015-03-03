@@ -33,7 +33,7 @@ public class TransportController {
     private List<Transport> filteredTransport; // transport table
     private List<Transport> checkboxSelectedTransport; // transport table
 
-    private Transport unitOfTransport = new Transport(new Terminal());
+    private Transport unitOfTransport = new Transport();
     private String didBy;
 
     @PostConstruct
@@ -81,6 +81,7 @@ public class TransportController {
         unitOfTransport.getTransportInfo().setModification(lifeCycleInfo);
         unitOfTransport.getTerminal().setCreation(lifeCycleInfo);
         unitOfTransport.getTerminal().getTerminalInfo().setModification(lifeCycleInfo);
+        unitOfTransport.getPoint().getPointInfo().setModification(lifeCycleInfo);
         transportEJB.createTransport(unitOfTransport);
 
         FacesMessage msg = new FacesMessage("Транспорт сохранен", unitOfTransport.getTransportInfo().getStateNumber());

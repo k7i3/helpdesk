@@ -13,7 +13,7 @@ public class Point {
     private Long id;
     @NotNull
     @OneToOne(cascade = CascadeType.ALL)
-    private PointInfo pointInfo;
+    private PointInfo pointInfo = new PointInfo();
 
     public Point() {
     }

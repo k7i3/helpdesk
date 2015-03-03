@@ -48,13 +48,14 @@ public class TicketController {
 
     public void doAddTicket() {
         logger.info("=>=>=>=>=> TicketController.doAddTicket()");
-        ticket.setCreation(new LifeCycleInfo(new Date(), didBy));
-        ticket.getTicketInfo().setModification(ticket.getCreation());
+        LifeCycleInfo lifeCycleInfo = new LifeCycleInfo(new Date(), didBy);
+        ticket.setCreation(lifeCycleInfo);
+        ticket.getTicketInfo().setModification(lifeCycleInfo);
         ticket.getTicketInfo().setTicketStatus(TicketStatus.OPENED);
         ticket.getTicketInfo().setTransportInfo(transport.getTransportInfo());
         ticket.getTicketInfo().setTerminalInfo(transport.getTerminal().getTerminalInfo());
         ticket.getTicketInfo().setPointInfo(transport.getPoint().getPointInfo());
-        ticket.getComments().add(new Comment(ticket.getCreation(), new CommentInfo(ticket.getCreation(), commentContent)));
+        ticket.getComments().add(new Comment(lifeCycleInfo, new CommentInfo(lifeCycleInfo, commentContent)));
         transport.getTickets().add(ticket);
         transportEJB.updateTransport(transport);
 

@@ -36,9 +36,9 @@ public class Transport {
     private List<TransportInfo> transportInfoHistory = new ArrayList<>();
     @NotNull
     @OneToOne(cascade = CascadeType.ALL)
-    private Terminal terminal;
+    private Terminal terminal = new Terminal();
     @OneToOne(cascade = CascadeType.ALL)
-    private Point point;
+    private Point point = new Point();
     @OneToMany (cascade = CascadeType.ALL)
     private List<Ticket> tickets = new ArrayList<>();
     @OneToMany (cascade = CascadeType.ALL)
@@ -50,10 +50,6 @@ public class Transport {
     public Transport(TransportInfo transportInfo, LifeCycleInfo creation, Terminal terminal) {
         this.transportInfo = transportInfo;
         this.creation = creation;
-        this.terminal = terminal;
-    }
-
-    public Transport(Terminal terminal) {
         this.terminal = terminal;
     }
 

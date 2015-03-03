@@ -20,13 +20,13 @@ public class PointInfo {
     @Embedded
     private LifeCycleInfo modification;
     @NotNull
-    private Double latitude;
+    private Double latitude = 54.720800;
     @NotNull
-    private Double longitude;
-    private Integer speed;
+    private Double longitude = 55.956039;
+    private Integer speed = 0;
     @NotNull
     @Temporal(TemporalType.TIMESTAMP)
-    private Date date;
+    private Date date = new Date(0);
 
     public PointInfo() {
     }
