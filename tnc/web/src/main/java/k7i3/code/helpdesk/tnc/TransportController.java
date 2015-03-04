@@ -91,6 +91,7 @@ public class TransportController {
     //Do UPDATE
 
     public void doUpdateTransport() {
+        //TODO save previous Info
         transportEJB.updateTransport(unitOfTransport);
 
         FacesMessage msg = new FacesMessage("Сохранено (комплектация)", unitOfTransport.getTransportInfo().getStateNumber());
@@ -100,7 +101,7 @@ public class TransportController {
     //AJAX
 
     public void onRowEdit(RowEditEvent event) {
-        //TODO save previous info
+        //TODO save previous Info
         transportEJB.updateTransport((Transport) event.getObject());
 
         FacesMessage msg = new FacesMessage("Информация сохранена", ((Transport) event.getObject()).getTransportInfo().getStateNumber());

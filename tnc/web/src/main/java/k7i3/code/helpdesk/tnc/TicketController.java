@@ -20,7 +20,7 @@ public class TicketController {
     private TransportEJB transportEJB;
     private Logger logger = Logger.getLogger("k7i3");
 
-    private Transport transport;
+    private Transport unitOfTransport;
     private Ticket ticket = new Ticket();
     private List<TicketHeader> ticketHeaders = Arrays.asList(TicketHeader.values());
     private String didBy;
@@ -52,18 +52,26 @@ public class TicketController {
         ticket.setCreation(lifeCycleInfo);
         ticket.getTicketInfo().setModification(lifeCycleInfo);
         ticket.getTicketInfo().setTicketStatus(TicketStatus.OPENED);
-        ticket.getTicketInfo().setTransportInfo(transport.getTransportInfo());
-        ticket.getTicketInfo().setTerminalInfo(transport.getTerminal().getTerminalInfo());
-        ticket.getTicketInfo().setPointInfo(transport.getPoint().getPointInfo());
+        ticket.getTicketInfo().setTransportInfo(unitOfTransport.getTransportInfo());
+        ticket.getTicketInfo().setTerminalInfo(unitOfTransport.getTerminal().getTerminalInfo());
+        ticket.getTicketInfo().setPointInfo(unitOfTransport.getPoint().getPointInfo());
         ticket.getComments().add(new Comment(lifeCycleInfo, new CommentInfo(lifeCycleInfo, commentContent)));
-        transport.getTickets().add(ticket);
-        transportEJB.updateTransport(transport);
+        unitOfTransport.getTickets().add(ticket);
+        transportEJB.updateTransport(unitOfTransport);
 
-        FacesMessage msg = new FacesMessage("Заявка сохранена", transport.getTransportInfo().getStateNumber());
+        FacesMessage msg = new FacesMessage("Заявка сохранена", unitOfTransport.getTransportInfo().getStateNumber());
         FacesContext.getCurrentInstance().addMessage(null, msg);
 
 //        doReset(); for PF('addTicketDialog').show() via JS (@SessionScoped) and for Primefaces dialog framework (@SessionScoped)
 //        RequestContext.getCurrentInstance().closeDialog(null); for Primefaces dialog framework (@SessionScoped)
+    }
+
+    public void doUpdateTicket() {
+        //TODO save previous Info
+        transportEJB.updateTransport(unitOfTransport);
+
+        FacesMessage msg = new FacesMessage("Сохранено (параметры заявки)", unitOfTransport.getTransportInfo().getStateNumber());
+        FacesContext.getCurrentInstance().addMessage(null, msg);
     }
 
 //    public void doOpenTicketDialog(Transport transport, String didBy) {
@@ -89,28 +97,12 @@ public class TicketController {
 //    }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    public Transport getTransport() {
-        return transport;
+    public Transport getUnitOfTransport() {
+        return unitOfTransport;
     }
 
-    public void setTransport(Transport transport) {
-        this.transport = transport;
+    public void setUnitOfTransport(Transport unitOfTransport) {
+        this.unitOfTransport = unitOfTransport;
     }
 
     public String getDidBy() {

@@ -328,50 +328,72 @@
                             </p:tab>
 
                             <p:tab title="Комментарии к транспорту">
-                                <!--<p:panelGrid columns="1">-->
-                                <p:scrollPanel mode="native" style="width: 800px; height: 300px; margin-bottom: 10px; padding: 10px">
+                                <p:scrollPanel mode="native" style="width: auto; height: auto; max-height: 300px; max-width: 100%; margin-bottom: 10px; padding: 10px">
                                     <ui:repeat value="#{transport.comments}" var="transportComment">
-                                    <p:fieldset legend="(#{transportComment.creation.date}) #{transportComment.creation.didBy}:" toggleable="true" toggleSpeed="500" collapsed="false" style="margin-bottom: 10px">
-                                        <p:panelGrid>
-                                            <h:outputText value="#{transportComment.commentInfo.content}" style="width:100%; display:block; word-wrap: break-word; font-style: italic; white-space: normal"/> <!--word-break: break-all;-->
-                                            <h:outputText value=" изменен: #{transportComment.commentInfo.modification.date}" style="width:100%; display:block; word-wrap: break-word; font-style: normal; font-weight: bold; white-space: normal"/>
-                                        </p:panelGrid>
-                                    </p:fieldset>
-                                </ui:repeat>
+                                        <p:fieldset legend="(#{transportComment.creation.date}) #{transportComment.creation.didBy}:" toggleable="true" toggleSpeed="500" collapsed="false" style="margin-bottom: 10px; width: auto; max-width: 100%" >
+                                            <p:panelGrid>
+                                                <h:outputText value="#{transportComment.commentInfo.content}" style="width:auto; display:block; word-wrap: break-word; font-style: italic; white-space: normal"/> <!--word-break: break-all;-->
+                                                <h:outputText value=" изменен: #{transportComment.commentInfo.modification.date}" style="width:auto; display:block; word-wrap: break-word; font-style: normal; font-weight: bold; white-space: normal"/>
+                                            </p:panelGrid>
+                                        </p:fieldset>
+                                    </ui:repeat>
                                 </p:scrollPanel>
-                                <!--</p:panelGrid>-->
-                                <p:inputTextarea rows="3" cols="100" value="#{ticketController.commentContent}" style="display:block; margin-bottom: 10px"/>
-                                <p:commandButton id="transportCommentButton" process="@parent" update="@parent:@child(1) @parent:@child(3) :form:msgs" action="#{ticketController.doAddTransportComment(transport, didBy)}" value="Отправить" icon="ui-icon-disk"/>
-                                    <!--<f:setPropertyActionListener value="Администратор" target="{transportController.commentDidBy}" />-->
-                                    <!--<f:setPropertyActionListener value="{transport}" target="{transportController.dialogSelectedTransport}" />-->
-                                    <!--actionListener="{transportController.doAddTransportComment(transport, commentDidBy)}"-->
+                                <p:inputTextarea rows="3" value="#{ticketController.commentContent}" style="display:block; margin-bottom: 10px; width: 50%"/>
+                                <p:commandButton id="transportCommentButton" process="@parent" update="@parent:@child(0) @parent:@child(1) :form:msgs" action="#{ticketController.doAddTransportComment(transport, didBy)}" value="Отправить" icon="ui-icon-disk"/>
                             </p:tab>
 
                             <p:tab title="Заявки">
                                 <ui:repeat value="#{transport.tickets}" var="ticket" varStatus="ticketVarStatus">
-                                    <p:panel id="ticketPanel#{ticketVarStatus.index}-#{ticket.id}" collapsed="true" toggleable="true" closable="true" toggleSpeed="500" closeSpeed="500" widgetVar="ticketPanel#{ticketVarStatus.index}-#{ticket.id}" style="margin-bottom: 10px; width: 70%"
+                                    <p:panel id="ticketPanel#{ticketVarStatus.index}-#{ticket.id}" collapsed="true" toggleable="true" closable="true" toggleSpeed="500" closeSpeed="500" widgetVar="ticketPanel#{ticketVarStatus.index}-#{ticket.id}" style="margin-bottom: 10px; width: 100%"
                                              header="#{ticketVarStatus.index + 1} - #{ticket.ticketInfo.ticketHeader} (#{ticket.ticketInfo.ticketStatus})"
                                              footer="открыта: #{ticket.creation.date} (#{ticket.creation.didBy}) / изменена: #{ticket.ticketInfo.modification.date} (#{ticket.ticketInfo.modification.didBy}) / закрыта: #{ticket.ticketInfo.closing.date} (#{ticket.ticketInfo.closing.didBy})">
                                         <!--<p:ajax event="close" listener="{panelView.onClose}" update="msgs" />-->
                                         <!--<p:ajax event="toggle" listener="{panelView.onToggle}" update="msgs" />-->
-                                        <p:panelGrid style="margin-bottom: 10px">
-                                            <h:outputText value="подача в Уфу: #{ticket.ticketInfo.ticketDetails.possibilityOfServiceAtTheDefaultPlace}" style="display:block"/>
-                                            <h:outputText value="внешний осмотр: #{ticket.ticketInfo.ticketDetails.isInspected}" style="display:block"/>
-                                            <h:outputText value="место подачи: #{ticket.ticketInfo.ticketDetails.place}" style="display:block"/>
-                                            <h:outputText value="телефон водителя: #{ticket.ticketInfo.ticketDetails.mobileNumberOfDriver}" style="display:block"/>
-                                            <h:outputText value="телефон ответственного: #{ticket.ticketInfo.ticketDetails.mobileNumberOfAgent}" style="display:block"/>
-                                        </p:panelGrid>
-                                        <p:scrollPanel mode="native" style="width: 800px; height: 300px; margin-bottom: 10px; padding: 10px">
-                                        <ui:repeat value="#{ticket.comments}" var="ticketComment">
-                                            <p:fieldset legend="(#{ticketComment.creation.date}) #{ticketComment.creation.didBy}:" toggleable="true" toggleSpeed="500" collapsed="false" style="margin-bottom: 10px">
-                                                <p:panelGrid>
-                                                    <h:outputText value="#{ticketComment.commentInfo.content}" style="width:100%; display:block; word-wrap: break-word; font-style: italic; white-space: normal"/> <!--word-break: break-all;-->
-                                                    <h:outputText value=" изменен: #{ticketComment.commentInfo.modification.date}" style="width:100%; display:block; word-wrap: break-word; font-style: normal; font-weight: bold; white-space: normal"/>
+                                        <p:panelGrid columns="1" style="border: hidden white; width: auto">
+                                            <h:panelGrid columns="1" style="border: hidden white">
+                                                <p:panelGrid columns="2" style="width: auto">
+                                                    <h:outputText value="Подача в Уфу:"/>
+                                                    <p:inplace label="#{ticket.ticketInfo.ticketDetails.possibilityOfServiceAtTheDefaultPlace? 'Есть':'Нет'}" style="display:block">
+                                                        <p:selectBooleanButton value="#{ticket.ticketInfo.ticketDetails.possibilityOfServiceAtTheDefaultPlace}" onLabel="Есть" offLabel="Нет" onIcon="ui-icon-check" offIcon="ui-icon-close"/>
+                                                    </p:inplace>
+
+                                                    <h:outputText value="Внешний осмотр:"/>
+                                                    <p:inplace label="#{ticket.ticketInfo.ticketDetails.isInspected? 'Произведен':'Не произведен'}" style="display:block">
+                                                        <p:selectBooleanButton value="#{ticket.ticketInfo.ticketDetails.isInspected}" onLabel="Произведен" offLabel="Не произведен" onIcon="ui-icon-check" offIcon="ui-icon-close"/>
+                                                    </p:inplace>
+
+                                                    <h:outputText value="Место подачи:"/>
+                                                    <p:inplace label="#{ticket.ticketInfo.ticketDetails.place}" style="display:block">
+                                                        <p:inputText value="#{ticket.ticketInfo.ticketDetails.place}" style="width: 380px"/>
+                                                    </p:inplace>
+
+                                                    <h:outputText value="Телефон водителя:"/>
+                                                    <p:inplace label="#{ticket.ticketInfo.ticketDetails.mobileNumberOfDriver}" style="display:block">
+                                                        <p:inputText value="#{ticket.ticketInfo.ticketDetails.mobileNumberOfDriver}"/>
+                                                    </p:inplace>
+
+                                                    <h:outputText value="Телефон ответственного:"/>
+                                                    <p:inplace label="#{ticket.ticketInfo.ticketDetails.mobileNumberOfAgent}" style="display:block">
+                                                        <p:inputText value="#{ticket.ticketInfo.ticketDetails.mobileNumberOfAgent}"/>
+                                                    </p:inplace>
                                                 </p:panelGrid>
-                                            </p:fieldset>
-                                        </ui:repeat>
+
+                                                <p:commandLink value="обновить" process="@parent" update=":form:msgs @parent:@parent" action="#{ticketController.doUpdateTicket}" title="нажмите, чтобы сохранить изменения">
+                                                    <f:setPropertyActionListener value="#{transport}" target="#{ticketController.unitOfTransport}" />
+                                                </p:commandLink>
+                                            </h:panelGrid>
+                                        </p:panelGrid>
+                                        <p:scrollPanel mode="native" style="width: auto; height: auto; max-height: 300px; max-width: 100%; margin-bottom: 10px; padding: 10px">
+                                            <ui:repeat value="#{ticket.comments}" var="ticketComment">
+                                                <p:fieldset legend="(#{ticketComment.creation.date}) #{ticketComment.creation.didBy}:" toggleable="true" toggleSpeed="500" collapsed="false" style="margin-bottom: 10px; width: auto; max-width: 100%">
+                                                    <p:panelGrid>
+                                                        <h:outputText value="#{ticketComment.commentInfo.content}" style="width:auto; display:block; word-wrap: break-word; font-style: italic; white-space: normal"/> <!--word-break: break-all;-->
+                                                        <h:outputText value=" изменен: #{ticketComment.commentInfo.modification.date}" style="width:auto; display:block; word-wrap: break-word; font-style: normal; font-weight: bold; white-space: normal"/>
+                                                    </p:panelGrid>
+                                                </p:fieldset>
+                                            </ui:repeat>
                                         </p:scrollPanel>
-                                        <p:inputTextarea rows="3" cols="100" value="#{ticketController.commentContent}" style="display:block; margin-bottom: 10px"/>
+                                        <p:inputTextarea rows="3" cols="100" value="#{ticketController.commentContent}" style="display:block; margin-bottom: 10px; width: 50%"/>
                                         <p:commandButton id="ticketCommentButton" process="@parent" update="@parent:@child(2) @parent:@child(3) :form:msgs" action="#{ticketController.doAddTicketComment(ticket, didBy)}" value="Отправить" icon="ui-icon-disk"/>
                                         <!--<f:facet name="options">-->
                                             <!--<p:menu>-->
@@ -387,40 +409,34 @@
                                         <!--</f:facet>-->
                                     </p:panel>
                                 </ui:repeat>
-
-                                <!--<p:selectOneMenu value="{ticketController.ticket.ticketInfo.ticketHeader}">-->
-                                <!--<f:selectItem itemLabel="Выбор..." itemValue="" />-->
-                                    <!--<f:selectItems value="{ticketController.ticketHeaders}" var="ticketHeader" itemLabel="{ticketHeader.toString()}" itemValue="{ticketHeader}"/>-->
-                                <!--</p:selectOneMenu>-->
-
-                                <p:panel id="horizontal" header="Новая заявка" collapsed="true" toggleable="true" toggleOrientation="horizontal" style="max-width: 70%">
-                                    <p:panelGrid columns="2" style="margin-bottom:10px; width: auto" cellpadding="5">
-                                        <h:outputText value="Причина:"/>
+                                <p:panel id="horizontal" header="Новая заявка" collapsed="true" toggleable="true" toggleOrientation="horizontal" style="max-width: 50%">
+                                    <p:panelGrid columns="2" style="margin-bottom:10px; width: 100%" cellpadding="5">
+                                        <h:outputText value="Причина:" />
                                         <p:selectOneListbox value="#{ticketController.ticket.ticketInfo.ticketHeader}">
                                             <f:selectItems value="#{ticketController.ticketHeaders}" var="ticketHeader" itemLabel="#{ticketHeader.toString()}" itemValue="#{ticketHeader}"/>
                                         </p:selectOneListbox>
 
-                                        <h:outputText value="Возможность подачи в Уфу:"/>
+                                        <h:outputText value="Возможность подачи в Уфу:" />
                                         <p:selectBooleanButton value="#{ticketController.ticket.ticketInfo.ticketDetails.possibilityOfServiceAtTheDefaultPlace}" onLabel="Есть" offLabel="Нет" onIcon="ui-icon-check" offIcon="ui-icon-close"/>
 
-                                        <h:outputText value="Внешний осмотр:"/>
+                                        <h:outputText value="Внешний осмотр:" />
                                         <p:selectBooleanButton value="#{ticketController.ticket.ticketInfo.ticketDetails.isInspected}" onLabel="Произведен" offLabel="Не произведен" onIcon="ui-icon-check" offIcon="ui-icon-close"/>
 
-                                        <h:outputText value="Место подачи:"/>
-                                        <p:inputText value="#{ticketController.ticket.ticketInfo.ticketDetails.place}" style="width: 380px"/>
+                                        <h:outputText value="Место подачи:" />
+                                        <p:inputText value="#{ticketController.ticket.ticketInfo.ticketDetails.place}" style="width: 99%"/>
 
-                                        <h:outputText value="Телефон водителя:"/>
+                                        <h:outputText value="Телефон водителя:" />
                                         <p:inputText value="#{ticketController.ticket.ticketInfo.ticketDetails.mobileNumberOfDriver}"/>
 
-                                        <h:outputText value="Телефон ответственного:"/>
+                                        <h:outputText value="Телефон ответственного:" />
                                         <p:inputText value="#{ticketController.ticket.ticketInfo.ticketDetails.mobileNumberOfAgent}"/>
 
-                                        <h:outputText value="Комментарий:"/>
-                                        <p:inputTextarea rows="5" cols="50" value="#{ticketController.commentContent}"/>
+                                        <h:outputText value="Комментарий:" />
+                                        <p:inputTextarea rows="5" value="#{ticketController.commentContent}" style="width: 99%"/>
 
                                         <f:facet name="footer">
-                                            <p:commandButton process="@parent" update=":form:msgs @parent:@parent:@parent:@parent:@parent:@parent" action="#{ticketController.doAddTicket}" value="Создать" icon="ui-icon-disk" style="float: left">
-                                                <f:setPropertyActionListener value="#{transport}" target="#{ticketController.transport}"/>
+                                            <p:commandButton process="@parent" update=":form:msgs :form:transportTabView:transportTable" action="#{ticketController.doAddTicket}" value="Создать" icon="ui-icon-disk" style="float: left">
+                                                <f:setPropertyActionListener value="#{transport}" target="#{ticketController.unitOfTransport}"/>
                                                 <f:setPropertyActionListener value="#{didBy}" target="#{ticketController.didBy}"/>
                                             </p:commandButton>
                                         </f:facet>
