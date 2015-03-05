@@ -56,7 +56,7 @@
                                     <span class="ui-separator">
                                         <span class="ui-icon ui-icon-grip-dotted-vertical" />
                                     </span>
-                                    <p:commandButton type="button" value="Редактировать" icon="ui-icon-folder-open" />
+                                    <p:commandButton type="button" value="Удалить" icon="ui-icon-folder-open" />
 
                                     <span class="ui-separator">
                                         <span class="ui-icon ui-icon-grip-dotted-vertical" />
@@ -345,8 +345,8 @@
                             <p:tab title="Заявки">
                                 <ui:repeat value="#{transport.tickets}" var="ticket" varStatus="ticketVarStatus">
                                     <p:panel id="ticketPanel#{ticketVarStatus.index}-#{ticket.id}" collapsed="true" toggleable="true" closable="true" toggleSpeed="500" closeSpeed="500" widgetVar="ticketPanel#{ticketVarStatus.index}-#{ticket.id}" style="margin-bottom: 10px; width: 100%"
-                                             header="#{ticketVarStatus.index + 1} - #{ticket.ticketInfo.ticketHeader} (#{ticket.ticketInfo.ticketStatus})"
-                                             footer="открыта: #{ticket.creation.date} (#{ticket.creation.didBy}) / изменена: #{ticket.ticketInfo.modification.date} (#{ticket.ticketInfo.modification.didBy}) / закрыта: #{ticket.ticketInfo.closing.date} (#{ticket.ticketInfo.closing.didBy})">
+                                             header="#{ticketVarStatus.index + 1} - #{ticket.creation.date} (#{ticket.creation.didBy}) - #{ticket.ticketInfo.ticketHeader} (#{ticket.ticketInfo.ticketStatus})"
+                                             footer="принята: #{ticket.acceptance.date} (#{ticket.acceptance.didBy}) /// закрыта: #{ticket.closing.date} (#{ticket.closing.didBy}) /// удалена: #{ticket.deletion.date} (#{ticket.deletion.didBy}) /// последнее изменение: #{ticket.ticketInfo.modification.date} (#{ticket.ticketInfo.modification.didBy})">
                                         <!--<p:ajax event="close" listener="{panelView.onClose}" update="msgs" />-->
                                         <!--<p:ajax event="toggle" listener="{panelView.onToggle}" update="msgs" />-->
                                         <p:panelGrid columns="1" style="border: hidden white; width: auto">
@@ -403,10 +403,13 @@
                                                 <!--</p:submenu>-->
                                             <!--</p:menu>-->
                                         <!--</f:facet>-->
-                                        <!--<f:facet name="actions">-->
+                                        <f:facet name="actions">
                                             <!--<h:commandLink styleClass="ui-panel-titlebar-icon ui-corner-all ui-state-default"><h:outputText styleClass="ui-icon ui-icon-help" /></h:commandLink>-->
                                             <!--<h:commandLink styleClass="ui-panel-titlebar-icon ui-corner-all ui-state-default"><h:outputText styleClass="ui-icon ui-icon-star" /></h:commandLink>-->
-                                        <!--</f:facet>-->
+                                            <h:commandLink styleClass="ui-panel-titlebar-icon ui-corner-all ui-state-default" value="удалить" rendered="#{empty ticket.deletion}"/>
+                                            <h:commandLink styleClass="ui-panel-titlebar-icon ui-corner-all ui-state-default" value="закрыть" rendered="#{empty ticket.closing}"/>
+                                            <h:commandLink styleClass="ui-panel-titlebar-icon ui-corner-all ui-state-default" value="принять" rendered="#{empty ticket.acceptance}"/>
+                                        </f:facet>
                                     </p:panel>
                                 </ui:repeat>
                                 <p:panel id="horizontal" header="Новая заявка" collapsed="true" toggleable="true" toggleOrientation="horizontal" style="max-width: 50%">

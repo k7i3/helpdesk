@@ -29,6 +29,12 @@ public class Transport {
     })
     @Embedded
     private LifeCycleInfo creation;
+    @AttributeOverrides({
+            @AttributeOverride(name="date", column= @Column(name="deletion_Date")),
+            @AttributeOverride(name="didBy", column= @Column(name="deletion_DidBy"))
+    })
+    @Embedded
+    private LifeCycleInfo deletion;
     @NotNull
     @OneToOne(cascade = CascadeType.ALL)
     private TransportInfo transportInfo = new TransportInfo();
@@ -63,6 +69,14 @@ public class Transport {
 
     public void setCreation(LifeCycleInfo creation) {
         this.creation = creation;
+    }
+
+    public LifeCycleInfo getDeletion() {
+        return deletion;
+    }
+
+    public void setDeletion(LifeCycleInfo deletion) {
+        this.deletion = deletion;
     }
 
     public TransportInfo getTransportInfo() {

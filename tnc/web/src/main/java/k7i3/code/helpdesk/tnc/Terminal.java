@@ -20,6 +20,12 @@ public class Terminal {
     })
     @Embedded
     private LifeCycleInfo creation;
+    @AttributeOverrides({
+            @AttributeOverride(name="date", column= @Column(name="deletion_Date")),
+            @AttributeOverride(name="didBy", column= @Column(name="deletion_DidBy"))
+    })
+    @Embedded
+    private LifeCycleInfo deletion;
     @NotNull
     @OneToOne(cascade = CascadeType.ALL)
     private TerminalInfo terminalInfo = new TerminalInfo();
@@ -44,6 +50,14 @@ public class Terminal {
 
     public void setCreation(LifeCycleInfo creation) {
         this.creation = creation;
+    }
+
+    public LifeCycleInfo getDeletion() {
+        return deletion;
+    }
+
+    public void setDeletion(LifeCycleInfo deletion) {
+        this.deletion = deletion;
     }
 
     public TerminalInfo getTerminalInfo() {

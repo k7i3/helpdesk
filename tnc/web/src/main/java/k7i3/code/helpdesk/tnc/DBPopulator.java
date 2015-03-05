@@ -226,7 +226,7 @@ public class DBPopulator {
 
         if (random.nextBoolean()) {
             if (random.nextBoolean())
-                tickets.add(getRandomTicket(TicketStatus.IN_PROGRESS));
+                tickets.add(getRandomTicket(TicketStatus.ACCEPTED));
             else
                 tickets.add(getRandomTicket(TicketStatus.OPENED));
         }
@@ -235,6 +235,28 @@ public class DBPopulator {
 
     private Ticket getRandomTicket(TicketStatus ticketStatus) {
         Ticket ticket = new Ticket(getRandomTicketInfo(ticketStatus), getRandomLifeCycleInfo());
+        logger.info("=>=>=>=>=> DBPopulator.getRandomTickets() - before switch (ticketStatus)");
+        switch (ticketStatus) {
+            case CLOSED:
+                logger.info("=>=>=>=>=> DBPopulator.getRandomTickets() - switch (CLOSED)");
+                ticket.setClosing(getRandomLifeCycleInfo());
+                break;
+            case ACCEPTED:
+                logger.info("=>=>=>=>=> DBPopulator.getRandomTickets()) - switch (ACCEPTED)");
+                ticket.setAcceptance(getRandomLifeCycleInfo());
+                break;
+            case OPENED:
+                logger.info("=>=>=>=>=> DBPopulator.getRandomTickets() - switch (OPENED)");
+                break;
+            case DELETED:
+                logger.info("=>=>=>=>=> DBPopulator.getRandomTickets() - switch (DELETED)");
+                ticket.setClosing(getRandomLifeCycleInfo());
+                ticket.setAcceptance(getRandomLifeCycleInfo());
+                ticket.setDeletion(getRandomLifeCycleInfo());
+                break;
+            default:
+                logger.info("=>=>=>=>=> DBPopulator.getRandomTicketInfo() - switch (default)");
+        }
         ticket.getTicketInfoHistory().addAll(getRandomTicketInfoHistory());
         ticket.getComments().addAll(getRandomComments());
         return ticket;
@@ -242,28 +264,7 @@ public class DBPopulator {
 
     private TicketInfo getRandomTicketInfo(TicketStatus ticketStatus) {
         logger.info("=>=>=>=>=> DBPopulator.getRandomTicketInfo() - before TicketInfo ticketInfo = new TicketInfo(...)");
-        TicketInfo ticketInfo = new TicketInfo(ticketStatus, getRandomTicketHeader(), getRandomLifeCycleInfo(), getRandomTicketDetails(), getRandomTransportInfo(), getRandomTerminalInfo(), getRandomPointInfo());
-        logger.info("=>=>=>=>=> DBPopulator.getRandomTicketInfo() - before switch (ticketStatus)");
-        switch (ticketStatus) {
-            case CLOSED:
-                logger.info("=>=>=>=>=> DBPopulator.getRandomTicketInfo() - switch (CLOSED)");
-                ticketInfo.setClosing(getRandomLifeCycleInfo());
-                return ticketInfo;
-            case IN_PROGRESS:
-                logger.info("=>=>=>=>=> DBPopulator.getRandomTicketInfo() - switch (IN_PROGRESS)");
-                return ticketInfo;
-            case OPENED:
-                logger.info("=>=>=>=>=> DBPopulator.getRandomTicketInfo() - switch (OPENED)");
-                return ticketInfo;
-            case DELETED:
-                logger.info("=>=>=>=>=> DBPopulator.getRandomTicketInfo() - switch (DELETED)");
-                ticketInfo.setClosing(getRandomLifeCycleInfo());
-                ticketInfo.setDeletion(getRandomLifeCycleInfo());
-                return ticketInfo;
-            default:
-                logger.info("=>=>=>=>=> DBPopulator.getRandomTicketInfo() - switch (default)");
-                return ticketInfo;
-        }
+        return new TicketInfo(ticketStatus, getRandomTicketHeader(), getRandomLifeCycleInfo(), getRandomTicketDetails(), getRandomTransportInfo(), getRandomTerminalInfo(), getRandomPointInfo());
     }
 
     private List<TicketInfo> getRandomTicketInfoHistory() {
@@ -309,20 +310,13 @@ public class DBPopulator {
 
     private Comment getRandomComment() {
         Comment comment = new Comment(getRandomLifeCycleInfo(), getRandomCommentInfo());
+        if (random.nextBoolean()) comment.setDeletion(getRandomLifeCycleInfo());
         comment.getCommentInfoHistory().addAll(getRandomCommentInfoHistory());
         return comment;
     }
 
     private CommentInfo getRandomCommentInfo() {
-        CommentInfo commentInfo = new CommentInfo(getRandomLifeCycleInfo(), getRandomContent());
-        if (random.nextBoolean()) {
-            commentInfo.setModification(getRandomLifeCycleInfo());
-            commentInfo.setDeletion(getRandomLifeCycleInfo());
-            return commentInfo;
-        } else {
-            commentInfo.setModification(getRandomLifeCycleInfo());
-            return commentInfo;
-        }
+        return new CommentInfo(getRandomLifeCycleInfo(), getRandomContent());
     }
 
     private String getRandomContent() {

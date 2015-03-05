@@ -18,12 +18,6 @@ public class CommentInfo {
     })
     @Embedded
     private LifeCycleInfo modification;
-    @AttributeOverrides({
-            @AttributeOverride(name="date", column= @Column(name="deletion_Date")),
-            @AttributeOverride(name="didBy", column= @Column(name="deletion_DidBy"))
-    })
-    @Embedded
-    private LifeCycleInfo deletion;
     @NotNull
     private String content;
 
@@ -45,14 +39,6 @@ public class CommentInfo {
 
     public void setModification(LifeCycleInfo modification) {
         this.modification = modification;
-    }
-
-    public LifeCycleInfo getDeletion() {
-        return deletion;
-    }
-
-    public void setDeletion(LifeCycleInfo deletion) {
-        this.deletion = deletion;
     }
 
     public String getContent() {

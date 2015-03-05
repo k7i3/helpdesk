@@ -24,18 +24,6 @@ public class TicketInfo {
     })
     @Embedded
     private LifeCycleInfo modification;
-    @AttributeOverrides({
-            @AttributeOverride(name="date", column= @Column(name="closingn_Date")),
-            @AttributeOverride(name="didBy", column= @Column(name="closing_DidBy"))
-    })
-    @Embedded
-    private LifeCycleInfo closing;
-    @AttributeOverrides({
-            @AttributeOverride(name="date", column= @Column(name="deletion_Date")),
-            @AttributeOverride(name="didBy", column= @Column(name="deletion_DidBy"))
-    })
-    @Embedded
-    private LifeCycleInfo deletion;
     @NotNull
     @OneToOne (cascade = CascadeType.ALL)
     private TicketDetails ticketDetails = new TicketDetails();
@@ -90,22 +78,6 @@ public class TicketInfo {
 
     public void setModification(LifeCycleInfo modification) {
         this.modification = modification;
-    }
-
-    public LifeCycleInfo getClosing() {
-        return closing;
-    }
-
-    public void setClosing(LifeCycleInfo closing) {
-        this.closing = closing;
-    }
-
-    public LifeCycleInfo getDeletion() {
-        return deletion;
-    }
-
-    public void setDeletion(LifeCycleInfo deletion) {
-        this.deletion = deletion;
     }
 
     public TicketDetails getTicketDetails() {
