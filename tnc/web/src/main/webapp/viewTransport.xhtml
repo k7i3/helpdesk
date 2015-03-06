@@ -378,8 +378,10 @@
                                                     </p:inplace>
                                                 </p:panelGrid>
 
-                                                <p:commandLink value="обновить" process="@parent" update=":form:msgs @parent:@parent" action="#{ticketController.doUpdateTicket}" title="нажмите, чтобы сохранить изменения">
+                                                <p:commandLink value="обновить" process="@parent" update=":form:msgs @parent:@parent" action="#{ticketController.doUpdateTicketInfo}" title="нажмите, чтобы сохранить изменения">
                                                     <f:setPropertyActionListener value="#{transport}" target="#{ticketController.unitOfTransport}" />
+                                                    <f:setPropertyActionListener value="#{ticket}" target="#{ticketController.ticket}" />
+                                                    <f:setPropertyActionListener value="#{didBy}" target="#{ticketController.didBy}" />
                                                 </p:commandLink>
                                             </h:panelGrid>
                                         </p:panelGrid>
@@ -408,12 +410,11 @@
                                             <!--<h:commandLink styleClass="ui-panel-titlebar-icon ui-corner-all ui-state-default"><h:outputText styleClass="ui-icon ui-icon-star" /></h:commandLink>-->
                                             <h:commandLink styleClass="ui-panel-titlebar-icon ui-corner-all ui-state-default" value="удалить" rendered="#{empty ticket.deletion}"/>
                                             <h:commandLink styleClass="ui-panel-titlebar-icon ui-corner-all ui-state-default" value="закрыть" rendered="#{empty ticket.closing}"/>
-                                            <h:commandLink styleClass="ui-panel-titlebar-icon ui-corner-all ui-state-default" value="принять" rendered="#{empty ticket.acceptance}"/>
+                                            <h:commandLink styleClass="ui-panel-titlebar-icon ui-corner-all ui-state-default" value="принять" rendered="#{empty ticket.acceptance and empty ticket.deletion and empty ticket.closing}"/>
                                         </f:facet>
                                     </p:panel>
                                 </ui:repeat>
-                                <!--TODO to optimize (maybe transportController.hasOpenedTicket(transport) or fn:length(transport.tickets))-->
-                                <p:panel id="horizontal" header="Новая заявка" collapsed="true" toggleable="true" toggleOrientation="horizontal" style="max-width: 50%" rendered="#{not empty transport.tickets.get(transport.tickets.size() - 1).closing and not empty transport.tickets.get(transport.tickets.size() - 1).deletion}">
+                                <p:panel id="horizontal" header="Новая заявка" collapsed="true" toggleable="true" toggleOrientation="horizontal" style="max-width: 50%" rendered="#{ticketController.doCheckForPossibilityToAddTicket(transport)}">
                                     <p:panelGrid columns="2" style="margin-bottom:10px; width: 100%" cellpadding="5">
                                         <h:outputText value="Причина:" />
                                         <p:selectOneListbox value="#{ticketController.ticket.ticketInfo.ticketHeader}">

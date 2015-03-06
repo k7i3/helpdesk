@@ -31,12 +31,6 @@ public class TransportEJB implements Serializable {
         return transport;
     }
 
-    public Ticket updateTicket(Ticket ticket) {
-        logger.info("=>=>=>=>=> TransportEJB.updateTicket()");
-        em.merge(ticket);
-        return ticket;
-    }
-
     public List<Transport> findAllTransport() {
         logger.info("=>=>=>=>=> TransportEJB.findAllTransport");
 
@@ -80,6 +74,7 @@ public class TransportEJB implements Serializable {
     }
 
     public Transport findTransportById(Long id) {
+        logger.info("=>=>=>=>=> TransportEJB.findTransportById");
         return em.find(Transport.class, id);
     }
 }

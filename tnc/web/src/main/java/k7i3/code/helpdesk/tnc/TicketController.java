@@ -18,6 +18,8 @@ import java.util.logging.Logger;
 public class TicketController {
     @Inject
     private TransportEJB transportEJB;
+    @Inject
+    private TicketEJB ticketEJB;
     private Logger logger = Logger.getLogger("k7i3");
 
     private Transport unitOfTransport;
@@ -39,7 +41,7 @@ public class TicketController {
     public void doAddTicketComment(Ticket ticket, String didBy) {
         Comment comment = new Comment(new LifeCycleInfo(new Date(), didBy), new CommentInfo(new LifeCycleInfo(new Date(), didBy), commentContent));
         ticket.getComments().add(comment);
-        transportEJB.updateTicket(ticket);
+        ticketEJB.updateTicket(ticket);
         commentContent = null;
 
         FacesMessage msg = new FacesMessage("Комментарий к заявке сохранен", ticket.getTicketInfo().getTransportInfo().getStateNumber());
@@ -48,6 +50,12 @@ public class TicketController {
 
     public void doAddTicket() {
         logger.info("=>=>=>=>=> TicketController.doAddTicket()");
+        if (!doCheckForPossibilityToAddTicket(unitOfTransport)) { // TODO (never used) it working automatically by container and i don't now how (but in this case message is not showing)...
+            FacesMessage msg = new FacesMessage("Уже есть открытая заявка", unitOfTransport.getTransportInfo().getStateNumber());
+            FacesContext.getCurrentInstance().addMessage(null, msg);
+            return;
+        }
+        //TODO thinking about updating unitOfTransport by unitOfTransport = TransportEJB.findTransportById(unitOfTransport.getId)
         LifeCycleInfo lifeCycleInfo = new LifeCycleInfo(new Date(), didBy);
         ticket.setCreation(lifeCycleInfo);
         ticket.getTicketInfo().setModification(lifeCycleInfo);
@@ -66,12 +74,32 @@ public class TicketController {
 //        RequestContext.getCurrentInstance().closeDialog(null); for Primefaces dialog framework (@SessionScoped)
     }
 
-    public void doUpdateTicket() {
-        //TODO save previous Info
-        transportEJB.updateTransport(unitOfTransport);
+    public void doUpdateTicketInfo() {
+        Transport transportForUpdates = transportEJB.findTransportById(unitOfTransport.getId());
+        Ticket ticketForUpdates = ticketEJB.findTicketById(ticket.getId());
+
+        TicketInfo newTicketInfo = ticket.getTicketInfo();
+        newTicketInfo.setModification(new LifeCycleInfo(new Date(), didBy));
+        newTicketInfo.setTicketStatus(ticketForUpdates.getTicketInfo().getTicketStatus());
+        newTicketInfo.setTransportInfo(transportForUpdates.getTransportInfo());
+        newTicketInfo.setTerminalInfo(transportForUpdates.getTerminal().getTerminalInfo());
+        newTicketInfo.setPointInfo(transportForUpdates.getPoint().getPointInfo());
+
+//        TicketInfo oldTicketInfo = ticketForUpdates.getTicketInfo(); TODO bug here!!!
+//        ticketForUpdates.getTicketInfoHistory().add(oldTicketInfo);
+
+        ticketForUpdates.setTicketInfo(newTicketInfo);
+
+        ticketEJB.updateTicket(ticketForUpdates);
 
         FacesMessage msg = new FacesMessage("Сохранено (параметры заявки)", unitOfTransport.getTransportInfo().getStateNumber());
         FacesContext.getCurrentInstance().addMessage(null, msg);
+    }
+
+    public Boolean doCheckForPossibilityToAddTicket(Transport transport) {
+        unitOfTransport = transportEJB.findTransportById(transport.getId());
+        List<Ticket> tickets = unitOfTransport.getTickets();
+        return tickets.isEmpty() || !(tickets.get(tickets.size() - 1).getClosing() == null && tickets.get(tickets.size() - 1).getClosing() == null);
     }
 
 //    public void doOpenTicketDialog(Transport transport, String didBy) {
