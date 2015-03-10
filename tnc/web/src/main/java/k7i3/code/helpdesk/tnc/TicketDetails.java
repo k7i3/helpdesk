@@ -35,6 +35,14 @@ public class TicketDetails {
         this.mobileNumberOfAgent = mobileNumberOfAgent;
     }
 
+    public TicketDetails(TicketDetails ticketDetails) {
+        this.possibilityOfServiceAtTheDefaultPlace = ticketDetails.getPossibilityOfServiceAtTheDefaultPlace();
+        this.isInspected = ticketDetails.getIsInspected();
+        this.place = ticketDetails.getPlace();
+        this.mobileNumberOfDriver = ticketDetails.getMobileNumberOfDriver();
+        this.mobileNumberOfAgent = ticketDetails.getMobileNumberOfAgent();
+    }
+
     public Long getId() {
         return id;
     }

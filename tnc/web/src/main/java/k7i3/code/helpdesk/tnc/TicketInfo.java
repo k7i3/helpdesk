@@ -52,6 +52,16 @@ public class TicketInfo {
         this.pointInfo = pointInfo;
     }
 
+    public TicketInfo(TicketInfo ticketInfo) {
+        this.ticketStatus = ticketInfo.getTicketStatus();
+        this.ticketHeader = ticketInfo.getTicketHeader();
+        this.modification = ticketInfo.getModification();
+        this.ticketDetails = new TicketDetails(ticketInfo.getTicketDetails());
+        this.transportInfo = ticketInfo.getTransportInfo();
+        this.terminalInfo = ticketInfo.getTerminalInfo();
+        this.pointInfo = ticketInfo.getPointInfo();
+    }
+
     public Long getId() {
         return id;
     }

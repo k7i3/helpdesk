@@ -78,15 +78,17 @@ public class TicketController {
         Transport transportForUpdates = transportEJB.findTransportById(unitOfTransport.getId());
         Ticket ticketForUpdates = ticketEJB.findTicketById(ticket.getId());
 
-        TicketInfo newTicketInfo = ticket.getTicketInfo();
+        TicketInfo newTicketInfo = new TicketInfo(ticket.getTicketInfo());
         newTicketInfo.setModification(new LifeCycleInfo(new Date(), didBy));
         newTicketInfo.setTicketStatus(ticketForUpdates.getTicketInfo().getTicketStatus());
         newTicketInfo.setTransportInfo(transportForUpdates.getTransportInfo());
         newTicketInfo.setTerminalInfo(transportForUpdates.getTerminal().getTerminalInfo());
         newTicketInfo.setPointInfo(transportForUpdates.getPoint().getPointInfo());
 
-//        TicketInfo oldTicketInfo = ticketForUpdates.getTicketInfo(); TODO bug here!!!
-//        ticketForUpdates.getTicketInfoHistory().add(oldTicketInfo);
+//        TODO bug was here (it was fixed, but maybe needed to optimize)!!!
+//        TicketInfo oldTicketInfo = new TicketInfo(ticketForUpdates.getTicketInfo());
+        TicketInfo oldTicketInfo = ticketForUpdates.getTicketInfo();
+        ticketForUpdates.getTicketInfoHistory().add(oldTicketInfo);
 
         ticketForUpdates.setTicketInfo(newTicketInfo);
 
