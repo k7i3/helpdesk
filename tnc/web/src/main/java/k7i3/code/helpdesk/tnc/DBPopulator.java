@@ -69,7 +69,7 @@ public class DBPopulator {
         didBy[1] = "Тринити";
         didBy[2] = "Сайфер";
         didBy[3] = "Морфеус";
-        didBy[4] = "Мальчик";
+        didBy[4] = "Нео";
 
         commentContent = new String[5];
         commentContent[0] = "Быть Избранным все равно что быть влюблённым. Никто не говорит тебе, что ты влюблён. Ты просто знаешь это.";

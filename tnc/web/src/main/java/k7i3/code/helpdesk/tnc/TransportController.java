@@ -84,7 +84,7 @@ public class TransportController {
         unitOfTransport.getPoint().getPointInfo().setModification(lifeCycleInfo);
         transportEJB.createTransport(unitOfTransport);
 
-        FacesMessage msg = new FacesMessage("Транспорт сохранен", unitOfTransport.getTransportInfo().getStateNumber());
+        FacesMessage msg = new FacesMessage("Сохранено (транспорт)", unitOfTransport.getTransportInfo().getStateNumber());
         FacesContext.getCurrentInstance().addMessage(null, msg);
     }
 
@@ -94,7 +94,7 @@ public class TransportController {
         //TODO save previous Info
         transportEJB.updateTransport(unitOfTransport);
 
-        FacesMessage msg = new FacesMessage("Сохранено (комплектация)", unitOfTransport.getTransportInfo().getStateNumber());
+        FacesMessage msg = new FacesMessage("Обновлено (комплектация)", unitOfTransport.getTransportInfo().getStateNumber());
         FacesContext.getCurrentInstance().addMessage(null, msg);
     }
 
@@ -104,12 +104,12 @@ public class TransportController {
         //TODO save previous Info
         transportEJB.updateTransport((Transport) event.getObject());
 
-        FacesMessage msg = new FacesMessage("Информация сохранена", ((Transport) event.getObject()).getTransportInfo().getStateNumber());
+        FacesMessage msg = new FacesMessage("Обновлено (транспорт)", ((Transport) event.getObject()).getTransportInfo().getStateNumber());
         FacesContext.getCurrentInstance().addMessage(null, msg);
     }
 
     public void onRowCancel(RowEditEvent event) {
-        FacesMessage msg = new FacesMessage("Информация не сохранена", ((Transport) event.getObject()).getTransportInfo().getStateNumber());
+        FacesMessage msg = new FacesMessage("Не обновлено (транспорт)", ((Transport) event.getObject()).getTransportInfo().getStateNumber());
         FacesContext.getCurrentInstance().addMessage(null, msg);
     }
 

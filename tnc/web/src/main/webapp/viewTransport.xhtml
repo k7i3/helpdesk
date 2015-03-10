@@ -352,7 +352,7 @@
                                         <p:panelGrid columns="1" style="border: hidden white; width: auto">
                                             <h:panelGrid columns="1" style="border: hidden white">
                                                 <p:panelGrid columns="2" style="width: auto">
-                                                    <h:outputText value="Подача в Уфу:"/>
+                                                    <h:outputText value="Возможность подачи в Уфу:"/>
                                                     <p:inplace label="#{ticket.ticketInfo.ticketDetails.possibilityOfServiceAtTheDefaultPlace? 'Есть':'Нет'}" style="display:block">
                                                         <p:selectBooleanButton value="#{ticket.ticketInfo.ticketDetails.possibilityOfServiceAtTheDefaultPlace}" onLabel="Есть" offLabel="Нет" onIcon="ui-icon-check" offIcon="ui-icon-close"/>
                                                     </p:inplace>
@@ -408,9 +408,17 @@
                                         <f:facet name="actions">
                                             <!--<h:commandLink styleClass="ui-panel-titlebar-icon ui-corner-all ui-state-default"><h:outputText styleClass="ui-icon ui-icon-help" /></h:commandLink>-->
                                             <!--<h:commandLink styleClass="ui-panel-titlebar-icon ui-corner-all ui-state-default"><h:outputText styleClass="ui-icon ui-icon-star" /></h:commandLink>-->
-                                            <h:commandLink styleClass="ui-panel-titlebar-icon ui-corner-all ui-state-default" value="удалить" rendered="#{empty ticket.deletion}"/>
-                                            <h:commandLink styleClass="ui-panel-titlebar-icon ui-corner-all ui-state-default" value="закрыть" rendered="#{empty ticket.closing}"/>
-                                            <h:commandLink styleClass="ui-panel-titlebar-icon ui-corner-all ui-state-default" value="принять" rendered="#{empty ticket.acceptance and empty ticket.deletion and empty ticket.closing}"/>
+                                            <!--<h:commandLink styleClass="ui-panel-titlebar-icon ui-corner-all ui-state-default" value="удалить" rendered="#{empty ticket.deletion}"/>-->
+                                            <!--<h:commandLink styleClass="ui-panel-titlebar-icon ui-corner-all ui-state-default" value="закрыть" rendered="#{empty ticket.closing}"/>-->
+                                            <!--<h:commandLink styleClass="ui-panel-titlebar-icon ui-corner-all ui-state-default" value="принять" rendered="#{empty ticket.acceptance and empty ticket.deletion and empty ticket.closing}"/>-->
+
+                                            <!--<p:commandButton value="удалить"/>-->
+                                            <!--<p:commandButton value="закрыть"/>-->
+                                            <p:commandButton process="@this" action="#{ticketController.doAcceptTicket}" update=":form:transportTabView:transportTable :form:msgs" value="принять" title="нажмите, чтобы принять заявку">
+                                                <f:setPropertyActionListener value="#{transport}" target="#{ticketController.unitOfTransport}" />
+                                                <f:setPropertyActionListener value="#{ticket}" target="#{ticketController.ticket}" />
+                                                <f:setPropertyActionListener value="#{didBy}" target="#{ticketController.didBy}" />
+                                            </p:commandButton>
                                         </f:facet>
                                     </p:panel>
                                 </ui:repeat>
