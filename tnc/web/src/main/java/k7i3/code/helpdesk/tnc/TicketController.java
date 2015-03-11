@@ -162,6 +162,8 @@ public class TicketController {
         ticketForUpdates.setTicketInfo(newTicketInfo);
         ticketForUpdates.setClosing(lifeCycleInfo); // difference
 
+        ticketForUpdates.getComments().add(new Comment(lifeCycleInfo, new CommentInfo(lifeCycleInfo, commentContent))); // difference
+
         ticketEJB.updateTicket(ticketForUpdates);
 
         FacesMessage msg = new FacesMessage("Заявка закрыта", unitOfTransport.getTransportInfo().getStateNumber());

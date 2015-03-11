@@ -44,6 +44,7 @@
                     <!--TODO change color rowStyleClass="{transport.terminal.number le 7000 ? 'tooday' : 'notTooday'}"-->
 
                     <c:set var="didBy" value="Администратор"/>
+
                     <p:ajax event="rowEdit" listener="#{transportController.onRowEdit}" update=":form:msgs" />
                     <p:ajax event="rowEditCancel" listener="#{transportController.onRowCancel}" update=":form:msgs" />
 
@@ -426,11 +427,12 @@
                                                 <f:setPropertyActionListener value="#{ticket}" target="#{ticketController.ticket}" />
                                                 <f:setPropertyActionListener value="#{didBy}" target="#{ticketController.didBy}" />
                                             </p:commandButton>
-                                            <p:commandButton process="@this" action="#{ticketController.doCloseTicket}" update=":form:transportTabView:transportTable :form:msgs" rendered="#{empty ticket.closing and empty ticket.deletion}" value="закрыть" title="нажмите, чтобы закрыть заявку">
-                                                <f:setPropertyActionListener value="#{transport}" target="#{ticketController.unitOfTransport}" />
-                                                <f:setPropertyActionListener value="#{ticket}" target="#{ticketController.ticket}" />
-                                                <f:setPropertyActionListener value="#{didBy}" target="#{ticketController.didBy}" />
+
+                                            <p:commandButton process="@this" update=":form:addTicketCommentPanel :form:transportTabView:transportTable :form:msgs" oncomplete="PF('addTicketCommentDialog').show()" rendered="#{empty ticket.closing and empty ticket.deletion}" value="закрыть" title="нажмите, чтобы закрыть заявку">
+                                                <f:setPropertyActionListener value="#{transport}" target="#{sessionScopedController.unitOfTransport}" />
+                                                <f:setPropertyActionListener value="#{ticket}" target="#{sessionScopedController.ticket}" />
                                             </p:commandButton>
+
                                             <p:commandButton process="@this" action="#{ticketController.doDeleteTicket}" update=":form:transportTabView:transportTable :form:msgs" rendered="#{empty ticket.deletion}" value="удалить" title="нажмите, чтобы удалить заявку">
                                                 <f:setPropertyActionListener value="#{transport}" target="#{ticketController.unitOfTransport}" />
                                                 <f:setPropertyActionListener value="#{ticket}" target="#{ticketController.ticket}" />
@@ -687,6 +689,32 @@
 
                 <p:commandButton process="@parent" update=":form:msgs :form:transportTabView:transportTable" action="#{transportController.doAddTransport}" onsuccess="PF('addTransportDialog').hide()" value="Создать" icon="ui-icon-disk">
                     <f:setPropertyActionListener value="#{didBy}" target="#{transportController.didBy}"/>
+                </p:commandButton>
+            </p:outputPanel>
+        </p:dialog>
+
+
+        <p:dialog
+                widgetVar="addTicketCommentDialog"
+                header="Закрытие заявки (добавление комментария):"
+                modal="true"
+                showEffect="fade"
+                hideEffect="fade"
+                resizable="false"
+                draggable="false"
+                width="auto"
+                style="font-size: small">
+
+            <p:outputPanel id="addTicketCommentPanel">
+                <p:panelGrid columns="2" style="margin-bottom:10px; width: auto" cellpadding="5">
+                    <h:outputText value="Комментарий (причина закрытия):" />
+                    <p:inputTextarea rows="5" value="#{ticketController.commentContent}" style="width: 99%"/>
+                </p:panelGrid>
+
+                <p:commandButton process="@parent" update=":form:msgs :form:transportTabView:transportTable" action="#{ticketController.doCloseTicket}" onsuccess="PF('addTicketCommentDialog').hide()" value="Закрыть" icon="ui-icon-disk">
+                    <f:setPropertyActionListener value="#{sessionScopedController.unitOfTransport}" target="#{ticketController.unitOfTransport}" />
+                    <f:setPropertyActionListener value="#{sessionScopedController.ticket}" target="#{ticketController.ticket}" />
+                    <f:setPropertyActionListener value="#{didBy}" target="#{ticketController.didBy}" />
                 </p:commandButton>
             </p:outputPanel>
         </p:dialog>
