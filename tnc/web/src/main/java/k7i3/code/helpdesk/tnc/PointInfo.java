@@ -38,6 +38,14 @@ public class PointInfo {
         this.date = date;
     }
 
+    public PointInfo(PointInfo pointInfo) {
+        this.modification = pointInfo.getModification();
+        this.latitude = pointInfo.getLatitude();
+        this.longitude = pointInfo.getLongitude();
+        this.speed = pointInfo.getSpeed();
+        this.date = pointInfo.getDate();
+    }
+
     public Long getId() {
         return id;
     }

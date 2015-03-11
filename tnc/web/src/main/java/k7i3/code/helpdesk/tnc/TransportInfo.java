@@ -38,6 +38,17 @@ public class TransportInfo {
         this.stateNumber = stateNumber;
     }
 
+    public TransportInfo(TransportInfo transportInfo) {
+        this.modification = transportInfo.getModification();
+        this.project = transportInfo.getProject();
+        this.branch = transportInfo.getBranch();
+        this.stateNumber = transportInfo.getStateNumber();
+        this.garageNumber = transportInfo.getGarageNumber();
+        this.model = transportInfo.getModel();
+        this.route = transportInfo.getRoute();
+        this.transportEquipment = transportInfo.getTransportEquipment();
+    }
+
     public Long getId() {
         return id;
     }

@@ -33,6 +33,15 @@ public class TerminalInfo {
         this.number = number;
     }
 
+    public TerminalInfo(TerminalInfo terminalInfo) {
+        this.modification = terminalInfo.getModification();
+        this.number = terminalInfo.getNumber();
+        this.firmware = terminalInfo.getFirmware();
+        this.mobileNumber = terminalInfo.getMobileNumber();
+        this.serialNumber = terminalInfo.getSerialNumber();
+        this.model = terminalInfo.getModel();
+    }
+
     public Long getId() {
         return id;
     }
