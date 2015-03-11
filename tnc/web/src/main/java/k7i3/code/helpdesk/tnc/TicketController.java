@@ -105,8 +105,14 @@ public class TicketController {
         Transport transportForUpdates = transportEJB.findTransportById(unitOfTransport.getId());
         Ticket ticketForUpdates = ticketEJB.findTicketById(ticket.getId());
 
+        if (ticketForUpdates.getAcceptance() != null) {
+            FacesMessage msg = new FacesMessage("Заявка уже принята", unitOfTransport.getTransportInfo().getStateNumber());
+            FacesContext.getCurrentInstance().addMessage(null, msg);
+            return;
+        }
+
         if (ticketForUpdates.getClosing() != null || ticketForUpdates.getDeletion() != null) { // difference
-            FacesMessage msg = new FacesMessage("Заявка неактуальна (закрыта или удалена)", unitOfTransport.getTransportInfo().getStateNumber());
+            FacesMessage msg = new FacesMessage("Заявка уже неактуальна (закрыта или удалена)", unitOfTransport.getTransportInfo().getStateNumber());
             FacesContext.getCurrentInstance().addMessage(null, msg);
             return;
         }
@@ -131,10 +137,72 @@ public class TicketController {
         FacesContext.getCurrentInstance().addMessage(null, msg);
     }
 
+    public void doCloseTicket() {
+        logger.info("=>=>=>=>=> TicketController.doCloseTicket()");
+        Transport transportForUpdates = transportEJB.findTransportById(unitOfTransport.getId());
+        Ticket ticketForUpdates = ticketEJB.findTicketById(ticket.getId());
+
+        if (ticketForUpdates.getClosing() != null || ticketForUpdates.getDeletion() != null) { // difference
+            FacesMessage msg = new FacesMessage("Заявка уже неактуальна (закрыта или удалена)", unitOfTransport.getTransportInfo().getStateNumber());
+            FacesContext.getCurrentInstance().addMessage(null, msg);
+            return;
+        }
+
+        LifeCycleInfo lifeCycleInfo = new LifeCycleInfo(new Date(), didBy);
+        TicketInfo newTicketInfo = new TicketInfo(ticketForUpdates.getTicketInfo()); // difference with doUpdateTicketInfo(): instead of ticket ticketForUpdates
+        newTicketInfo.setModification(lifeCycleInfo);
+        newTicketInfo.setTicketStatus(TicketStatus.CLOSED); // difference
+        newTicketInfo.setTransportInfo(transportForUpdates.getTransportInfo());
+        newTicketInfo.setTerminalInfo(transportForUpdates.getTerminal().getTerminalInfo());
+        newTicketInfo.setPointInfo(transportForUpdates.getPoint().getPointInfo());
+
+        TicketInfo oldTicketInfo = ticketForUpdates.getTicketInfo();
+        ticketForUpdates.getTicketInfoHistory().add(oldTicketInfo);
+
+        ticketForUpdates.setTicketInfo(newTicketInfo);
+        ticketForUpdates.setClosing(lifeCycleInfo); // difference
+
+        ticketEJB.updateTicket(ticketForUpdates);
+
+        FacesMessage msg = new FacesMessage("Заявка закрыта", unitOfTransport.getTransportInfo().getStateNumber());
+        FacesContext.getCurrentInstance().addMessage(null, msg);
+    }
+
+    public void doDeleteTicket() {
+        logger.info("=>=>=>=>=> TicketController.doDeleteTicket()");
+        Transport transportForUpdates = transportEJB.findTransportById(unitOfTransport.getId());
+        Ticket ticketForUpdates = ticketEJB.findTicketById(ticket.getId());
+
+        if (ticketForUpdates.getDeletion() != null) { // difference
+            FacesMessage msg = new FacesMessage("Заявка уже удалена", unitOfTransport.getTransportInfo().getStateNumber());
+            FacesContext.getCurrentInstance().addMessage(null, msg);
+            return;
+        }
+
+        LifeCycleInfo lifeCycleInfo = new LifeCycleInfo(new Date(), didBy);
+        TicketInfo newTicketInfo = new TicketInfo(ticketForUpdates.getTicketInfo()); // difference with doUpdateTicketInfo(): instead of ticket ticketForUpdates
+        newTicketInfo.setModification(lifeCycleInfo);
+        newTicketInfo.setTicketStatus(TicketStatus.DELETED); // difference
+        newTicketInfo.setTransportInfo(transportForUpdates.getTransportInfo());
+        newTicketInfo.setTerminalInfo(transportForUpdates.getTerminal().getTerminalInfo());
+        newTicketInfo.setPointInfo(transportForUpdates.getPoint().getPointInfo());
+
+        TicketInfo oldTicketInfo = ticketForUpdates.getTicketInfo();
+        ticketForUpdates.getTicketInfoHistory().add(oldTicketInfo);
+
+        ticketForUpdates.setTicketInfo(newTicketInfo);
+        ticketForUpdates.setDeletion(lifeCycleInfo); // difference
+
+        ticketEJB.updateTicket(ticketForUpdates);
+
+        FacesMessage msg = new FacesMessage("Заявка удалена", unitOfTransport.getTransportInfo().getStateNumber());
+        FacesContext.getCurrentInstance().addMessage(null, msg);
+    }
+
     public Boolean doCheckForPossibilityToAddTicket(Transport transport) {
         unitOfTransport = transportEJB.findTransportById(transport.getId());
         List<Ticket> tickets = unitOfTransport.getTickets();
-        return tickets.isEmpty() || !(tickets.get(tickets.size() - 1).getClosing() == null && tickets.get(tickets.size() - 1).getClosing() == null);
+        return tickets.isEmpty() || !(tickets.get(tickets.size() - 1).getClosing() == null && tickets.get(tickets.size() - 1).getDeletion() == null);
     }
 
 //    public void doOpenTicketDialog(Transport transport, String didBy) {

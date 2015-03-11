@@ -342,11 +342,18 @@
                                 <p:commandButton id="transportCommentButton" process="@parent" update="@parent:@child(0) @parent:@child(1) :form:msgs" action="#{ticketController.doAddTransportComment(transport, didBy)}" value="Отправить" icon="ui-icon-disk"/>
                             </p:tab>
 
+                            <!--footer="принята: #{ticket.acceptance.date} (#{ticket.acceptance.didBy}) -->
+                            <!--/// закрыта: #{ticket.closing.date} (#{ticket.closing.didBy}) -->
+                            <!--/// удалена: #{ticket.deletion.date} (#{ticket.deletion.didBy}) -->
+                            <!--/// последнее изменение: #{ticket.ticketInfo.modification.date} (#{ticket.ticketInfo.modification.didBy})">-->
                             <p:tab title="Заявки">
                                 <ui:repeat value="#{transport.tickets}" var="ticket" varStatus="ticketVarStatus">
                                     <p:panel id="ticketPanel#{ticketVarStatus.index}-#{ticket.id}" collapsed="true" toggleable="true" closable="true" toggleSpeed="500" closeSpeed="500" widgetVar="ticketPanel#{ticketVarStatus.index}-#{ticket.id}" style="margin-bottom: 10px; width: 100%"
-                                             header="#{ticketVarStatus.index + 1} - #{ticket.creation.date} (#{ticket.creation.didBy}) - #{ticket.ticketInfo.ticketHeader} (#{ticket.ticketInfo.ticketStatus})"
-                                             footer="принята: #{ticket.acceptance.date} (#{ticket.acceptance.didBy}) /// закрыта: #{ticket.closing.date} (#{ticket.closing.didBy}) /// удалена: #{ticket.deletion.date} (#{ticket.deletion.didBy}) /// последнее изменение: #{ticket.ticketInfo.modification.date} (#{ticket.ticketInfo.modification.didBy})">
+                                             header="#{ticketVarStatus.index + 1} - #{ticket.creation.date} #{ticket.creation.didBy} - #{ticket.ticketInfo.ticketHeader} (#{ticket.ticketInfo.ticketStatus})"
+                                            footer="#{empty ticket.acceptance? 'не принята': 'принята:'} #{ticket.acceptance.date} #{ticket.acceptance.didBy}
+                                            ||| #{empty ticket.closing? 'не закрыта': 'закрыта:'} #{ticket.closing.date} #{ticket.closing.didBy}
+                                            ||| #{empty ticket.deletion? 'не удалена': 'удалена:'} #{ticket.deletion.date} #{ticket.deletion.didBy}
+                                            ||| последнее изменение: #{ticket.ticketInfo.modification.date} #{ticket.ticketInfo.modification.didBy}">
                                         <!--<p:ajax event="close" listener="{panelView.onClose}" update="msgs" />-->
                                         <!--<p:ajax event="toggle" listener="{panelView.onToggle}" update="msgs" />-->
                                         <p:panelGrid columns="1" style="border: hidden white; width: auto">
@@ -409,16 +416,27 @@
                                             <!--<h:commandLink styleClass="ui-panel-titlebar-icon ui-corner-all ui-state-default"><h:outputText styleClass="ui-icon ui-icon-help" /></h:commandLink>-->
                                             <!--<h:commandLink styleClass="ui-panel-titlebar-icon ui-corner-all ui-state-default"><h:outputText styleClass="ui-icon ui-icon-star" /></h:commandLink>-->
                                             <!--<h:commandLink styleClass="ui-panel-titlebar-icon ui-corner-all ui-state-default" value="удалить" rendered="#{empty ticket.deletion}"/>-->
-                                            <!--<h:commandLink styleClass="ui-panel-titlebar-icon ui-corner-all ui-state-default" value="закрыть" rendered="#{empty ticket.closing}"/>-->
+                                            <!--<h:commandLink styleClass="ui-panel-titlebar-icon ui-corner-all ui-state-default" value="закрыть" rendered="#{empty ticket.closing and empty ticket.deletion}"/>-->
                                             <!--<h:commandLink styleClass="ui-panel-titlebar-icon ui-corner-all ui-state-default" value="принять" rendered="#{empty ticket.acceptance and empty ticket.deletion and empty ticket.closing}"/>-->
 
                                             <!--<p:commandButton value="удалить"/>-->
                                             <!--<p:commandButton value="закрыть"/>-->
-                                            <p:commandButton process="@this" action="#{ticketController.doAcceptTicket}" update=":form:transportTabView:transportTable :form:msgs" value="принять" title="нажмите, чтобы принять заявку">
+                                            <p:commandButton process="@this" action="#{ticketController.doAcceptTicket}" update=":form:transportTabView:transportTable :form:msgs" rendered="#{empty ticket.acceptance and empty ticket.deletion and empty ticket.closing}" value="принять" title="нажмите, чтобы принять заявку">
                                                 <f:setPropertyActionListener value="#{transport}" target="#{ticketController.unitOfTransport}" />
                                                 <f:setPropertyActionListener value="#{ticket}" target="#{ticketController.ticket}" />
                                                 <f:setPropertyActionListener value="#{didBy}" target="#{ticketController.didBy}" />
                                             </p:commandButton>
+                                            <p:commandButton process="@this" action="#{ticketController.doCloseTicket}" update=":form:transportTabView:transportTable :form:msgs" rendered="#{empty ticket.closing and empty ticket.deletion}" value="закрыть" title="нажмите, чтобы закрыть заявку">
+                                                <f:setPropertyActionListener value="#{transport}" target="#{ticketController.unitOfTransport}" />
+                                                <f:setPropertyActionListener value="#{ticket}" target="#{ticketController.ticket}" />
+                                                <f:setPropertyActionListener value="#{didBy}" target="#{ticketController.didBy}" />
+                                            </p:commandButton>
+                                            <p:commandButton process="@this" action="#{ticketController.doDeleteTicket}" update=":form:transportTabView:transportTable :form:msgs" rendered="#{empty ticket.deletion}" value="удалить" title="нажмите, чтобы удалить заявку">
+                                                <f:setPropertyActionListener value="#{transport}" target="#{ticketController.unitOfTransport}" />
+                                                <f:setPropertyActionListener value="#{ticket}" target="#{ticketController.ticket}" />
+                                                <f:setPropertyActionListener value="#{didBy}" target="#{ticketController.didBy}" />
+                                            </p:commandButton>
+                                            <!--style="float: right"-->
                                         </f:facet>
                                     </p:panel>
                                 </ui:repeat>
