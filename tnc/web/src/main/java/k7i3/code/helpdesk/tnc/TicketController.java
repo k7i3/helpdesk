@@ -60,9 +60,9 @@ public class TicketController {
         ticket.setCreation(lifeCycleInfo);
         ticket.getTicketInfo().setModification(lifeCycleInfo);
         ticket.getTicketInfo().setTicketStatus(TicketStatus.OPENED);
-        ticket.getTicketInfo().setTransportInfo(unitOfTransport.getTransportInfo());
-        ticket.getTicketInfo().setTerminalInfo(unitOfTransport.getTerminal().getTerminalInfo());
-        ticket.getTicketInfo().setPointInfo(unitOfTransport.getPoint().getPointInfo());
+        ticket.getTicketInfo().setTransportInfo(new TransportInfo(unitOfTransport.getTransportInfo()));
+        ticket.getTicketInfo().setTerminalInfo(new TerminalInfo(unitOfTransport.getTerminal().getTerminalInfo()));
+        ticket.getTicketInfo().setPointInfo(new PointInfo(unitOfTransport.getPoint().getPointInfo()));
         ticket.getComments().add(new Comment(lifeCycleInfo, new CommentInfo(lifeCycleInfo, commentContent)));
         unitOfTransport.getTickets().add(ticket);
         transportEJB.updateTransport(unitOfTransport);
