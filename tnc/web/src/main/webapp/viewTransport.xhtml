@@ -438,6 +438,10 @@
                                                 <f:setPropertyActionListener value="#{ticket}" target="#{ticketController.ticket}" />
                                                 <f:setPropertyActionListener value="#{didBy}" target="#{ticketController.didBy}" />
                                             </p:commandButton>
+
+                                            <p:commandLink process="@this" update=":form:showTicketHistoryPanel" oncomplete="PF('showTicketHistoryDialog').show()" rendered="true" value="хронология" title="нажмите, чтобы открыть хронологию заявки" styleClass="ui-panel-titlebar-icon ui-corner-all ui-state-default">
+                                                <f:setPropertyActionListener value="#{ticket}" target="#{ticketController.ticket}" />
+                                            </p:commandLink>
                                             <!--style="float: right"-->
                                         </f:facet>
                                     </p:panel>
@@ -693,10 +697,9 @@
             </p:outputPanel>
         </p:dialog>
 
-
         <p:dialog
                 widgetVar="addTicketCommentDialog"
-                header="Закрытие заявки (добавление комментария):"
+                header="Закрытие заявки:"
                 modal="true"
                 showEffect="fade"
                 hideEffect="fade"
@@ -707,7 +710,7 @@
 
             <p:outputPanel id="addTicketCommentPanel">
                 <p:panelGrid columns="2" style="margin-bottom:10px; width: auto" cellpadding="5">
-                    <h:outputText value="Комментарий (причина закрытия):" />
+                    <h:outputText value="Причина закрытия:" />
                     <p:inputTextarea rows="5" value="#{ticketController.commentContent}" style="width: 99%"/>
                 </p:panelGrid>
 
@@ -716,6 +719,222 @@
                     <f:setPropertyActionListener value="#{sessionScopedController.ticket}" target="#{ticketController.ticket}" />
                     <f:setPropertyActionListener value="#{didBy}" target="#{ticketController.didBy}" />
                 </p:commandButton>
+            </p:outputPanel>
+        </p:dialog>
+
+        <p:dialog
+                widgetVar="showTicketHistoryDialog"
+                header="Хронология:"
+                modal="false"
+                showEffect="fade"
+                hideEffect="fade"
+                resizable="false"
+                draggable="true"
+                width="auto"
+                style="font-size: small">
+
+            <p:outputPanel id="showTicketHistoryPanel">
+                <p:dataTable id="Current"
+                             widgetVar="Current"
+                             var="ticketInfo"
+                             value="#{ticketController.ticket.ticketInfo}"
+                             varStatus="showTicketHistoryVarStatus"
+                             rowKey="#{ticket.id}"
+                             emptyMessage="хронология не найдена..."
+                             draggableColumns="true"
+                             draggableRows="true"
+                             resizableColumns="true"
+                             stickyHeader="false"
+                             scrollable="false"
+                             scrollHeight="500"
+                             editable="false"
+                             style="margin-bottom:20px; word-wrap: break-word; table-layout: fixed; white-space: normal">
+
+                    <f:facet name="header">
+                        <h:outputText value="Текущее состояние" />
+                    </f:facet>
+
+                    <p:column headerText="Дата" style="width: auto">
+                        <h:outputText value="#{ticketInfo.modification.date}" />
+                    </p:column>
+
+                    <p:column headerText="Кто">
+                        <h:outputText value="#{ticketInfo.modification.didBy}" />
+                    </p:column>
+
+                    <p:column headerText="Статус">
+                        <h:outputText value="#{ticketInfo.ticketStatus}" />
+                    </p:column>
+
+                    <p:column headerText="В Уфу">
+                        <h:outputText value="#{ticketInfo.ticketDetails.possibilityOfServiceAtTheDefaultPlace? 'да':'нет'}" />
+                    </p:column>
+
+                    <p:column headerText="Осмотр">
+                        <h:outputText value="#{ticketInfo.ticketDetails.isInspected? 'да':'нет'}" />
+                    </p:column>
+
+                    <p:column headerText="Подача">
+                        <h:outputText value="#{ticketInfo.ticketDetails.place}" />
+                    </p:column>
+
+                    <p:column headerText="Водитель">
+                        <h:outputText value="#{ticketInfo.ticketDetails.mobileNumberOfDriver}" />
+                    </p:column>
+
+                    <p:column headerText="Ответственный">
+                        <h:outputText value="#{ticketInfo.ticketDetails.mobileNumberOfAgent}" />
+                    </p:column>
+
+                    <p:column headerText="Проект">
+                        <h:outputText value="#{ticketInfo.transportInfo.project}" />
+                    </p:column>
+
+                    <p:column headerText="Филиал">
+                        <h:outputText value="#{ticketInfo.transportInfo.branch}" />
+                    </p:column>
+
+                    <p:column headerText="Маршрут">
+                        <h:outputText value="#{ticketInfo.transportInfo.route}" />
+                    </p:column>
+
+                    <p:column headerText="Гос. номер">
+                        <h:outputText value="#{ticketInfo.transportInfo.stateNumber}" />
+                    </p:column>
+
+                    <p:column headerText="Гар. номер">
+                        <h:outputText value="#{ticketInfo.transportInfo.garageNumber}" />
+                    </p:column>
+
+                    <p:column headerText="Модель">
+                        <h:outputText value="#{ticketInfo.transportInfo.model}" />
+                    </p:column>
+
+                    <p:column headerText="Терминал">
+                        <h:outputText value="#{ticketInfo.terminalInfo.number}" />
+                    </p:column>
+
+                    <p:column headerText="Модель">
+                        <h:outputText value="#{ticketInfo.terminalInfo.model}" />
+                    </p:column>
+
+                    <p:column headerText="Прошивка">
+                        <h:outputText value="#{ticketInfo.terminalInfo.firmware}" />
+                    </p:column>
+
+                    <p:column headerText="SN">
+                        <h:outputText value="#{ticketInfo.terminalInfo.serialNumber}" />
+                    </p:column>
+
+                    <p:column headerText="Телефон">
+                        <h:outputText value="#{ticketInfo.terminalInfo.mobileNumber}" />
+                    </p:column>
+
+                    <p:column headerText="Связь">
+                        <h:outputText value="#{ticketInfo.pointInfo.date}" />
+                    </p:column>
+                </p:dataTable>
+
+                <p:dataTable id="History"
+                             widgetVar="History"
+                             var="ticketInfo"
+                             value="#{ticketController.ticket.ticketInfoHistory}"
+                             varStatus="showTicketHistoryVarStatus"
+                             rowKey="#{ticket.id}"
+                             emptyMessage="хронология не найдена..."
+                             draggableColumns="true"
+                             draggableRows="true"
+                             resizableColumns="true"
+                             stickyHeader="false"
+                             scrollable="false"
+                             scrollHeight="500"
+                             editable="false"
+                             style="margin-bottom:20px; word-wrap: break-word; table-layout: fixed; white-space: normal">
+
+                    <f:facet name="header">
+                        <h:outputText value="История" />
+                    </f:facet>
+
+                    <p:column headerText="Дата" style="width: auto">
+                        <h:outputText value="#{ticketInfo.modification.date}" />
+                    </p:column>
+
+                    <p:column headerText="Кто">
+                        <h:outputText value="#{ticketInfo.modification.didBy}" />
+                    </p:column>
+
+                    <p:column headerText="Статус">
+                        <h:outputText value="#{ticketInfo.ticketStatus}" />
+                    </p:column>
+
+                    <p:column headerText="В Уфу">
+                        <h:outputText value="#{ticketInfo.ticketDetails.possibilityOfServiceAtTheDefaultPlace? 'да':'нет'}" />
+                    </p:column>
+
+                    <p:column headerText="Осмотр">
+                        <h:outputText value="#{ticketInfo.ticketDetails.isInspected? 'да':'нет'}" />
+                    </p:column>
+
+                    <p:column headerText="Подача">
+                        <h:outputText value="#{ticketInfo.ticketDetails.place}" />
+                    </p:column>
+
+                    <p:column headerText="Водитель">
+                        <h:outputText value="#{ticketInfo.ticketDetails.mobileNumberOfDriver}" />
+                    </p:column>
+
+                    <p:column headerText="Ответственный">
+                        <h:outputText value="#{ticketInfo.ticketDetails.mobileNumberOfAgent}" />
+                    </p:column>
+
+                    <p:column headerText="Проект">
+                        <h:outputText value="#{ticketInfo.transportInfo.project}" />
+                    </p:column>
+
+                    <p:column headerText="Филиал">
+                        <h:outputText value="#{ticketInfo.transportInfo.branch}" />
+                    </p:column>
+
+                    <p:column headerText="Маршрут">
+                        <h:outputText value="#{ticketInfo.transportInfo.route}" />
+                    </p:column>
+
+                    <p:column headerText="Гос. номер">
+                        <h:outputText value="#{ticketInfo.transportInfo.stateNumber}" />
+                    </p:column>
+
+                    <p:column headerText="Гар. номер">
+                        <h:outputText value="#{ticketInfo.transportInfo.garageNumber}" />
+                    </p:column>
+
+                    <p:column headerText="Модель">
+                        <h:outputText value="#{ticketInfo.transportInfo.model}" />
+                    </p:column>
+
+                    <p:column headerText="Терминал">
+                        <h:outputText value="#{ticketInfo.terminalInfo.number}" />
+                    </p:column>
+
+                    <p:column headerText="Модель">
+                        <h:outputText value="#{ticketInfo.terminalInfo.model}" />
+                    </p:column>
+
+                    <p:column headerText="Прошивка">
+                        <h:outputText value="#{ticketInfo.terminalInfo.firmware}" />
+                    </p:column>
+
+                    <p:column headerText="SN">
+                        <h:outputText value="#{ticketInfo.terminalInfo.serialNumber}" />
+                    </p:column>
+
+                    <p:column headerText="Телефон">
+                        <h:outputText value="#{ticketInfo.terminalInfo.mobileNumber}" />
+                    </p:column>
+
+                    <p:column headerText="Связь">
+                        <h:outputText value="#{ticketInfo.pointInfo.date}" />
+                    </p:column>
+                </p:dataTable>
             </p:outputPanel>
         </p:dialog>
 
