@@ -57,21 +57,21 @@
                                     <span class="ui-separator">
                                         <span class="ui-icon ui-icon-grip-dotted-vertical" />
                                     </span>
-                                    <p:commandButton type="button" value="Удалить" icon="ui-icon-folder-open" />
+                                    <p:commandButton type="button" value="Удалить" icon="ui-icon-folder-open" disabled="true"/>
 
                                     <span class="ui-separator">
                                         <span class="ui-icon ui-icon-grip-dotted-vertical" />
                                     </span>
 
-                                    <p:commandButton type="button" title="Save" icon="ui-icon-disk" />
-                                    <p:commandButton type="button" title="Delete" icon="ui-icon-trash" />
-                                    <p:commandButton type="button" title="Print" icon="ui-icon-print" />
+                                    <p:commandButton type="button" title="Save" icon="ui-icon-disk" disabled="true"/>
+                                    <p:commandButton type="button" title="Delete" icon="ui-icon-trash" disabled="true"/>
+                                    <p:commandButton type="button" title="Print" icon="ui-icon-print" disabled="true"/>
 
                                     <span class="ui-separator">
                                         <span class="ui-icon ui-icon-grip-dotted-vertical" />
                                     </span>
 
-                                    <p:menuButton value="Настройки">
+                                    <p:menuButton value="Настройки" disabled="true">
                                         <p:menuitem value="Save"  icon="ui-icon-disk" />
                                         <p:menuitem value="Update"  icon="ui-icon-arrowrefresh-1-w" />
                                         <p:menuitem value="Delete"  icon="ui-icon-close" />
@@ -290,8 +290,16 @@
 
                     <p:rowExpansion>
                         <p:panelGrid style="margin-bottom: 20px">
-                            <p:commandLink value="показать на карте" process="@this" update=":form:showPointPanel" action="#{pointController.initModel}" oncomplete="PF('showPointDialog').show()" title="нажмите, чтобы увидеть транспорт на карте">
+                            <p:commandLink value="показать на карте" process="@this" update=":form:showPointPanel" action="#{pointController.initModel}" oncomplete="PF('showPointDialog').show()" title="нажмите, чтобы увидеть транспорт на карте" style="margin-right: 10px">
                                 <f:setPropertyActionListener value="#{transport.point}" target="#{pointController.point}" />
+                            </p:commandLink>
+
+                            <p:commandLink process="@this" update=":form:showTransportHistoryPanel" oncomplete="PF('showTransportHistoryDialog').show()" rendered="true" value="история (транспорт)" title="нажмите, чтобы открыть историю транспорта" style="margin-right: 10px">
+                                <f:setPropertyActionListener value="#{transport}" target="#{transportController.unitOfTransport}" />
+                            </p:commandLink>
+
+                            <p:commandLink process="@this" update=":form:showTerminalHistoryPanel" oncomplete="PF('showTerminalHistoryDialog').show()" rendered="true" value="история (терминал)" title="нажмите, чтобы открыть историю терминала" style="margin-right: 10px">
+                                <f:setPropertyActionListener value="#{transport}" target="#{transportController.unitOfTransport}" />
                             </p:commandLink>
                         </p:panelGrid>
 
@@ -724,7 +732,7 @@
 
         <p:dialog
                 widgetVar="showTicketHistoryDialog"
-                header="Хронология:"
+                header="Хронология заявки:"
                 modal="false"
                 showEffect="fade"
                 hideEffect="fade"
@@ -734,12 +742,11 @@
                 style="font-size: small">
 
             <p:outputPanel id="showTicketHistoryPanel">
-                <p:dataTable id="Current"
-                             widgetVar="Current"
+                <p:dataTable id="CurrentTicketCondition"
+                             widgetVar="CurrentTicketCondition"
                              var="ticketInfo"
                              value="#{ticketController.ticket.ticketInfo}"
-                             varStatus="showTicketHistoryVarStatus"
-                             rowKey="#{ticket.id}"
+                             varStatus="CurrentTicketConditionVarStatus"
                              emptyMessage="хронология не найдена..."
                              draggableColumns="true"
                              draggableRows="true"
@@ -754,7 +761,7 @@
                         <h:outputText value="Текущее состояние" />
                     </f:facet>
 
-                    <p:column headerText="Дата" style="width: auto">
+                    <p:column headerText="Дата">
                         <h:outputText value="#{ticketInfo.modification.date}" />
                     </p:column>
 
@@ -835,12 +842,11 @@
                     </p:column>
                 </p:dataTable>
 
-                <p:dataTable id="History"
-                             widgetVar="History"
+                <p:dataTable id="HistoryTicketCondition"
+                             widgetVar="HistoryTicketCondition"
                              var="ticketInfo"
                              value="#{ticketController.ticket.ticketInfoHistory}"
-                             varStatus="showTicketHistoryVarStatus"
-                             rowKey="#{ticket.id}"
+                             varStatus="HistoryTicketConditionVarStatus"
                              emptyMessage="хронология не найдена..."
                              draggableColumns="true"
                              draggableRows="true"
@@ -855,7 +861,7 @@
                         <h:outputText value="История" />
                     </f:facet>
 
-                    <p:column headerText="Дата" style="width: auto">
+                    <p:column headerText="Дата">
                         <h:outputText value="#{ticketInfo.modification.date}" />
                     </p:column>
 
@@ -933,6 +939,266 @@
 
                     <p:column headerText="Связь">
                         <h:outputText value="#{ticketInfo.pointInfo.date}" />
+                    </p:column>
+                </p:dataTable>
+            </p:outputPanel>
+        </p:dialog>
+
+        <p:dialog
+                widgetVar="showTransportHistoryDialog"
+                header="История (транспорт):"
+                modal="false"
+                showEffect="fade"
+                hideEffect="fade"
+                resizable="false"
+                draggable="true"
+                width="auto"
+                style="font-size: small">
+
+            <p:outputPanel id="showTransportHistoryPanel">
+                <p:dataTable id="CurrentTransportCondition"
+                             widgetVar="CurrentTransportCondition"
+                             var="transportInfo"
+                             value="#{transportController.unitOfTransport.transportInfo}"
+                             varStatus="CurrentTransportConditionVarStatus"
+                             emptyMessage="история не найдена..."
+                             draggableColumns="true"
+                             draggableRows="true"
+                             resizableColumns="true"
+                             stickyHeader="false"
+                             scrollable="false"
+                             scrollHeight="500"
+                             editable="false"
+                             style="margin-bottom:20px; word-wrap: break-word; table-layout: fixed; white-space: normal">
+
+                    <f:facet name="header">
+                        <h:outputText value="Текущее состояние" />
+                    </f:facet>
+
+                    <p:column headerText="Дата">
+                        <h:outputText value="#{transportInfo.modification.date}" />
+                    </p:column>
+
+                    <p:column headerText="Кто">
+                        <h:outputText value="#{transportInfo.modification.didBy}" />
+                    </p:column>
+
+                    <p:column headerText="Проект">
+                        <h:outputText value="#{transportInfo.project}" />
+                    </p:column>
+
+                    <p:column headerText="Филиал">
+                        <h:outputText value="#{transportInfo.branch}" />
+                    </p:column>
+
+                    <p:column headerText="Маршрут">
+                        <h:outputText value="#{transportInfo.route}" />
+                    </p:column>
+
+                    <p:column headerText="Гос. номер">
+                        <h:outputText value="#{transportInfo.stateNumber}" />
+                    </p:column>
+
+                    <p:column headerText="Гар. номер">
+                        <h:outputText value="#{transportInfo.garageNumber}" />
+                    </p:column>
+
+                    <p:column headerText="Модель">
+                        <h:outputText value="#{transportInfo.model}" />
+                    </p:column>
+
+                    <p:column headerText="Тангента">
+                        <h:outputText value="#{transportInfo.transportEquipment.hasPtt? 'да':'нет'}" />
+                    </p:column>
+
+                    <p:column headerText="Динамик">
+                        <h:outputText value="#{transportInfo.transportEquipment.hasSpeaker? 'да':'нет'}" />
+                    </p:column>
+
+                    <p:column headerText="Информатор">
+                        <h:outputText value="#{transportInfo.transportEquipment.hasInformer? 'да':'нет'}" />
+                    </p:column>
+
+                    <p:column headerText="Регистратор">
+                        <h:outputText value="#{transportInfo.transportEquipment.hasDvr? 'да':'нет'}" />
+                    </p:column>
+                </p:dataTable>
+
+                <p:dataTable id="HistoryTransportCondition"
+                             widgetVar="HistoryTransportCondition"
+                             var="transportInfo"
+                             value="#{transportController.unitOfTransport.transportInfoHistory}"
+                             varStatus="HistoryTransportConditionVarStatus"
+                             emptyMessage="история не найдена..."
+                             draggableColumns="true"
+                             draggableRows="true"
+                             resizableColumns="true"
+                             stickyHeader="false"
+                             scrollable="false"
+                             scrollHeight="500"
+                             editable="false"
+                             style="margin-bottom:20px; word-wrap: break-word; table-layout: fixed; white-space: normal">
+
+                    <f:facet name="header">
+                        <h:outputText value="История" />
+                    </f:facet>
+
+                    <p:column headerText="Дата">
+                        <h:outputText value="#{transportInfo.modification.date}" />
+                    </p:column>
+
+                    <p:column headerText="Кто">
+                        <h:outputText value="#{transportInfo.modification.didBy}" />
+                    </p:column>
+
+                    <p:column headerText="Проект">
+                        <h:outputText value="#{transportInfo.project}" />
+                    </p:column>
+
+                    <p:column headerText="Филиал">
+                        <h:outputText value="#{transportInfo.branch}" />
+                    </p:column>
+
+                    <p:column headerText="Маршрут">
+                        <h:outputText value="#{transportInfo.route}" />
+                    </p:column>
+
+                    <p:column headerText="Гос. номер">
+                        <h:outputText value="#{transportInfo.stateNumber}" />
+                    </p:column>
+
+                    <p:column headerText="Гар. номер">
+                        <h:outputText value="#{transportInfo.garageNumber}" />
+                    </p:column>
+
+                    <p:column headerText="Модель">
+                        <h:outputText value="#{transportInfo.model}" />
+                    </p:column>
+
+                    <p:column headerText="Тангента">
+                        <h:outputText value="#{transportInfo.transportEquipment.hasPtt? 'да':'нет'}" />
+                    </p:column>
+
+                    <p:column headerText="Динамик">
+                        <h:outputText value="#{transportInfo.transportEquipment.hasSpeaker? 'да':'нет'}" />
+                    </p:column>
+
+                    <p:column headerText="Информатор">
+                        <h:outputText value="#{transportInfo.transportEquipment.hasInformer? 'да':'нет'}" />
+                    </p:column>
+
+                    <p:column headerText="Регистратор">
+                        <h:outputText value="#{transportInfo.transportEquipment.hasDvr? 'да':'нет'}" />
+                    </p:column>
+                </p:dataTable>
+            </p:outputPanel>
+        </p:dialog>
+
+        <p:dialog
+                widgetVar="showTerminalHistoryDialog"
+                header="История (трерминал):"
+                modal="false"
+                showEffect="fade"
+                hideEffect="fade"
+                resizable="false"
+                draggable="true"
+                width="auto"
+                style="font-size: small">
+
+            <p:outputPanel id="showTerminalHistoryPanel">
+                <p:dataTable id="CurrentTerminalCondition"
+                             widgetVar="CurrentTerminalCondition"
+                             var="terminalInfo"
+                             value="#{transportController.unitOfTransport.terminal.terminalInfo}"
+                             varStatus="CurrentTerminalConditionVarStatus"
+                             emptyMessage="история не найдена..."
+                             draggableColumns="true"
+                             draggableRows="true"
+                             resizableColumns="true"
+                             stickyHeader="false"
+                             scrollable="false"
+                             scrollHeight="500"
+                             editable="false"
+                             style="margin-bottom:20px; word-wrap: break-word; table-layout: fixed; white-space: normal">
+
+                    <f:facet name="header">
+                        <h:outputText value="Текущее состояние" />
+                    </f:facet>
+
+                    <p:column headerText="Дата">
+                        <h:outputText value="#{terminalInfo.modification.date}" />
+                    </p:column>
+
+                    <p:column headerText="Кто">
+                        <h:outputText value="#{terminalInfo.modification.didBy}" />
+                    </p:column>
+
+                    <p:column headerText="Терминал">
+                        <h:outputText value="#{terminalInfo.number}" />
+                    </p:column>
+
+                    <p:column headerText="Модель">
+                        <h:outputText value="#{terminalInfo.model}" />
+                    </p:column>
+
+                    <p:column headerText="Прошивка">
+                        <h:outputText value="#{terminalInfo.firmware}" />
+                    </p:column>
+
+                    <p:column headerText="SN">
+                        <h:outputText value="#{terminalInfo.serialNumber}" />
+                    </p:column>
+
+                    <p:column headerText="Телефон">
+                        <h:outputText value="#{terminalInfo.mobileNumber}" />
+                    </p:column>
+                </p:dataTable>
+
+                <p:dataTable id="HistoryTerminalCondition"
+                             widgetVar="HistoryTerminalCondition"
+                             var="terminalInfo"
+                             value="#{transportController.unitOfTransport.terminal.terminalInfoHistory}"
+                             varStatus="HistoryTerminalConditionVarStatus"
+                             emptyMessage="история не найдена..."
+                             draggableColumns="true"
+                             draggableRows="true"
+                             resizableColumns="true"
+                             stickyHeader="false"
+                             scrollable="false"
+                             scrollHeight="500"
+                             editable="false"
+                             style="margin-bottom:20px; word-wrap: break-word; table-layout: fixed; white-space: normal">
+
+                    <f:facet name="header">
+                        <h:outputText value="История" />
+                    </f:facet>
+
+                    <p:column headerText="Дата">
+                        <h:outputText value="#{terminalInfo.modification.date}" />
+                    </p:column>
+
+                    <p:column headerText="Кто">
+                        <h:outputText value="#{terminalInfo.modification.didBy}" />
+                    </p:column>
+
+                    <p:column headerText="Терминал">
+                        <h:outputText value="#{terminalInfo.number}" />
+                    </p:column>
+
+                    <p:column headerText="Модель">
+                        <h:outputText value="#{terminalInfo.model}" />
+                    </p:column>
+
+                    <p:column headerText="Прошивка">
+                        <h:outputText value="#{terminalInfo.firmware}" />
+                    </p:column>
+
+                    <p:column headerText="SN">
+                        <h:outputText value="#{terminalInfo.serialNumber}" />
+                    </p:column>
+
+                    <p:column headerText="Телефон">
+                        <h:outputText value="#{terminalInfo.mobileNumber}" />
                     </p:column>
                 </p:dataTable>
             </p:outputPanel>
