@@ -45,7 +45,10 @@
 
                     <c:set var="didBy" value="Администратор"/>
 
-                    <p:ajax event="rowEdit" listener="#{transportController.onRowEdit}" update=":form:msgs" />
+                    <p:ajax event="rowEdit" listener="#{transportController.onRowEdit}" update=":form:msgs">
+                        <!--TODO setPropertyActionListener don't work-->
+                        <f:setPropertyActionListener value="#{didBy}" target="#{transportController.didBy}" />
+                    </p:ajax>
                     <p:ajax event="rowEditCancel" listener="#{transportController.onRowCancel}" update=":form:msgs" />
 
                     <f:facet name="header" >
@@ -329,8 +332,9 @@
                                             </p:inplace>
                                         </p:panelGrid>
 
-                                        <p:commandLink value="обновить" process="@parent" update=":form:msgs @parent:@parent" action="#{transportController.doUpdateTransport}" title="нажмите, чтобы сохранить изменения">
+                                        <p:commandLink value="обновить" process="@parent" update=":form:msgs @parent:@parent" action="#{transportController.doUpdateTransportInfo}" title="нажмите, чтобы сохранить изменения">
                                             <f:setPropertyActionListener value="#{transport}" target="#{transportController.unitOfTransport}" />
+                                            <f:setPropertyActionListener value="#{didBy}" target="#{transportController.didBy}" />
                                         </p:commandLink>
                                     </h:panelGrid>
                                 </p:panelGrid>
