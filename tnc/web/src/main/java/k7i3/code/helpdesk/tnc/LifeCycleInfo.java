@@ -25,6 +25,26 @@ public class LifeCycleInfo {
         this.didBy = didBy;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof LifeCycleInfo)) return false;
+
+        LifeCycleInfo that = (LifeCycleInfo) o;
+
+        if (date != null ? !date.equals(that.date) : that.date != null) return false;
+        if (didBy != null ? !didBy.equals(that.didBy) : that.didBy != null) return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = date != null ? date.hashCode() : 0;
+        result = 31 * result + (didBy != null ? didBy.hashCode() : 0);
+        return result;
+    }
+
     public Date getDate() {
         return date;
     }

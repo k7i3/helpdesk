@@ -31,6 +31,7 @@ public class TicketController {
     //Do ADD
 
     public void doAddTransportComment(Transport transport, String didBy) {
+        logger.info("=>=>=>=>=> TicketController.doAddTransportComment()");
         Comment comment = new Comment(new LifeCycleInfo(new Date(), didBy), new CommentInfo(new LifeCycleInfo(new Date(), didBy), commentContent));
         transport.getComments().add(comment);
         transportEJB.updateTransport(transport);
@@ -41,6 +42,7 @@ public class TicketController {
     }
 
     public void doAddTicketComment(Ticket ticket, String didBy) {
+        logger.info("=>=>=>=>=> TicketController.doAddTicketComment()");
         Comment comment = new Comment(new LifeCycleInfo(new Date(), didBy), new CommentInfo(new LifeCycleInfo(new Date(), didBy), commentContent));
         ticket.getComments().add(comment);
         ticketEJB.updateTicket(ticket);
@@ -83,14 +85,21 @@ public class TicketController {
 
         Ticket ticketForUpdates = ticketEJB.findTicketById(ticket.getId()); // difference
 
+        ticket.getTicketInfo().setTicketStatus(ticketForUpdates.getTicketInfo().getTicketStatus()); // it needs for right comparing (equals below) in the case where TicketStatus could be changed in parallel
+
         LifeCycleInfo lifeCycleInfo = new LifeCycleInfo(new Date(), didBy);
-        TicketInfo newTicketInfo = new TicketInfo(ticket.getTicketInfo());
-        prepareNewTicketInfo(newTicketInfo, lifeCycleInfo, ticketForUpdates.getTicketInfo().getTicketStatus());
-        setNewTicketInfo(newTicketInfo, ticketForUpdates);
+
+        Boolean isTicketInfoUpdated = false;
+        if (!ticket.getTicketInfo().equals(ticketForUpdates.getTicketInfo())) {
+            TicketInfo newTicketInfo = new TicketInfo(ticket.getTicketInfo());
+            prepareNewTicketInfo(newTicketInfo, lifeCycleInfo, ticketForUpdates.getTicketInfo().getTicketStatus()); // last argument repeats operation above it because helper method was implemented that for operation change status
+            setNewTicketInfo(newTicketInfo, ticketForUpdates);
+            isTicketInfoUpdated = true;
+        }
 
         ticketEJB.updateTicket(ticketForUpdates);
 
-        FacesMessage msg = new FacesMessage("Обновлено (параметры заявки)", unitOfTransport.getTransportInfo().getStateNumber());
+        FacesMessage msg = new FacesMessage(isTicketInfoUpdated? "Обновлено (заявка)" : "Информация не изменена", unitOfTransport.getTransportInfo().getStateNumber());
         FacesContext.getCurrentInstance().addMessage(null, msg);
     }
 

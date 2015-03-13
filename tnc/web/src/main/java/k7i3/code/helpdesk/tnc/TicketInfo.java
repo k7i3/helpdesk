@@ -62,6 +62,30 @@ public class TicketInfo {
         this.pointInfo = ticketInfo.getPointInfo();
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof TicketInfo)) return false;
+
+        TicketInfo that = (TicketInfo) o;
+
+        if (modification != null ? !modification.equals(that.modification) : that.modification != null) return false;
+        if (ticketDetails != null ? !ticketDetails.equals(that.ticketDetails) : that.ticketDetails != null) return false;
+        if (ticketHeader != that.ticketHeader) return false;
+        if (ticketStatus != that.ticketStatus) return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = ticketStatus != null ? ticketStatus.hashCode() : 0;
+        result = 31 * result + (ticketHeader != null ? ticketHeader.hashCode() : 0);
+        result = 31 * result + (modification != null ? modification.hashCode() : 0);
+        result = 31 * result + (ticketDetails != null ? ticketDetails.hashCode() : 0);
+        return result;
+    }
+
     public Long getId() {
         return id;
     }

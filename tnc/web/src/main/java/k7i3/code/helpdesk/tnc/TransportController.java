@@ -77,12 +77,9 @@ public class TransportController {
 
     public void doAddTransport() {
         LifeCycleInfo lifeCycleInfo = new LifeCycleInfo(new Date(), didBy);
-        //TODO to helper method
-        unitOfTransport.setCreation(lifeCycleInfo);
-        unitOfTransport.getTransportInfo().setModification(lifeCycleInfo);
-        unitOfTransport.getTerminal().setCreation(lifeCycleInfo);
-        unitOfTransport.getTerminal().getTerminalInfo().setModification(lifeCycleInfo);
-        unitOfTransport.getPoint().getPointInfo().setModification(lifeCycleInfo);
+
+        initCreationAndModification(lifeCycleInfo);
+
         transportEJB.createTransport(unitOfTransport);
 
         FacesMessage msg = new FacesMessage("Сохранено (транспорт)", unitOfTransport.getTransportInfo().getStateNumber());
@@ -95,13 +92,18 @@ public class TransportController {
         Transport transportForUpdates = transportEJB.findTransportById(unitOfTransport.getId());
 
         LifeCycleInfo lifeCycleInfo = new LifeCycleInfo(new Date(), didBy);
-        TransportInfo newTransportInfo = new TransportInfo(unitOfTransport.getTransportInfo());
-        prepareNewTransportInfo(newTransportInfo, lifeCycleInfo);
-        setNewTransportInfo(newTransportInfo, transportForUpdates);
+
+        Boolean isTransportInfoUpdated = false;
+        if (!unitOfTransport.getTransportInfo().equals(transportForUpdates.getTransportInfo())) {
+            TransportInfo newTransportInfo = new TransportInfo(unitOfTransport.getTransportInfo());
+            prepareNewTransportInfo(newTransportInfo, lifeCycleInfo);
+            setNewTransportInfo(newTransportInfo, transportForUpdates);
+            isTransportInfoUpdated = true;
+        }
 
         transportEJB.updateTransport(transportForUpdates);
 
-        FacesMessage msg = new FacesMessage("Обновлено (инфорамция о транспорте)", transportForUpdates.getTransportInfo().getStateNumber());
+        FacesMessage msg = new FacesMessage(isTransportInfoUpdated? "Обновлено (транспорт)" : "Информация не изменена", transportForUpdates.getTransportInfo().getStateNumber());
         FacesContext.getCurrentInstance().addMessage(null, msg);
     }
 
@@ -111,24 +113,36 @@ public class TransportController {
         unitOfTransport = (Transport) event.getObject();
         Transport transportForUpdates = transportEJB.findTransportById(unitOfTransport.getId());
 
+        unitOfTransport.getTransportInfo().setTransportEquipment(transportForUpdates.getTransportInfo().getTransportEquipment()); // TODO this code fixes bug when nothing changed and all TransportEquipment reset to false (and logical right anyway)
+
         didBy = "Администратор"; // TODO fix it!
 
         LifeCycleInfo lifeCycleInfo = new LifeCycleInfo(new Date(), didBy);
-        TransportInfo newTransportInfo = new TransportInfo(unitOfTransport.getTransportInfo()); // TODO make if (equals)
-        prepareNewTransportInfo(newTransportInfo, lifeCycleInfo);
-        setNewTransportInfo(newTransportInfo, transportForUpdates);
-        TerminalInfo newTerminalInfo = new TerminalInfo(unitOfTransport.getTerminal().getTerminalInfo()); // TODO make if (equals)
-        prepareNewTerminalInfo(newTerminalInfo, lifeCycleInfo);
-        setNewTerminalInfo(newTerminalInfo, transportForUpdates);
+
+        Boolean isTransportInfoUpdated = false;
+        if (!unitOfTransport.getTransportInfo().equals(transportForUpdates.getTransportInfo())) {
+            TransportInfo newTransportInfo = new TransportInfo(unitOfTransport.getTransportInfo());
+            prepareNewTransportInfo(newTransportInfo, lifeCycleInfo);
+            setNewTransportInfo(newTransportInfo, transportForUpdates);
+            isTransportInfoUpdated = true;
+        }
+
+        Boolean isTerminalInfoUpdated = false;
+        if (!unitOfTransport.getTerminal().getTerminalInfo().equals(transportForUpdates.getTerminal().getTerminalInfo())) {
+            TerminalInfo newTerminalInfo = new TerminalInfo(unitOfTransport.getTerminal().getTerminalInfo());
+            prepareNewTerminalInfo(newTerminalInfo, lifeCycleInfo);
+            setNewTerminalInfo(newTerminalInfo, transportForUpdates);
+            isTerminalInfoUpdated = true;
+        }
 
         transportEJB.updateTransport(transportForUpdates);
 
-        FacesMessage msg = new FacesMessage("Обновлено (информация о транспорте и о терминале)", (transportForUpdates.getTransportInfo().getStateNumber()));
+        FacesMessage msg = new FacesMessage("Обновлено (транспорт:" + (isTransportInfoUpdated? "да" : "нет") + " терминал: " + (isTerminalInfoUpdated? "да" : "нет") + ")", (transportForUpdates.getTransportInfo().getStateNumber()));
         FacesContext.getCurrentInstance().addMessage(null, msg);
     }
 
     public void onRowCancel(RowEditEvent event) {
-        FacesMessage msg = new FacesMessage("Не обновлено (транспорт)", ((Transport) event.getObject()).getTransportInfo().getStateNumber());
+        FacesMessage msg = new FacesMessage("Отмена", ((Transport) event.getObject()).getTransportInfo().getStateNumber());
         FacesContext.getCurrentInstance().addMessage(null, msg);
     }
 
@@ -152,6 +166,14 @@ public class TransportController {
         TerminalInfo oldTerminalInfo = transport.getTerminal().getTerminalInfo(); // = new TicketInfo(transport.getTerminal().getTerminalInfo());
         transport.getTerminal().getTerminalInfoHistory().add(oldTerminalInfo);
         transport.getTerminal().setTerminalInfo(newTerminalInfo);
+    }
+
+    private void initCreationAndModification(LifeCycleInfo lifeCycleInfo) {
+        unitOfTransport.setCreation(lifeCycleInfo);
+        unitOfTransport.getTransportInfo().setModification(lifeCycleInfo);
+        unitOfTransport.getTerminal().setCreation(lifeCycleInfo);
+        unitOfTransport.getTerminal().getTerminalInfo().setModification(lifeCycleInfo);
+        unitOfTransport.getPoint().getPointInfo().setModification(lifeCycleInfo);
     }
 
 //    public void onCellEdit(CellEditEvent event) {
