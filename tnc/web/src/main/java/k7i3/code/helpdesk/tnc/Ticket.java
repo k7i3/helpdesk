@@ -57,6 +57,13 @@ public class Ticket {
     @Embedded
     private LifeCycleInfo incorrectness;
 
+    @AttributeOverrides({
+            @AttributeOverride(name="date", column= @Column(name="cancellation_Date")),
+            @AttributeOverride(name="didBy", column= @Column(name="cancellation_DidBy"))
+    })
+    @Embedded
+    private LifeCycleInfo cancellation;
+
     //TODO to delete
     @AttributeOverrides({
             @AttributeOverride(name="date", column= @Column(name="deletion_Date")),
@@ -131,6 +138,14 @@ public class Ticket {
 
     public void setIncorrectness(LifeCycleInfo incorrectness) {
         this.incorrectness = incorrectness;
+    }
+
+    public LifeCycleInfo getCancellation() {
+        return cancellation;
+    }
+
+    public void setCancellation(LifeCycleInfo cancellation) {
+        this.cancellation = cancellation;
     }
 
     public LifeCycleInfo getDeletion() {

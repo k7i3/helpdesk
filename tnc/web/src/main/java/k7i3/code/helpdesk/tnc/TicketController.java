@@ -116,8 +116,14 @@ public class TicketController {
             return;
         }
 
-        if (ticket.getClosing() != null || ticket.getDeletion() != null) { // difference
-            FacesMessage msg = new FacesMessage("Заявка уже неактуальна (закрыта или удалена)", unitOfTransport.getTransportInfo().getStateNumber());
+        if (ticket.getIncorrectness() != null) {
+            FacesMessage msg = new FacesMessage("Заявка уже помечена как невалидная", unitOfTransport.getTransportInfo().getStateNumber());
+            FacesContext.getCurrentInstance().addMessage(null, msg);
+            return;
+        }
+
+        if (ticket.getCancellation() != null) {
+            FacesMessage msg = new FacesMessage("Заявка уже отменена", unitOfTransport.getTransportInfo().getStateNumber());
             FacesContext.getCurrentInstance().addMessage(null, msg);
             return;
         }
@@ -135,13 +141,73 @@ public class TicketController {
         FacesContext.getCurrentInstance().addMessage(null, msg);
     }
 
+    public void doOnServiceTicket() {
+        logger.info("=>=>=>=>=> TicketController.doOnServiceTicket()");
+        unitOfTransport = transportEJB.findTransportById(unitOfTransport.getId());
+        ticket = ticketEJB.findTicketById(ticket.getId());
+
+        if (ticket.getService() != null) {
+            FacesMessage msg = new FacesMessage("Выезд уже назначен", unitOfTransport.getTransportInfo().getStateNumber());
+            FacesContext.getCurrentInstance().addMessage(null, msg);
+            return;
+        }
+
+        if (ticket.getAcceptance() == null) {
+            FacesMessage msg = new FacesMessage("Заявка еще не принята)", unitOfTransport.getTransportInfo().getStateNumber());
+            FacesContext.getCurrentInstance().addMessage(null, msg);
+            return;
+        }
+
+        if (ticket.getIncorrectness() != null) {
+            FacesMessage msg = new FacesMessage("Заявка уже помечена как невалидная", unitOfTransport.getTransportInfo().getStateNumber());
+            FacesContext.getCurrentInstance().addMessage(null, msg);
+            return;
+        }
+
+        if (ticket.getCancellation() != null) {
+            FacesMessage msg = new FacesMessage("Заявка уже отменена", unitOfTransport.getTransportInfo().getStateNumber());
+            FacesContext.getCurrentInstance().addMessage(null, msg);
+            return;
+        }
+
+        LifeCycleInfo lifeCycleInfo = new LifeCycleInfo(new Date(), didBy);
+        TicketInfo newTicketInfo = new TicketInfo(ticket.getTicketInfo());
+        prepareNewTicketInfo(newTicketInfo, lifeCycleInfo, TicketStatus.SERVICING);
+        setNewTicketInfo(newTicketInfo, ticket);
+
+        ticket.setService(lifeCycleInfo); // difference
+
+        ticketEJB.updateTicket(ticket);
+
+        FacesMessage msg = new FacesMessage("Выезд назначен", unitOfTransport.getTransportInfo().getStateNumber());
+        FacesContext.getCurrentInstance().addMessage(null, msg);
+    }
+
     public void doCloseTicket() {
         logger.info("=>=>=>=>=> TicketController.doCloseTicket()");
         unitOfTransport = transportEJB.findTransportById(unitOfTransport.getId());
         ticket = ticketEJB.findTicketById(ticket.getId());
 
-        if (ticket.getClosing() != null || ticket.getDeletion() != null) {
-            FacesMessage msg = new FacesMessage("Заявка уже неактуальна (закрыта или удалена)", unitOfTransport.getTransportInfo().getStateNumber());
+        if (ticket.getClosing() != null) {
+            FacesMessage msg = new FacesMessage("Заявка уже закрыта)", unitOfTransport.getTransportInfo().getStateNumber());
+            FacesContext.getCurrentInstance().addMessage(null, msg);
+            return;
+        }
+
+        if (ticket.getAcceptance() == null) {
+            FacesMessage msg = new FacesMessage("Заявка еще не принята)", unitOfTransport.getTransportInfo().getStateNumber());
+            FacesContext.getCurrentInstance().addMessage(null, msg);
+            return;
+        }
+
+        if (ticket.getIncorrectness() != null) {
+            FacesMessage msg = new FacesMessage("Заявка уже помечена как невалидная", unitOfTransport.getTransportInfo().getStateNumber());
+            FacesContext.getCurrentInstance().addMessage(null, msg);
+            return;
+        }
+
+        if (ticket.getCancellation() != null) {
+            FacesMessage msg = new FacesMessage("Заявка уже отменена", unitOfTransport.getTransportInfo().getStateNumber());
             FacesContext.getCurrentInstance().addMessage(null, msg);
             return;
         }
@@ -160,27 +226,119 @@ public class TicketController {
         FacesContext.getCurrentInstance().addMessage(null, msg);
     }
 
-    public void doDeleteTicket() {
-        logger.info("=>=>=>=>=> TicketController.doDeleteTicket()");
+    public void doArchiveTicket() {
+        logger.info("=>=>=>=>=> TicketController.doArchiveTicket()");
         unitOfTransport = transportEJB.findTransportById(unitOfTransport.getId());
         ticket = ticketEJB.findTicketById(ticket.getId());
 
-        if (ticket.getDeletion() != null) {
-            FacesMessage msg = new FacesMessage("Заявка уже удалена", unitOfTransport.getTransportInfo().getStateNumber());
+        if (ticket.getArchiving() != null) {
+            FacesMessage msg = new FacesMessage("Заявка уже в архиве", unitOfTransport.getTransportInfo().getStateNumber());
+            FacesContext.getCurrentInstance().addMessage(null, msg);
+            return;
+        }
+
+        if (ticket.getClosing() == null) {
+            FacesMessage msg = new FacesMessage("Заявка еще не закрыта", unitOfTransport.getTransportInfo().getStateNumber());
+            FacesContext.getCurrentInstance().addMessage(null, msg);
+            return;
+        }
+
+        if (ticket.getIncorrectness() != null) {
+            FacesMessage msg = new FacesMessage("Заявка уже помечена как невалидная", unitOfTransport.getTransportInfo().getStateNumber());
+            FacesContext.getCurrentInstance().addMessage(null, msg);
+            return;
+        }
+
+        if (ticket.getCancellation() != null) {
+            FacesMessage msg = new FacesMessage("Заявка уже отменена", unitOfTransport.getTransportInfo().getStateNumber());
             FacesContext.getCurrentInstance().addMessage(null, msg);
             return;
         }
 
         LifeCycleInfo lifeCycleInfo = new LifeCycleInfo(new Date(), didBy);
         TicketInfo newTicketInfo = new TicketInfo(ticket.getTicketInfo());
-        prepareNewTicketInfo(newTicketInfo, lifeCycleInfo, TicketStatus.DELETED);
+        prepareNewTicketInfo(newTicketInfo, lifeCycleInfo, TicketStatus.ARCHIVED);
         setNewTicketInfo(newTicketInfo, ticket);
 
-        ticket.setDeletion(lifeCycleInfo); // difference
+        ticket.setArchiving(lifeCycleInfo); // difference
 
         ticketEJB.updateTicket(ticket);
 
-        FacesMessage msg = new FacesMessage("Заявка удалена", unitOfTransport.getTransportInfo().getStateNumber());
+        FacesMessage msg = new FacesMessage("Заявка помещена в архив", unitOfTransport.getTransportInfo().getStateNumber());
+        FacesContext.getCurrentInstance().addMessage(null, msg);
+    }
+
+    public void doMarkAsIncorrectTicket() {
+        logger.info("=>=>=>=>=> TicketController.doMarkAsIncorrectTicket()");
+        unitOfTransport = transportEJB.findTransportById(unitOfTransport.getId());
+        ticket = ticketEJB.findTicketById(ticket.getId());
+
+        if (ticket.getIncorrectness() != null) {
+            FacesMessage msg = new FacesMessage("Заявка уже отмечена как невалидная", unitOfTransport.getTransportInfo().getStateNumber());
+            FacesContext.getCurrentInstance().addMessage(null, msg);
+            return;
+        }
+
+        if (ticket.getCancellation() != null) {
+            FacesMessage msg = new FacesMessage("Заявка уже отменена", unitOfTransport.getTransportInfo().getStateNumber());
+            FacesContext.getCurrentInstance().addMessage(null, msg);
+            return;
+        }
+
+        if (ticket.getArchiving() != null) {
+            FacesMessage msg = new FacesMessage("Заявка уже в архиве", unitOfTransport.getTransportInfo().getStateNumber());
+            FacesContext.getCurrentInstance().addMessage(null, msg);
+            return;
+        }
+
+        LifeCycleInfo lifeCycleInfo = new LifeCycleInfo(new Date(), didBy);
+        TicketInfo newTicketInfo = new TicketInfo(ticket.getTicketInfo());
+        prepareNewTicketInfo(newTicketInfo, lifeCycleInfo, TicketStatus.INCORRECT);
+        setNewTicketInfo(newTicketInfo, ticket);
+
+        ticket.setIncorrectness(lifeCycleInfo); // difference
+        ticket.getComments().add(new Comment(lifeCycleInfo, new CommentInfo(lifeCycleInfo, commentContent))); // difference
+
+        ticketEJB.updateTicket(ticket);
+
+        FacesMessage msg = new FacesMessage("Заявка отмечена как невалидная", unitOfTransport.getTransportInfo().getStateNumber());
+        FacesContext.getCurrentInstance().addMessage(null, msg);
+    }
+
+    public void doCancelTicket() {
+        logger.info("=>=>=>=>=> TicketController.doCancelTicket()");
+        unitOfTransport = transportEJB.findTransportById(unitOfTransport.getId());
+        ticket = ticketEJB.findTicketById(ticket.getId());
+
+        if (ticket.getCancellation() != null) {
+            FacesMessage msg = new FacesMessage("Заявка уже отменена", unitOfTransport.getTransportInfo().getStateNumber());
+            FacesContext.getCurrentInstance().addMessage(null, msg);
+            return;
+        }
+
+        if (ticket.getIncorrectness() != null) {
+            FacesMessage msg = new FacesMessage("Заявка уже отмечена как невалидная", unitOfTransport.getTransportInfo().getStateNumber());
+            FacesContext.getCurrentInstance().addMessage(null, msg);
+            return;
+        }
+
+        if (ticket.getArchiving() != null) {
+            FacesMessage msg = new FacesMessage("Заявка уже в архиве", unitOfTransport.getTransportInfo().getStateNumber());
+            FacesContext.getCurrentInstance().addMessage(null, msg);
+            return;
+        }
+
+        LifeCycleInfo lifeCycleInfo = new LifeCycleInfo(new Date(), didBy);
+        TicketInfo newTicketInfo = new TicketInfo(ticket.getTicketInfo());
+        prepareNewTicketInfo(newTicketInfo, lifeCycleInfo, TicketStatus.CANCELED);
+        setNewTicketInfo(newTicketInfo, ticket);
+
+        ticket.setCancellation(lifeCycleInfo); // difference
+        ticket.getComments().add(new Comment(lifeCycleInfo, new CommentInfo(lifeCycleInfo, commentContent))); // difference
+
+        ticketEJB.updateTicket(ticket);
+
+        FacesMessage msg = new FacesMessage("Заявка отменена", unitOfTransport.getTransportInfo().getStateNumber());
         FacesContext.getCurrentInstance().addMessage(null, msg);
     }
 
@@ -190,7 +348,7 @@ public class TicketController {
         logger.info("=>=>=>=>=> TicketController.doCheckForPossibilityToAddTicket()");
         unitOfTransport = transportEJB.findTransportById(transport.getId());
         List<Ticket> tickets = unitOfTransport.getTickets();
-        return tickets.isEmpty() || !(tickets.get(tickets.size() - 1).getClosing() == null && tickets.get(tickets.size() - 1).getDeletion() == null);
+        return tickets.isEmpty() || tickets.get(tickets.size() - 1).getArchiving() != null;
     }
 
     //HELPER METHODS

@@ -10,6 +10,7 @@ public enum TicketStatus {
     CLOSED("закрыта"),
     ARCHIVED("в архиве"),
     INCORRECT("некорректная"),
+    CANCELED("отменена"),
     DELETED("удалена"); //TODO to delete
 
     private final String description;
