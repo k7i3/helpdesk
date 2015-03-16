@@ -348,7 +348,7 @@ public class TicketController {
         logger.info("=>=>=>=>=> TicketController.doCheckForPossibilityToAddTicket()");
         unitOfTransport = transportEJB.findTransportById(transport.getId());
         List<Ticket> tickets = unitOfTransport.getTickets();
-        return tickets.isEmpty() || tickets.get(tickets.size() - 1).getArchiving() != null;
+        return tickets.isEmpty() || tickets.get(tickets.size() - 1).getArchiving() != null || tickets.get(tickets.size() - 1).getIncorrectness() != null || tickets.get(tickets.size() - 1).getCancellation() != null;
     }
 
     //HELPER METHODS
