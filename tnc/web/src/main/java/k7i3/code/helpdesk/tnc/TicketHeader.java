@@ -4,7 +4,6 @@ package k7i3.code.helpdesk.tnc;
  * Created by k7i3 on 29.01.15.
  */
 public enum TicketHeader {
-    //TODO
     NOT_ONLINE("не на связи"),
     BAD_TRACK("некорректный трек"),
     OTHER("прочее");

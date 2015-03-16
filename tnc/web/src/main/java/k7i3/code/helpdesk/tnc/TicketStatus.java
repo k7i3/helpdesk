@@ -6,8 +6,11 @@ package k7i3.code.helpdesk.tnc;
 public enum TicketStatus {
     OPENED("открыта"),
     ACCEPTED("принята"),
+    SERVICING("выезд"),
     CLOSED("закрыта"),
-    DELETED("удалена");
+    ARCHIVED("в архиве"),
+    INCORRECT("некорректная"),
+    DELETED("удалена"); //TODO to delete
 
     private final String description;
 

@@ -17,6 +17,8 @@ public class TicketInfo {
 //    @NotNull //- it is attempt to fix problem with ajax rowEdit event (when event is executed, validation ticketHeader at TicketController execute to, and broke everything)
     @Enumerated(EnumType.STRING)
     private TicketHeader ticketHeader;
+    @Enumerated(EnumType.STRING)
+    private TicketResult ticketResult;
     @NotNull
     @AttributeOverrides({
             @AttributeOverride(name="date", column= @Column(name="modification_Date")),
@@ -104,6 +106,14 @@ public class TicketInfo {
 
     public void setTicketHeader(TicketHeader ticketHeader) {
         this.ticketHeader = ticketHeader;
+    }
+
+    public TicketResult getTicketResult() {
+        return ticketResult;
+    }
+
+    public void setTicketResult(TicketResult ticketResult) {
+        this.ticketResult = ticketResult;
     }
 
     public LifeCycleInfo getModification() {

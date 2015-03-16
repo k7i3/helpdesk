@@ -13,6 +13,7 @@ public class Ticket {
     @Id
     @GeneratedValue
     private Long id;
+
     @NotNull
     @AttributeOverrides({
             @AttributeOverride(name="date", column= @Column(name="creation_Date")),
@@ -20,24 +21,50 @@ public class Ticket {
     })
     @Embedded
     private LifeCycleInfo creation;
+
     @AttributeOverrides({
             @AttributeOverride(name="date", column= @Column(name="acceptance_Date")),
             @AttributeOverride(name="didBy", column= @Column(name="acceptance_DidBy"))
     })
     @Embedded
     private LifeCycleInfo acceptance;
+
     @AttributeOverrides({
-            @AttributeOverride(name="date", column= @Column(name="closingn_Date")),
+            @AttributeOverride(name="date", column= @Column(name="service_Date")),
+            @AttributeOverride(name="didBy", column= @Column(name="service_DidBy"))
+    })
+    @Embedded
+    private LifeCycleInfo service;
+
+    @AttributeOverrides({
+            @AttributeOverride(name="date", column= @Column(name="closing_Date")),
             @AttributeOverride(name="didBy", column= @Column(name="closing_DidBy"))
     })
     @Embedded
     private LifeCycleInfo closing;
+
+    @AttributeOverrides({
+            @AttributeOverride(name="date", column= @Column(name="archiving_Date")),
+            @AttributeOverride(name="didBy", column= @Column(name="archiving_DidBy"))
+    })
+    @Embedded
+    private LifeCycleInfo archiving;
+
+    @AttributeOverrides({
+            @AttributeOverride(name="date", column= @Column(name="incorrectness_Date")),
+            @AttributeOverride(name="didBy", column= @Column(name="incorrectness_DidBy"))
+    })
+    @Embedded
+    private LifeCycleInfo incorrectness;
+
+    //TODO to delete
     @AttributeOverrides({
             @AttributeOverride(name="date", column= @Column(name="deletion_Date")),
             @AttributeOverride(name="didBy", column= @Column(name="deletion_DidBy"))
     })
     @Embedded
     private LifeCycleInfo deletion;
+
     @NotNull
     @OneToOne(cascade = CascadeType.ALL)
     private TicketInfo ticketInfo = new TicketInfo();
@@ -74,12 +101,36 @@ public class Ticket {
         this.acceptance = acceptance;
     }
 
+    public LifeCycleInfo getService() {
+        return service;
+    }
+
+    public void setService(LifeCycleInfo service) {
+        this.service = service;
+    }
+
     public LifeCycleInfo getClosing() {
         return closing;
     }
 
     public void setClosing(LifeCycleInfo closing) {
         this.closing = closing;
+    }
+
+    public LifeCycleInfo getArchiving() {
+        return archiving;
+    }
+
+    public void setArchiving(LifeCycleInfo archiving) {
+        this.archiving = archiving;
+    }
+
+    public LifeCycleInfo getIncorrectness() {
+        return incorrectness;
+    }
+
+    public void setIncorrectness(LifeCycleInfo incorrectness) {
+        this.incorrectness = incorrectness;
     }
 
     public LifeCycleInfo getDeletion() {
