@@ -363,7 +363,8 @@
                                 <ui:repeat value="#{transport.tickets}" var="ticket" varStatus="ticketVarStatus">
                                     <p:panel id="ticketPanel#{ticketVarStatus.index}-#{ticket.id}" collapsed="true" toggleable="true" closable="true" toggleSpeed="500" closeSpeed="500" widgetVar="ticketPanel#{ticketVarStatus.index}-#{ticket.id}" style="margin-bottom: 10px; width: 100%"
                                              header="#{ticketVarStatus.index + 1} - #{ticket.creation.date} #{ticket.creation.didBy} - #{ticket.ticketInfo.ticketHeader} (#{ticket.ticketInfo.ticketStatus})"
-                                            footer="последнее изменение: #{ticket.ticketInfo.modification.date} #{ticket.ticketInfo.modification.didBy}">
+                                            footer=" #{ticket.ticketInfo.ticketResult}">
+                                        <!--footer="последнее изменение: {ticket.ticketInfo.modification.date} {ticket.ticketInfo.modification.didBy}">-->
                                         <!--footer="{empty ticket.acceptance? 'не принята': 'принята:'} {ticket.acceptance.date} {ticket.acceptance.didBy}-->
                                         <!--||| {empty ticket.closing? 'не закрыта': 'закрыта:'} {ticket.closing.date} {ticket.closing.didBy}-->
                                         <!--||| {empty ticket.deletion? 'не удалена': 'удалена:'} {ticket.deletion.date} {ticket.deletion.didBy}-->
@@ -739,7 +740,11 @@
 
             <p:outputPanel id="closeTicketPanel">
                 <p:panelGrid columns="2" style="margin-bottom:10px; width: auto" cellpadding="5">
-                    <h:outputText value="Причина закрытия:" />
+                    <h:outputText value="Проведенная работа:" />
+                    <p:selectOneListbox value="#{ticketController.ticketResult}">
+                        <f:selectItems value="#{ticketController.ticketResults}" var="ticketResult" itemLabel="#{ticketResult.toString()}" itemValue="#{ticketResult}"/>
+                    </p:selectOneListbox>
+                    <h:outputText value="Комментарий:" />
                     <p:inputTextarea rows="5" value="#{ticketController.commentContent}" style="width: 99%"/>
                 </p:panelGrid>
 
@@ -841,7 +846,11 @@
                     </p:column>
 
                     <p:column headerText="Статус">
-                        <h:outputText value="#{ticketInfo.ticketStatus}" />
+                        <h:outputText value=" #{ticketInfo.ticketStatus}" />
+                    </p:column>
+
+                    <p:column headerText="Результат">
+                        <h:outputText value=" #{ticketInfo.ticketResult}" />
                     </p:column>
 
                     <p:column headerText="В Уфу">
@@ -941,7 +950,11 @@
                     </p:column>
 
                     <p:column headerText="Статус">
-                        <h:outputText value="#{ticketInfo.ticketStatus}" />
+                        <h:outputText value=" #{ticketInfo.ticketStatus}" />
+                    </p:column>
+
+                    <p:column headerText="Результат">
+                        <h:outputText value=" #{ticketInfo.ticketResult}" />
                     </p:column>
 
                     <p:column headerText="В Уфу">

@@ -25,6 +25,8 @@ public class TicketController {
     private Transport unitOfTransport;
     private Ticket ticket = new Ticket();
     private List<TicketHeader> ticketHeaders = Arrays.asList(TicketHeader.values());
+    private List<TicketResult> ticketResults = Arrays.asList(TicketResult.values());
+    TicketResult ticketResult;
     private String didBy;
     private String commentContent;
 
@@ -195,13 +197,13 @@ public class TicketController {
         ticket = ticketEJB.findTicketById(ticket.getId());
 
         if (ticket.getClosing() != null) {
-            FacesMessage msg = new FacesMessage("Заявка уже закрыта)", unitOfTransport.getTransportInfo().getStateNumber());
+            FacesMessage msg = new FacesMessage("Заявка уже закрыта", unitOfTransport.getTransportInfo().getStateNumber());
             FacesContext.getCurrentInstance().addMessage(null, msg);
             return;
         }
 
         if (ticket.getAcceptance() == null) {
-            FacesMessage msg = new FacesMessage("Заявка еще не принята)", unitOfTransport.getTransportInfo().getStateNumber());
+            FacesMessage msg = new FacesMessage("Заявка еще не принята", unitOfTransport.getTransportInfo().getStateNumber());
             FacesContext.getCurrentInstance().addMessage(null, msg);
             return;
         }
@@ -221,6 +223,7 @@ public class TicketController {
         LifeCycleInfo lifeCycleInfo = new LifeCycleInfo(new Date(), didBy);
         TicketInfo newTicketInfo = new TicketInfo(ticket.getTicketInfo());
         prepareNewTicketInfo(newTicketInfo, lifeCycleInfo, TicketStatus.CLOSED);
+        newTicketInfo.setTicketResult(ticketResult); // difference
         setNewTicketInfo(newTicketInfo, ticket);
 
         ticket.setClosing(lifeCycleInfo); // difference
@@ -449,5 +452,21 @@ public class TicketController {
 
     public void setTicketHeaders(List<TicketHeader> ticketHeaders) {
         this.ticketHeaders = ticketHeaders;
+    }
+
+    public List<TicketResult> getTicketResults() {
+        return ticketResults;
+    }
+
+    public void setTicketResults(List<TicketResult> ticketResults) {
+        this.ticketResults = ticketResults;
+    }
+
+    public TicketResult getTicketResult() {
+        return ticketResult;
+    }
+
+    public void setTicketResult(TicketResult ticketResult) {
+        this.ticketResult = ticketResult;
     }
 }

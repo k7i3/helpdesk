@@ -57,6 +57,7 @@ public class TicketInfo {
     public TicketInfo(TicketInfo ticketInfo) {
         this.ticketStatus = ticketInfo.getTicketStatus();
         this.ticketHeader = ticketInfo.getTicketHeader();
+        this.ticketResult = ticketInfo.getTicketResult();
         this.modification = ticketInfo.getModification();
         this.ticketDetails = new TicketDetails(ticketInfo.getTicketDetails());
         this.transportInfo = ticketInfo.getTransportInfo();
