@@ -152,6 +152,12 @@ public class TicketController {
             return;
         }
 
+        if (ticket.getClosing() != null) {
+            FacesMessage msg = new FacesMessage("Заявка уже закрыта", unitOfTransport.getTransportInfo().getStateNumber());
+            FacesContext.getCurrentInstance().addMessage(null, msg);
+            return;
+        }
+
         if (ticket.getAcceptance() == null) {
             FacesMessage msg = new FacesMessage("Заявка еще не принята)", unitOfTransport.getTransportInfo().getStateNumber());
             FacesContext.getCurrentInstance().addMessage(null, msg);

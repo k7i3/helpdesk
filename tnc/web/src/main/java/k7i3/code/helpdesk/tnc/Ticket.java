@@ -64,14 +64,6 @@ public class Ticket {
     @Embedded
     private LifeCycleInfo cancellation;
 
-    //TODO to delete
-    @AttributeOverrides({
-            @AttributeOverride(name="date", column= @Column(name="deletion_Date")),
-            @AttributeOverride(name="didBy", column= @Column(name="deletion_DidBy"))
-    })
-    @Embedded
-    private LifeCycleInfo deletion;
-
     @NotNull
     @OneToOne(cascade = CascadeType.ALL)
     private TicketInfo ticketInfo = new TicketInfo();
@@ -146,14 +138,6 @@ public class Ticket {
 
     public void setCancellation(LifeCycleInfo cancellation) {
         this.cancellation = cancellation;
-    }
-
-    public LifeCycleInfo getDeletion() {
-        return deletion;
-    }
-
-    public void setDeletion(LifeCycleInfo deletion) {
-        this.deletion = deletion;
     }
 
     public TicketInfo getTicketInfo() {

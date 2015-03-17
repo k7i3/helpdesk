@@ -9,9 +9,8 @@ public enum TicketStatus {
     SERVICING("выезд"),
     CLOSED("закрыта"),
     ARCHIVED("в архиве"),
-    INCORRECT("некорректная"),
-    CANCELED("отменена"),
-    DELETED("удалена"); //TODO to delete
+    INCORRECT("невалидная"),
+    CANCELED("отменена");
 
     private final String description;
 

@@ -221,7 +221,7 @@ public class DBPopulator {
 
         for (int i = 0; i < (int) (Math.random() * 11); i++) {
             tickets.add(getRandomTicket(TicketStatus.CLOSED));
-            tickets.add(getRandomTicket(TicketStatus.DELETED));
+            tickets.add(getRandomTicket(TicketStatus.ARCHIVED));
         }
 
         if (random.nextBoolean()) {
@@ -248,11 +248,12 @@ public class DBPopulator {
             case OPENED:
                 logger.info("=>=>=>=>=> DBPopulator.getRandomTickets() - switch (OPENED)");
                 break;
-            case DELETED:
-                logger.info("=>=>=>=>=> DBPopulator.getRandomTickets() - switch (DELETED)");
-                ticket.setClosing(getRandomLifeCycleInfo());
+            case ARCHIVED:
+                logger.info("=>=>=>=>=> DBPopulator.getRandomTickets() - switch (ARCHIVED)");
                 ticket.setAcceptance(getRandomLifeCycleInfo());
-                ticket.setDeletion(getRandomLifeCycleInfo());
+                ticket.setService(getRandomLifeCycleInfo());
+                ticket.setClosing(getRandomLifeCycleInfo());
+                ticket.setArchiving(getRandomLifeCycleInfo());
                 break;
             default:
                 logger.info("=>=>=>=>=> DBPopulator.getRandomTicketInfo() - switch (default)");
