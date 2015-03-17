@@ -180,7 +180,7 @@ public class TicketController {
 
         LifeCycleInfo lifeCycleInfo = new LifeCycleInfo(new Date(), didBy);
         TicketInfo newTicketInfo = new TicketInfo(ticket.getTicketInfo());
-        prepareNewTicketInfo(newTicketInfo, lifeCycleInfo, TicketStatus.SERVICING);
+        prepareNewTicketInfo(newTicketInfo, lifeCycleInfo, TicketStatus.ON_SERVICE);
         setNewTicketInfo(newTicketInfo, ticket);
 
         ticket.setService(lifeCycleInfo); // difference
@@ -348,6 +348,117 @@ public class TicketController {
         ticketEJB.updateTicket(ticket);
 
         FacesMessage msg = new FacesMessage("Заявка отменена", unitOfTransport.getTransportInfo().getStateNumber());
+        FacesContext.getCurrentInstance().addMessage(null, msg);
+    }
+
+    public void doRepeatedOnServiceTicket() {
+        logger.info("=>=>=>=>=> TicketController.doRepeatedOnServiceTicket()");
+        unitOfTransport = transportEJB.findTransportById(unitOfTransport.getId());
+        ticket = ticketEJB.findTicketById(ticket.getId());
+
+        if (ticket.getService() == null) {
+            FacesMessage msg = new FacesMessage("Еще не назначен первичный выезд", unitOfTransport.getTransportInfo().getStateNumber());
+            FacesContext.getCurrentInstance().addMessage(null, msg);
+            return;
+        }
+
+        if (ticket.getClosing() == null) {
+            FacesMessage msg = new FacesMessage("Заявка еще не закрыта в первый раз", unitOfTransport.getTransportInfo().getStateNumber());
+            FacesContext.getCurrentInstance().addMessage(null, msg);
+            return;
+        }
+
+        if (ticket.getRepeatedService().size() != ticket.getRepeatedClosing().size()) {
+            FacesMessage msg = new FacesMessage("Повторный выезд уже назначен", unitOfTransport.getTransportInfo().getStateNumber());
+            FacesContext.getCurrentInstance().addMessage(null, msg);
+            return;
+        }
+
+        if (ticket.getArchiving() != null) {
+            FacesMessage msg = new FacesMessage("Заявка уже в архиве", unitOfTransport.getTransportInfo().getStateNumber());
+            FacesContext.getCurrentInstance().addMessage(null, msg);
+            return;
+        }
+
+        if (ticket.getIncorrectness() != null) {
+            FacesMessage msg = new FacesMessage("Заявка уже помечена как невалидная", unitOfTransport.getTransportInfo().getStateNumber());
+            FacesContext.getCurrentInstance().addMessage(null, msg);
+            return;
+        }
+
+        if (ticket.getCancellation() != null) {
+            FacesMessage msg = new FacesMessage("Заявка уже отменена", unitOfTransport.getTransportInfo().getStateNumber());
+            FacesContext.getCurrentInstance().addMessage(null, msg);
+            return;
+        }
+
+        LifeCycleInfo lifeCycleInfo = new LifeCycleInfo(new Date(), didBy);
+        TicketInfo newTicketInfo = new TicketInfo(ticket.getTicketInfo());
+        prepareNewTicketInfo(newTicketInfo, lifeCycleInfo, TicketStatus.REPEATED_ON_SERVICE);
+        setNewTicketInfo(newTicketInfo, ticket);
+
+        ticket.getRepeatedService().add(lifeCycleInfo); // difference
+        ticket.getComments().add(new Comment(lifeCycleInfo, new CommentInfo(lifeCycleInfo, commentContent))); // difference
+
+        ticketEJB.updateTicket(ticket);
+
+        FacesMessage msg = new FacesMessage("Повторный выезд назначен", unitOfTransport.getTransportInfo().getStateNumber());
+        FacesContext.getCurrentInstance().addMessage(null, msg);
+    }
+
+    public void doRepeatedCloseTicket() {
+        logger.info("=>=>=>=>=> TicketController.doRepeatedCloseTicket()");
+        unitOfTransport = transportEJB.findTransportById(unitOfTransport.getId());
+        ticket = ticketEJB.findTicketById(ticket.getId());
+
+        if (ticket.getService() == null) {
+            FacesMessage msg = new FacesMessage("Еще не назначен первичный выезд", unitOfTransport.getTransportInfo().getStateNumber());
+            FacesContext.getCurrentInstance().addMessage(null, msg);
+            return;
+        }
+
+        if (ticket.getClosing() == null) {
+            FacesMessage msg = new FacesMessage("Заявка еще не закрыта в первый раз", unitOfTransport.getTransportInfo().getStateNumber());
+            FacesContext.getCurrentInstance().addMessage(null, msg);
+            return;
+        }
+
+        if (ticket.getRepeatedService().size() == ticket.getRepeatedClosing().size()) {
+            FacesMessage msg = new FacesMessage("заявка уже повторно закрыта", unitOfTransport.getTransportInfo().getStateNumber());
+            FacesContext.getCurrentInstance().addMessage(null, msg);
+            return;
+        }
+
+        if (ticket.getArchiving() != null) {
+            FacesMessage msg = new FacesMessage("Заявка уже в архиве", unitOfTransport.getTransportInfo().getStateNumber());
+            FacesContext.getCurrentInstance().addMessage(null, msg);
+            return;
+        }
+
+        if (ticket.getIncorrectness() != null) {
+            FacesMessage msg = new FacesMessage("Заявка уже помечена как невалидная", unitOfTransport.getTransportInfo().getStateNumber());
+            FacesContext.getCurrentInstance().addMessage(null, msg);
+            return;
+        }
+
+        if (ticket.getCancellation() != null) {
+            FacesMessage msg = new FacesMessage("Заявка уже отменена", unitOfTransport.getTransportInfo().getStateNumber());
+            FacesContext.getCurrentInstance().addMessage(null, msg);
+            return;
+        }
+
+        LifeCycleInfo lifeCycleInfo = new LifeCycleInfo(new Date(), didBy);
+        TicketInfo newTicketInfo = new TicketInfo(ticket.getTicketInfo());
+        prepareNewTicketInfo(newTicketInfo, lifeCycleInfo, TicketStatus.REPEATED_CLOSED);
+        newTicketInfo.setTicketResult(ticketResult); // difference
+        setNewTicketInfo(newTicketInfo, ticket);
+
+        ticket.getRepeatedClosing().add(lifeCycleInfo); // difference
+        ticket.getComments().add(new Comment(lifeCycleInfo, new CommentInfo(lifeCycleInfo, commentContent))); // difference
+
+        ticketEJB.updateTicket(ticket);
+
+        FacesMessage msg = new FacesMessage("Заявка закрыта повторно", unitOfTransport.getTransportInfo().getStateNumber());
         FacesContext.getCurrentInstance().addMessage(null, msg);
     }
 

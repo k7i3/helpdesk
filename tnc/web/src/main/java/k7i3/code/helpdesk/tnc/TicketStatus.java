@@ -6,11 +6,13 @@ package k7i3.code.helpdesk.tnc;
 public enum TicketStatus {
     OPENED("открыта"),
     ACCEPTED("принята"),
-    SERVICING("выезд"),
+    ON_SERVICE("выезд"),
     CLOSED("закрыта"),
     ARCHIVED("в архиве"),
     INCORRECT("невалидная"),
-    CANCELED("отменена");
+    CANCELED("отменена"),
+    REPEATED_ON_SERVICE("повторный выезд"),
+    REPEATED_CLOSED("повторно закрыта");
 
     private final String description;
 

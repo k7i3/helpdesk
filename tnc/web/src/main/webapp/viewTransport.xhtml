@@ -453,6 +453,22 @@
                                                 <f:setPropertyActionListener value="#{ticket}" target="#{sessionScopedController.ticket}" />
                                             </p:commandButton>
 
+
+
+
+                                            <p:commandButton process="@this" update=":form:repeatedOnServiceTicketPanel :form:transportTabView:transportTable :form:msgs" oncomplete="PF('repeatedOnServiceTicketDialog').show()" rendered="#{not empty ticket.service and not empty ticket.closing and fn:length(ticket.repeatedService) == fn:length(ticket.repeatedClosing) and empty ticket.archiving and empty ticket.incorrectness and empty ticket.cancellation}" value="на выезд (повторно!)" title="нажмите, чтобы назначить повторный выезд" style="margin-right: 5px">
+                                                <f:setPropertyActionListener value="#{transport}" target="#{sessionScopedController.unitOfTransport}" />
+                                                <f:setPropertyActionListener value="#{ticket}" target="#{sessionScopedController.ticket}" />
+                                            </p:commandButton>
+
+                                            <p:commandButton process="@this" update=":form:repeatedCloseTicketPanel :form:transportTabView:transportTable :form:msgs" oncomplete="PF('repeatedCloseTicketDialog').show()" rendered="#{not empty ticket.service and not empty ticket.closing and fn:length(ticket.repeatedService) > fn:length(ticket.repeatedClosing) and empty ticket.archiving and empty ticket.incorrectness and empty ticket.cancellation}" value="закрыть (повторно!)" title="нажмите, чтобы повторно закрыть заявку" style="margin-right: 5px">
+                                                <f:setPropertyActionListener value="#{transport}" target="#{sessionScopedController.unitOfTransport}" />
+                                                <f:setPropertyActionListener value="#{ticket}" target="#{sessionScopedController.ticket}" />
+                                            </p:commandButton>
+
+
+
+
                                             <p:commandButton process="@this" action="#{ticketController.doArchiveTicket}" update=":form:transportTabView:transportTable :form:msgs" rendered="#{empty ticket.archiving and not empty ticket.closing and empty ticket.incorrectness and empty ticket.cancellation}" value="архивировать" title="нажмите, чтобы поместить заявку в архив" style="margin-right: 5px">
                                                 <f:setPropertyActionListener value="#{transport}" target="#{ticketController.unitOfTransport}" />
                                                 <f:setPropertyActionListener value="#{ticket}" target="#{ticketController.ticket}" />
@@ -755,6 +771,61 @@
                 </p:commandButton>
             </p:outputPanel>
         </p:dialog>
+
+        <p:dialog
+                widgetVar="repeatedOnServiceTicketDialog"
+                header="Повторный выезд:"
+                modal="true"
+                showEffect="fade"
+                hideEffect="fade"
+                resizable="false"
+                draggable="false"
+                width="auto"
+                style="font-size: small">
+
+            <p:outputPanel id="repeatedOnServiceTicketPanel">
+                <p:panelGrid columns="2" style="margin-bottom:10px; width: auto" cellpadding="5">
+                    <h:outputText value="Причина повторного выезда:" />
+                    <p:inputTextarea rows="5" value="#{ticketController.commentContent}" style="width: 99%"/>
+                </p:panelGrid>
+
+                <p:commandButton process="@parent" update=":form:msgs :form:transportTabView:transportTable" action="#{ticketController.doRepeatedOnServiceTicket}" onsuccess="PF('repeatedOnServiceTicketDialog').hide()" value="Назначить повторный выезд" icon="ui-icon-disk">
+                    <f:setPropertyActionListener value="#{sessionScopedController.unitOfTransport}" target="#{ticketController.unitOfTransport}" />
+                    <f:setPropertyActionListener value="#{sessionScopedController.ticket}" target="#{ticketController.ticket}" />
+                    <f:setPropertyActionListener value="#{didBy}" target="#{ticketController.didBy}" />
+                </p:commandButton>
+            </p:outputPanel>
+        </p:dialog>
+
+        <p:dialog
+                widgetVar="repeatedCloseTicketDialog"
+                header="Повторное закрытие заявки:"
+                modal="true"
+                showEffect="fade"
+                hideEffect="fade"
+                resizable="false"
+                draggable="false"
+                width="auto"
+                style="font-size: small">
+
+            <p:outputPanel id="repeatedCloseTicketPanel">
+                <p:panelGrid columns="2" style="margin-bottom:10px; width: auto" cellpadding="5">
+                    <h:outputText value="Проведенная работа:" />
+                    <p:selectOneListbox value="#{ticketController.ticketResult}">
+                        <f:selectItems value="#{ticketController.ticketResults}" var="ticketResult" itemLabel="#{ticketResult.toString()}" itemValue="#{ticketResult}"/>
+                    </p:selectOneListbox>
+                    <h:outputText value="Комментарий:" />
+                    <p:inputTextarea rows="5" value="#{ticketController.commentContent}" style="width: 99%"/>
+                </p:panelGrid>
+
+                <p:commandButton process="@parent" update=":form:msgs :form:transportTabView:transportTable" action="#{ticketController.doRepeatedCloseTicket}" onsuccess="PF('repeatedCloseTicketDialog').hide()" value="Закрыть повторно" icon="ui-icon-disk">
+                    <f:setPropertyActionListener value="#{sessionScopedController.unitOfTransport}" target="#{ticketController.unitOfTransport}" />
+                    <f:setPropertyActionListener value="#{sessionScopedController.ticket}" target="#{ticketController.ticket}" />
+                    <f:setPropertyActionListener value="#{didBy}" target="#{ticketController.didBy}" />
+                </p:commandButton>
+            </p:outputPanel>
+        </p:dialog>
+
 
         <p:dialog
                 widgetVar="markAsIncorrectTicketDialog"

@@ -64,6 +64,12 @@ public class Ticket {
     @Embedded
     private LifeCycleInfo cancellation;
 
+    @ElementCollection
+    private List<LifeCycleInfo> repeatedService = new ArrayList<>();
+
+    @ElementCollection
+    private List<LifeCycleInfo> repeatedClosing = new ArrayList<>();
+
     @NotNull
     @OneToOne(cascade = CascadeType.ALL)
     private TicketInfo ticketInfo = new TicketInfo();
@@ -138,6 +144,22 @@ public class Ticket {
 
     public void setCancellation(LifeCycleInfo cancellation) {
         this.cancellation = cancellation;
+    }
+
+    public List<LifeCycleInfo> getRepeatedService() {
+        return repeatedService;
+    }
+
+    public void setRepeatedService(List<LifeCycleInfo> repeatedService) {
+        this.repeatedService = repeatedService;
+    }
+
+    public List<LifeCycleInfo> getRepeatedClosing() {
+        return repeatedClosing;
+    }
+
+    public void setRepeatedClosing(List<LifeCycleInfo> repeatedClosing) {
+        this.repeatedClosing = repeatedClosing;
     }
 
     public TicketInfo getTicketInfo() {
