@@ -436,34 +436,34 @@
 
                                             <!--<p:commandButton value="удалить"/>-->
                                             <!--<p:commandButton value="закрыть"/>-->
-                                            <p:commandButton process="@this" action="#{ticketController.doAcceptTicket}" update=":form:transportTabView:transportTable :form:msgs" rendered="#{empty ticket.acceptance and empty ticket.incorrectness and empty ticket.cancellation}" value="принять" title="нажмите, чтобы принять заявку" style="margin-right: 5px">
+                                            <p:commandButton process="@this" action="#{ticketController.doAcceptTicket}" update=":form:transportTabView:transportTable :form:msgs" rendered="#{ticketController.doCheckForPossibilityToAcceptTicket(ticket)}" value="принять" title="нажмите, чтобы принять заявку" style="margin-right: 5px">
                                                 <f:setPropertyActionListener value="#{transport}" target="#{ticketController.unitOfTransport}" />
                                                 <f:setPropertyActionListener value="#{ticket}" target="#{ticketController.ticket}" />
                                                 <f:setPropertyActionListener value="#{didBy}" target="#{ticketController.didBy}" />
                                             </p:commandButton>
 
-                                            <p:commandButton process="@this" action="#{ticketController.doOnServiceTicket}" update=":form:transportTabView:transportTable :form:msgs" rendered="#{empty ticket.service and empty ticket.closing and not empty ticket.acceptance and empty ticket.incorrectness and empty ticket.cancellation}" value="на выезд" title="нажмите, чтобы назначить выезд" style="margin-right: 5px">
+                                            <p:commandButton process="@this" action="#{ticketController.doOnServiceTicket}" update=":form:transportTabView:transportTable :form:msgs" rendered="#{ticketController.doCheckForPossibilityToOnServiceTicket(ticket)}" value="на выезд" title="нажмите, чтобы назначить выезд" style="margin-right: 5px">
                                                 <f:setPropertyActionListener value="#{transport}" target="#{ticketController.unitOfTransport}" />
                                                 <f:setPropertyActionListener value="#{ticket}" target="#{ticketController.ticket}" />
                                                 <f:setPropertyActionListener value="#{didBy}" target="#{ticketController.didBy}" />
                                             </p:commandButton>
 
-                                            <p:commandButton process="@this" update=":form:closeTicketPanel :form:transportTabView:transportTable :form:msgs" oncomplete="PF('closeTicketDialog').show()" rendered="#{empty ticket.closing and not empty ticket.acceptance and empty ticket.incorrectness and empty ticket.cancellation}" value="закрыть" title="нажмите, чтобы закрыть заявку" style="margin-right: 5px">
+                                            <p:commandButton process="@this" update=":form:closeTicketPanel :form:transportTabView:transportTable :form:msgs" oncomplete="PF('closeTicketDialog').show()" rendered="#{ticketController.doCheckForPossibilityToCloseTicket(ticket)}" value="закрыть" title="нажмите, чтобы закрыть заявку" style="margin-right: 5px">
                                                 <f:setPropertyActionListener value="#{transport}" target="#{sessionScopedController.unitOfTransport}" />
                                                 <f:setPropertyActionListener value="#{ticket}" target="#{sessionScopedController.ticket}" />
                                             </p:commandButton>
 
-                                            <p:commandButton process="@this" update=":form:repeatedOnServiceTicketPanel :form:transportTabView:transportTable :form:msgs" oncomplete="PF('repeatedOnServiceTicketDialog').show()" rendered="#{not empty ticket.service and not empty ticket.closing and fn:length(ticket.repeatedService) == fn:length(ticket.repeatedClosing) and empty ticket.archiving and empty ticket.incorrectness and empty ticket.cancellation}" value="на выезд (повторно!)" title="нажмите, чтобы назначить повторный выезд" style="margin-right: 5px">
+                                            <p:commandButton process="@this" update=":form:repeatedOnServiceTicketPanel :form:transportTabView:transportTable :form:msgs" oncomplete="PF('repeatedOnServiceTicketDialog').show()" rendered="#{ticketController.doCheckForPossibilityToRepeatedOnServiceTicket(ticket)}" value="на выезд (повторно!)" title="нажмите, чтобы назначить повторный выезд" style="margin-right: 5px">
                                                 <f:setPropertyActionListener value="#{transport}" target="#{sessionScopedController.unitOfTransport}" />
                                                 <f:setPropertyActionListener value="#{ticket}" target="#{sessionScopedController.ticket}" />
                                             </p:commandButton>
 
-                                            <p:commandButton process="@this" update=":form:repeatedCloseTicketPanel :form:transportTabView:transportTable :form:msgs" oncomplete="PF('repeatedCloseTicketDialog').show()" rendered="#{not empty ticket.service and not empty ticket.closing and fn:length(ticket.repeatedService) > fn:length(ticket.repeatedClosing) and empty ticket.archiving and empty ticket.incorrectness and empty ticket.cancellation}" value="закрыть (повторно!)" title="нажмите, чтобы повторно закрыть заявку" style="margin-right: 5px">
+                                            <p:commandButton process="@this" update=":form:repeatedCloseTicketPanel :form:transportTabView:transportTable :form:msgs" oncomplete="PF('repeatedCloseTicketDialog').show()" rendered="#{ticketController.doCheckForPossibilityToRepeatedCloseTicket(ticket)}" value="закрыть (повторно!)" title="нажмите, чтобы повторно закрыть заявку" style="margin-right: 5px">
                                                 <f:setPropertyActionListener value="#{transport}" target="#{sessionScopedController.unitOfTransport}" />
                                                 <f:setPropertyActionListener value="#{ticket}" target="#{sessionScopedController.ticket}" />
                                             </p:commandButton>
 
-                                            <p:commandButton process="@this" action="#{ticketController.doArchiveTicket}" update=":form:transportTabView:transportTable :form:msgs" rendered="#{empty ticket.archiving and not empty ticket.closing and empty ticket.incorrectness and empty ticket.cancellation}" value="архивировать" title="нажмите, чтобы поместить заявку в архив" style="margin-right: 5px">
+                                            <p:commandButton process="@this" action="#{ticketController.doArchiveTicket}" update=":form:transportTabView:transportTable :form:msgs" rendered="#{ticketController.doCheckForPossibilityToArchiveTicket(ticket)}" value="архивировать" title="нажмите, чтобы поместить заявку в архив" style="margin-right: 5px">
                                                 <f:setPropertyActionListener value="#{transport}" target="#{ticketController.unitOfTransport}" />
                                                 <f:setPropertyActionListener value="#{ticket}" target="#{ticketController.ticket}" />
                                                 <f:setPropertyActionListener value="#{didBy}" target="#{ticketController.didBy}" />
@@ -473,12 +473,12 @@
                                                 <f:setPropertyActionListener value="#{ticket}" target="#{ticketController.ticket}" />
                                             </p:commandLink>
 
-                                            <p:commandLink process="@this" update=":form:markAsIncorrectTicketPanel :form:transportTabView:transportTable :form:msgs" oncomplete="PF('markAsIncorrectTicketDialog').show()" rendered="#{empty ticket.incorrectness and empty ticket.cancellation and empty ticket.archiving}" value="невалидная" title="нажмите, чтобы отметить заявку как невалидную" style="float: right; margin-right: 5px">
+                                            <p:commandLink process="@this" update=":form:markAsIncorrectTicketPanel :form:transportTabView:transportTable :form:msgs" oncomplete="PF('markAsIncorrectTicketDialog').show()" rendered="#{ticketController.doCheckForPossibilityToMarkAsIncorrectTicket(ticket)}" value="невалидная" title="нажмите, чтобы отметить заявку как невалидную" style="float: right; margin-right: 5px">
                                                 <f:setPropertyActionListener value="#{transport}" target="#{sessionScopedController.unitOfTransport}" />
                                                 <f:setPropertyActionListener value="#{ticket}" target="#{sessionScopedController.ticket}" />
                                             </p:commandLink>
 
-                                            <p:commandLink process="@this" update=":form:cancelTicketPanel :form:transportTabView:transportTable :form:msgs" oncomplete="PF('cancelTicketDialog').show()" rendered="#{empty ticket.cancellation and empty ticket.incorrectness and empty ticket.archiving}" value="отменить" title="нажмите, чтобы отменить заявку" style="float: right; margin-right: 5px">
+                                            <p:commandLink process="@this" update=":form:cancelTicketPanel :form:transportTabView:transportTable :form:msgs" oncomplete="PF('cancelTicketDialog').show()" rendered="#{ticketController.doCheckForPossibilityToCancelTicket(ticket)}" value="отменить" title="нажмите, чтобы отменить заявку" style="float: right; margin-right: 5px">
                                                 <f:setPropertyActionListener value="#{transport}" target="#{sessionScopedController.unitOfTransport}" />
                                                 <f:setPropertyActionListener value="#{ticket}" target="#{sessionScopedController.ticket}" />
                                             </p:commandLink>

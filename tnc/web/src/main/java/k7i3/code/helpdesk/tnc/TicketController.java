@@ -58,11 +58,13 @@ public class TicketController {
         logger.info("=>=>=>=>=> TicketController.doAddTicket()");
 
         // TODO (never used) it working automatically by container and i don't now how (but in this case message is not showing)...
-        if (!doCheckForPossibilityToAddTicket(unitOfTransport)) { // update unitOfTransport from the database is going on here
+        if (!doCheckForPossibilityToAddTicket(unitOfTransport)) {
             FacesMessage msg = new FacesMessage("Уже есть активная заявка", unitOfTransport.getTransportInfo().getStateNumber());
             FacesContext.getCurrentInstance().addMessage(null, msg);
             return;
         }
+        //TODO update unitOfTransport from the database is going on above in if statement, but may be repeat it for logicality
+        //unitOfTransport = transportEJB.findTransportById(unitOfTransport.getId());
 
         LifeCycleInfo lifeCycleInfo = new LifeCycleInfo(new Date(), didBy);
         prepareNewTicketInfo(ticket.getTicketInfo(), lifeCycleInfo, TicketStatus.OPENED);
@@ -109,26 +111,16 @@ public class TicketController {
 
     public void doAcceptTicket() {
         logger.info("=>=>=>=>=> TicketController.doAcceptTicket()");
+
+        if (!doCheckForPossibilityToAcceptTicket(ticket)) {
+            FacesMessage msg = new FacesMessage("Действие невозможно", unitOfTransport.getTransportInfo().getStateNumber());
+            FacesContext.getCurrentInstance().addMessage(null, msg);
+            return;
+        }
+
         unitOfTransport = transportEJB.findTransportById(unitOfTransport.getId());
-        ticket = ticketEJB.findTicketById(ticket.getId());
-
-        if (ticket.getAcceptance() != null) {
-            FacesMessage msg = new FacesMessage("Заявка уже принята", unitOfTransport.getTransportInfo().getStateNumber());
-            FacesContext.getCurrentInstance().addMessage(null, msg);
-            return;
-        }
-
-        if (ticket.getIncorrectness() != null) {
-            FacesMessage msg = new FacesMessage("Заявка уже помечена как невалидная", unitOfTransport.getTransportInfo().getStateNumber());
-            FacesContext.getCurrentInstance().addMessage(null, msg);
-            return;
-        }
-
-        if (ticket.getCancellation() != null) {
-            FacesMessage msg = new FacesMessage("Заявка уже отменена", unitOfTransport.getTransportInfo().getStateNumber());
-            FacesContext.getCurrentInstance().addMessage(null, msg);
-            return;
-        }
+        //TODO update ticket from the database is going on above in if statement, but may be repeat it for logicality
+        //ticket = ticketEJB.findTicketById(ticket.getId());
 
         LifeCycleInfo lifeCycleInfo = new LifeCycleInfo(new Date(), didBy);
         TicketInfo newTicketInfo = new TicketInfo(ticket.getTicketInfo());
@@ -145,38 +137,16 @@ public class TicketController {
 
     public void doOnServiceTicket() {
         logger.info("=>=>=>=>=> TicketController.doOnServiceTicket()");
+
+        if (!doCheckForPossibilityToOnServiceTicket(ticket)) {
+            FacesMessage msg = new FacesMessage("Действие невозможно", unitOfTransport.getTransportInfo().getStateNumber());
+            FacesContext.getCurrentInstance().addMessage(null, msg);
+            return;
+        }
+
         unitOfTransport = transportEJB.findTransportById(unitOfTransport.getId());
-        ticket = ticketEJB.findTicketById(ticket.getId());
-
-        if (ticket.getService() != null) {
-            FacesMessage msg = new FacesMessage("Выезд уже назначен", unitOfTransport.getTransportInfo().getStateNumber());
-            FacesContext.getCurrentInstance().addMessage(null, msg);
-            return;
-        }
-
-        if (ticket.getClosing() != null) {
-            FacesMessage msg = new FacesMessage("Заявка уже закрыта", unitOfTransport.getTransportInfo().getStateNumber());
-            FacesContext.getCurrentInstance().addMessage(null, msg);
-            return;
-        }
-
-        if (ticket.getAcceptance() == null) {
-            FacesMessage msg = new FacesMessage("Заявка еще не принята)", unitOfTransport.getTransportInfo().getStateNumber());
-            FacesContext.getCurrentInstance().addMessage(null, msg);
-            return;
-        }
-
-        if (ticket.getIncorrectness() != null) {
-            FacesMessage msg = new FacesMessage("Заявка уже помечена как невалидная", unitOfTransport.getTransportInfo().getStateNumber());
-            FacesContext.getCurrentInstance().addMessage(null, msg);
-            return;
-        }
-
-        if (ticket.getCancellation() != null) {
-            FacesMessage msg = new FacesMessage("Заявка уже отменена", unitOfTransport.getTransportInfo().getStateNumber());
-            FacesContext.getCurrentInstance().addMessage(null, msg);
-            return;
-        }
+        //TODO update ticket from the database is going on above in if statement, but may be repeat it for logicality
+        //ticket = ticketEJB.findTicketById(ticket.getId());
 
         LifeCycleInfo lifeCycleInfo = new LifeCycleInfo(new Date(), didBy);
         TicketInfo newTicketInfo = new TicketInfo(ticket.getTicketInfo());
@@ -193,32 +163,16 @@ public class TicketController {
 
     public void doCloseTicket() {
         logger.info("=>=>=>=>=> TicketController.doCloseTicket()");
+
+        if (!doCheckForPossibilityToCloseTicket(ticket)) {
+            FacesMessage msg = new FacesMessage("Действие невозможно", unitOfTransport.getTransportInfo().getStateNumber());
+            FacesContext.getCurrentInstance().addMessage(null, msg);
+            return;
+        }
+
         unitOfTransport = transportEJB.findTransportById(unitOfTransport.getId());
-        ticket = ticketEJB.findTicketById(ticket.getId());
-
-        if (ticket.getClosing() != null) {
-            FacesMessage msg = new FacesMessage("Заявка уже закрыта", unitOfTransport.getTransportInfo().getStateNumber());
-            FacesContext.getCurrentInstance().addMessage(null, msg);
-            return;
-        }
-
-        if (ticket.getAcceptance() == null) {
-            FacesMessage msg = new FacesMessage("Заявка еще не принята", unitOfTransport.getTransportInfo().getStateNumber());
-            FacesContext.getCurrentInstance().addMessage(null, msg);
-            return;
-        }
-
-        if (ticket.getIncorrectness() != null) {
-            FacesMessage msg = new FacesMessage("Заявка уже помечена как невалидная", unitOfTransport.getTransportInfo().getStateNumber());
-            FacesContext.getCurrentInstance().addMessage(null, msg);
-            return;
-        }
-
-        if (ticket.getCancellation() != null) {
-            FacesMessage msg = new FacesMessage("Заявка уже отменена", unitOfTransport.getTransportInfo().getStateNumber());
-            FacesContext.getCurrentInstance().addMessage(null, msg);
-            return;
-        }
+        //TODO update ticket from the database is going on above in if statement, but may be repeat it for logicality
+        //ticket = ticketEJB.findTicketById(ticket.getId());
 
         LifeCycleInfo lifeCycleInfo = new LifeCycleInfo(new Date(), didBy);
         TicketInfo newTicketInfo = new TicketInfo(ticket.getTicketInfo());
@@ -237,32 +191,16 @@ public class TicketController {
 
     public void doArchiveTicket() {
         logger.info("=>=>=>=>=> TicketController.doArchiveTicket()");
+
+        if (!doCheckForPossibilityToArchiveTicket(ticket)) {
+            FacesMessage msg = new FacesMessage("Действие невозможно", unitOfTransport.getTransportInfo().getStateNumber());
+            FacesContext.getCurrentInstance().addMessage(null, msg);
+            return;
+        }
+
         unitOfTransport = transportEJB.findTransportById(unitOfTransport.getId());
-        ticket = ticketEJB.findTicketById(ticket.getId());
-
-        if (ticket.getArchiving() != null) {
-            FacesMessage msg = new FacesMessage("Заявка уже в архиве", unitOfTransport.getTransportInfo().getStateNumber());
-            FacesContext.getCurrentInstance().addMessage(null, msg);
-            return;
-        }
-
-        if (ticket.getClosing() == null) {
-            FacesMessage msg = new FacesMessage("Заявка еще не закрыта", unitOfTransport.getTransportInfo().getStateNumber());
-            FacesContext.getCurrentInstance().addMessage(null, msg);
-            return;
-        }
-
-        if (ticket.getIncorrectness() != null) {
-            FacesMessage msg = new FacesMessage("Заявка уже помечена как невалидная", unitOfTransport.getTransportInfo().getStateNumber());
-            FacesContext.getCurrentInstance().addMessage(null, msg);
-            return;
-        }
-
-        if (ticket.getCancellation() != null) {
-            FacesMessage msg = new FacesMessage("Заявка уже отменена", unitOfTransport.getTransportInfo().getStateNumber());
-            FacesContext.getCurrentInstance().addMessage(null, msg);
-            return;
-        }
+        //TODO update ticket from the database is going on above in if statement, but may be repeat it for logicality
+        //ticket = ticketEJB.findTicketById(ticket.getId());
 
         LifeCycleInfo lifeCycleInfo = new LifeCycleInfo(new Date(), didBy);
         TicketInfo newTicketInfo = new TicketInfo(ticket.getTicketInfo());
@@ -279,26 +217,16 @@ public class TicketController {
 
     public void doMarkAsIncorrectTicket() {
         logger.info("=>=>=>=>=> TicketController.doMarkAsIncorrectTicket()");
+
+        if (!doCheckForPossibilityToMarkAsIncorrectTicket(ticket)) {
+            FacesMessage msg = new FacesMessage("Действие невозможно", unitOfTransport.getTransportInfo().getStateNumber());
+            FacesContext.getCurrentInstance().addMessage(null, msg);
+            return;
+        }
+
         unitOfTransport = transportEJB.findTransportById(unitOfTransport.getId());
-        ticket = ticketEJB.findTicketById(ticket.getId());
-
-        if (ticket.getIncorrectness() != null) {
-            FacesMessage msg = new FacesMessage("Заявка уже отмечена как невалидная", unitOfTransport.getTransportInfo().getStateNumber());
-            FacesContext.getCurrentInstance().addMessage(null, msg);
-            return;
-        }
-
-        if (ticket.getCancellation() != null) {
-            FacesMessage msg = new FacesMessage("Заявка уже отменена", unitOfTransport.getTransportInfo().getStateNumber());
-            FacesContext.getCurrentInstance().addMessage(null, msg);
-            return;
-        }
-
-        if (ticket.getArchiving() != null) {
-            FacesMessage msg = new FacesMessage("Заявка уже в архиве", unitOfTransport.getTransportInfo().getStateNumber());
-            FacesContext.getCurrentInstance().addMessage(null, msg);
-            return;
-        }
+        //TODO update ticket from the database is going on above in if statement, but may be repeat it for logicality
+        //ticket = ticketEJB.findTicketById(ticket.getId());
 
         LifeCycleInfo lifeCycleInfo = new LifeCycleInfo(new Date(), didBy);
         TicketInfo newTicketInfo = new TicketInfo(ticket.getTicketInfo());
@@ -316,26 +244,16 @@ public class TicketController {
 
     public void doCancelTicket() {
         logger.info("=>=>=>=>=> TicketController.doCancelTicket()");
+
+        if (!doCheckForPossibilityToCancelTicket(ticket)) {
+            FacesMessage msg = new FacesMessage("Действие невозможно", unitOfTransport.getTransportInfo().getStateNumber());
+            FacesContext.getCurrentInstance().addMessage(null, msg);
+            return;
+        }
+
         unitOfTransport = transportEJB.findTransportById(unitOfTransport.getId());
-        ticket = ticketEJB.findTicketById(ticket.getId());
-
-        if (ticket.getCancellation() != null) {
-            FacesMessage msg = new FacesMessage("Заявка уже отменена", unitOfTransport.getTransportInfo().getStateNumber());
-            FacesContext.getCurrentInstance().addMessage(null, msg);
-            return;
-        }
-
-        if (ticket.getIncorrectness() != null) {
-            FacesMessage msg = new FacesMessage("Заявка уже отмечена как невалидная", unitOfTransport.getTransportInfo().getStateNumber());
-            FacesContext.getCurrentInstance().addMessage(null, msg);
-            return;
-        }
-
-        if (ticket.getArchiving() != null) {
-            FacesMessage msg = new FacesMessage("Заявка уже в архиве", unitOfTransport.getTransportInfo().getStateNumber());
-            FacesContext.getCurrentInstance().addMessage(null, msg);
-            return;
-        }
+        //TODO update ticket from the database is going on above in if statement, but may be repeat it for logicality
+        //ticket = ticketEJB.findTicketById(ticket.getId());
 
         LifeCycleInfo lifeCycleInfo = new LifeCycleInfo(new Date(), didBy);
         TicketInfo newTicketInfo = new TicketInfo(ticket.getTicketInfo());
@@ -353,44 +271,16 @@ public class TicketController {
 
     public void doRepeatedOnServiceTicket() {
         logger.info("=>=>=>=>=> TicketController.doRepeatedOnServiceTicket()");
+
+        if (!doCheckForPossibilityToRepeatedOnServiceTicket(ticket)) {
+            FacesMessage msg = new FacesMessage("Действие невозможно", unitOfTransport.getTransportInfo().getStateNumber());
+            FacesContext.getCurrentInstance().addMessage(null, msg);
+            return;
+        }
+
         unitOfTransport = transportEJB.findTransportById(unitOfTransport.getId());
-        ticket = ticketEJB.findTicketById(ticket.getId());
-
-        if (ticket.getService() == null) {
-            FacesMessage msg = new FacesMessage("Еще не назначен первичный выезд", unitOfTransport.getTransportInfo().getStateNumber());
-            FacesContext.getCurrentInstance().addMessage(null, msg);
-            return;
-        }
-
-        if (ticket.getClosing() == null) {
-            FacesMessage msg = new FacesMessage("Заявка еще не закрыта в первый раз", unitOfTransport.getTransportInfo().getStateNumber());
-            FacesContext.getCurrentInstance().addMessage(null, msg);
-            return;
-        }
-
-        if (ticket.getRepeatedService().size() != ticket.getRepeatedClosing().size()) {
-            FacesMessage msg = new FacesMessage("Повторный выезд уже назначен", unitOfTransport.getTransportInfo().getStateNumber());
-            FacesContext.getCurrentInstance().addMessage(null, msg);
-            return;
-        }
-
-        if (ticket.getArchiving() != null) {
-            FacesMessage msg = new FacesMessage("Заявка уже в архиве", unitOfTransport.getTransportInfo().getStateNumber());
-            FacesContext.getCurrentInstance().addMessage(null, msg);
-            return;
-        }
-
-        if (ticket.getIncorrectness() != null) {
-            FacesMessage msg = new FacesMessage("Заявка уже помечена как невалидная", unitOfTransport.getTransportInfo().getStateNumber());
-            FacesContext.getCurrentInstance().addMessage(null, msg);
-            return;
-        }
-
-        if (ticket.getCancellation() != null) {
-            FacesMessage msg = new FacesMessage("Заявка уже отменена", unitOfTransport.getTransportInfo().getStateNumber());
-            FacesContext.getCurrentInstance().addMessage(null, msg);
-            return;
-        }
+        //TODO update ticket from the database is going on above in if statement, but may be repeat it for logicality
+        //ticket = ticketEJB.findTicketById(ticket.getId());
 
         LifeCycleInfo lifeCycleInfo = new LifeCycleInfo(new Date(), didBy);
         TicketInfo newTicketInfo = new TicketInfo(ticket.getTicketInfo());
@@ -408,44 +298,16 @@ public class TicketController {
 
     public void doRepeatedCloseTicket() {
         logger.info("=>=>=>=>=> TicketController.doRepeatedCloseTicket()");
+
+        if (!doCheckForPossibilityToRepeatedCloseTicket(ticket)) {
+            FacesMessage msg = new FacesMessage("Действие невозможно", unitOfTransport.getTransportInfo().getStateNumber());
+            FacesContext.getCurrentInstance().addMessage(null, msg);
+            return;
+        }
+
         unitOfTransport = transportEJB.findTransportById(unitOfTransport.getId());
-        ticket = ticketEJB.findTicketById(ticket.getId());
-
-        if (ticket.getService() == null) {
-            FacesMessage msg = new FacesMessage("Еще не назначен первичный выезд", unitOfTransport.getTransportInfo().getStateNumber());
-            FacesContext.getCurrentInstance().addMessage(null, msg);
-            return;
-        }
-
-        if (ticket.getClosing() == null) {
-            FacesMessage msg = new FacesMessage("Заявка еще не закрыта в первый раз", unitOfTransport.getTransportInfo().getStateNumber());
-            FacesContext.getCurrentInstance().addMessage(null, msg);
-            return;
-        }
-
-        if (ticket.getRepeatedService().size() == ticket.getRepeatedClosing().size()) {
-            FacesMessage msg = new FacesMessage("заявка уже повторно закрыта", unitOfTransport.getTransportInfo().getStateNumber());
-            FacesContext.getCurrentInstance().addMessage(null, msg);
-            return;
-        }
-
-        if (ticket.getArchiving() != null) {
-            FacesMessage msg = new FacesMessage("Заявка уже в архиве", unitOfTransport.getTransportInfo().getStateNumber());
-            FacesContext.getCurrentInstance().addMessage(null, msg);
-            return;
-        }
-
-        if (ticket.getIncorrectness() != null) {
-            FacesMessage msg = new FacesMessage("Заявка уже помечена как невалидная", unitOfTransport.getTransportInfo().getStateNumber());
-            FacesContext.getCurrentInstance().addMessage(null, msg);
-            return;
-        }
-
-        if (ticket.getCancellation() != null) {
-            FacesMessage msg = new FacesMessage("Заявка уже отменена", unitOfTransport.getTransportInfo().getStateNumber());
-            FacesContext.getCurrentInstance().addMessage(null, msg);
-            return;
-        }
+        //TODO update ticket from the database is going on above in if statement, but may be repeat it for logicality
+        //ticket = ticketEJB.findTicketById(ticket.getId());
 
         LifeCycleInfo lifeCycleInfo = new LifeCycleInfo(new Date(), didBy);
         TicketInfo newTicketInfo = new TicketInfo(ticket.getTicketInfo());
@@ -466,9 +328,58 @@ public class TicketController {
 
     public Boolean doCheckForPossibilityToAddTicket(Transport transport) {
         logger.info("=>=>=>=>=> TicketController.doCheckForPossibilityToAddTicket()");
-        unitOfTransport = transportEJB.findTransportById(transport.getId());
-        List<Ticket> tickets = unitOfTransport.getTickets();
-        return tickets.isEmpty() || tickets.get(tickets.size() - 1).getArchiving() != null || tickets.get(tickets.size() - 1).getIncorrectness() != null || tickets.get(tickets.size() - 1).getCancellation() != null;
+        transport = transportEJB.findTransportById(transport.getId());
+        List<Ticket> tickets = transport.getTickets();
+        Ticket lastTicket = tickets.get(tickets.size() - 1);
+        return tickets.isEmpty() || lastTicket.getArchiving() != null || lastTicket.getIncorrectness() != null || lastTicket.getCancellation() != null;
+    }
+
+    public Boolean doCheckForPossibilityToAcceptTicket(Ticket ticket) {
+        logger.info("=>=>=>=>=> TicketController.doCheckForPossibilityToAcceptTicket()");
+        ticket = ticketEJB.findTicketById(ticket.getId());
+        return ticket.getAcceptance() == null && ticket.getIncorrectness() == null && ticket.getCancellation() == null;
+    }
+
+    public Boolean doCheckForPossibilityToOnServiceTicket(Ticket ticket) {
+        logger.info("=>=>=>=>=> TicketController.doCheckForPossibilityToOnServiceTicket()");
+        ticket = ticketEJB.findTicketById(ticket.getId());
+        return ticket.getService() == null && ticket.getClosing() == null && ticket.getAcceptance() != null && ticket.getIncorrectness() == null && ticket.getCancellation() == null;
+    }
+
+    public Boolean doCheckForPossibilityToCloseTicket(Ticket ticket) {
+        logger.info("=>=>=>=>=> TicketController.doCheckForPossibilityToCloseTicket()");
+        ticket = ticketEJB.findTicketById(ticket.getId());
+        return ticket.getClosing() == null && ticket.getAcceptance() != null && ticket.getIncorrectness() == null && ticket.getCancellation() == null;
+    }
+
+    public Boolean doCheckForPossibilityToArchiveTicket(Ticket ticket) {
+        logger.info("=>=>=>=>=> TicketController.doCheckForPossibilityToArchiveTicket()");
+        ticket = ticketEJB.findTicketById(ticket.getId());
+        return ticket.getArchiving() == null && ticket.getClosing() != null && ticket.getAcceptance() != null && ticket.getIncorrectness() == null && ticket.getCancellation() == null;
+    }
+
+    public Boolean doCheckForPossibilityToCancelTicket(Ticket ticket) {
+        logger.info("=>=>=>=>=> TicketController.doCheckForPossibilityToCancelTicket()");
+        ticket = ticketEJB.findTicketById(ticket.getId());
+        return ticket.getArchiving() == null && ticket.getIncorrectness() == null && ticket.getCancellation() == null;
+    }
+
+    public Boolean doCheckForPossibilityToMarkAsIncorrectTicket(Ticket ticket) {
+        logger.info("=>=>=>=>=> TicketController.doCheckForPossibilityToMarkAsIncorrectTicket()");
+        ticket = ticketEJB.findTicketById(ticket.getId());
+        return ticket.getArchiving() == null && ticket.getIncorrectness() == null && ticket.getCancellation() == null;
+    }
+
+    public Boolean doCheckForPossibilityToRepeatedOnServiceTicket(Ticket ticket) {
+        logger.info("=>=>=>=>=> TicketController.doCheckForPossibilityToRepeatedOnServiceTicket()");
+        ticket = ticketEJB.findTicketById(ticket.getId());
+        return ticket.getService() != null && ticket.getClosing() != null && ticket.getRepeatedService().size() == ticket.getRepeatedClosing().size() && ticket.getArchiving() == null && ticket.getIncorrectness() == null && ticket.getCancellation() == null;
+    }
+
+    public Boolean doCheckForPossibilityToRepeatedCloseTicket(Ticket ticket) {
+        logger.info("=>=>=>=>=> TicketController.doCheckForPossibilityToRepeatedCloseTicket()");
+        ticket = ticketEJB.findTicketById(ticket.getId());
+        return ticket.getService() != null && ticket.getClosing() != null && ticket.getRepeatedService().size() != ticket.getRepeatedClosing().size() && ticket.getArchiving() == null && ticket.getIncorrectness() == null && ticket.getCancellation() == null;
     }
 
     //HELPER METHODS
