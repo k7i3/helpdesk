@@ -330,8 +330,9 @@ public class TicketController {
         logger.info("=>=>=>=>=> TicketController.doCheckForPossibilityToAddTicket()");
         transport = transportEJB.findTransportById(transport.getId());
         List<Ticket> tickets = transport.getTickets();
+        if (tickets.isEmpty()) return true;
         Ticket lastTicket = tickets.get(tickets.size() - 1);
-        return tickets.isEmpty() || lastTicket.getArchiving() != null || lastTicket.getIncorrectness() != null || lastTicket.getCancellation() != null;
+        return lastTicket.getArchiving() != null || lastTicket.getIncorrectness() != null || lastTicket.getCancellation() != null;
     }
 
     public Boolean doCheckForPossibilityToAcceptTicket(Ticket ticket) {
