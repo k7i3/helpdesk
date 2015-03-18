@@ -26,7 +26,7 @@ public class TicketController {
     private Ticket ticket = new Ticket();
     private List<TicketHeader> ticketHeaders = Arrays.asList(TicketHeader.values());
     private List<TicketResult> ticketResults = Arrays.asList(TicketResult.values());
-    TicketResult ticketResult;
+    List<TicketResult> selectedTicketResults;
     private String didBy;
     private String commentContent;
 
@@ -223,7 +223,7 @@ public class TicketController {
         LifeCycleInfo lifeCycleInfo = new LifeCycleInfo(new Date(), didBy);
         TicketInfo newTicketInfo = new TicketInfo(ticket.getTicketInfo());
         prepareNewTicketInfo(newTicketInfo, lifeCycleInfo, TicketStatus.CLOSED);
-        newTicketInfo.setTicketResult(ticketResult); // difference
+        newTicketInfo.setTicketResults(selectedTicketResults); // difference
         setNewTicketInfo(newTicketInfo, ticket);
 
         ticket.setClosing(lifeCycleInfo); // difference
@@ -450,7 +450,7 @@ public class TicketController {
         LifeCycleInfo lifeCycleInfo = new LifeCycleInfo(new Date(), didBy);
         TicketInfo newTicketInfo = new TicketInfo(ticket.getTicketInfo());
         prepareNewTicketInfo(newTicketInfo, lifeCycleInfo, TicketStatus.REPEATED_CLOSED);
-        newTicketInfo.setTicketResult(ticketResult); // difference
+        newTicketInfo.setTicketResults(selectedTicketResults); // difference
         setNewTicketInfo(newTicketInfo, ticket);
 
         ticket.getRepeatedClosing().add(lifeCycleInfo); // difference
@@ -573,11 +573,11 @@ public class TicketController {
         this.ticketResults = ticketResults;
     }
 
-    public TicketResult getTicketResult() {
-        return ticketResult;
+    public List<TicketResult> getSelectedTicketResults() {
+        return selectedTicketResults;
     }
 
-    public void setTicketResult(TicketResult ticketResult) {
-        this.ticketResult = ticketResult;
+    public void setSelectedTicketResults(List<TicketResult> selectedTicketResults) {
+        this.selectedTicketResults = selectedTicketResults;
     }
 }

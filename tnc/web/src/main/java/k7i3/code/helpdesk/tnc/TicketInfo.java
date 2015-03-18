@@ -2,6 +2,8 @@ package k7i3.code.helpdesk.tnc;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by k7i3 on 12.02.15.
@@ -18,7 +20,8 @@ public class TicketInfo {
     @Enumerated(EnumType.STRING)
     private TicketHeader ticketHeader;
     @Enumerated(EnumType.STRING)
-    private TicketResult ticketResult;
+    @ElementCollection
+    private List<TicketResult> ticketResults = new ArrayList<>();
     @NotNull
     @AttributeOverrides({
             @AttributeOverride(name="date", column= @Column(name="modification_Date")),
@@ -57,7 +60,7 @@ public class TicketInfo {
     public TicketInfo(TicketInfo ticketInfo) {
         this.ticketStatus = ticketInfo.getTicketStatus();
         this.ticketHeader = ticketInfo.getTicketHeader();
-        this.ticketResult = ticketInfo.getTicketResult();
+        this.ticketResults = ticketInfo.getTicketResults();
         this.modification = ticketInfo.getModification();
         this.ticketDetails = new TicketDetails(ticketInfo.getTicketDetails());
         this.transportInfo = ticketInfo.getTransportInfo();
@@ -109,12 +112,12 @@ public class TicketInfo {
         this.ticketHeader = ticketHeader;
     }
 
-    public TicketResult getTicketResult() {
-        return ticketResult;
+    public List<TicketResult> getTicketResults() {
+        return ticketResults;
     }
 
-    public void setTicketResult(TicketResult ticketResult) {
-        this.ticketResult = ticketResult;
+    public void setTicketResults(List<TicketResult> ticketResults) {
+        this.ticketResults = ticketResults;
     }
 
     public LifeCycleInfo getModification() {

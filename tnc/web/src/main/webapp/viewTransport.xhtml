@@ -362,8 +362,8 @@
                             <p:tab title="Заявки">
                                 <ui:repeat value="#{transport.tickets}" var="ticket" varStatus="ticketVarStatus">
                                     <p:panel id="ticketPanel#{ticketVarStatus.index}-#{ticket.id}" collapsed="true" toggleable="true" closable="true" toggleSpeed="500" closeSpeed="500" widgetVar="ticketPanel#{ticketVarStatus.index}-#{ticket.id}" style="margin-bottom: 10px; width: 100%"
-                                             header="#{ticketVarStatus.index + 1} - #{ticket.creation.date} #{ticket.creation.didBy} - #{ticket.ticketInfo.ticketHeader} (#{ticket.ticketInfo.ticketStatus})"
-                                            footer=" #{ticket.ticketInfo.ticketResult}">
+                                            header="#{ticketVarStatus.index + 1} - #{ticket.creation.date} #{ticket.creation.didBy} - #{ticket.ticketInfo.ticketHeader} (#{ticket.ticketInfo.ticketStatus})"
+                                            footer="#{ticket.ticketInfo.ticketResults.size() == 0? '' : ticket.ticketInfo.ticketResults}">
                                         <!--footer="последнее изменение: {ticket.ticketInfo.modification.date} {ticket.ticketInfo.modification.didBy}">-->
                                         <!--footer="{empty ticket.acceptance? 'не принята': 'принята:'} {ticket.acceptance.date} {ticket.acceptance.didBy}-->
                                         <!--||| {empty ticket.closing? 'не закрыта': 'закрыта:'} {ticket.closing.date} {ticket.closing.didBy}-->
@@ -453,9 +453,6 @@
                                                 <f:setPropertyActionListener value="#{ticket}" target="#{sessionScopedController.ticket}" />
                                             </p:commandButton>
 
-
-
-
                                             <p:commandButton process="@this" update=":form:repeatedOnServiceTicketPanel :form:transportTabView:transportTable :form:msgs" oncomplete="PF('repeatedOnServiceTicketDialog').show()" rendered="#{not empty ticket.service and not empty ticket.closing and fn:length(ticket.repeatedService) == fn:length(ticket.repeatedClosing) and empty ticket.archiving and empty ticket.incorrectness and empty ticket.cancellation}" value="на выезд (повторно!)" title="нажмите, чтобы назначить повторный выезд" style="margin-right: 5px">
                                                 <f:setPropertyActionListener value="#{transport}" target="#{sessionScopedController.unitOfTransport}" />
                                                 <f:setPropertyActionListener value="#{ticket}" target="#{sessionScopedController.ticket}" />
@@ -465,9 +462,6 @@
                                                 <f:setPropertyActionListener value="#{transport}" target="#{sessionScopedController.unitOfTransport}" />
                                                 <f:setPropertyActionListener value="#{ticket}" target="#{sessionScopedController.ticket}" />
                                             </p:commandButton>
-
-
-
 
                                             <p:commandButton process="@this" action="#{ticketController.doArchiveTicket}" update=":form:transportTabView:transportTable :form:msgs" rendered="#{empty ticket.archiving and not empty ticket.closing and empty ticket.incorrectness and empty ticket.cancellation}" value="архивировать" title="нажмите, чтобы поместить заявку в архив" style="margin-right: 5px">
                                                 <f:setPropertyActionListener value="#{transport}" target="#{ticketController.unitOfTransport}" />
@@ -754,12 +748,15 @@
                 width="auto"
                 style="font-size: small">
 
+            <!--<p:selectManyCheckbox value="{ticketController.selectedTicketResults}" layout="grid" columns="1">-->
+            <!--<f:selectItems value="{ticketController.ticketResults}" var="ticketResult" itemLabel="{ticketResult.toString()}" itemValue="{ticketResult}"/>-->
+            <!--</p:selectManyCheckbox>-->
             <p:outputPanel id="closeTicketPanel">
                 <p:panelGrid columns="2" style="margin-bottom:10px; width: auto" cellpadding="5">
                     <h:outputText value="Проведенная работа:" />
-                    <p:selectOneListbox value="#{ticketController.ticketResult}">
+                    <p:selectManyMenu value="#{ticketController.selectedTicketResults}" showCheckbox="false" converter="ticketResultConverter">
                         <f:selectItems value="#{ticketController.ticketResults}" var="ticketResult" itemLabel="#{ticketResult.toString()}" itemValue="#{ticketResult}"/>
-                    </p:selectOneListbox>
+                    </p:selectManyMenu>
                     <h:outputText value="Комментарий:" />
                     <p:inputTextarea rows="5" value="#{ticketController.commentContent}" style="width: 99%"/>
                 </p:panelGrid>
@@ -811,9 +808,9 @@
             <p:outputPanel id="repeatedCloseTicketPanel">
                 <p:panelGrid columns="2" style="margin-bottom:10px; width: auto" cellpadding="5">
                     <h:outputText value="Проведенная работа:" />
-                    <p:selectOneListbox value="#{ticketController.ticketResult}">
+                    <p:selectManyMenu value="#{ticketController.selectedTicketResults}" showCheckbox="false" converter="ticketResultConverter">
                         <f:selectItems value="#{ticketController.ticketResults}" var="ticketResult" itemLabel="#{ticketResult.toString()}" itemValue="#{ticketResult}"/>
-                    </p:selectOneListbox>
+                    </p:selectManyMenu>
                     <h:outputText value="Комментарий:" />
                     <p:inputTextarea rows="5" value="#{ticketController.commentContent}" style="width: 99%"/>
                 </p:panelGrid>
@@ -825,7 +822,6 @@
                 </p:commandButton>
             </p:outputPanel>
         </p:dialog>
-
 
         <p:dialog
                 widgetVar="markAsIncorrectTicketDialog"
@@ -921,7 +917,7 @@
                     </p:column>
 
                     <p:column headerText="Результат">
-                        <h:outputText value=" #{ticketInfo.ticketResult}" />
+                        <h:outputText value=" #{ticketInfo.ticketResults.size() == 0? '' : ticketInfo.ticketResults}" />
                     </p:column>
 
                     <p:column headerText="В Уфу">
@@ -1025,7 +1021,7 @@
                     </p:column>
 
                     <p:column headerText="Результат">
-                        <h:outputText value=" #{ticketInfo.ticketResult}" />
+                        <h:outputText value=" #{ticketInfo.ticketResults.size() == 0? '' : ticketInfo.ticketResults}" />
                     </p:column>
 
                     <p:column headerText="В Уфу">
