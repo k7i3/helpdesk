@@ -181,7 +181,7 @@ public class TicketController {
         setNewTicketInfo(newTicketInfo, ticket);
 
         ticket.setClosing(lifeCycleInfo); // difference
-        ticket.getComments().add(new Comment(lifeCycleInfo, new CommentInfo(lifeCycleInfo, commentContent))); // difference
+        ticket.getComments().add(new Comment(lifeCycleInfo, new CommentInfo(lifeCycleInfo, "ЗАКРЫТИЕ: " + commentContent))); // difference
 
         ticketEJB.updateTicket(ticket);
 
@@ -234,7 +234,7 @@ public class TicketController {
         setNewTicketInfo(newTicketInfo, ticket);
 
         ticket.setIncorrectness(lifeCycleInfo); // difference
-        ticket.getComments().add(new Comment(lifeCycleInfo, new CommentInfo(lifeCycleInfo, commentContent))); // difference
+        ticket.getComments().add(new Comment(lifeCycleInfo, new CommentInfo(lifeCycleInfo, "НЕВАЛИДНАЯ: " + commentContent))); // difference
 
         ticketEJB.updateTicket(ticket);
 
@@ -261,7 +261,7 @@ public class TicketController {
         setNewTicketInfo(newTicketInfo, ticket);
 
         ticket.setCancellation(lifeCycleInfo); // difference
-        ticket.getComments().add(new Comment(lifeCycleInfo, new CommentInfo(lifeCycleInfo, commentContent))); // difference
+        ticket.getComments().add(new Comment(lifeCycleInfo, new CommentInfo(lifeCycleInfo, "ОТМЕНА: " + commentContent))); // difference
 
         ticketEJB.updateTicket(ticket);
 
@@ -288,7 +288,7 @@ public class TicketController {
         setNewTicketInfo(newTicketInfo, ticket);
 
         ticket.getRepeatedService().add(lifeCycleInfo); // difference
-        ticket.getComments().add(new Comment(lifeCycleInfo, new CommentInfo(lifeCycleInfo, commentContent))); // difference
+        ticket.getComments().add(new Comment(lifeCycleInfo, new CommentInfo(lifeCycleInfo, "ПОВТОРНЫЙ ВЫЕЗД: " + commentContent))); // difference
 
         ticketEJB.updateTicket(ticket);
 
@@ -316,7 +316,7 @@ public class TicketController {
         setNewTicketInfo(newTicketInfo, ticket);
 
         ticket.getRepeatedClosing().add(lifeCycleInfo); // difference
-        ticket.getComments().add(new Comment(lifeCycleInfo, new CommentInfo(lifeCycleInfo, commentContent))); // difference
+        ticket.getComments().add(new Comment(lifeCycleInfo, new CommentInfo(lifeCycleInfo, "ПОВТОРНОЕ ЗАКРЫТИЕ: " + commentContent))); // difference
 
         ticketEJB.updateTicket(ticket);
 
