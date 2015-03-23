@@ -17,31 +17,31 @@ import java.util.logging.Logger;
 @Singleton
 @Startup
 
-@DataSourceDefinition(
-        name = "java:global/jdbc/helpdeskDS",
-
-        className = "org.apache.derby.jdbc.EmbeddedDriver",
-//        working
-
-//        className = "org.apache.derby.jdbc.EmbeddedDataSource",
-//        doesn't working:
-//        remote failure: Error occurred during deployment: Exception while preparing the app : Exception [EclipseLink-4002] (Eclipse Persistence Services - 2.5.2.v20140319-9ad6abd): org.eclipse.persistence.exceptions.DatabaseException
-//        Internal Exception: java.sql.SQLException: Error in allocating a connection. Cause: Connection could not be allocated because: База данных '' не найдена.
-
-        url = "jdbc:derby:helpdeskDB;create=true;user=app;password=app"
-//        url = "jdbc:derby:memory:helpdeskDB;create=true;user=app;password=app"
-)
-
 //@DataSourceDefinition(
 //        name = "java:global/jdbc/helpdeskDS",
-//        className = "org.apache.derby.jdbc.EmbeddedDataSource",
-//        working
-//        user = "app",
-//        password = "app",
-//        databaseName = "helpdeskDB",
-////        databaseName = "memory:helpdeskDB",
-//        properties = {"connectionAttributes=;create=true"}
+//
+//        className = "org.apache.derby.jdbc.EmbeddedDriver",
+////        working
+//
+////        className = "org.apache.derby.jdbc.EmbeddedDataSource",
+////        doesn't working:
+////        remote failure: Error occurred during deployment: Exception while preparing the app : Exception [EclipseLink-4002] (Eclipse Persistence Services - 2.5.2.v20140319-9ad6abd): org.eclipse.persistence.exceptions.DatabaseException
+////        Internal Exception: java.sql.SQLException: Error in allocating a connection. Cause: Connection could not be allocated because: База данных '' не найдена.
+//
+//        url = "jdbc:derby:helpdeskDB;create=true;user=app;password=app"
+////        url = "jdbc:derby:memory:helpdeskDB;create=true;user=app;password=app"
 //)
+
+@DataSourceDefinition(
+        name = "java:global/jdbc/helpdeskDS",
+        className = "org.apache.derby.jdbc.EmbeddedDataSource",
+//        working
+        user = "app",
+        password = "app",
+        databaseName = "helpdeskDB",
+//        databaseName = "memory:helpdeskDB",
+        properties = {"connectionAttributes=;create=true"}
+)
 
 public class DBPopulator {
     @Inject
