@@ -18,7 +18,7 @@ import java.util.logging.Logger;
 @Startup
 @DataSourceDefinition(name = "java:global/jdbc/helpdeskDS",
         className = "org.apache.derby.jdbc.EmbeddedDriver",
-        url = "jdbc:derby:helpdeskDB;create=true;user=app;password=app"
+        url = "jdbc:derby:memory:helpdeskDB;create=true;user=app;password=app"
 )
 public class DBPopulator {
     @Inject
