@@ -14,12 +14,12 @@ import java.util.logging.Logger;
 @Stateless
 public class UserEJB implements Serializable {
     @Inject
-    private EntityManager em;
+    private EntityManager emForUser;
     private Logger logger = Logger.getLogger("k7i3");
 
     public User createUser(User user) {
         logger.info("=>=>=>=>=> UserEJB.createUser()");
-        em.persist(user);
+        emForUser.persist(user);
         return user;
     }
 }

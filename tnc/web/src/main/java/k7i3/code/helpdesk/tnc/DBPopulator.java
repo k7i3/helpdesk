@@ -54,14 +54,14 @@ import java.util.logging.Logger;
             properties = {"connectionAttributes=;create=true"}
         ),
 
-//        @DataSourceDefinition(
-//            name = "java:global/jdbc/userDS",
-//            className = "org.apache.derby.jdbc.EmbeddedDataSource",
-//            user = "app",
-//            password = "app",
-//            databaseName = "userDB",
-//            properties = {"connectionAttributes=;create=true"}
-//        )
+        @DataSourceDefinition(
+            name = "java:global/jdbc/userDS",
+            className = "org.apache.derby.jdbc.EmbeddedDataSource",
+            user = "app",
+            password = "app",
+            databaseName = "userDB",
+            properties = {"connectionAttributes=;create=true"}
+        )
 })
 
 public class DBPopulator {

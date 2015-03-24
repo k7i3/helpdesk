@@ -6,19 +6,31 @@
 
   <persistence-unit name="helpdeskPU" transaction-type="JTA">
     <jta-data-source>java:global/jdbc/helpdeskDS</jta-data-source>
+
+      <!--<class>k7i3.code.helpdesk.tnc.Transport</class>-->
+      <!--<class>k7i3.code.helpdesk.tnc.TransportInfo</class>-->
+      <!--&lt;!&ndash;...&ndash;&gt;-->
+      <!--<exclude-unlisted-classes>true</exclude-unlisted-classes>-->
+
     <properties>
-      <property name="javax.persistence.schema-generation.database.action" value="drop-and-create"/>
-      <property name="eclipselink.logging.level" value="INFO"/>
+        <property name="eclipselink.canonicalmodel.subpackage" value="helpdeskPU"/>
+        <property name="javax.persistence.schema-generation.database.action" value="drop-and-create"/>
+        <property name="eclipselink.logging.level" value="INFO"/>
     </properties>
   </persistence-unit>
 
-    <!--<persistence-unit name="userPU" transaction-type="JTA">-->
-        <!--<jta-data-source>java:global/jdbc/userDS</jta-data-source>-->
-        <!--<properties>-->
-            <!--<property name="javax.persistence.schema-generation.database.action" value="drop-and-create"/>-->
-            <!--<property name="eclipselink.logging.level" value="INFO"/>-->
-        <!--</properties>-->
-    <!--</persistence-unit>-->
+    <persistence-unit name="userPU" transaction-type="JTA">
+        <jta-data-source>java:global/jdbc/userDS</jta-data-source>
+
+        <!--<class>k7i3.code.helpdesk.tnc.User</class>-->
+        <!--<exclude-unlisted-classes>true</exclude-unlisted-classes>-->
+
+        <properties>
+            <property name="eclipselink.canonicalmodel.subpackage" value="userPU"/>
+            <property name="javax.persistence.schema-generation.database.action" value="drop-and-create"/>
+            <property name="eclipselink.logging.level" value="INFO"/>
+        </properties>
+    </persistence-unit>
 </persistence>
 
 
