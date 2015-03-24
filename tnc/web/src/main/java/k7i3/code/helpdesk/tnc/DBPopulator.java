@@ -46,6 +46,8 @@ import java.util.logging.Logger;
 public class DBPopulator {
     @Inject
     private TransportEJB transportEJB;
+//    @Inject
+//    private UserEJB userEJB;
     private Logger logger = Logger.getLogger("k7i3");
     Random random = new Random(new Date().getTime());
 
@@ -128,6 +130,11 @@ public class DBPopulator {
             transportEJB.createTransport(transport);
         }
         logger.info("=>=>=>=>=> Inserted " + transportEJB.findAllTransport().size() + " unit(s) of transport");
+
+//        User user = new User("tnc", "12345");
+//        user.getRoles().add("admin");
+//        userEJB.createUser(user);
+//        logger.info("=>=>=>=>=> (tnc-12345-admin) user was inserted");
     }
 
 // RANDOM METHODS BEGIN //

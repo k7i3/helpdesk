@@ -20,7 +20,6 @@ public class TransportEJB implements Serializable {
 
     public Transport createTransport(Transport transport) {
         logger.info("=>=>=>=>=> TransportEJB.createTransport()");
-
         em.persist(transport);
         return transport;
     }

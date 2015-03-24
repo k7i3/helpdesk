@@ -22,4 +22,52 @@ public class User {
     private Set<String> projects = new HashSet<>();
     @ElementCollection
     private Set<String> branches = new HashSet<>();
+
+    public User() {
+    }
+
+    public User(String login, String password) {
+        this.login = login;
+        this.password = password;
+    }
+
+    public String getLogin() {
+        return login;
+    }
+
+    public void setLogin(String login) {
+        this.login = login;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public Set<String> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(Set<String> roles) {
+        this.roles = roles;
+    }
+
+    public Set<String> getProjects() {
+        return projects;
+    }
+
+    public void setProjects(Set<String> projects) {
+        this.projects = projects;
+    }
+
+    public Set<String> getBranches() {
+        return branches;
+    }
+
+    public void setBranches(Set<String> branches) {
+        this.branches = branches;
+    }
 }
