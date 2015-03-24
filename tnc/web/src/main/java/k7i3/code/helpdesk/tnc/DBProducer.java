@@ -11,4 +11,8 @@ public class DBProducer {
     @Produces
     @PersistenceContext(unitName = "helpdeskPU")
     private EntityManager em;
+
+//    @Produces
+//    @PersistenceContext(unitName = "userPU")
+//    private EntityManager emForUser;
 }

@@ -11,6 +11,14 @@
       <property name="eclipselink.logging.level" value="INFO"/>
     </properties>
   </persistence-unit>
+
+    <!--<persistence-unit name="userPU" transaction-type="JTA">-->
+        <!--<jta-data-source>java:global/jdbc/userDS</jta-data-source>-->
+        <!--<properties>-->
+            <!--<property name="javax.persistence.schema-generation.database.action" value="drop-and-create"/>-->
+            <!--<property name="eclipselink.logging.level" value="INFO"/>-->
+        <!--</properties>-->
+    <!--</persistence-unit>-->
 </persistence>
 
 

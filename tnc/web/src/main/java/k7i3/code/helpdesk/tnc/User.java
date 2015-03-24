@@ -3,6 +3,7 @@ package k7i3.code.helpdesk.tnc;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import java.util.HashSet;
 import java.util.Set;
@@ -11,6 +12,7 @@ import java.util.Set;
  * Created by k7i3 on 20.03.15.
  */
 @Entity
+@Table(name = "USERS")
 public class User {
     @Id
     private String login;

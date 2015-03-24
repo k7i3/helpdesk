@@ -2,6 +2,7 @@ package k7i3.code.helpdesk.tnc;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.sql.DataSourceDefinition;
+import javax.annotation.sql.DataSourceDefinitions;
 import javax.ejb.Singleton;
 import javax.ejb.Startup;
 import javax.inject.Inject;
@@ -32,22 +33,42 @@ import java.util.logging.Logger;
 ////        url = "jdbc:derby:memory:helpdeskDB;create=true;user=app;password=app"
 //)
 
-@DataSourceDefinition(
-        name = "java:global/jdbc/helpdeskDS",
-        className = "org.apache.derby.jdbc.EmbeddedDataSource",
-//        working
-        user = "app",
-        password = "app",
-        databaseName = "helpdeskDB",
-//        databaseName = "memory:helpdeskDB",
-        properties = {"connectionAttributes=;create=true"}
-)
+//@DataSourceDefinition(
+//        name = "java:global/jdbc/helpdeskDS",
+//        className = "org.apache.derby.jdbc.EmbeddedDataSource",
+////        working
+//        user = "app",
+//        password = "app",
+//        databaseName = "helpdeskDB",
+////        databaseName = "memory:helpdeskDB",
+//        properties = {"connectionAttributes=;create=true"}
+//)
+
+@DataSourceDefinitions({
+        @DataSourceDefinition(
+            name = "java:global/jdbc/helpdeskDS",
+            className = "org.apache.derby.jdbc.EmbeddedDataSource",
+            user = "app",
+            password = "app",
+            databaseName = "helpdeskDB",
+            properties = {"connectionAttributes=;create=true"}
+        ),
+
+//        @DataSourceDefinition(
+//            name = "java:global/jdbc/userDS",
+//            className = "org.apache.derby.jdbc.EmbeddedDataSource",
+//            user = "app",
+//            password = "app",
+//            databaseName = "userDB",
+//            properties = {"connectionAttributes=;create=true"}
+//        )
+})
 
 public class DBPopulator {
     @Inject
     private TransportEJB transportEJB;
-//    @Inject
-//    private UserEJB userEJB;
+    @Inject
+    private UserEJB userEJB;
     private Logger logger = Logger.getLogger("k7i3");
     Random random = new Random(new Date().getTime());
 
@@ -131,10 +152,12 @@ public class DBPopulator {
         }
         logger.info("=>=>=>=>=> Inserted " + transportEJB.findAllTransport().size() + " unit(s) of transport");
 
-//        User user = new User("tnc", "12345");
-//        user.getRoles().add("admin");
-//        userEJB.createUser(user);
-//        logger.info("=>=>=>=>=> (tnc-12345-admin) user was inserted");
+        User user = new User("tnc", "12345");
+        user.getRoles().add("admin");
+        user.getProjects().add("БАТ");
+        user.getBranches().add("Уфа");
+        userEJB.createUser(user);
+        logger.info("=>=>=>=>=> (tnc-12345-admin-БАТ-Уфа) user was inserted");
     }
 
 // RANDOM METHODS BEGIN //
