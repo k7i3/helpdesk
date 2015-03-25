@@ -46,20 +46,24 @@ import java.util.logging.Logger;
 
 @DataSourceDefinitions({
         @DataSourceDefinition(
-            name = "java:global/jdbc/helpdeskDS",
-            className = "org.apache.derby.jdbc.EmbeddedDataSource",
+            name = "java:global/jdbc/dataDS",
+//            className = "org.apache.derby.jdbc.EmbeddedDataSource",
+//            className = "org.apache.derby.jdbc.ClientXADataSource",
+            className = "org.apache.derby.jdbc.EmbeddedXADataSource",
             user = "app",
             password = "app",
-            databaseName = "helpdeskDB",
+            databaseName = "dataDB",
             properties = {"connectionAttributes=;create=true"}
         ),
 
         @DataSourceDefinition(
-            name = "java:global/jdbc/userDS",
-            className = "org.apache.derby.jdbc.EmbeddedDataSource",
+            name = "java:global/jdbc/usersDS",
+//            className = "org.apache.derby.jdbc.EmbeddedDataSource",
+//            className = "org.apache.derby.jdbc.ClientXADataSource",
+            className = "org.apache.derby.jdbc.EmbeddedXADataSource",
             user = "app",
             password = "app",
-            databaseName = "userDB",
+            databaseName = "usersDB",
             properties = {"connectionAttributes=;create=true"}
         )
 })

@@ -8,11 +8,11 @@ import javax.persistence.PersistenceContext;
  * Created by k7i3 on 29.01.15.
  */
 public class DBProducer {
-    @Produces
-    @PersistenceContext(unitName = "helpdeskPU")
-    private EntityManager em;
+    @Produces @Data
+    @PersistenceContext(unitName = "dataPU")
+    private EntityManager emData;
 
-    @Produces
-    @PersistenceContext(unitName = "userPU")
-    private EntityManager emForUser;
+    @Produces @Users
+    @PersistenceContext(unitName = "usersPU")
+    private EntityManager emUsers;
 }

@@ -14,7 +14,7 @@ import java.util.logging.Logger;
 @Named
 @Stateless
 public class TransportEJB implements Serializable {
-    @Inject
+    @Inject @Data
     private EntityManager em;
     private Logger logger = Logger.getLogger("k7i3");
 
