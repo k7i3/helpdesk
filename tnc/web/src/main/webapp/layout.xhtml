@@ -3,8 +3,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-      xmlns:p="http://primefaces.org/ui"
-        >
+      xmlns:p="http://primefaces.org/ui">
 
 <h:head>
     <title>
@@ -33,7 +32,9 @@
         <!--menu button-->
         <p:commandButton id="dynaButton" value="МЕНЮ" type="button" icon="ui-icon-extlink" style="font-size: small"/>
             <p:menu overlay="true" trigger="dynaButton" my="left top" at="left bottom" style="font-size: small">
-                <p:menuitem value="Транспорт" outcome="viewTransport.xhtml" icon="ui-icon-home"/>
+                <p:menuitem value="Транспорт (admin)" outcome="viewTransport_A.xhtml" icon="ui-icon-home"/>
+                <p:menuitem value="Транспорт (engineer)" outcome="viewTransport_E.xhtml" icon="ui-icon-home"/>
+                <p:menuitem value="Транспорт (user)" outcome="viewTransport_U.xhtml" icon="ui-icon-home"/>
                 <p:submenu label="ВОПРОСЫ:">
                     <p:menuitem value="Software" outcome="viewSoftware.xhtml" icon="ui-icon-star"/>
                     <p:menuitem value="Hardware" outcome="viewHardware.xhtml" icon="ui-icon-star"/>

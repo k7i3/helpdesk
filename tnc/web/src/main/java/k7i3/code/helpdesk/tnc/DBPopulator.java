@@ -157,7 +157,7 @@ public class DBPopulator {
         logger.info("=>=>=>=>=> Inserted " + transportEJB.findAllTransport().size() + " unit(s) of transport");
 
         User user = new User("tnc", "12345");
-        user.getRoles().add("admin");
+        user.getRoles().add("administrator");
         user.getProjects().add("БАТ");
         user.getBranches().add("Уфа");
         userEJB.createUser(user);

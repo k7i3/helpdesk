@@ -11,4 +11,45 @@
         <param-value>hot-sneaks</param-value>
     </context-param>
 
+    <!--SECURITY-->
+
+    <error-page>
+        <error-code>403</error-code>
+        <location>/403.xhtml</location>
+    </error-page>
+
+    <security-constraint>
+        <display-name>administrator</display-name>
+        <web-resource-collection>
+            <web-resource-name>administrator</web-resource-name>
+            <description/>
+            <url-pattern>/viewTransport_A.xhtml</url-pattern>
+            <http-method>GET</http-method>
+            <http-method>POST</http-method>
+        </web-resource-collection>
+        <auth-constraint>
+            <description/>
+            <role-name>administrator</role-name>
+        </auth-constraint>
+        <!--<user-data-constraint>-->
+            <!--<description/>-->
+            <!--<transport-guarantee>CONFIDENTIAL</transport-guarantee>-->
+        <!--</user-data-constraint>-->
+    </security-constraint>
+
+    <login-config>
+        <auth-method>FORM</auth-method>
+        <!--<realm-name>jdbcRealm</realm-name>-->
+        <realm-name>file</realm-name>
+        <form-login-config>
+            <form-login-page>/login.xhtml</form-login-page>
+            <form-error-page>/loginError.xhtml</form-error-page>
+        </form-login-config>
+    </login-config>
+
+    <security-role>
+        <description/>
+        <role-name>administrator</role-name>
+    </security-role>
+
 </web-app>
