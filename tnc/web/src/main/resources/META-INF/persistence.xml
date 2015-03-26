@@ -20,7 +20,8 @@
   </persistence-unit>
 
     <persistence-unit name="usersPU" transaction-type="JTA">
-        <jta-data-source>java:global/jdbc/usersDS</jta-data-source>
+        <!--<jta-data-source>java:global/jdbc/usersDS</jta-data-source>-->
+        <jta-data-source>jdbc/security</jta-data-source>
 
         <!--<class>k7i3.code.helpdesk.tnc.User</class>-->
         <!--<exclude-unlisted-classes>true</exclude-unlisted-classes>-->

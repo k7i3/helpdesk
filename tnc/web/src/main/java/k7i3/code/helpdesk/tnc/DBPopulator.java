@@ -156,12 +156,19 @@ public class DBPopulator {
         }
         logger.info("=>=>=>=>=> Inserted " + transportEJB.findAllTransport().size() + " unit(s) of transport");
 
-        User user = new User("tnc", "12345");
-        user.getRoles().add("administrator");
+        User user = new User("admin", "admin");
+        user.getRoles().add("admin");
         user.getProjects().add("БАТ");
         user.getBranches().add("Уфа");
         userEJB.createUser(user);
-        logger.info("=>=>=>=>=> (tnc-12345-admin-БАТ-Уфа) user was inserted");
+        logger.info("=>=>=>=>=> (admin-admin-admin-БАТ-Уфа) was inserted");
+
+        user = new User("user", "user");
+        user.getRoles().add("user");
+        user.getProjects().add("БАТ");
+        user.getBranches().add("Уфа");
+        userEJB.createUser(user);
+        logger.info("=>=>=>=>=> (user-user-user-БАТ-Уфа) was inserted");
     }
 
 // RANDOM METHODS BEGIN //
