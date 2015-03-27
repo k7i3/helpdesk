@@ -15,7 +15,7 @@
 
     <error-page>
         <error-code>403</error-code>
-        <location>/403.xhtml</location>
+        <location>/security/403.xhtml</location>
     </error-page>
 
     <security-constraint>
@@ -23,7 +23,7 @@
         <web-resource-collection>
             <web-resource-name>admin</web-resource-name>
             <description/>
-            <url-pattern>/viewTransport_A.faces</url-pattern>
+            <url-pattern>/admin/*</url-pattern>
             <!--<http-method>GET</http-method>-->
             <!--<http-method>POST</http-method>-->
         </web-resource-collection>
@@ -42,8 +42,8 @@
         <realm-name>jdbcRealm</realm-name>
         <!--<realm-name>file</realm-name>-->
         <form-login-config>
-            <form-login-page>/login.xhtml</form-login-page>
-            <form-error-page>/loginError.xhtml</form-error-page>
+            <form-login-page>/security/login.xhtml</form-login-page>
+            <form-error-page>/security/loginError.xhtml</form-error-page>
         </form-login-config>
     </login-config>
 
