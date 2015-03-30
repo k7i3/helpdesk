@@ -37,11 +37,11 @@
                     <p:menuitem value="Транспорт" outcome="/admin/viewTransport.xhtml" icon="ui-icon-home"/>
                 </p:submenu>
 
-                <p:submenu label="ОБСЛУЖИВАНИЕ:" rendered="#{userController.isAdmin() or userController.isService()}">
+                <p:submenu label="ОБСЛУЖИВАНИЕ:" rendered="#{userController.isService()}">
                     <p:menuitem value="Транспорт" outcome="/service/viewTransport.xhtml" icon="ui-icon-home"/>
                 </p:submenu>
 
-                <p:submenu label="ПОЛЬЗОВАТЕЛЬ:" rendered="#{userController.isAdmin() or userController.isUser()}">
+                <p:submenu label="ПОЛЬЗОВАТЕЛЬ:" rendered="#{userController.isUser()}">
                     <p:menuitem value="Транспорт" outcome="/user/viewTransport.xhtml" icon="ui-icon-home"/>
                 </p:submenu>
 

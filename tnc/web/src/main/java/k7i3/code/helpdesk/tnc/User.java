@@ -21,7 +21,8 @@ public class User {
     @NotNull
     private String password;
     @Enumerated(EnumType.STRING)
-    private ROLE role;
+    @ElementCollection
+    private Set<ROLE> roles = new HashSet<>();
     @ElementCollection
     private Set<String> projects = new HashSet<>();
     @ElementCollection
@@ -51,12 +52,12 @@ public class User {
         this.password = password;
     }
 
-    public ROLE getRole() {
-        return role;
+    public Set<ROLE> getRoles() {
+        return roles;
     }
 
-    public void setRole(ROLE role) {
-        this.role = role;
+    public void setRoles(Set<ROLE> roles) {
+        this.roles = roles;
     }
 
     public Set<String> getProjects() {

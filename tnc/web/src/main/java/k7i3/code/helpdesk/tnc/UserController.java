@@ -31,17 +31,17 @@ public class UserController implements Serializable {
 
     public Boolean isAdmin() {
         initUser();
-        return user != null && getUser().getRole() == User.ROLE.ADMIN;
+        return user != null && getUser().getRoles().contains(User.ROLE.ADMIN);
     }
 
     public Boolean isService() {
         initUser();
-        return user != null && getUser().getRole() == User.ROLE.SERVICE;
+        return user != null && getUser().getRoles().contains(User.ROLE.SERVICE);
     }
 
     public Boolean isUser() {
         initUser();
-        return user != null && getUser().getRole() == User.ROLE.USER;
+        return user != null && getUser().getRoles().contains(User.ROLE.USER);
     }
 
     public String logout() {

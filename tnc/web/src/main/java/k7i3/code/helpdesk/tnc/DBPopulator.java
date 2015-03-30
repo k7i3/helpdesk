@@ -157,21 +157,23 @@ public class DBPopulator {
         logger.info("=>=>=>=>=> Inserted " + transportEJB.findAllTransport().size() + " unit(s) of transport");
 
         User user = new User("admin", "admin");
-        user.setRole(User.ROLE.ADMIN);
+        user.getRoles().add(User.ROLE.ADMIN);
+        user.getRoles().add(User.ROLE.SERVICE);
+        user.getRoles().add(User.ROLE.USER);
         user.getProjects().add("БАТ");
         user.getBranches().add("Уфа");
         userEJB.createUser(user);
-        logger.info("=>=>=>=>=> (admin-admin-ADMIN-БАТ-Уфа) was inserted");
+        logger.info("=>=>=>=>=> (admin-admin-ADMIN/SERVICE/USER-БАТ-Уфа) was inserted");
 
         user = new User("user", "user");
-        user.setRole(User.ROLE.USER);
+        user.getRoles().add(User.ROLE.USER);
         user.getProjects().add("БАТ");
         user.getBranches().add("Уфа");
         userEJB.createUser(user);
         logger.info("=>=>=>=>=> (user-user-USER-БАТ-Уфа) was inserted");
 
         user = new User("service", "service");
-        user.setRole(User.ROLE.SERVICE);
+        user.getRoles().add(User.ROLE.SERVICE);
         user.getProjects().add("БАТ");
         user.getBranches().add("Уфа");
         userEJB.createUser(user);
