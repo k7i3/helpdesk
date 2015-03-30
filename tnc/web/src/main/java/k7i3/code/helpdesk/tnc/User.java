@@ -1,9 +1,6 @@
 package k7i3.code.helpdesk.tnc;
 
-import javax.persistence.ElementCollection;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.HashSet;
 import java.util.Set;
@@ -14,12 +11,17 @@ import java.util.Set;
 @Entity
 @Table(name = "USERS")
 public class User {
+
+    public static enum ROLE {
+        ADMIN, USER, SERVICE
+    }
+
     @Id
     private String login;
     @NotNull
     private String password;
-    @ElementCollection
-    private Set<String> roles = new HashSet<>();
+    @Enumerated(EnumType.STRING)
+    private ROLE role;
     @ElementCollection
     private Set<String> projects = new HashSet<>();
     @ElementCollection
@@ -49,12 +51,12 @@ public class User {
         this.password = password;
     }
 
-    public Set<String> getRoles() {
-        return roles;
+    public ROLE getRole() {
+        return role;
     }
 
-    public void setRoles(Set<String> roles) {
-        this.roles = roles;
+    public void setRole(ROLE role) {
+        this.role = role;
     }
 
     public Set<String> getProjects() {

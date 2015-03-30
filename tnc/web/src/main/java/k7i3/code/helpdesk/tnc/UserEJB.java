@@ -22,4 +22,10 @@ public class UserEJB implements Serializable {
         em.persist(user);
         return user;
     }
+
+    public User findUserByName(String name) {
+        logger.info("=>=>=>=>=> UserEJB.findUserByName()");
+
+        return em.find(User.class, name);
+    }
 }

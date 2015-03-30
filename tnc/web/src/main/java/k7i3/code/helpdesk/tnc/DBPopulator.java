@@ -157,18 +157,25 @@ public class DBPopulator {
         logger.info("=>=>=>=>=> Inserted " + transportEJB.findAllTransport().size() + " unit(s) of transport");
 
         User user = new User("admin", "admin");
-        user.getRoles().add("admin");
+        user.setRole(User.ROLE.ADMIN);
         user.getProjects().add("БАТ");
         user.getBranches().add("Уфа");
         userEJB.createUser(user);
-        logger.info("=>=>=>=>=> (admin-admin-admin-БАТ-Уфа) was inserted");
+        logger.info("=>=>=>=>=> (admin-admin-ADMIN-БАТ-Уфа) was inserted");
 
         user = new User("user", "user");
-        user.getRoles().add("user");
+        user.setRole(User.ROLE.USER);
         user.getProjects().add("БАТ");
         user.getBranches().add("Уфа");
         userEJB.createUser(user);
-        logger.info("=>=>=>=>=> (user-user-user-БАТ-Уфа) was inserted");
+        logger.info("=>=>=>=>=> (user-user-USER-БАТ-Уфа) was inserted");
+
+        user = new User("service", "service");
+        user.setRole(User.ROLE.SERVICE);
+        user.getProjects().add("БАТ");
+        user.getBranches().add("Уфа");
+        userEJB.createUser(user);
+        logger.info("=>=>=>=>=> (service-service-SERVICE-БАТ-Уфа) was inserted");
     }
 
 // RANDOM METHODS BEGIN //
