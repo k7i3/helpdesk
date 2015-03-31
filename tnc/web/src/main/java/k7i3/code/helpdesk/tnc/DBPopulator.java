@@ -161,9 +161,13 @@ public class DBPopulator {
         user.getRoles().add(User.ROLE.SERVICE);
         user.getRoles().add(User.ROLE.USER);
         user.getProjects().add("БАТ");
+        user.getProjects().add("БАД");
+        user.getProjects().add("Медицина");
+        user.getProjects().add("АСС");
+        user.getProjects().add("Школьники");
         user.getBranches().add("Уфа");
         userEJB.createUser(user);
-        logger.info("=>=>=>=>=> (admin-admin-ADMIN/SERVICE/USER-БАТ-Уфа) was inserted");
+        logger.info("=>=>=>=>=> (admin-admin-ADMIN/SERVICE/USER-БАТ/...-Уфа) was inserted");
 
         user = new User("user", "user");
         user.getRoles().add(User.ROLE.USER);
@@ -174,8 +178,8 @@ public class DBPopulator {
 
         user = new User("service", "service");
         user.getRoles().add(User.ROLE.SERVICE);
-        user.getProjects().add("БАТ");
-        user.getBranches().add("Уфа");
+//        user.getProjects().add("БАТ");
+//        user.getBranches().add("Уфа");
         userEJB.createUser(user);
         logger.info("=>=>=>=>=> (service-service-SERVICE-БАТ-Уфа) was inserted");
     }

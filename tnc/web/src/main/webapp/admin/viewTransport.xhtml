@@ -23,7 +23,7 @@
                 <p:dataTable id="transportTable"
                              widgetVar="transportTable"
                              var="transport"
-                             value="#{transportController.transport}"
+                             value="#{transportController.accessibleTransport}"
                              varStatus="transportVarStatus"
                              filteredValue="#{transportController.filteredTransport}"
                              selection="#{transportController.checkboxSelectedTransport}"
@@ -563,7 +563,7 @@
                                 <!--</c:if>-->
                                 <!--</c:if>-->
                     <f:facet name="footer">
-                        <h:outputText value="всего в базе: #{fn:length(transportController.transport)}" style="font-size: small; text-align:left"/>
+                        <h:outputText value="всего в базе: #{fn:length(transportController.accessibleTransport)}" style="font-size: small; text-align:left"/>
                     </f:facet>
 
                 </p:dataTable>

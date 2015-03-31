@@ -20,9 +20,13 @@ import java.util.logging.Logger;
 public class TransportController {
     @Inject
     private TransportEJB transportEJB;
+    @Inject
+    private UserEJB userEJB;
     private Logger logger = Logger.getLogger("k7i3");
 
-    private List<Transport> transport; // transport table
+    private  List<Transport> accessibleTransport; // transport table
+
+    private List<Transport> transport; // transport table - changed to accessibleTransport
     private List<String> projects;
     private List<String> branches;
     private List<String> transportModels;
@@ -37,14 +41,26 @@ public class TransportController {
     private String didBy;
 
     @PostConstruct
-    public void doFindAllTransport() {
-        transport = transportEJB.findAllTransport();
+    public void doFindAllAccessibleTransport() {
+        accessibleTransport = transportEJB.findAllAccessibleTransport(userEJB.initUser()); // didBy ==>
         doFindAllProjects();
         doFindAllBranches();
         doFindAllTransportModels();
         doFindAllTerminalModels();
         doFindAllFirmware();
         doFindAllRoutes();
+    }
+
+//    @PostConstruct
+    public void doFindAllTransport() {
+        transport = transportEJB.findAllTransport();
+//        transport = transportEJB.findAllAccessibleTransport(userEJB.initUser()); // didBy ==>
+//        doFindAllProjects();
+//        doFindAllBranches();
+//        doFindAllTransportModels();
+//        doFindAllTerminalModels();
+//        doFindAllFirmware();
+//        doFindAllRoutes();
     }
 
     //Do FIND
@@ -187,18 +203,13 @@ public class TransportController {
 //    }
 
 
+    public List<Transport> getAccessibleTransport() {
+        return accessibleTransport;
+    }
 
-
-
-
-
-
-
-
-
-
-
-
+    public void setAccessibleTransport(List<Transport> accessibleTransport) {
+        this.accessibleTransport = accessibleTransport;
+    }
 
     public List<Transport> getTransport() {
         return transport;

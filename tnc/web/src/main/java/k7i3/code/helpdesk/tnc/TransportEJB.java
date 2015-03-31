@@ -5,6 +5,7 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import javax.persistence.EntityManager;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -28,6 +29,14 @@ public class TransportEJB implements Serializable {
         logger.info("=>=>=>=>=> TransportEJB.updateTransport()");
         em.merge(transport);
         return transport;
+    }
+
+    public List<Transport> findAllAccessibleTransport(User user) {
+        logger.info("=>=>=>=>=> TransportEJB.findAllAccessibleTransport");
+
+        if (user == null) return new ArrayList<>();
+//        TODO if(projects.size()==0) - all / if(branches.size()==0) - all
+        return em.createNamedQuery("findAllAccessibleTransport", Transport.class).setParameter("projects", user.getProjects()).setParameter("branches", user.getBranches()).getResultList();
     }
 
     public List<Transport> findAllTransport() {

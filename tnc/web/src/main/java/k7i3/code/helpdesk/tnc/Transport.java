@@ -8,6 +8,8 @@ import java.util.List;
 /**
  * Created by k7i3 on 27.01.15.
  */
+//@NamedQuery(name = "findAllAccessibleTransport", query = "SELECT b FROM Transport b WHERE b.transportInfo.project IN :projects AND b.transportInfo.branch IN :branches ORDER BY b.creation.date DESC")
+//@NamedQuery(name = "findAllAccessibleTransport", query = "SELECT b FROM Transport b WHERE b.transportInfo.project IN ('БАТ', 'БАД') AND b.transportInfo.branch IN ('Уфа', 'Стерлитамак', 'Нефтекамск') ORDER BY b.creation.date DESC")
 @Entity
 @NamedQueries({
         @NamedQuery(name = "findAllTransport", query = "SELECT b FROM Transport b ORDER BY b.creation.date DESC"),
@@ -16,7 +18,8 @@ import java.util.List;
         @NamedQuery(name = "findAllTransportModels", query = "SELECT DISTINCT b.transportInfo.model FROM Transport b ORDER BY b.transportInfo.model DESC"),
         @NamedQuery(name = "findAllTerminalModels", query = "SELECT DISTINCT b.terminal.terminalInfo.model FROM Transport b ORDER BY b.terminal.terminalInfo.model DESC"),
         @NamedQuery(name = "findAllFirmware", query = "SELECT DISTINCT b.terminal.terminalInfo.firmware FROM Transport b ORDER BY b.terminal.terminalInfo.firmware DESC"),
-        @NamedQuery(name = "findAllRoutes", query = "SELECT DISTINCT b.transportInfo.route FROM Transport b ORDER BY b.transportInfo.route DESC")
+        @NamedQuery(name = "findAllRoutes", query = "SELECT DISTINCT b.transportInfo.route FROM Transport b ORDER BY b.transportInfo.route DESC"),
+        @NamedQuery(name = "findAllAccessibleTransport", query = "SELECT b FROM Transport b WHERE b.transportInfo.project IN :projects AND b.transportInfo.branch IN :branches ORDER BY b.creation.date DESC")
 })
 public class Transport {
     @Id

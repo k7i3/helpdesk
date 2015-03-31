@@ -5,7 +5,6 @@ import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.Serializable;
-import java.security.Principal;
 import java.util.logging.Logger;
 
 /**
@@ -20,27 +19,30 @@ public class UserController implements Serializable {
 
     private User user;
 
-    private void initUser() {
+    private void doInitUser() {
+//        if (user == null) {
+//            Principal principal = FacesContext.getCurrentInstance().getExternalContext().getUserPrincipal();
+//            if (principal != null) {
+//                user = userEJB.findUserByName(principal.getName());
+//            }
+//        }
         if (user == null) {
-            Principal principal = FacesContext.getCurrentInstance().getExternalContext().getUserPrincipal();
-            if (principal != null) {
-                user = userEJB.findUserByName(principal.getName());
-            }
+            user = userEJB.initUser();
         }
     }
 
     public Boolean isAdmin() {
-        initUser();
+        doInitUser();
         return user != null && getUser().getRoles().contains(User.ROLE.ADMIN);
     }
 
     public Boolean isService() {
-        initUser();
+        doInitUser();
         return user != null && getUser().getRoles().contains(User.ROLE.SERVICE);
     }
 
     public Boolean isUser() {
-        initUser();
+        doInitUser();
         return user != null && getUser().getRoles().contains(User.ROLE.USER);
     }
 
@@ -51,7 +53,7 @@ public class UserController implements Serializable {
     }
 
     public User getUser() {
-        initUser();
+        doInitUser();
         return user;
     }
 
