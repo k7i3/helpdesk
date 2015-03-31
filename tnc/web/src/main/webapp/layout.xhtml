@@ -33,6 +33,8 @@
         <p:commandButton id="dynaButton" value="МЕНЮ" type="button" icon="ui-icon-extlink" style="font-size: small"/>
             <p:menu overlay="true" trigger="dynaButton" my="left top" at="left bottom" style="font-size: small">
 
+                <p:menuitem value="Главная" outcome="/main.xhtml" icon="ui-icon-home"/>
+
                 <p:submenu label="АДМИНИСТРАТОР:" rendered="#{userController.isAdmin()}">
                     <p:menuitem value="Транспорт" outcome="/admin/viewTransport.xhtml" icon="ui-icon-home"/>
                 </p:submenu>
