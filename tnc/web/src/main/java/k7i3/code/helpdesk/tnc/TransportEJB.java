@@ -7,6 +7,7 @@ import javax.persistence.EntityManager;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 import java.util.logging.Logger;
 
 /**
@@ -35,49 +36,66 @@ public class TransportEJB implements Serializable {
         logger.info("=>=>=>=>=> TransportEJB.findAllAccessibleTransport");
 
         if (user == null) return new ArrayList<>();
-//        TODO if(projects.size()==0) - all / if(branches.size()==0) - all
-        return em.createNamedQuery("findAllAccessibleTransport", Transport.class).setParameter("projects", user.getProjects()).setParameter("branches", user.getBranches()).getResultList();
+
+        Set<String> projects = user.getProjects();
+        Set<String> branches = user.getBranches();
+
+        if (projects.isEmpty()) {
+            if (branches.isEmpty()) return findAllTransport();
+            else return findAllAccessibleTransportByBranches(branches);
+        } else {
+            if (branches.isEmpty()) return findAllAccessibleTransportByProjects(projects);
+            else return findAllAccessibleTransportByProjectsAndBranches(projects, branches);
+        }
+    }
+
+    public List<Transport> findAllAccessibleTransportByProjectsAndBranches(Set<String> projects, Set<String> branches) {
+        logger.info("=>=>=>=>=> TransportEJB.findAllAccessibleTransportByProjectsAndBranches");
+        return em.createNamedQuery("findAllAccessibleTransportByProjectsAndBranches", Transport.class).setParameter("projects", projects).setParameter("branches", branches).getResultList();
+    }
+
+    public List<Transport> findAllAccessibleTransportByProjects(Set<String> projects) {
+        logger.info("=>=>=>=>=> TransportEJB.findAllAccessibleTransportByProjects");
+        return em.createNamedQuery("findAllAccessibleTransportByProjects", Transport.class).setParameter("projects", projects).getResultList();
+    }
+
+    public List<Transport> findAllAccessibleTransportByBranches(Set<String> branches) {
+        logger.info("=>=>=>=>=> TransportEJB.findAllAccessibleTransportByBranches");
+        return em.createNamedQuery("findAllAccessibleTransportByBranches", Transport.class).setParameter("branches", branches).getResultList();
     }
 
     public List<Transport> findAllTransport() {
         logger.info("=>=>=>=>=> TransportEJB.findAllTransport");
-
         return em.createNamedQuery("findAllTransport", Transport.class).getResultList();
     }
 
     public List<String> findAllProjects() {
         logger.info("=>=>=>=>=> TransportEJB.findAllProjects");
-
         return em.createNamedQuery("findAllProjects", String.class).getResultList();
     }
 
     public List<String> findAllBranches() {
         logger.info("=>=>=>=>=> TransportEJB.findAllBranches");
-
         return em.createNamedQuery("findAllBranches", String.class).getResultList();
     }
 
     public List<String> findAllTransportModels() {
         logger.info("=>=>=>=>=> TransportEJB.findAllTransportModels");
-
         return em.createNamedQuery("findAllTransportModels", String.class).getResultList();
     }
 
     public List<String> findAllTerminalModels() {
         logger.info("=>=>=>=>=> TransportEJB.findAllTerminalModels");
-
         return em.createNamedQuery("findAllTerminalModels", String.class).getResultList();
     }
 
     public List<String> findAllFirmware() {
         logger.info("=>=>=>=>=> TransportEJB.findAllFirmware");
-
         return em.createNamedQuery("findAllFirmware", String.class).getResultList();
     }
 
     public List<String> findAllRoutes() {
         logger.info("=>=>=>=>=> TransportEJB.findAllRoutes");
-
         return em.createNamedQuery("findAllRoutes", String.class).getResultList();
     }
 
