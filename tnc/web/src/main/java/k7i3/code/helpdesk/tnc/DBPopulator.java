@@ -149,6 +149,12 @@ public class DBPopulator {
         for (int i = 0; i < 50; i++) {
             Transport transport = new Transport(getRandomTransportInfo(), getRandomLifeCycleInfo(), getRandomTerminal());
             transport.getTickets().addAll(getRandomTickets());
+
+            if (!transport.getTickets().isEmpty()) {
+                transport.setCurrentTicketHeader(transport.getTickets().get(transport.getTickets().size() - 1).getTicketInfo().getTicketHeader().toString());
+                transport.setCurrentTicketStatus(transport.getTickets().get(transport.getTickets().size() - 1).getTicketInfo().getTicketStatus().toString());
+            }
+
             transport.getComments().addAll(getRandomComments());
             transport.getTransportInfoHistory().addAll(getRandomTransportInfoHistory());
             transport.setPoint(getRandomPoint());

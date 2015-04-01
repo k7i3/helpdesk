@@ -25,6 +25,7 @@ public class TicketController {
     private Transport unitOfTransport;
     private Ticket ticket = new Ticket();
     private List<TicketHeader> ticketHeaders = Arrays.asList(TicketHeader.values());
+    private List<TicketStatus> ticketStatuses = Arrays.asList(TicketStatus.values());
     private List<TicketResult> ticketResults = Arrays.asList(TicketResult.values());
     List<TicketResult> selectedTicketResults;
     private String didBy;
@@ -475,6 +476,14 @@ public class TicketController {
 
     public void setTicketHeaders(List<TicketHeader> ticketHeaders) {
         this.ticketHeaders = ticketHeaders;
+    }
+
+    public List<TicketStatus> getTicketStatuses() {
+        return ticketStatuses;
+    }
+
+    public void setTicketStatuses(List<TicketStatus> ticketStatuses) {
+        this.ticketStatuses = ticketStatuses;
     }
 
     public List<TicketResult> getTicketResults() {

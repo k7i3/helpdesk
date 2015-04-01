@@ -55,6 +55,9 @@ public class Transport {
     @OneToMany (cascade = CascadeType.ALL)
     private List<Comment> comments = new ArrayList<>();
 
+    private  String currentTicketHeader = "нет"; //duplication for filtering at transportTable
+    private  String currentTicketStatus = "нет"; //duplication for filtering at transportTable
+
     public Transport() {
     }
 
@@ -130,5 +133,21 @@ public class Transport {
 
     public void setComments(List<Comment> comments) {
         this.comments = comments;
+    }
+
+    public String getCurrentTicketHeader() {
+        return currentTicketHeader;
+    }
+
+    public void setCurrentTicketHeader(String currentTicketHeader) {
+        this.currentTicketHeader = currentTicketHeader;
+    }
+
+    public String getCurrentTicketStatus() {
+        return currentTicketStatus;
+    }
+
+    public void setCurrentTicketStatus(String currentTicketStatus) {
+        this.currentTicketStatus = currentTicketStatus;
     }
 }
