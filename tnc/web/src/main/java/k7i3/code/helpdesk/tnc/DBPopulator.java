@@ -160,28 +160,39 @@ public class DBPopulator {
         user.getRoles().add(User.ROLE.ADMIN);
         user.getRoles().add(User.ROLE.SERVICE);
         user.getRoles().add(User.ROLE.USER);
-        user.getProjects().add("БАТ");
-        user.getProjects().add("БАД");
-        user.getProjects().add("Медицина");
-        user.getProjects().add("АСС");
-        user.getProjects().add("Школьники");
-        user.getBranches().add("Уфа");
         userEJB.createUser(user);
-        logger.info("=>=>=>=>=> (admin-admin-ADMIN/SERVICE/USER-БАТ/...-Уфа) was inserted");
+        logger.info("=>=>=>=>=> (admin-admin-ADMIN/SERVICE/USER-...-...) was inserted");
 
-        user = new User("user", "user");
+        user = new User("admin_bat", "admin_bat");
+        user.getRoles().add(User.ROLE.ADMIN);
+        user.getRoles().add(User.ROLE.SERVICE);
+        user.getRoles().add(User.ROLE.USER);
+        user.getProjects().add("БАТ");
+        userEJB.createUser(user);
+        logger.info("=>=>=>=>=> (admin_bat-admin_bat-ADMIN/SERVICE/USER-БАТ-...) was inserted");
+
+        user = new User("admin_bat_ufa", "admin_bat_ufa");
+        user.getRoles().add(User.ROLE.ADMIN);
+        user.getRoles().add(User.ROLE.SERVICE);
         user.getRoles().add(User.ROLE.USER);
         user.getProjects().add("БАТ");
         user.getBranches().add("Уфа");
         userEJB.createUser(user);
-        logger.info("=>=>=>=>=> (user-user-USER-БАТ-Уфа) was inserted");
+        logger.info("=>=>=>=>=> (admin_bat_ufa-admin_bat_ufa-ADMIN/SERVICE/USER-БАТ-УФА) was inserted");
+
+        user = new User("user", "user");
+        user.getRoles().add(User.ROLE.USER);
+//        user.getProjects().add("БАТ");
+//        user.getBranches().add("Уфа");
+        userEJB.createUser(user);
+        logger.info("=>=>=>=>=> (user-user-USER-...-...) was inserted");
 
         user = new User("service", "service");
         user.getRoles().add(User.ROLE.SERVICE);
 //        user.getProjects().add("БАТ");
 //        user.getBranches().add("Уфа");
         userEJB.createUser(user);
-        logger.info("=>=>=>=>=> (service-service-SERVICE-БАТ-Уфа) was inserted");
+        logger.info("=>=>=>=>=> (service-service-SERVICE-...-...) was inserted");
     }
 
 // RANDOM METHODS BEGIN //

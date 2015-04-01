@@ -56,7 +56,7 @@
 
         <ui:insert name="title">Default title</ui:insert>
         <p:link process="@this" outcome="/auth.faces" rendered="#{empty userController.user}" value="войти" title="нажмите, чтобы войти" style="float: right; font-size: small"/>
-        <p:commandLink process="@this" action="#{userController.logout()}" rendered="#{not empty userController.user}" value="#{userController.user.login} (выйти)" title="нажмите, чтобы выйти" style="float: right; font-size: small"/>
+        <p:commandLink process="@this" action="#{userController.logout()}" rendered="#{not empty userController.user}" value="#{userController.user.login} (выйти)" title="проекты: #{userController.user.projects.size() == 0? 'все' : userController.user.projects} / филиалы: #{userController.user.branches.size() == 0? 'все' : userController.user.branches}" style="float: right; font-size: small"/>
 
 
         <p:separator/>
