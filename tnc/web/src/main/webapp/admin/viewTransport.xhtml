@@ -278,17 +278,27 @@
                         </p:cellEditor>
                     </p:column>
 
-                    <p:column headerText="Заявки" sortBy="#{transport.tickets.size()}" filterBy="#{transport.tickets.size()}" filterMatchMode="contains">
-                        <h:outputText value="#{transport.tickets.size()}" />
+                    <p:column headerText="Заявка">
+                        <!--<f:facet name="filter">-->
+                            <!--<p:selectCheckboxMenu label="..." onchange="PF('transportTable').filter()" panelStyle="width:200px" scrollHeight="200">-->
+                                <!--<f:selectItems value="{ticketController.ticketHeaders}" />-->
+                            <!--</p:selectCheckboxMenu>-->
+                        <!--</f:facet>-->
+                        <h:outputText value="#{transport.tickets.size() == 0? 'нет' : transport.tickets.get(transport.tickets.size() - 1).ticketInfo.ticketHeader.toString()}" title="последняя заявка"/>
                     </p:column>
 
-                    <p:column headerText="Комментарии" sortBy="#{transport.comments.size()}" filterBy="#{transport.comments.size()}" filterMatchMode="contains">
+                    <p:column headerText="Статус">
+                        <h:outputText value="#{transport.tickets.size() == 0? 'нет' : transport.tickets.get(transport.tickets.size() - 1).ticketInfo.ticketStatus.toString()}" title="статус последней заявки"/>
+                    </p:column>
 
-                        <!--<p:commandButton id="transportCommentsButton" update=":form:transportCommentsPanel" oncomplete="PF('transportCommentsDialog').show()" icon="ui-icon-search" title="View">-->
-                            <!--<f:setPropertyActionListener value="{transport}" target="{transportController.dialogSelectedTransport}" />-->
-                        <!--</p:commandButton>-->
+                    <!--<p:column headerText="Заявки" sortBy="{transport.tickets.size()}" filterBy="{transport.tickets.size()}" filterMatchMode="contains">-->
+                    <p:column headerText="З." sortBy="#{transport.tickets.size()}" style="width:16px">
+                        <h:outputText value="#{transport.tickets.size()}" title="количество заявок"/>
+                    </p:column>
 
-                        <h:outputText value="#{transport.comments.size()}" />
+                    <!--<p:column headerText="Комментарии" sortBy="#{transport.comments.size()}" filterBy="#{transport.comments.size()}" filterMatchMode="contains">-->
+                    <p:column headerText="К." sortBy="#{transport.comments.size()}" style="width:16px">
+                        <h:outputText value="#{transport.comments.size()}" title="количество комментариев"/>
                     </p:column>
 
                     <p:rowExpansion>
