@@ -25,7 +25,7 @@
                              var="transport"
                              value="#{transportController.accessibleTransport}"
                              varStatus="transportVarStatus"
-                             filteredValue="#{transportController.filteredTransport}"
+                             filteredValue="#{sessionScopedController.filteredTransport}"
                              selection="#{transportController.checkboxSelectedTransport}"
                              rowKey="#{transport.id}"
                              emptyMessage="транспорт не найден..."
@@ -37,6 +37,7 @@
                              scrollHeight="500"
                              sortMode="multiple"
                              editable="true"
+                             liveResize="true"
                              style="margin-bottom:20px; word-wrap: break-word; table-layout: fixed; white-space: normal" >
                     <!--sortBy="null" sortOrder="ascending"-->
                     <!--rowKey="{transport.id}" перестал видеть после добавления varStatus="transportVarStatus"-->
@@ -96,13 +97,14 @@
                         <!--</p:panelGrid>-->
                         <!--</p:outputPanel>-->
                     </f:facet>
+                    <f:facet name="footer">
+                        <h:outputText value="всего в базе: #{fn:length(transportController.accessibleTransport)}" style="font-size: small; text-align:left"/>
+                    </f:facet>
 
                     <p:column headerText="-" selectionMode="multiple" style="width:16px;text-align:center"/>
-
                     <p:column headerText="-" style="width:16px">
                         <p:rowToggler />
                     </p:column>
-
                     <p:column headerText="-" style="width:16px">
                         <p:rowEditor />
                     </p:column>
@@ -303,7 +305,7 @@
                         <h:outputText value="#{transport.tickets.size()}" title="количество заявок"/>
                     </p:column>
 
-                    <!--<p:column headerText="Комментарии" sortBy="#{transport.comments.size()}" filterBy="#{transport.comments.size()}" filterMatchMode="contains">-->
+                    <!--<p:column headerText="Комментарии" sortBy="{transport.comments.size()}" filterBy="{transport.comments.size()}" filterMatchMode="contains">-->
                     <p:column headerText="К." sortBy="#{transport.comments.size()}" style="width:16px">
                         <h:outputText value="#{transport.comments.size()}" title="количество комментариев"/>
                     </p:column>
@@ -550,39 +552,6 @@
                             </p:tab>
                         </p:accordionPanel>
                     </p:rowExpansion>
-                                <!--<c:set var="NOT_ONLINE" value="<=TicketHeader.NOT_ONLINE%>"/>-->
-                                <!--<c:set var="BAD_TRACK" value="<=TicketHeader.BAD_TRACK%>"/>-->
-
-                                <!--<c:if test="{!empty ticket}">-->
-                                <!--<c:choose>-->
-                                <!--<c:when test="{ticket.ticketHeader == NOT_ONLINE}">-->
-                                <!--<c:set var="ticketHeader" value="не на связи!!!" />-->
-                                <!--</c:when>-->
-
-                                <!--<c:when test="{ticket.ticketHeader == BAD_TRACK}">-->
-                                <!--<c:set var="ticketHeader" value="некорректный трек!!!" />-->
-                                <!--</c:when>-->
-
-                                <!--<c:otherwise>-->
-                                <!--<c:set var="ticketHeader" value="прочее!!!" />-->
-                                <!--</c:otherwise>-->
-                                <!--</c:choose>-->
-                                <!--<h:outputText value="{ticketHeader}" style="display:block"/>-->
-
-                                <!--<c:set value="{ticket.updateDate}" var="ticketUpdateDate"/>-->
-                                <!--<c:if test="{not empty ticketUpdateDate}">-->
-                                    <!--<h:outputText value="(обновлена!!!: {ticketUpdateDate})"/>-->
-                                <!--</c:if>-->
-
-                                <!--<c:set value="{ticket.closeDate}" var="tiecketClosDate"/>-->
-                                <!--<c:if test="{not empty fn:trim(tiecketClosDate)}">-->
-                                    <!--<h:outputText value="(закрыта!!!: {tiecketClosDate} / {ticket.closedBy})"/>-->
-                                <!--</c:if>-->
-                                <!--</c:if>-->
-                    <f:facet name="footer">
-                        <h:outputText value="всего в базе: #{fn:length(transportController.accessibleTransport)}" style="font-size: small; text-align:left"/>
-                    </f:facet>
-
                 </p:dataTable>
             </p:tab>
 
@@ -596,71 +565,6 @@
             </p:tab>
 
             <p:tab title="TEST" titleStyle="float: right">
-                <!--<p:dataTable var="transport" value="#{transportEJB.findAllTransport()}">-->
-                    <!--<p:column headerText="BD_Id_Transport">-->
-                        <!--<h:outputText value="#{transport.id}" />-->
-                    <!--</p:column>-->
-
-                    <!--<p:column headerText="Проект">-->
-                        <!--<h:outputText value="#{transport.project}" />-->
-                    <!--</p:column>-->
-
-                    <!--<p:column headerText="Филиал">-->
-                        <!--<h:outputText value="#{transport.branch}" />-->
-                    <!--</p:column>-->
-
-                    <!--<p:column headerText="Гос. номер">-->
-                        <!--<h:outputText value="#{transport.stateNumber}" />-->
-                    <!--</p:column>-->
-
-                    <!--<p:column headerText="Гар. номер">-->
-                        <!--<h:outputText value="#{transport.garageNumber}" />-->
-                    <!--</p:column>-->
-
-                    <!--<p:column headerText="Модель">-->
-                        <!--<h:outputText value="#{transport.model}" />-->
-                    <!--</p:column>-->
-
-                    <!--<p:column headerText="BD_Id_Terminal">-->
-                        <!--<h:outputText value="#{transport.terminal.id}" />-->
-                    <!--</p:column>-->
-
-                    <!--<p:column headerText="Терминал">-->
-                        <!--<h:outputText value="#{transport.terminal.number}" />-->
-                    <!--</p:column>-->
-
-                    <!--<p:column headerText="Прошивка">-->
-                        <!--<h:outputText value="#{transport.terminal.firmware}" />-->
-                    <!--</p:column>-->
-
-                    <!--<p:column headerText="Телефон">-->
-                        <!--<h:outputText value="#{transport.terminal.mobile}" />-->
-                    <!--</p:column>-->
-
-                    <!--<p:column headerText="BD_Id_Point">-->
-                        <!--<h:outputText value="#{transport.terminal.lastPoint.id}" />-->
-                    <!--</p:column>-->
-
-                    <!--<p:column headerText="longitude">-->
-                        <!--<h:outputText value="#{transport.terminal.lastPoint.longitude}" />-->
-                    <!--</p:column>-->
-
-                    <!--<p:column headerText="latitude">-->
-                        <!--<h:outputText value="#{transport.terminal.lastPoint.latitude}" />-->
-                    <!--</p:column>-->
-
-                    <!--<p:column headerText="Связь">-->
-                        <!--<h:outputText value="#{transport.terminal.lastPoint.date}" />-->
-                    <!--</p:column>-->
-
-                    <!--<p:column headerText="Заявки">-->
-                        <!--<h:outputText value="#{transport.terminal.tickets.size()}" />-->
-                    <!--</p:column>-->
-
-                    <!--<p:column headerText="Комментарии">-->
-                        <!--<h:outputText value="#{transport.comments.size()}" />-->
-                    <!--</p:column>-->
-                <!--</p:dataTable>-->
             </p:tab>
 
         </p:tabView>
@@ -1387,3 +1291,38 @@
 
 </ui:composition>
 </html>
+
+
+
+
+
+
+        <!--<c:set var="NOT_ONLINE" value="<=TicketHeader.NOT_ONLINE%>"/>-->
+        <!--<c:set var="BAD_TRACK" value="<=TicketHeader.BAD_TRACK%>"/>-->
+
+        <!--<c:if test="{!empty ticket}">-->
+        <!--<c:choose>-->
+        <!--<c:when test="{ticket.ticketHeader == NOT_ONLINE}">-->
+        <!--<c:set var="ticketHeader" value="не на связи!!!" />-->
+        <!--</c:when>-->
+
+        <!--<c:when test="{ticket.ticketHeader == BAD_TRACK}">-->
+        <!--<c:set var="ticketHeader" value="некорректный трек!!!" />-->
+        <!--</c:when>-->
+
+        <!--<c:otherwise>-->
+        <!--<c:set var="ticketHeader" value="прочее!!!" />-->
+        <!--</c:otherwise>-->
+        <!--</c:choose>-->
+        <!--<h:outputText value="{ticketHeader}" style="display:block"/>-->
+
+        <!--<c:set value="{ticket.updateDate}" var="ticketUpdateDate"/>-->
+        <!--<c:if test="{not empty ticketUpdateDate}">-->
+        <!--<h:outputText value="(обновлена!!!: {ticketUpdateDate})"/>-->
+        <!--</c:if>-->
+
+        <!--<c:set value="{ticket.closeDate}" var="tiecketClosDate"/>-->
+        <!--<c:if test="{not empty fn:trim(tiecketClosDate)}">-->
+        <!--<h:outputText value="(закрыта!!!: {tiecketClosDate} / {ticket.closedBy})"/>-->
+        <!--</c:if>-->
+        <!--</c:if>-->

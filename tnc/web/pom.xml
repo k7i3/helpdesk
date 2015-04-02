@@ -4,11 +4,11 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
   <modelVersion>4.0.0</modelVersion>
-  <groupId>k7i3.code.helpedsk.tnc</groupId>
+  <groupId>k7i3.code.helpdesk.tnc</groupId>
   <artifactId>web</artifactId>
   <version>1.0</version>
   <packaging>war</packaging>
-  <name>helpedsk tnc web</name>
+  <name>helpdesk tnc web</name>
 
   <build>
     <finalName>helpdesk-tnc-web</finalName>
@@ -29,7 +29,7 @@
     <dependency>
       <groupId>org.primefaces</groupId>
       <artifactId>primefaces</artifactId>
-      <version>5.1</version>
+      <version>5.2.RC2</version>
     </dependency>
 
     <dependency>

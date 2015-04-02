@@ -2,6 +2,7 @@ package k7i3.code.helpdesk.tnc;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,7 +24,7 @@ import java.util.List;
         @NamedQuery(name = "findAllAccessibleTransportByProjects", query = "SELECT b FROM Transport b WHERE b.transportInfo.project IN :projects ORDER BY b.creation.date DESC"),
         @NamedQuery(name = "findAllAccessibleTransportByBranches", query = "SELECT b FROM Transport b WHERE b.transportInfo.branch IN :branches ORDER BY b.creation.date DESC")
 })
-public class Transport {
+public class Transport implements Serializable{
     @Id
     @GeneratedValue
     private Long id;

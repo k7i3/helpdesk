@@ -8,6 +8,7 @@ import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 import java.util.logging.Logger;
@@ -17,7 +18,7 @@ import java.util.logging.Logger;
  */
 @Named
 @RequestScoped
-public class TransportController {
+public class TransportController implements Serializable {
     @Inject
     private TransportEJB transportEJB;
     @Inject
@@ -34,8 +35,8 @@ public class TransportController {
     private List<String> firmware;
     private List<String> routes;
 
-    private List<Transport> filteredTransport; // transport table
-    private List<Transport> checkboxSelectedTransport; // transport table
+//    private List<Transport> filteredTransport; // transport table - moved to SessionScopedController
+    private List<Transport> checkboxSelectedTransport; // transport table - to move or not to move to SessionScopedController?
 
     private Transport unitOfTransport = new Transport();
     private String didBy;
@@ -219,13 +220,13 @@ public class TransportController {
         this.transport = transport;
     }
 
-    public List<Transport> getFilteredTransport() {
-        return filteredTransport;
-    }
-
-    public void setFilteredTransport(List<Transport> filteredTransport) {
-        this.filteredTransport = filteredTransport;
-    }
+//    public List<Transport> getFilteredTransport() {
+//        return filteredTransport;
+//    }
+//
+//    public void setFilteredTransport(List<Transport> filteredTransport) {
+//        this.filteredTransport = filteredTransport;
+//    }
 
     public List<String> getProjects() {
         return projects;
