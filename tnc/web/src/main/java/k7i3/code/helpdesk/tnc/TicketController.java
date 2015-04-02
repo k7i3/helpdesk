@@ -71,8 +71,11 @@ public class TicketController {
         prepareNewTicketInfo(ticket.getTicketInfo(), lifeCycleInfo, TicketStatus.OPENED);
 
         ticket.setCreation(lifeCycleInfo); // difference
-        ticket.getComments().add(new Comment(lifeCycleInfo, new CommentInfo(lifeCycleInfo, commentContent))); // difference
+        ticket.getComments().add(new Comment(lifeCycleInfo, new CommentInfo(lifeCycleInfo, "ОТКРЫТИЕ: " +  commentContent))); // difference
         unitOfTransport.getTickets().add(ticket); // difference
+
+        unitOfTransport.setCurrentTicketHeader(ticket.getTicketInfo().getTicketHeader().toString()); // difference
+        unitOfTransport.setCurrentTicketStatus(ticket.getTicketInfo().getTicketStatus().toString()); // difference
 
         transportEJB.updateTransport(unitOfTransport);
 
@@ -132,6 +135,8 @@ public class TicketController {
 
         ticketEJB.updateTicket(ticket);
 
+        duplicateTicketStatusForFiltering(ticket);
+
         FacesMessage msg = new FacesMessage("Заявка принята", unitOfTransport.getTransportInfo().getStateNumber());
         FacesContext.getCurrentInstance().addMessage(null, msg);
     }
@@ -157,6 +162,8 @@ public class TicketController {
         ticket.setService(lifeCycleInfo); // difference
 
         ticketEJB.updateTicket(ticket);
+
+        duplicateTicketStatusForFiltering(ticket);
 
         FacesMessage msg = new FacesMessage("Выезд назначен", unitOfTransport.getTransportInfo().getStateNumber());
         FacesContext.getCurrentInstance().addMessage(null, msg);
@@ -186,6 +193,8 @@ public class TicketController {
 
         ticketEJB.updateTicket(ticket);
 
+        duplicateTicketStatusForFiltering(ticket);
+
         FacesMessage msg = new FacesMessage("Заявка закрыта", unitOfTransport.getTransportInfo().getStateNumber());
         FacesContext.getCurrentInstance().addMessage(null, msg);
     }
@@ -211,6 +220,8 @@ public class TicketController {
         ticket.setArchiving(lifeCycleInfo); // difference
 
         ticketEJB.updateTicket(ticket);
+
+        duplicateTicketStatusForFiltering(ticket);
 
         FacesMessage msg = new FacesMessage("Заявка помещена в архив", unitOfTransport.getTransportInfo().getStateNumber());
         FacesContext.getCurrentInstance().addMessage(null, msg);
@@ -239,6 +250,8 @@ public class TicketController {
 
         ticketEJB.updateTicket(ticket);
 
+        duplicateTicketStatusForFiltering(ticket);
+
         FacesMessage msg = new FacesMessage("Заявка отмечена как невалидная", unitOfTransport.getTransportInfo().getStateNumber());
         FacesContext.getCurrentInstance().addMessage(null, msg);
     }
@@ -265,6 +278,8 @@ public class TicketController {
         ticket.getComments().add(new Comment(lifeCycleInfo, new CommentInfo(lifeCycleInfo, "ОТМЕНА: " + commentContent))); // difference
 
         ticketEJB.updateTicket(ticket);
+
+        duplicateTicketStatusForFiltering(ticket);
 
         FacesMessage msg = new FacesMessage("Заявка отменена", unitOfTransport.getTransportInfo().getStateNumber());
         FacesContext.getCurrentInstance().addMessage(null, msg);
@@ -293,6 +308,8 @@ public class TicketController {
 
         ticketEJB.updateTicket(ticket);
 
+        duplicateTicketStatusForFiltering(ticket);
+
         FacesMessage msg = new FacesMessage("Повторный выезд назначен", unitOfTransport.getTransportInfo().getStateNumber());
         FacesContext.getCurrentInstance().addMessage(null, msg);
     }
@@ -320,6 +337,8 @@ public class TicketController {
         ticket.getComments().add(new Comment(lifeCycleInfo, new CommentInfo(lifeCycleInfo, "ПОВТОРНОЕ ЗАКРЫТИЕ: " + commentContent))); // difference
 
         ticketEJB.updateTicket(ticket);
+
+        duplicateTicketStatusForFiltering(ticket);
 
         FacesMessage msg = new FacesMessage("Заявка закрыта повторно", unitOfTransport.getTransportInfo().getStateNumber());
         FacesContext.getCurrentInstance().addMessage(null, msg);
@@ -401,6 +420,14 @@ public class TicketController {
         ticket.getTicketInfoHistory().add(oldTicketInfo);
         ticket.setTicketInfo(newTicketInfo);
     }
+
+    private void duplicateTicketStatusForFiltering(Ticket ticket) {
+        unitOfTransport = transportEJB.findTransportById(unitOfTransport.getId());
+        unitOfTransport.setCurrentTicketStatus(ticket.getTicketInfo().getTicketStatus().toString());
+        transportEJB.updateTransport(unitOfTransport);
+    }
+
+
 //    public void doOpenTicketDialog(Transport transport, String didBy) {
 //        this.transport = transport;
 //        this.didBy = didBy;

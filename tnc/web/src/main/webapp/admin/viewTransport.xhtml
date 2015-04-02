@@ -25,7 +25,6 @@
                              var="transport"
                              value="#{transportController.accessibleTransport}"
                              varStatus="transportVarStatus"
-                             filteredValue="#{sessionScopedController.filteredTransport}"
                              selection="#{transportController.checkboxSelectedTransport}"
                              rowKey="#{transport.id}"
                              emptyMessage="транспорт не найден..."
@@ -39,6 +38,8 @@
                              editable="true"
                              liveResize="true"
                              style="margin-bottom:20px; word-wrap: break-word; table-layout: fixed; white-space: normal" >
+                    <!--filteredValue was deleted and all working better-->
+                    <!--filteredValue="{sessionScopedController.filteredTransport}"-->
                     <!--sortBy="null" sortOrder="ascending"-->
                     <!--rowKey="{transport.id}" перестал видеть после добавления varStatus="transportVarStatus"-->
 
@@ -555,16 +556,10 @@
                 </p:dataTable>
             </p:tab>
 
-            <p:tab title="В норме">
-            </p:tab>
-
-            <p:tab title="Заявки">
-            </p:tab>
-
             <p:tab title="Статистика">
             </p:tab>
 
-            <p:tab title="TEST" titleStyle="float: right">
+            <p:tab title="Пользователи" titleStyle="float: right">
             </p:tab>
 
         </p:tabView>
