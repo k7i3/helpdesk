@@ -35,15 +35,15 @@
 
                 <p:menuitem value="Главная" outcome="/main.xhtml" icon="ui-icon-home"/>
 
-                <p:submenu label="АДМИНИСТРАТОР:" rendered="#{userController.isAdmin()}">
+                <p:submenu label="АДМИНИСТРАТОР:" rendered="#{securityController.isAdmin()}">
                     <p:menuitem value="Транспорт" outcome="/admin/viewTransport.xhtml" icon="ui-icon-home"/>
                 </p:submenu>
 
-                <p:submenu label="ОБСЛУЖИВАНИЕ:" rendered="#{userController.isService()}">
+                <p:submenu label="ОБСЛУЖИВАНИЕ:" rendered="#{securityController.isService()}">
                     <p:menuitem value="Транспорт" outcome="/service/viewTransport.xhtml" icon="ui-icon-home"/>
                 </p:submenu>
 
-                <p:submenu label="ПОЛЬЗОВАТЕЛЬ:" rendered="#{userController.isUser()}">
+                <p:submenu label="ПОЛЬЗОВАТЕЛЬ:" rendered="#{securityController.isUser()}">
                     <p:menuitem value="Транспорт" outcome="/user/viewTransport.xhtml" icon="ui-icon-home"/>
                 </p:submenu>
 
@@ -55,8 +55,8 @@
         <!--menu button-->
 
         <ui:insert name="title">Default title</ui:insert>
-        <p:link process="@this" outcome="/auth.faces" rendered="#{empty userController.user}" value="войти" title="нажмите, чтобы войти" style="float: right; font-size: small"/>
-        <p:commandLink process="@this" action="#{userController.logout()}" rendered="#{not empty userController.user}" value="#{userController.user.login} (выйти)" title="проекты: #{userController.user.projects.size() == 0? 'все' : userController.user.projects} / филиалы: #{userController.user.branches.size() == 0? 'все' : userController.user.branches}" style="float: right; font-size: small"/>
+        <p:link process="@this" outcome="/auth.faces" rendered="#{empty securityController.user}" value="войти" title="нажмите, чтобы войти" style="float: right; font-size: small"/>
+        <p:commandLink process="@this" action="#{securityController.logout()}" rendered="#{not empty securityController.user}" value="#{securityController.user.login} (выйти)" title="проекты: #{securityController.user.projects.size() == 0? 'все' : securityController.user.projects} / филиалы: #{securityController.user.branches.size() == 0? 'все' : securityController.user.branches}" style="float: right; font-size: small"/>
 
 
         <p:separator/>

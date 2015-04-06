@@ -50,6 +50,9 @@ public class TransportController implements Serializable {
         doFindAllTerminalModels();
         doFindAllFirmware();
         doFindAllRoutes();
+
+//        RequestContext requestContext = RequestContext.getCurrentInstance();
+//        requestContext.execute("PF('transportTable').filter()");
     }
 
 //    @PostConstruct

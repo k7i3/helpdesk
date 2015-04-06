@@ -7,6 +7,7 @@ import javax.inject.Named;
 import javax.persistence.EntityManager;
 import java.io.Serializable;
 import java.security.Principal;
+import java.util.List;
 import java.util.logging.Logger;
 
 /**
@@ -26,6 +27,7 @@ public class UserEJB implements Serializable {
     }
 
     public User initUser() {
+        logger.info("=>=>=>=>=> UserEJB.initUser()");
         Principal principal = FacesContext.getCurrentInstance().getExternalContext().getUserPrincipal();
         if (principal != null) {
             return findUserByName(principal.getName());
@@ -35,7 +37,17 @@ public class UserEJB implements Serializable {
 
     public User findUserByName(String name) {
         logger.info("=>=>=>=>=> UserEJB.findUserByName()");
-
         return em.find(User.class, name);
+    }
+
+    public List<User> findAllUsers() {
+        logger.info("=>=>=>=>=> UserEJB.findAllUsers()");
+        return em.createNamedQuery("findAllUsers", User.class).getResultList();
+    }
+
+    public User updateUser(User user) {
+        logger.info("=>=>=>=>=> UserEJB.updateUser()");
+        em.merge(user);
+        return user;
     }
 }

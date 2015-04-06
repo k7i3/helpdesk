@@ -2,6 +2,7 @@ package k7i3.code.helpdesk.tnc;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -10,11 +11,10 @@ import java.util.Set;
  */
 @Entity
 @Table(name = "USERS")
-public class User {
-
-    public static enum ROLE {
-        ADMIN, USER, SERVICE
-    }
+@NamedQueries({
+        @NamedQuery(name = "findAllUsers", query = "SELECT u FROM User u")
+})
+public class User implements Serializable{
 
     @Id
     private String login;
@@ -22,7 +22,7 @@ public class User {
     private String password;
     @Enumerated(EnumType.STRING)
     @ElementCollection
-    private Set<ROLE> roles = new HashSet<>();
+    private Set<UserRole> roles = new HashSet<>();
     @ElementCollection
     private Set<String> projects = new HashSet<>();
     @ElementCollection
@@ -52,11 +52,11 @@ public class User {
         this.password = password;
     }
 
-    public Set<ROLE> getRoles() {
+    public Set<UserRole> getRoles() {
         return roles;
     }
 
-    public void setRoles(Set<ROLE> roles) {
+    public void setRoles(Set<UserRole> roles) {
         this.roles = roles;
     }
 

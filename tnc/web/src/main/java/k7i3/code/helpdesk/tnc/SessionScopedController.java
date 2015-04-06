@@ -3,7 +3,6 @@ package k7i3.code.helpdesk.tnc;
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Named;
 import java.io.Serializable;
-import java.util.List;
 
 /**
  * Created by k7i3 on 11.03.15.
@@ -15,7 +14,7 @@ public class SessionScopedController implements Serializable {
     private Transport unitOfTransport;
     private Ticket ticket;
 //    private Ticket ticket = new Ticket();
-    private List<Transport> filteredTransport;
+//    private List<Transport> filteredTransport; //not used after deletion this attribute from dataTable
 
 
     public Transport getUnitOfTransport() {
@@ -32,13 +31,5 @@ public class SessionScopedController implements Serializable {
 
     public void setTicket(Ticket ticket) {
         this.ticket = ticket;
-    }
-
-    public List<Transport> getFilteredTransport() {
-        return filteredTransport;
-    }
-
-    public void setFilteredTransport(List<Transport> filteredTransport) {
-        this.filteredTransport = filteredTransport;
     }
 }

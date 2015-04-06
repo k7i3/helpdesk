@@ -5,7 +5,7 @@
         >
 
     <head>
-        <meta http-equiv="refresh" content="0; #{userController.isAdmin()? 'url=admin/viewTransport.faces' : userController.isService()? 'service/viewTransport.faces' : 'user/viewTransport.faces'}"/>
+        <meta http-equiv="refresh" content="0; #{securityController.isAdmin()? 'url=admin/viewTransport.faces' : securityController.isService()? 'service/viewTransport.faces' : 'user/viewTransport.faces'}"/>
         <title>Redirect...</title>
     </head>
 
