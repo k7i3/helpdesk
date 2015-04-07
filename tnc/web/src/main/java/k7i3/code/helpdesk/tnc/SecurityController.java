@@ -36,6 +36,11 @@ public class SecurityController implements Serializable {
         return user != null && getUser().getRoles().contains(UserRole.ADMIN);
     }
 
+    public Boolean isModer() {
+        doInitUser();
+        return user != null && getUser().getRoles().contains(UserRole.MODER);
+    }
+
     public Boolean isService() {
         doInitUser();
         return user != null && getUser().getRoles().contains(UserRole.SERVICE);

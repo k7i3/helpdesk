@@ -36,6 +36,7 @@
         <auth-constraint>
             <description/>
             <role-name>ADMIN</role-name>
+            <role-name>MODER</role-name>
             <role-name>USER</role-name>
             <role-name>SERVICE</role-name>
         </auth-constraint>
@@ -43,6 +44,33 @@
             <!--<description/>-->
             <!--<transport-guarantee>CONFIDENTIAL</transport-guarantee>-->
         <!--</user-data-constraint>-->
+    </security-constraint>
+
+    <security-constraint>
+        <display-name>statistics</display-name>
+        <web-resource-collection>
+            <web-resource-name>statistics</web-resource-name>
+            <description/>
+            <url-pattern>/private/viewStatistics.faces</url-pattern>
+        </web-resource-collection>
+        <auth-constraint>
+            <description/>
+            <role-name>ADMIN</role-name>
+            <role-name>MODER</role-name>
+        </auth-constraint>
+    </security-constraint>
+
+    <security-constraint>
+        <display-name>users</display-name>
+        <web-resource-collection>
+            <web-resource-name>users</web-resource-name>
+            <description/>
+            <url-pattern>/private/viewUsers.faces</url-pattern>
+        </web-resource-collection>
+        <auth-constraint>
+            <description/>
+            <role-name>ADMIN</role-name>
+        </auth-constraint>
     </security-constraint>
 
     <login-config>
@@ -57,6 +85,11 @@
     <security-role>
         <description/>
         <role-name>ADMIN</role-name>
+    </security-role>
+
+    <security-role>
+        <description/>
+        <role-name>MODER</role-name>
     </security-role>
 
     <security-role>

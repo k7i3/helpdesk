@@ -35,8 +35,10 @@
 
                 <p:menuitem value="Главная" outcome="/main.xhtml" icon="fa fa-linux"/>
 
-                <p:submenu label="HELPDESK:" rendered="#{securityController.isAdmin() or securityController.isService() or securityController.isUser()}">
+                <p:submenu label="HELPDESK:" rendered="#{securityController.isAdmin() or securityController.isModer() or securityController.isService() or securityController.isUser()}">
                     <p:menuitem value="Транспорт" outcome="/private/viewTransport.xhtml" icon="fa fa-bus"/>
+                    <p:menuitem value="Статистика" outcome="/private/viewStatistics.xhtml" icon="fa fa-bar-chart-o" rendered="#{securityController.isAdmin() or securityController.isModer()}"/>
+                    <p:menuitem value="Пользователи" outcome="/private/viewUsers.xhtml" icon="fa fa-users" rendered="#{securityController.isAdmin()}"/>
                 </p:submenu>
 
                 <p:submenu label="ВОПРОСЫ:">

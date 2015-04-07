@@ -19,6 +19,7 @@
 
     <ui:define name="content">
         <p:tabView id="transportTabView" dynamic="true" cache="true" style="font-size: small">
+
             <p:tab title="Транспорт">
                 <p:dataTable id="transportTable"
                              widgetVar="transportTable"
@@ -122,8 +123,9 @@
                                 <h:outputText value="#{transport.transportInfo.project}" />
                             </f:facet>
                             <f:facet name="input">
-                                <p:inputText value="#{transport.transportInfo.project}" style="width:100%"/>
-                                <!--id="modelInput" label="Year"-->
+                                <p:selectOneMenu value="#{transport.transportInfo.project}" editable="true">
+                                    <f:selectItems value="#{transportController.projects}"/>
+                                </p:selectOneMenu>
                             </f:facet>
                         </p:cellEditor>
                     </p:column>
@@ -139,7 +141,9 @@
                                 <h:outputText value="#{transport.transportInfo.branch}" />
                             </f:facet>
                             <f:facet name="input">
-                                <p:inputText value="#{transport.transportInfo.branch}" style="width:100%"/>
+                                <p:selectOneMenu value="#{transport.transportInfo.branch}" editable="true">
+                                    <f:selectItems value="#{transportController.branches}"/>
+                                </p:selectOneMenu>
                             </f:facet>
                         </p:cellEditor>
                     </p:column>
@@ -155,7 +159,9 @@
                                 <h:outputText value="#{transport.transportInfo.route}" />
                             </f:facet>
                             <f:facet name="input">
-                                <p:inputText value="#{transport.transportInfo.route}" style="width:100%"/>
+                                <p:selectOneMenu value="#{transport.transportInfo.route}" editable="true">
+                                    <f:selectItems value="#{transportController.routes}"/>
+                                </p:selectOneMenu>
                             </f:facet>
                         </p:cellEditor>
                     </p:column>
@@ -193,7 +199,9 @@
                                 <h:outputText value="#{transport.transportInfo.model}" />
                             </f:facet>
                             <f:facet name="input">
-                                <p:inputText value="#{transport.transportInfo.model}" style="width:100%"/>
+                                <p:selectOneMenu value="#{transport.transportInfo.model}" editable="true">
+                                    <f:selectItems value="#{transportController.transportModels}"/>
+                                </p:selectOneMenu>
                             </f:facet>
                         </p:cellEditor>
                     </p:column>
@@ -220,7 +228,9 @@
                                 <h:outputText value="#{transport.terminal.terminalInfo.model}" />
                             </f:facet>
                             <f:facet name="input">
-                                <p:inputText value="#{transport.terminal.terminalInfo.model}" style="width:100%"/>
+                                <p:selectOneMenu value="#{transport.terminal.terminalInfo.model}" editable="true">
+                                    <f:selectItems value="#{transportController.terminalModels}"/>
+                                </p:selectOneMenu>
                             </f:facet>
                         </p:cellEditor>
                     </p:column>
@@ -236,7 +246,9 @@
                                 <h:outputText value="#{transport.terminal.terminalInfo.firmware}" />
                             </f:facet>
                             <f:facet name="input">
-                                <p:inputText value="#{transport.terminal.terminalInfo.firmware}" style="width:100%"/>
+                                <p:selectOneMenu value="#{transport.terminal.terminalInfo.firmware}" editable="true">
+                                    <f:selectItems value="#{transportController.firmware}"/>
+                                </p:selectOneMenu>
                             </f:facet>
                         </p:cellEditor>
                     </p:column>
@@ -554,156 +566,6 @@
                             </p:tab>
                         </p:accordionPanel>
                     </p:rowExpansion>
-                </p:dataTable>
-            </p:tab>
-
-            <p:tab title="Статистика">
-            </p:tab>
-
-            <p:tab title="Пользователи" titleStyle="float: right">
-                <p:dataTable id="usersTable"
-                             widgetVar="usersTable"
-                             var="user"
-                             value="#{userController.users}"
-                             varStatus="userVarStatus"
-                             selection="#{userController.checkboxSelectedUsers}"
-                             rowKey="#{user.login}"
-                             emptyMessage="пользователи не найдены..."
-                             draggableColumns="true"
-                             draggableRows="false"
-                             resizableColumns="true"
-                             stickyHeader="false"
-                             scrollable="false"
-                             scrollHeight="500"
-                             sortMode="multiple"
-                             editable="true"
-                             liveResize="true"
-                             style="margin-bottom:20px; word-wrap: break-word; table-layout: fixed; white-space: normal">
-
-                    <p:ajax event="rowEdit" listener="#{userController.onRowEdit}" update=":form:msgs"/>
-                    <p:ajax event="rowEditCancel" listener="#{userController.onRowCancel}" update=":form:msgs" />
-
-                    <f:facet name="header" >
-                        <p:toolbar>
-                            <f:facet name="left">
-                                <p:commandButton process="@this" value="Добавить" icon="ui-icon-document" update=":form:addUserPanel" oncomplete="PF('addUserDialog').show()" disabled="false"/>
-                                    <span class="ui-separator">
-                                        <span class="ui-icon ui-icon-grip-dotted-vertical" />
-                                    </span>
-                                <p:commandButton type="button" value="Удалить" icon="ui-icon-folder-open" disabled="true"/>
-                                    <span class="ui-separator">
-                                        <span class="ui-icon ui-icon-grip-dotted-vertical" />
-                                    </span>
-                                <p:commandButton type="button" title="Save" icon="ui-icon-disk" disabled="true"/>
-                                <p:commandButton type="button" title="Delete" icon="ui-icon-trash" disabled="true"/>
-                                <p:commandButton type="button" title="Print" icon="ui-icon-print" disabled="true"/>
-                                    <span class="ui-separator">
-                                        <span class="ui-icon ui-icon-grip-dotted-vertical" />
-                                    </span>
-                                <p:menuButton value="Настройки" disabled="true">
-                                    <p:menuitem value="Save"  icon="ui-icon-disk" />
-                                    <p:menuitem value="Update"  icon="ui-icon-arrowrefresh-1-w" />
-                                    <p:menuitem value="Delete"  icon="ui-icon-close" />
-                                    <p:menuitem value="Homepage" url="http://www.primefaces.org" icon="ui-icon-extlink" />
-                                </p:menuButton>
-                            </f:facet>
-                            <f:facet name="right">
-                                <!--<p:inputText id="globalFilter" onkeyup="PF('usersTable').filter()" placeholder="поиск..."  />-->
-
-                                    <span class="ui-separator">
-                                        <span class="ui-icon ui-icon-grip-dotted-vertical" />
-                                    </span>
-
-                                <p:commandButton id="usersToggler" type="button"  icon="ui-icon-calculator" />
-                                <p:columnToggler datasource="usersTable" trigger="usersToggler" />
-                            </f:facet>
-                        </p:toolbar>
-                    </f:facet>
-                    <f:facet name="footer">
-                        <h:outputText value="всего в базе: #{fn:length(userController.users)}" style="font-size: small; text-align:left"/>
-                    </f:facet>
-
-                    <p:column headerText="-" selectionMode="multiple" style="width:16px;text-align:center"/>
-                    <p:column headerText="-" style="width:16px">
-                        <p:rowToggler />
-                    </p:column>
-                    <p:column headerText="-" style="width:16px">
-                        <p:rowEditor />
-                    </p:column>
-
-                    <p:column headerText="Login" sortBy="#{user.login}" filterBy="#{user.login}" filterMatchMode="contains">
-                        <h:outputText value="#{user.login}" />
-                    </p:column>
-
-                    <p:column headerText="Роли" filterBy="#{user.roles}" filterMatchMode="in">
-                        <f:facet name="filter">
-                            <p:selectCheckboxMenu label="..." onchange="PF('usersTable').filter()" panelStyle="width:200px" scrollHeight="200" converter="userRoleConverter">
-                                <f:selectItems value="#{userController.roles}" var="role" itemLabel="#{role}" itemValue="#{role}"/>
-                            </p:selectCheckboxMenu>
-                        </f:facet>
-                        <p:cellEditor>
-                            <f:facet name="output">
-                                <h:outputText value="#{user.roles.size() == 0? 'нет' : user.roles}" />
-                            </f:facet>
-                            <f:facet name="input">
-                                <p:selectManyMenu value="#{user.roles}" showCheckbox="false" converter="userRoleConverter">
-                                    <f:selectItems value="#{userController.roles}" var="role" itemLabel="#{role}" itemValue="#{role}"/>
-                                </p:selectManyMenu>
-                            </f:facet>
-                        </p:cellEditor>
-                    </p:column>
-
-                    <p:column headerText="Проекты" filterBy="#{user.projects}" filterMatchMode="in">
-                        <f:facet name="filter">
-                            <p:selectCheckboxMenu label="..." onchange="PF('usersTable').filter()" panelStyle="width:200px" scrollHeight="200">
-                                <f:selectItems value="#{transportController.projects}" var="project" itemLabel="#{project}" itemValue="#{project}"/>
-                            </p:selectCheckboxMenu>
-                        </f:facet>
-                        <p:cellEditor>
-                            <f:facet name="output">
-                                <h:outputText value="#{user.projects.size() == 0? 'все' : user.projects}" />
-                            </f:facet>
-                            <f:facet name="input">
-                                <p:selectManyMenu value="#{user.projects}" showCheckbox="false">
-                                    <f:selectItems value="#{transportController.projects}" var="project" itemLabel="#{project}" itemValue="#{project}"/>
-                                </p:selectManyMenu>
-                            </f:facet>
-                        </p:cellEditor>
-                    </p:column>
-
-                    <p:column headerText="Филиалы" filterBy="#{user.branches}" filterMatchMode="in">
-                        <f:facet name="filter">
-                            <p:selectCheckboxMenu label="..." onchange="PF('usersTable').filter()" panelStyle="width:200px" scrollHeight="200">
-                                <f:selectItems value="#{transportController.branches}" var="branches" itemLabel="#{branches}" itemValue="#{branches}"/>
-                            </p:selectCheckboxMenu>
-                        </f:facet>
-                        <p:cellEditor>
-                            <f:facet name="output">
-                                <h:outputText value="#{user.branches.size() == 0? 'все' : user.branches}" />
-                            </f:facet>
-                            <f:facet name="input">
-                                <p:selectManyMenu value="#{user.branches}" showCheckbox="false">
-                                    <f:selectItems value="#{transportController.branches}" var="branches" itemLabel="#{branches}" itemValue="#{branches}"/>
-                                </p:selectManyMenu>
-                            </f:facet>
-                        </p:cellEditor>
-                    </p:column>
-
-                    <p:column headerText="Password" sortBy="#{user.password}" filterBy="#{user.password}" filterMatchMode="contains">
-                        <p:cellEditor>
-                            <f:facet name="output">
-                                <h:outputText value="#{user.password}" />
-                            </f:facet>
-                            <f:facet name="input">
-                                <p:inputText value="#{user.password}" style="width:100%"/>
-                            </f:facet>
-                        </p:cellEditor>
-                    </p:column>
-
-                    <p:rowExpansion>
-                        ку-ку
-                    </p:rowExpansion>
-
                 </p:dataTable>
             </p:tab>
 
@@ -1424,46 +1286,6 @@
                         <h:outputText value="#{terminalInfo.mobileNumber}" />
                     </p:column>
                 </p:dataTable>
-            </p:outputPanel>
-        </p:dialog>
-
-        <p:dialog
-                widgetVar="addUserDialog"
-                header="Добавление пользователя:"
-                modal="true"
-                showEffect="fade"
-                hideEffect="fade"
-                resizable="false"
-                draggable="false"
-                width="auto"
-                style="font-size: small">
-
-            <p:outputPanel id="addUserPanel">
-                <p:panelGrid columns="2" style="margin-bottom:10px; width: auto" cellpadding="5">
-
-                    <h:outputText value="Роли:"/>
-                    <p:selectManyMenu value="#{userController.user.roles}" showCheckbox="false" converter="userRoleConverter">
-                        <f:selectItems value="#{userController.roles}" var="role" itemLabel="#{role}" itemValue="#{role}"/>
-                    </p:selectManyMenu>
-
-                    <h:outputText value="Проекты:"/>
-                    <p:selectManyMenu value="#{userController.user.projects}" showCheckbox="false">
-                        <f:selectItems value="#{transportController.projects}" var="project" itemLabel="#{project}" itemValue="#{project}"/>
-                    </p:selectManyMenu>
-
-                    <h:outputText value="Филиалы:"/>
-                    <p:selectManyMenu value="#{userController.user.branches}" showCheckbox="false">
-                        <f:selectItems value="#{transportController.branches}" var="branches" itemLabel="#{branches}" itemValue="#{branches}"/>
-                    </p:selectManyMenu>
-
-                    <h:outputText value="Login:"/>
-                    <p:inputText value="#{userController.user.login}"/>
-
-                    <h:outputText value="Password:"/>
-                    <p:inputText value="#{userController.user.password}"/>
-                </p:panelGrid>
-
-                <p:commandButton process="@parent" update=":form:msgs :form:transportTabView:usersTable" action="#{userController.doAddUser}" onsuccess="PF('addUserDialog').hide()" value="Создать" icon="ui-icon-disk"/>
             </p:outputPanel>
         </p:dialog>
 
