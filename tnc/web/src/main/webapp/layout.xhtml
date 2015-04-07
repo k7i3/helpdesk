@@ -30,32 +30,24 @@
         <p:growl id="msgs" showDetail="true"/>
 
         <!--menu button-->
-        <p:commandButton id="dynaButton" value="МЕНЮ" type="button" icon="ui-icon-extlink" style="font-size: small"/>
+        <p:commandButton id="dynaButton" value="МЕНЮ" type="button" icon="fa fa-map-marker" style="font-size: small"/>
             <p:menu overlay="true" trigger="dynaButton" my="left top" at="left bottom" style="font-size: small">
 
-                <p:menuitem value="Главная" outcome="/main.xhtml" icon="ui-icon-home"/>
+                <p:menuitem value="Главная" outcome="/main.xhtml" icon="fa fa-linux"/>
 
-                <p:submenu label="АДМИНИСТРАТОР:" rendered="#{securityController.isAdmin()}">
-                    <p:menuitem value="Транспорт" outcome="/admin/viewTransport.xhtml" icon="ui-icon-home"/>
-                </p:submenu>
-
-                <p:submenu label="ОБСЛУЖИВАНИЕ:" rendered="#{securityController.isService()}">
-                    <p:menuitem value="Транспорт" outcome="/service/viewTransport.xhtml" icon="ui-icon-home"/>
-                </p:submenu>
-
-                <p:submenu label="ПОЛЬЗОВАТЕЛЬ:" rendered="#{securityController.isUser()}">
-                    <p:menuitem value="Транспорт" outcome="/user/viewTransport.xhtml" icon="ui-icon-home"/>
+                <p:submenu label="HELPDESK:" rendered="#{securityController.isAdmin() or securityController.isService() or securityController.isUser()}">
+                    <p:menuitem value="Транспорт" outcome="/private/viewTransport.xhtml" icon="fa fa-bus"/>
                 </p:submenu>
 
                 <p:submenu label="ВОПРОСЫ:">
-                    <p:menuitem value="Software" outcome="/public/viewSoftware.xhtml" icon="ui-icon-star"/>
-                    <p:menuitem value="Hardware" outcome="/public/viewHardware.xhtml" icon="ui-icon-star"/>
+                    <p:menuitem value="Software" outcome="/public/viewSoftware.xhtml" icon="fa fa-code"/>
+                    <p:menuitem value="Hardware" outcome="/public/viewHardware.xhtml" icon="fa fa-wrench"/>
                 </p:submenu>
             </p:menu>
         <!--menu button-->
 
         <ui:insert name="title">Default title</ui:insert>
-        <p:link process="@this" outcome="/auth.faces" rendered="#{empty securityController.user}" value="войти" title="нажмите, чтобы войти" style="float: right; font-size: small"/>
+        <p:link process="@this" outcome="/private/viewTransport.faces" rendered="#{empty securityController.user}" value="войти" title="нажмите, чтобы войти" style="float: right; font-size: small"/>
         <p:commandLink process="@this" action="#{securityController.logout()}" rendered="#{not empty securityController.user}" value="#{securityController.user.login} (выйти)" title="проекты: #{securityController.user.projects.size() == 0? 'все' : securityController.user.projects} / филиалы: #{securityController.user.branches.size() == 0? 'все' : securityController.user.branches}" style="float: right; font-size: small"/>
 
 

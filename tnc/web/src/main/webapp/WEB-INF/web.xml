@@ -11,6 +11,11 @@
         <param-value>hot-sneaks</param-value>
     </context-param>
 
+    <context-param>
+        <param-name>primefaces.FONT_AWESOME</param-name>
+        <param-value>true</param-value>
+    </context-param>
+
     <!--SECURITY-->
 
     <error-page>
@@ -19,11 +24,11 @@
     </error-page>
 
     <security-constraint>
-        <display-name>admin</display-name>
+        <display-name>private</display-name>
         <web-resource-collection>
-            <web-resource-name>admin</web-resource-name>
+            <web-resource-name>private</web-resource-name>
             <description/>
-            <url-pattern>/admin/*</url-pattern>
+            <url-pattern>/private/*</url-pattern>
             <!--<http-method>GET</http-method>-->
             <!--<http-method>POST</http-method>-->
             <!--...-->
@@ -31,52 +36,13 @@
         <auth-constraint>
             <description/>
             <role-name>ADMIN</role-name>
+            <role-name>USER</role-name>
+            <role-name>SERVICE</role-name>
         </auth-constraint>
         <!--<user-data-constraint>-->
             <!--<description/>-->
             <!--<transport-guarantee>CONFIDENTIAL</transport-guarantee>-->
         <!--</user-data-constraint>-->
-    </security-constraint>
-
-    <security-constraint>
-        <display-name>service</display-name>
-        <web-resource-collection>
-            <web-resource-name>service</web-resource-name>
-            <description/>
-            <url-pattern>/service/*</url-pattern>
-        </web-resource-collection>
-        <auth-constraint>
-            <description/>
-            <role-name>SERVICE</role-name>
-        </auth-constraint>
-    </security-constraint>
-
-    <security-constraint>
-        <display-name>user</display-name>
-        <web-resource-collection>
-            <web-resource-name>user</web-resource-name>
-            <description/>
-            <url-pattern>/user/*</url-pattern>
-        </web-resource-collection>
-        <auth-constraint>
-            <description/>
-            <role-name>USER</role-name>
-        </auth-constraint>
-    </security-constraint>
-
-    <security-constraint>
-        <display-name>auth</display-name>
-        <web-resource-collection>
-            <web-resource-name>auth</web-resource-name>
-            <description/>
-            <url-pattern>/auth.faces</url-pattern>
-        </web-resource-collection>
-        <auth-constraint>
-            <description/>
-            <role-name>ADMIN</role-name>
-            <role-name>USER</role-name>
-            <role-name>SERVICE</role-name>
-        </auth-constraint>
     </security-constraint>
 
     <login-config>
