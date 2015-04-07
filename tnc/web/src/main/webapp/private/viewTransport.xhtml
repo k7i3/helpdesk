@@ -48,6 +48,11 @@
 
                     <c:set var="didBy" value="Администратор"/>
 
+                    <c:set var="isAdmin" value="#{securityController.isAdmin()}"/>
+                    <c:set var="isModer" value="#{securityController.isModer()}"/>
+                    <c:set var="isService" value="#{securityController.isService()}"/>
+                    <c:set var="isUser" value="#{securityController.isUser()}"/>
+
                     <p:ajax event="rowEdit" listener="#{transportController.onRowEdit}" update=":form:msgs">
                         <!--TODO setPropertyActionListener don't work-->
                         <f:setPropertyActionListener value="#{didBy}" target="#{transportController.didBy}" />
@@ -108,7 +113,7 @@
                     <p:column headerText="-" style="width:16px">
                         <p:rowToggler />
                     </p:column>
-                    <p:column headerText="-" style="width:16px">
+                    <p:column headerText="-" style="width:16px" rendered="#{isAdmin or isModer}">
                         <p:rowEditor />
                     </p:column>
 
@@ -345,27 +350,27 @@
                                     <h:panelGrid columns="1" style="border: hidden white">
                                         <p:panelGrid columns="2" style="width: auto">
                                             <h:outputText value="Тангента:"/>
-                                            <p:inplace label="#{transport.transportInfo.transportEquipment.hasPtt? 'В комплекте':'Нет'}" style="display:block">
+                                            <p:inplace label="#{transport.transportInfo.transportEquipment.hasPtt? 'В комплекте':'Нет'}" style="display:block" disabled="#{not isAdmin and not isModer}">
                                                 <p:selectBooleanButton value="#{transport.transportInfo.transportEquipment.hasPtt}" onLabel="В комплекте" offLabel="Нет" onIcon="ui-icon-check" offIcon="ui-icon-close"/>
                                             </p:inplace>
 
                                             <h:outputText value="Динамик:"/>
-                                            <p:inplace label="#{transport.transportInfo.transportEquipment.hasSpeaker? 'В комплекте':'Нет'}" style="display:block">
+                                            <p:inplace label="#{transport.transportInfo.transportEquipment.hasSpeaker? 'В комплекте':'Нет'}" style="display:block" disabled="#{not isAdmin and not isModer}">
                                                 <p:selectBooleanButton value="#{transport.transportInfo.transportEquipment.hasSpeaker}" onLabel="В комплекте" offLabel="Нет" onIcon="ui-icon-check" offIcon="ui-icon-close"/>
                                             </p:inplace>
 
                                             <h:outputText value="Информатор:"/>
-                                            <p:inplace label="#{transport.transportInfo.transportEquipment.hasInformer? 'В комплекте':'Нет'}" style="display:block">
+                                            <p:inplace label="#{transport.transportInfo.transportEquipment.hasInformer? 'В комплекте':'Нет'}" style="display:block" disabled="#{not isAdmin and not isModer}">
                                                 <p:selectBooleanButton value="#{transport.transportInfo.transportEquipment.hasInformer}" onLabel="В комплекте" offLabel="Нет" onIcon="ui-icon-check" offIcon="ui-icon-close"/>
                                             </p:inplace>
 
                                             <h:outputText value="Регистратор:"/>
-                                            <p:inplace label="#{transport.transportInfo.transportEquipment.hasDvr? 'В комплекте':'Нет'}" style="display:block">
+                                            <p:inplace label="#{transport.transportInfo.transportEquipment.hasDvr? 'В комплекте':'Нет'}" style="display:block" disabled="#{not isAdmin and not isModer}">
                                                 <p:selectBooleanButton value="#{transport.transportInfo.transportEquipment.hasDvr}" onLabel="В комплекте" offLabel="Нет" onIcon="ui-icon-check" offIcon="ui-icon-close"/>
                                             </p:inplace>
                                         </p:panelGrid>
 
-                                        <p:commandLink value="обновить" process="@parent" update=":form:msgs @parent:@parent" action="#{transportController.doUpdateTransportInfo}" title="нажмите, чтобы сохранить изменения">
+                                        <p:commandLink value="обновить" process="@parent" update=":form:msgs @parent:@parent" action="#{transportController.doUpdateTransportInfo}" title="нажмите, чтобы сохранить изменения"  rendered="#{isAdmin or isModer}">
                                             <f:setPropertyActionListener value="#{transport}" target="#{transportController.unitOfTransport}" />
                                             <f:setPropertyActionListener value="#{didBy}" target="#{transportController.didBy}" />
                                         </p:commandLink>
@@ -408,32 +413,32 @@
                                             <h:panelGrid columns="1" style="border: hidden white">
                                                 <p:panelGrid columns="2" style="width: auto">
                                                     <h:outputText value="Возможность подачи в Уфу:"/>
-                                                    <p:inplace label="#{ticket.ticketInfo.ticketDetails.possibilityOfServiceAtTheDefaultPlace? 'Есть':'Нет'}" style="display:block">
+                                                    <p:inplace label="#{ticket.ticketInfo.ticketDetails.possibilityOfServiceAtTheDefaultPlace? 'Есть':'Нет'}" style="display:block" disabled="#{not isAdmin and not isModer and not isUser}">
                                                         <p:selectBooleanButton value="#{ticket.ticketInfo.ticketDetails.possibilityOfServiceAtTheDefaultPlace}" onLabel="Есть" offLabel="Нет" onIcon="ui-icon-check" offIcon="ui-icon-close"/>
                                                     </p:inplace>
 
                                                     <h:outputText value="Внешний осмотр:"/>
-                                                    <p:inplace label="#{ticket.ticketInfo.ticketDetails.isInspected? 'Произведен':'Не произведен'}" style="display:block">
+                                                    <p:inplace label="#{ticket.ticketInfo.ticketDetails.isInspected? 'Произведен':'Не произведен'}" style="display:block" disabled="#{not isAdmin and not isModer and not isUser}">
                                                         <p:selectBooleanButton value="#{ticket.ticketInfo.ticketDetails.isInspected}" onLabel="Произведен" offLabel="Не произведен" onIcon="ui-icon-check" offIcon="ui-icon-close"/>
                                                     </p:inplace>
 
                                                     <h:outputText value="Место подачи:"/>
-                                                    <p:inplace label="#{ticket.ticketInfo.ticketDetails.place}" style="display:block">
+                                                    <p:inplace label="#{ticket.ticketInfo.ticketDetails.place}" style="display:block" disabled="#{not isAdmin and not isModer and not isUser}">
                                                         <p:inputText value="#{ticket.ticketInfo.ticketDetails.place}" style="width: 380px"/>
                                                     </p:inplace>
 
                                                     <h:outputText value="Телефон водителя:"/>
-                                                    <p:inplace label="#{ticket.ticketInfo.ticketDetails.mobileNumberOfDriver}" style="display:block">
+                                                    <p:inplace label="#{ticket.ticketInfo.ticketDetails.mobileNumberOfDriver}" style="display:block" disabled="#{not isAdmin and not isModer and not isUser}">
                                                         <p:inputText value="#{ticket.ticketInfo.ticketDetails.mobileNumberOfDriver}"/>
                                                     </p:inplace>
 
                                                     <h:outputText value="Телефон ответственного:"/>
-                                                    <p:inplace label="#{ticket.ticketInfo.ticketDetails.mobileNumberOfAgent}" style="display:block">
+                                                    <p:inplace label="#{ticket.ticketInfo.ticketDetails.mobileNumberOfAgent}" style="display:block" disabled="#{not isAdmin and not isModer and not isUser}">
                                                         <p:inputText value="#{ticket.ticketInfo.ticketDetails.mobileNumberOfAgent}"/>
                                                     </p:inplace>
                                                 </p:panelGrid>
 
-                                                <p:commandLink value="обновить" process="@parent" update=":form:msgs @parent:@parent" action="#{ticketController.doUpdateTicketInfo}" title="нажмите, чтобы сохранить изменения">
+                                                <p:commandLink value="обновить" process="@parent" update=":form:msgs @parent:@parent" action="#{ticketController.doUpdateTicketInfo}" title="нажмите, чтобы сохранить изменения" rendered="#{isAdmin or isModer or isUser}">
                                                     <f:setPropertyActionListener value="#{transport}" target="#{ticketController.unitOfTransport}" />
                                                     <f:setPropertyActionListener value="#{ticket}" target="#{ticketController.ticket}" />
                                                     <f:setPropertyActionListener value="#{didBy}" target="#{ticketController.didBy}" />
@@ -466,7 +471,7 @@
 
                                             <!--rendered="{empty ticket.acceptance and empty ticket.incorrectness and empty ticket.cancellation}"-->
                                             <!--rendered="{ticketController.doCheckForPossibilityToAcceptTicket(ticket)}"-->
-                                            <p:commandButton process="@this" action="#{ticketController.doAcceptTicket}" update=":form:transportTabView:transportTable :form:msgs" rendered="#{empty ticket.acceptance and empty ticket.incorrectness and empty ticket.cancellation}" value="принять" title="нажмите, чтобы принять заявку" style="margin-right: 5px">
+                                            <p:commandButton process="@this" action="#{ticketController.doAcceptTicket}" update=":form:transportTabView:transportTable :form:msgs" disabled="#{not isAdmin and not isModer}" rendered="#{empty ticket.acceptance and empty ticket.incorrectness and empty ticket.cancellation}" value="принять" title="нажмите, чтобы принять заявку" style="margin-right: 5px">
                                                 <f:setPropertyActionListener value="#{transport}" target="#{ticketController.unitOfTransport}" />
                                                 <f:setPropertyActionListener value="#{ticket}" target="#{ticketController.ticket}" />
                                                 <f:setPropertyActionListener value="#{didBy}" target="#{ticketController.didBy}" />
@@ -474,7 +479,7 @@
 
                                             <!--rendered="{empty ticket.service and empty ticket.closing and not empty ticket.acceptance and empty ticket.incorrectness and empty ticket.cancellation}"-->
                                             <!--rendered="{ticketController.doCheckForPossibilityToOnServiceTicket(ticket)}"-->
-                                            <p:commandButton process="@this" action="#{ticketController.doOnServiceTicket}" update=":form:transportTabView:transportTable :form:msgs" rendered="#{empty ticket.service and empty ticket.closing and not empty ticket.acceptance and empty ticket.incorrectness and empty ticket.cancellation}" value="на выезд" title="нажмите, чтобы назначить выезд" style="margin-right: 5px">
+                                            <p:commandButton process="@this" action="#{ticketController.doOnServiceTicket}" update=":form:transportTabView:transportTable :form:msgs" disabled="#{not isAdmin and not isModer}" rendered="#{empty ticket.service and empty ticket.closing and not empty ticket.acceptance and empty ticket.incorrectness and empty ticket.cancellation}" value="на выезд" title="нажмите, чтобы назначить выезд" style="margin-right: 5px">
                                                 <f:setPropertyActionListener value="#{transport}" target="#{ticketController.unitOfTransport}" />
                                                 <f:setPropertyActionListener value="#{ticket}" target="#{ticketController.ticket}" />
                                                 <f:setPropertyActionListener value="#{didBy}" target="#{ticketController.didBy}" />
@@ -482,47 +487,47 @@
 
                                             <!--rendered="{empty ticket.closing and not empty ticket.acceptance and empty ticket.incorrectness and empty ticket.cancellation}"-->
                                             <!--rendered="{ticketController.doCheckForPossibilityToCloseTicket(ticket)}"-->
-                                            <p:commandButton process="@this" update=":form:closeTicketPanel :form:transportTabView:transportTable :form:msgs" oncomplete="PF('closeTicketDialog').show()" rendered="#{empty ticket.closing and not empty ticket.acceptance and empty ticket.incorrectness and empty ticket.cancellation}" value="закрыть" title="нажмите, чтобы закрыть заявку" style="margin-right: 5px">
+                                            <p:commandButton process="@this" update=":form:closeTicketPanel :form:transportTabView:transportTable :form:msgs" oncomplete="PF('closeTicketDialog').show()" disabled="#{empty ticket.service? not isAdmin and not isModer : not isAdmin and not isModer and not isService}" rendered="#{empty ticket.closing and not empty ticket.acceptance and empty ticket.incorrectness and empty ticket.cancellation}" value="закрыть" title="нажмите, чтобы закрыть заявку" style="margin-right: 5px">
                                                 <f:setPropertyActionListener value="#{transport}" target="#{sessionScopedController.unitOfTransport}" />
                                                 <f:setPropertyActionListener value="#{ticket}" target="#{sessionScopedController.ticket}" />
                                             </p:commandButton>
 
                                             <!--rendered="{not empty ticket.service and not empty ticket.closing and fn:length(ticket.repeatedService) == fn:length(ticket.repeatedClosing) and empty ticket.archiving and empty ticket.incorrectness and empty ticket.cancellation}"-->
                                             <!--rendered="{ticketController.doCheckForPossibilityToRepeatedOnServiceTicket(ticket)}"-->
-                                            <p:commandButton process="@this" update=":form:repeatedOnServiceTicketPanel :form:transportTabView:transportTable :form:msgs" oncomplete="PF('repeatedOnServiceTicketDialog').show()" rendered="#{not empty ticket.service and not empty ticket.closing and fn:length(ticket.repeatedService) == fn:length(ticket.repeatedClosing) and empty ticket.archiving and empty ticket.incorrectness and empty ticket.cancellation}" value="на выезд (повторно!)" title="нажмите, чтобы назначить повторный выезд" style="margin-right: 5px">
+                                            <p:commandButton process="@this" update=":form:repeatedOnServiceTicketPanel :form:transportTabView:transportTable :form:msgs" oncomplete="PF('repeatedOnServiceTicketDialog').show()" disabled="#{not isAdmin and not isModer}"  rendered="#{not empty ticket.service and not empty ticket.closing and fn:length(ticket.repeatedService) == fn:length(ticket.repeatedClosing) and empty ticket.archiving and empty ticket.incorrectness and empty ticket.cancellation}" value="на выезд (повторно!)" title="нажмите, чтобы назначить повторный выезд" style="margin-right: 5px">
                                                 <f:setPropertyActionListener value="#{transport}" target="#{sessionScopedController.unitOfTransport}" />
                                                 <f:setPropertyActionListener value="#{ticket}" target="#{sessionScopedController.ticket}" />
                                             </p:commandButton>
 
                                             <!--rendered="{not empty ticket.service and not empty ticket.closing and fn:length(ticket.repeatedService) > fn:length(ticket.repeatedClosing) and empty ticket.archiving and empty ticket.incorrectness and empty ticket.cancellation}"-->
                                             <!--rendered="{ticketController.doCheckForPossibilityToRepeatedCloseTicket(ticket)}"-->
-                                            <p:commandButton process="@this" update=":form:repeatedCloseTicketPanel :form:transportTabView:transportTable :form:msgs" oncomplete="PF('repeatedCloseTicketDialog').show()" rendered="#{not empty ticket.service and not empty ticket.closing and fn:length(ticket.repeatedService) > fn:length(ticket.repeatedClosing) and empty ticket.archiving and empty ticket.incorrectness and empty ticket.cancellation}" value="закрыть (повторно!)" title="нажмите, чтобы повторно закрыть заявку" style="margin-right: 5px">
+                                            <p:commandButton process="@this" update=":form:repeatedCloseTicketPanel :form:transportTabView:transportTable :form:msgs" oncomplete="PF('repeatedCloseTicketDialog').show()" disabled="#{not isAdmin and not isModer and not isService}" rendered="#{not empty ticket.service and not empty ticket.closing and fn:length(ticket.repeatedService) > fn:length(ticket.repeatedClosing) and empty ticket.archiving and empty ticket.incorrectness and empty ticket.cancellation}" value="закрыть (повторно!)" title="нажмите, чтобы повторно закрыть заявку" style="margin-right: 5px">
                                                 <f:setPropertyActionListener value="#{transport}" target="#{sessionScopedController.unitOfTransport}" />
                                                 <f:setPropertyActionListener value="#{ticket}" target="#{sessionScopedController.ticket}" />
                                             </p:commandButton>
 
                                             <!--rendered="{empty ticket.archiving and not empty ticket.closing and not empty ticket.acceptance and empty ticket.incorrectness and empty ticket.cancellation}"-->
                                             <!--rendered="{ticketController.doCheckForPossibilityToArchiveTicket(ticket)}"-->
-                                            <p:commandButton process="@this" action="#{ticketController.doArchiveTicket}" update=":form:transportTabView:transportTable :form:msgs" rendered="#{empty ticket.archiving and not empty ticket.closing and not empty ticket.acceptance and empty ticket.incorrectness and empty ticket.cancellation}" value="архивировать" title="нажмите, чтобы поместить заявку в архив" style="margin-right: 5px">
+                                            <p:commandButton process="@this" action="#{ticketController.doArchiveTicket}" update=":form:transportTabView:transportTable :form:msgs" disabled="#{not isAdmin and not isModer}" rendered="#{empty ticket.archiving and not empty ticket.closing and not empty ticket.acceptance and empty ticket.incorrectness and empty ticket.cancellation}" value="архивировать" title="нажмите, чтобы поместить заявку в архив" style="margin-right: 5px">
                                                 <f:setPropertyActionListener value="#{transport}" target="#{ticketController.unitOfTransport}" />
                                                 <f:setPropertyActionListener value="#{ticket}" target="#{ticketController.ticket}" />
                                                 <f:setPropertyActionListener value="#{didBy}" target="#{ticketController.didBy}" />
                                             </p:commandButton>
 
-                                            <p:commandLink process="@this" update=":form:showTicketHistoryPanel" oncomplete="PF('showTicketHistoryDialog').show()" rendered="true" value="хронология" title="нажмите, чтобы открыть хронологию заявки" styleClass="ui-panel-titlebar-icon ui-corner-all ui-state-default" style="margin-right: 5px">
+                                            <p:commandLink process="@this" update=":form:showTicketHistoryPanel" oncomplete="PF('showTicketHistoryDialog').show()" rendered="#{isAdmin or isModer}" value="хронология" title="нажмите, чтобы открыть хронологию заявки" styleClass="ui-panel-titlebar-icon ui-corner-all ui-state-default" style="margin-right: 5px">
                                                 <f:setPropertyActionListener value="#{ticket}" target="#{ticketController.ticket}" />
                                             </p:commandLink>
 
                                             <!--rendered="{empty ticket.archiving and empty ticket.cancellation and empty ticket.incorrectness}"-->
                                             <!--rendered="{ticketController.doCheckForPossibilityToMarkAsIncorrectTicket(ticket)}"-->
-                                            <p:commandLink process="@this" update=":form:markAsIncorrectTicketPanel :form:transportTabView:transportTable :form:msgs" oncomplete="PF('markAsIncorrectTicketDialog').show()" rendered="#{empty ticket.archiving and empty ticket.cancellation and empty ticket.incorrectness}" value="невалидная" title="нажмите, чтобы отметить заявку как невалидную" style="float: right; margin-right: 5px">
+                                            <p:commandLink process="@this" update=":form:markAsIncorrectTicketPanel :form:transportTabView:transportTable :form:msgs" oncomplete="PF('markAsIncorrectTicketDialog').show()" disabled="#{not isAdmin and not isModer}" rendered="#{empty ticket.archiving and empty ticket.cancellation and empty ticket.incorrectness}" value="невалидная" title="нажмите, чтобы отметить заявку как невалидную" style="float: right; margin-right: 5px">
                                                 <f:setPropertyActionListener value="#{transport}" target="#{sessionScopedController.unitOfTransport}" />
                                                 <f:setPropertyActionListener value="#{ticket}" target="#{sessionScopedController.ticket}" />
                                             </p:commandLink>
 
                                             <!--rendered="{empty ticket.archiving and empty ticket.cancellation and empty ticket.incorrectness}"-->
                                             <!--rendered="{ticketController.doCheckForPossibilityToCancelTicket(ticket)}"-->
-                                            <p:commandLink process="@this" update=":form:cancelTicketPanel :form:transportTabView:transportTable :form:msgs" oncomplete="PF('cancelTicketDialog').show()" rendered="#{empty ticket.archiving and empty ticket.cancellation and empty ticket.incorrectness}" value="отменить" title="нажмите, чтобы отменить заявку" style="float: right; margin-right: 5px">
+                                            <p:commandLink process="@this" update=":form:cancelTicketPanel :form:transportTabView:transportTable :form:msgs" oncomplete="PF('cancelTicketDialog').show()" disabled="#{not isAdmin and not isModer and not isUser}" rendered="#{empty ticket.archiving and empty ticket.cancellation and empty ticket.incorrectness}" value="отменить" title="нажмите, чтобы отменить заявку" style="float: right; margin-right: 5px">
                                                 <f:setPropertyActionListener value="#{transport}" target="#{sessionScopedController.unitOfTransport}" />
                                                 <f:setPropertyActionListener value="#{ticket}" target="#{sessionScopedController.ticket}" />
                                             </p:commandLink>
@@ -530,7 +535,7 @@
                                         </f:facet>
                                     </p:panel>
                                 </ui:repeat>
-                                <p:panel id="horizontal" header="Новая заявка" collapsed="true" toggleable="true" toggleOrientation="horizontal" style="max-width: 50%" rendered="#{ticketController.doCheckForPossibilityToAddTicket(transport)}">
+                                <p:panel id="horizontal" header="Новая заявка" collapsed="true" toggleable="true" toggleOrientation="horizontal" style="max-width: 50%" rendered="#{ticketController.doCheckForPossibilityToAddTicket(transport)? isAdmin or isModer or isUser : false}">
                                     <p:panelGrid columns="2" style="margin-bottom:10px; width: 100%" cellpadding="5">
                                         <h:outputText value="Причина:" />
                                         <p:selectOneListbox value="#{ticketController.ticket.ticketInfo.ticketHeader}">
