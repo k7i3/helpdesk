@@ -43,7 +43,9 @@ public class TransportController implements Serializable {
 
     @PostConstruct
     public void doFindAllAccessibleTransport() {
-        accessibleTransport = transportEJB.findAllAccessibleTransport(userEJB.initUser()); // didBy ==>
+        User user = userEJB.initUser();
+        didBy = user.getLogin();
+        accessibleTransport = transportEJB.findAllAccessibleTransport(user); // didBy ==>
         doFindAllProjects();
         doFindAllBranches();
         doFindAllTransportModels();
@@ -135,7 +137,7 @@ public class TransportController implements Serializable {
 
         unitOfTransport.getTransportInfo().setTransportEquipment(transportForUpdates.getTransportInfo().getTransportEquipment()); // TODO this code fixes bug when nothing changed and all TransportEquipment reset to false (and logical right anyway)
 
-        didBy = "Администратор"; // TODO fix it!
+//        didBy = "Администратор"; // TODO fix it!
 
         LifeCycleInfo lifeCycleInfo = new LifeCycleInfo(new Date(), didBy);
 

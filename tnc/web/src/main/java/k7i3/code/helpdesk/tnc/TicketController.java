@@ -1,5 +1,6 @@
 package k7i3.code.helpdesk.tnc;
 
+import javax.annotation.PostConstruct;
 import javax.enterprise.context.RequestScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
@@ -20,6 +21,8 @@ public class TicketController {
     private TransportEJB transportEJB;
     @Inject
     private TicketEJB ticketEJB;
+    @Inject
+    private UserEJB userEJB;
     private Logger logger = Logger.getLogger("k7i3");
 
     private Transport unitOfTransport;
@@ -31,9 +34,14 @@ public class TicketController {
     private String didBy;
     private String commentContent;
 
+    @PostConstruct
+    public void initDidBy() {
+        didBy = userEJB.initUser().getLogin();
+    }
+
     //Do ADD
 
-    public void doAddTransportComment(Transport transport, String didBy) {
+    public void doAddTransportComment(Transport transport) {
         logger.info("=>=>=>=>=> TicketController.doAddTransportComment()");
         Comment comment = new Comment(new LifeCycleInfo(new Date(), didBy), new CommentInfo(new LifeCycleInfo(new Date(), didBy), commentContent));
         transport.getComments().add(comment);
@@ -44,7 +52,7 @@ public class TicketController {
         FacesContext.getCurrentInstance().addMessage(null, msg);
     }
 
-    public void doAddTicketComment(Ticket ticket, String didBy) {
+    public void doAddTicketComment(Ticket ticket) {
         logger.info("=>=>=>=>=> TicketController.doAddTicketComment()");
         Comment comment = new Comment(new LifeCycleInfo(new Date(), didBy), new CommentInfo(new LifeCycleInfo(new Date(), didBy), commentContent));
         ticket.getComments().add(comment);

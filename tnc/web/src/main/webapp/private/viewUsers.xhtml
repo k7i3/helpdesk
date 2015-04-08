@@ -47,25 +47,6 @@
                         <p:toolbar>
                             <f:facet name="left">
                                 <p:commandButton process="@this" value="Добавить" icon="ui-icon-document" update=":form:addUserPanel" oncomplete="PF('addUserDialog').show()" disabled="false"/>
-                                    <span class="ui-separator">
-                                        <span class="ui-icon ui-icon-grip-dotted-vertical" />
-                                    </span>
-                                <p:commandButton type="button" value="Удалить" icon="ui-icon-folder-open" disabled="true"/>
-                                    <span class="ui-separator">
-                                        <span class="ui-icon ui-icon-grip-dotted-vertical" />
-                                    </span>
-                                <p:commandButton type="button" title="Save" icon="ui-icon-disk" disabled="true"/>
-                                <p:commandButton type="button" title="Delete" icon="ui-icon-trash" disabled="true"/>
-                                <p:commandButton type="button" title="Print" icon="ui-icon-print" disabled="true"/>
-                                    <span class="ui-separator">
-                                        <span class="ui-icon ui-icon-grip-dotted-vertical" />
-                                    </span>
-                                <p:menuButton value="Настройки" disabled="true">
-                                    <p:menuitem value="Save"  icon="ui-icon-disk" />
-                                    <p:menuitem value="Update"  icon="ui-icon-arrowrefresh-1-w" />
-                                    <p:menuitem value="Delete"  icon="ui-icon-close" />
-                                    <p:menuitem value="Homepage" url="http://www.primefaces.org" icon="ui-icon-extlink" />
-                                </p:menuButton>
                             </f:facet>
                             <f:facet name="right">
                                 <p:inputText id="globalFilter" onkeyup="PF('usersTable').filter()" placeholder="поиск..."  />

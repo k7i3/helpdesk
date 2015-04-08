@@ -46,7 +46,7 @@
 
                     <!--TODO change color rowStyleClass="{transport.terminal.number le 7000 ? 'tooday' : 'notTooday'}"-->
 
-                    <c:set var="didBy" value="Администратор"/>
+                    <!--<c:set var="didBy" value="Администратор"/>-->
 
                     <c:set var="isAdmin" value="#{securityController.isAdmin()}"/>
                     <c:set var="isModer" value="#{securityController.isModer()}"/>
@@ -55,7 +55,7 @@
 
                     <p:ajax event="rowEdit" listener="#{transportController.onRowEdit}" update=":form:msgs">
                         <!--TODO setPropertyActionListener don't work-->
-                        <f:setPropertyActionListener value="#{didBy}" target="#{transportController.didBy}" />
+                        <!--<f:setPropertyActionListener value="{didBy}" target="{transportController.didBy}" />-->
                     </p:ajax>
                     <p:ajax event="rowEditCancel" listener="#{transportController.onRowCancel}" update=":form:msgs" />
                     <!--<p:ajax event="sort" oncomplete="PF('transportTable').filter()" update=":form:msgs" />-->
@@ -66,24 +66,26 @@
                             <p:toolbar>
                                 <f:facet name="left">
                                     <p:commandButton process="@this" value="Добавить" icon="ui-icon-document" update=":form:addTransportPanel" oncomplete="PF('addTransportDialog').show()" rendered="#{isAdmin or isModer}"/>
-                                    <span class="ui-separator">
-                                        <span class="ui-icon ui-icon-grip-dotted-vertical" />
-                                    </span>
-                                    <p:commandButton type="button" value="Удалить" icon="ui-icon-folder-open" disabled="true"/>
 
-                                    <span class="ui-separator">
-                                        <span class="ui-icon ui-icon-grip-dotted-vertical" />
-                                    </span>
+                                    <!--<span class="ui-separator">-->
+                                        <!--<span class="ui-icon ui-icon-grip-dotted-vertical" />-->
+                                    <!--</span>-->
 
-                                    <p:commandButton type="button" title="Save" icon="ui-icon-disk" disabled="true"/>
-                                    <p:commandButton type="button" title="Delete" icon="ui-icon-trash" disabled="true"/>
-                                    <p:commandButton type="button" title="Print" icon="ui-icon-print" disabled="true"/>
+                                    <p:commandButton type="button" value="Удалить" icon="ui-icon-folder-open" rendered="false"/>
 
-                                    <span class="ui-separator">
-                                        <span class="ui-icon ui-icon-grip-dotted-vertical" />
-                                    </span>
+                                    <!--<span class="ui-separator">-->
+                                        <!--<span class="ui-icon ui-icon-grip-dotted-vertical" />-->
+                                    <!--</span>-->
 
-                                    <p:menuButton value="Настройки" disabled="true">
+                                    <p:commandButton type="button" title="Save" icon="ui-icon-disk" rendered="false"/>
+                                    <p:commandButton type="button" title="Delete" icon="ui-icon-trash" rendered="false"/>
+                                    <p:commandButton type="button" title="Print" icon="ui-icon-print" rendered="false"/>
+
+                                    <!--<span class="ui-separator">-->
+                                        <!--<span class="ui-icon ui-icon-grip-dotted-vertical" />-->
+                                    <!--</span>-->
+
+                                    <p:menuButton value="Настройки" rendered="false">
                                         <p:menuitem value="Save"  icon="ui-icon-disk" />
                                         <p:menuitem value="Update"  icon="ui-icon-arrowrefresh-1-w" />
                                         <p:menuitem value="Delete"  icon="ui-icon-close" />
@@ -372,7 +374,7 @@
 
                                         <p:commandLink value="обновить" process="@parent" update=":form:msgs @parent:@parent" action="#{transportController.doUpdateTransportInfo}" title="нажмите, чтобы сохранить изменения"  rendered="#{isAdmin or isModer}">
                                             <f:setPropertyActionListener value="#{transport}" target="#{transportController.unitOfTransport}" />
-                                            <f:setPropertyActionListener value="#{didBy}" target="#{transportController.didBy}" />
+                                            <!--<f:setPropertyActionListener value="{didBy}" target="{transportController.didBy}" />-->
                                         </p:commandLink>
                                     </h:panelGrid>
                                 </p:panelGrid>
@@ -390,7 +392,7 @@
                                     </ui:repeat>
                                 </p:scrollPanel>
                                 <p:inputTextarea rows="3" value="#{ticketController.commentContent}" style="display:block; margin-bottom: 10px; width: 50%"/>
-                                <p:commandButton id="transportCommentButton" process="@parent" update="@parent:@child(0) @parent:@child(1) :form:msgs" action="#{ticketController.doAddTransportComment(transport, didBy)}" value="Отправить" icon="ui-icon-disk"/>
+                                <p:commandButton id="transportCommentButton" process="@parent" update="@parent:@child(0) @parent:@child(1) :form:msgs" action="#{ticketController.doAddTransportComment(transport)}" value="Отправить" icon="ui-icon-disk"/>
                             </p:tab>
 
                             <!--footer="принята: {ticket.acceptance.date} ({ticket.acceptance.didBy}) -->
@@ -441,7 +443,7 @@
                                                 <p:commandLink value="обновить" process="@parent" update=":form:msgs @parent:@parent" action="#{ticketController.doUpdateTicketInfo}" title="нажмите, чтобы сохранить изменения" rendered="#{isAdmin or isModer or isUser}">
                                                     <f:setPropertyActionListener value="#{transport}" target="#{ticketController.unitOfTransport}" />
                                                     <f:setPropertyActionListener value="#{ticket}" target="#{ticketController.ticket}" />
-                                                    <f:setPropertyActionListener value="#{didBy}" target="#{ticketController.didBy}" />
+                                                    <!--<f:setPropertyActionListener value="{didBy}" target="{ticketController.didBy}" />-->
                                                 </p:commandLink>
                                             </h:panelGrid>
                                         </p:panelGrid>
@@ -456,7 +458,7 @@
                                             </ui:repeat>
                                         </p:scrollPanel>
                                         <p:inputTextarea rows="3" cols="100" value="#{ticketController.commentContent}" style="display:block; margin-bottom: 10px; width: 50%"/>
-                                        <p:commandButton id="ticketCommentButton" process="@parent" update="@parent:@child(2) @parent:@child(3) :form:msgs" action="#{ticketController.doAddTicketComment(ticket, didBy)}" value="Отправить" icon="ui-icon-disk"/>
+                                        <p:commandButton id="ticketCommentButton" process="@parent" update="@parent:@child(2) @parent:@child(3) :form:msgs" action="#{ticketController.doAddTicketComment(ticket)}" value="Отправить" icon="ui-icon-disk"/>
                                         <!--<f:facet name="options">-->
                                             <!--<p:menu>-->
                                                 <!--<p:submenu label="Settings">-->
@@ -475,7 +477,7 @@
                                             <p:commandButton process="@this" action="#{ticketController.doAcceptTicket}" update=":form:transportTabView:transportTable :form:msgs" rendered="#{isAdmin or isModer? empty ticket.acceptance and empty ticket.incorrectness and empty ticket.cancellation : false}" value="принять" title="нажмите, чтобы принять заявку" style="margin-right: 5px">
                                                 <f:setPropertyActionListener value="#{transport}" target="#{ticketController.unitOfTransport}" />
                                                 <f:setPropertyActionListener value="#{ticket}" target="#{ticketController.ticket}" />
-                                                <f:setPropertyActionListener value="#{didBy}" target="#{ticketController.didBy}" />
+                                                <!--<f:setPropertyActionListener value="{didBy}" target="{ticketController.didBy}" />-->
                                             </p:commandButton>
 
                                             <!--rendered="{empty ticket.service and empty ticket.closing and not empty ticket.acceptance and empty ticket.incorrectness and empty ticket.cancellation}"-->
@@ -484,7 +486,7 @@
                                             <p:commandButton process="@this" action="#{ticketController.doOnServiceTicket}" update=":form:transportTabView:transportTable :form:msgs" rendered="#{isAdmin or isModer? empty ticket.service and empty ticket.closing and not empty ticket.acceptance and empty ticket.incorrectness and empty ticket.cancellation : false}" value="на выезд" title="нажмите, чтобы назначить выезд" style="margin-right: 5px">
                                                 <f:setPropertyActionListener value="#{transport}" target="#{ticketController.unitOfTransport}" />
                                                 <f:setPropertyActionListener value="#{ticket}" target="#{ticketController.ticket}" />
-                                                <f:setPropertyActionListener value="#{didBy}" target="#{ticketController.didBy}" />
+                                                <!--<f:setPropertyActionListener value="{didBy}" target="{ticketController.didBy}" />-->
                                             </p:commandButton>
 
                                             <!--rendered="{empty ticket.closing and not empty ticket.acceptance and empty ticket.incorrectness and empty ticket.cancellation}"-->
@@ -516,7 +518,7 @@
                                             <p:commandButton process="@this" action="#{ticketController.doArchiveTicket}" update=":form:transportTabView:transportTable :form:msgs" rendered="#{isAdmin or isModer? empty ticket.archiving and not empty ticket.closing and not empty ticket.acceptance and empty ticket.incorrectness and empty ticket.cancellation : false}" value="архивировать" title="нажмите, чтобы поместить заявку в архив" style="margin-right: 5px">
                                                 <f:setPropertyActionListener value="#{transport}" target="#{ticketController.unitOfTransport}" />
                                                 <f:setPropertyActionListener value="#{ticket}" target="#{ticketController.ticket}" />
-                                                <f:setPropertyActionListener value="#{didBy}" target="#{ticketController.didBy}" />
+                                                <!--<f:setPropertyActionListener value="{didBy}" target="{ticketController.didBy}" />-->
                                             </p:commandButton>
 
                                             <p:commandLink process="@this" update=":form:showTicketHistoryPanel" oncomplete="PF('showTicketHistoryDialog').show()" rendered="#{isAdmin or isModer or isService}" value="хронология" title="нажмите, чтобы открыть хронологию заявки" styleClass="ui-panel-titlebar-icon ui-corner-all ui-state-default" style="margin-right: 5px">
@@ -570,7 +572,7 @@
                                         <f:facet name="footer">
                                             <p:commandButton process="@parent" update=":form:msgs :form:transportTabView:transportTable" action="#{ticketController.doAddTicket}" value="Создать" icon="ui-icon-disk" style="float: left">
                                                 <f:setPropertyActionListener value="#{transport}" target="#{ticketController.unitOfTransport}"/>
-                                                <f:setPropertyActionListener value="#{didBy}" target="#{ticketController.didBy}"/>
+                                                <!--<f:setPropertyActionListener value="{didBy}" target="{ticketController.didBy}"/>-->
                                             </p:commandButton>
                                         </f:facet>
                                     </p:panelGrid>
@@ -678,7 +680,7 @@
                 </p:panelGrid>
 
                 <p:commandButton process="@parent" update=":form:msgs :form:transportTabView:transportTable" action="#{transportController.doAddTransport}" onsuccess="PF('addTransportDialog').hide()" value="Создать" icon="ui-icon-disk">
-                    <f:setPropertyActionListener value="#{didBy}" target="#{transportController.didBy}"/>
+                    <!--<f:setPropertyActionListener value="{didBy}" target="{transportController.didBy}"/>-->
                 </p:commandButton>
             </p:outputPanel>
         </p:dialog>
@@ -710,7 +712,7 @@
                 <p:commandButton process="@parent" update=":form:msgs :form:transportTabView:transportTable" action="#{ticketController.doCloseTicket}" onsuccess="PF('closeTicketDialog').hide()" value="Закрыть" icon="ui-icon-disk">
                     <f:setPropertyActionListener value="#{sessionScopedController.unitOfTransport}" target="#{ticketController.unitOfTransport}" />
                     <f:setPropertyActionListener value="#{sessionScopedController.ticket}" target="#{ticketController.ticket}" />
-                    <f:setPropertyActionListener value="#{didBy}" target="#{ticketController.didBy}" />
+                    <!--<f:setPropertyActionListener value="{didBy}" target="{ticketController.didBy}" />-->
                 </p:commandButton>
             </p:outputPanel>
         </p:dialog>
@@ -735,7 +737,7 @@
                 <p:commandButton process="@parent" update=":form:msgs :form:transportTabView:transportTable" action="#{ticketController.doRepeatedOnServiceTicket}" onsuccess="PF('repeatedOnServiceTicketDialog').hide()" value="Назначить повторный выезд" icon="ui-icon-disk">
                     <f:setPropertyActionListener value="#{sessionScopedController.unitOfTransport}" target="#{ticketController.unitOfTransport}" />
                     <f:setPropertyActionListener value="#{sessionScopedController.ticket}" target="#{ticketController.ticket}" />
-                    <f:setPropertyActionListener value="#{didBy}" target="#{ticketController.didBy}" />
+                    <!--<f:setPropertyActionListener value="{didBy}" target="{ticketController.didBy}" />-->
                 </p:commandButton>
             </p:outputPanel>
         </p:dialog>
@@ -764,7 +766,7 @@
                 <p:commandButton process="@parent" update=":form:msgs :form:transportTabView:transportTable" action="#{ticketController.doRepeatedCloseTicket}" onsuccess="PF('repeatedCloseTicketDialog').hide()" value="Закрыть повторно" icon="ui-icon-disk">
                     <f:setPropertyActionListener value="#{sessionScopedController.unitOfTransport}" target="#{ticketController.unitOfTransport}" />
                     <f:setPropertyActionListener value="#{sessionScopedController.ticket}" target="#{ticketController.ticket}" />
-                    <f:setPropertyActionListener value="#{didBy}" target="#{ticketController.didBy}" />
+                    <!--<f:setPropertyActionListener value="{didBy}" target="{ticketController.didBy}" />-->
                 </p:commandButton>
             </p:outputPanel>
         </p:dialog>
@@ -789,7 +791,7 @@
                 <p:commandButton process="@parent" update=":form:msgs :form:transportTabView:transportTable" action="#{ticketController.doMarkAsIncorrectTicket}" onsuccess="PF('markAsIncorrectTicketDialog').hide()" value="Отметить как невалидную" icon="ui-icon-disk">
                     <f:setPropertyActionListener value="#{sessionScopedController.unitOfTransport}" target="#{ticketController.unitOfTransport}" />
                     <f:setPropertyActionListener value="#{sessionScopedController.ticket}" target="#{ticketController.ticket}" />
-                    <f:setPropertyActionListener value="#{didBy}" target="#{ticketController.didBy}" />
+                    <!--<f:setPropertyActionListener value="{didBy}" target="{ticketController.didBy}" />-->
                 </p:commandButton>
             </p:outputPanel>
         </p:dialog>
@@ -814,7 +816,7 @@
                 <p:commandButton process="@parent" update=":form:msgs :form:transportTabView:transportTable" action="#{ticketController.doCancelTicket}" onsuccess="PF('cancelTicketDialog').hide()" value="Отменить заявку" icon="ui-icon-disk">
                     <f:setPropertyActionListener value="#{sessionScopedController.unitOfTransport}" target="#{ticketController.unitOfTransport}" />
                     <f:setPropertyActionListener value="#{sessionScopedController.ticket}" target="#{ticketController.ticket}" />
-                    <f:setPropertyActionListener value="#{didBy}" target="#{ticketController.didBy}" />
+                    <!--<f:setPropertyActionListener value="{didBy}" target="{ticketController.didBy}" />-->
                 </p:commandButton>
             </p:outputPanel>
         </p:dialog>
