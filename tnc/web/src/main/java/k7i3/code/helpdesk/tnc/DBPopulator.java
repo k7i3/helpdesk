@@ -164,29 +164,26 @@ public class DBPopulator {
 
         User user = new User("admin", "admin");
         user.getRoles().add(UserRole.ADMIN);
-        user.getRoles().add(UserRole.MODER);
-        user.getRoles().add(UserRole.SERVICE);
-        user.getRoles().add(UserRole.USER);
         userEJB.createUser(user);
         logger.info("=>=>=>=>=> (admin-admin-ADMIN/MODER/SERVICE/USER-...-...) was inserted");
-
-        user = new User("admin_bat", "admin_bat");
-        user.getRoles().add(UserRole.ADMIN);
-        user.getProjects().add("БАТ");
-        userEJB.createUser(user);
-        logger.info("=>=>=>=>=> (admin_bat-admin_bat-ADMIN-БАТ-...) was inserted");
-
-        user = new User("admin_bat_ufa", "admin_bat_ufa");
-        user.getRoles().add(UserRole.ADMIN);
-        user.getProjects().add("БАТ");
-        user.getBranches().add("Уфа");
-        userEJB.createUser(user);
-        logger.info("=>=>=>=>=> (admin_bat_ufa-admin_bat_ufa-ADMIN-БАТ-УФА) was inserted");
 
         user = new User("moder", "moder");
         user.getRoles().add(UserRole.MODER);
         userEJB.createUser(user);
         logger.info("=>=>=>=>=> (moder-moder-MODER-...-...) was inserted");
+
+        user = new User("moder_bat", "moder_bat");
+        user.getRoles().add(UserRole.MODER);
+        user.getProjects().add("БАТ");
+        userEJB.createUser(user);
+        logger.info("=>=>=>=>=> (moder_bat-moder_bat-MODER-БАТ-...) was inserted");
+
+        user = new User("moder_bat_ufa", "moder_bat_ufa");
+        user.getRoles().add(UserRole.MODER);
+        user.getProjects().add("БАТ");
+        user.getBranches().add("Уфа");
+        userEJB.createUser(user);
+        logger.info("=>=>=>=>=> (moder_bat_ufa-moder_bat_ufa-MODER-БАТ-УФА) was inserted");
 
         user = new User("user", "user");
         user.getRoles().add(UserRole.USER);
