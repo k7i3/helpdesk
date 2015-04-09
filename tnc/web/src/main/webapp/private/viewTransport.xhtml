@@ -19,7 +19,6 @@
 
     <ui:define name="content">
         <p:tabView id="transportTabView" dynamic="true" cache="true" style="font-size: small">
-
             <p:tab title="Транспорт">
                 <p:dataTable id="transportTable"
                              widgetVar="transportTable"
@@ -416,27 +415,29 @@
                                                 <p:panelGrid columns="2" style="width: auto">
                                                     <h:outputText value="Возможность подачи в Уфу:"/>
                                                     <p:inplace label="#{ticket.ticketInfo.ticketDetails.possibilityOfServiceAtTheDefaultPlace? 'Есть':'Нет'}" style="display:block" disabled="#{not isAdmin and not isModer and not isUser}">
-                                                        <p:selectBooleanButton value="#{ticket.ticketInfo.ticketDetails.possibilityOfServiceAtTheDefaultPlace}" onLabel="Есть" offLabel="Нет" onIcon="ui-icon-check" offIcon="ui-icon-close"/>
+                                                        <p:selectBooleanButton value="#{ticket.ticketInfo.ticketDetails.possibilityOfServiceAtTheDefaultPlace}" onLabel="Есть" offLabel="Нет" onIcon="ui-icon-check" offIcon="ui-icon-close" required="true"/>
                                                     </p:inplace>
 
                                                     <h:outputText value="Внешний осмотр:"/>
                                                     <p:inplace label="#{ticket.ticketInfo.ticketDetails.isInspected? 'Произведен':'Не произведен'}" style="display:block" disabled="#{not isAdmin and not isModer and not isUser}">
-                                                        <p:selectBooleanButton value="#{ticket.ticketInfo.ticketDetails.isInspected}" onLabel="Произведен" offLabel="Не произведен" onIcon="ui-icon-check" offIcon="ui-icon-close"/>
+                                                        <p:selectBooleanButton value="#{ticket.ticketInfo.ticketDetails.isInspected}" onLabel="Произведен" offLabel="Не произведен" onIcon="ui-icon-check" offIcon="ui-icon-close" required="true"/>
                                                     </p:inplace>
 
                                                     <h:outputText value="Место подачи:"/>
                                                     <p:inplace label="#{ticket.ticketInfo.ticketDetails.place}" style="display:block" disabled="#{not isAdmin and not isModer and not isUser}">
-                                                        <p:inputText value="#{ticket.ticketInfo.ticketDetails.place}" style="width: 380px"/>
+                                                        <p:inputText value="#{ticket.ticketInfo.ticketDetails.place}" style="width: 380px" required="true"/>
                                                     </p:inplace>
 
                                                     <h:outputText value="Телефон водителя:"/>
                                                     <p:inplace label="#{ticket.ticketInfo.ticketDetails.mobileNumberOfDriver}" style="display:block" disabled="#{not isAdmin and not isModer and not isUser}">
-                                                        <p:inputText value="#{ticket.ticketInfo.ticketDetails.mobileNumberOfDriver}"/>
+                                                        <!--<p:inputText value="{ticket.ticketInfo.ticketDetails.mobileNumberOfDriver}"/>-->
+                                                        <p:inputMask value="#{ticket.ticketInfo.ticketDetails.mobileNumberOfDriver}" mask="8 (999) 99-99-999" required="true"/>
                                                     </p:inplace>
 
                                                     <h:outputText value="Телефон ответственного:"/>
                                                     <p:inplace label="#{ticket.ticketInfo.ticketDetails.mobileNumberOfAgent}" style="display:block" disabled="#{not isAdmin and not isModer and not isUser}">
-                                                        <p:inputText value="#{ticket.ticketInfo.ticketDetails.mobileNumberOfAgent}"/>
+                                                        <!--<p:inputText value="{ticket.ticketInfo.ticketDetails.mobileNumberOfAgent}"/>-->
+                                                        <p:inputMask value="#{ticket.ticketInfo.ticketDetails.mobileNumberOfAgent}" mask="8 (999) 99-99-999" required="true"/>
                                                     </p:inplace>
                                                 </p:panelGrid>
 
@@ -544,37 +545,52 @@
                                         </f:facet>
                                     </p:panel>
                                 </ui:repeat>
-                                <p:panel id="horizontal" header="Новая заявка" collapsed="true" toggleable="true" toggleOrientation="horizontal" style="max-width: 50%" rendered="#{ticketController.doCheckForPossibilityToAddTicket(transport)? isAdmin or isUser : false}">
-                                    <p:panelGrid columns="2" style="margin-bottom:10px; width: 100%" cellpadding="5">
-                                        <h:outputText value="Причина:" />
-                                        <p:selectOneListbox value="#{ticketController.ticket.ticketInfo.ticketHeader}">
+                                <p:panel id="horizontal" header="Новая заявка" collapsed="true" toggleable="true" toggleOrientation="horizontal" rendered="#{ticketController.doCheckForPossibilityToAddTicket(transport)? isAdmin or isUser : false}" style="max-width: min-content">
+                                    <p:panelGrid columns="3" styleClass="ui-noborder" cellpadding="5" style="width: auto">
+                                        <p:outputLabel for="ticketHeader" value="Причина:" />
+                                        <p:selectOneListbox id="ticketHeader" value="#{ticketController.ticket.ticketInfo.ticketHeader}" required="true" requiredMessage="пожалуйста, укажите причину">
                                             <f:selectItems value="#{ticketController.ticketHeaders}" var="ticketHeader" itemLabel="#{ticketHeader.toString()}" itemValue="#{ticketHeader}"/>
+                                            <p:clientValidator/>
                                         </p:selectOneListbox>
+                                        <p:message for="ticketHeader" display="tooltip"/>
 
-                                        <h:outputText value="Возможность подачи в Уфу:" />
-                                        <p:selectBooleanButton value="#{ticketController.ticket.ticketInfo.ticketDetails.possibilityOfServiceAtTheDefaultPlace}" onLabel="Есть" offLabel="Нет" onIcon="ui-icon-check" offIcon="ui-icon-close"/>
+                                        <p:outputLabel for="possibilityOfServiceAtTheDefaultPlace" value="Возможность подачи в Уфу:" />
+                                        <p:selectBooleanButton id="possibilityOfServiceAtTheDefaultPlace" value="#{ticketController.ticket.ticketInfo.ticketDetails.possibilityOfServiceAtTheDefaultPlace}" onLabel="Есть" offLabel="Нет" onIcon="ui-icon-check" offIcon="ui-icon-close" required="true"/>
+                                        <p:message for="possibilityOfServiceAtTheDefaultPlace" />
 
-                                        <h:outputText value="Внешний осмотр:" />
-                                        <p:selectBooleanButton value="#{ticketController.ticket.ticketInfo.ticketDetails.isInspected}" onLabel="Произведен" offLabel="Не произведен" onIcon="ui-icon-check" offIcon="ui-icon-close"/>
+                                        <p:outputLabel for="isInspected" value="Внешний осмотр:" />
+                                        <p:selectBooleanButton id="isInspected" value="#{ticketController.ticket.ticketInfo.ticketDetails.isInspected}" onLabel="Произведен" offLabel="Не произведен" onIcon="ui-icon-check" offIcon="ui-icon-close" required="true"/>
+                                        <p:message for="isInspected" />
 
-                                        <h:outputText value="Место подачи:" />
-                                        <p:inputText value="#{ticketController.ticket.ticketInfo.ticketDetails.place}" style="width: 99%"/>
+                                        <p:outputLabel for="place" value="Место подачи:" />
+                                        <p:inputTextarea id="place" value="#{ticketController.ticket.ticketInfo.ticketDetails.place}" rows="3" counter="placeCounter" maxlength="255" counterTemplate="(символов осталось: {0})" required="true" requiredMessage="пожалуйста, укажите место подачи" validatorMessage="количество символов в указании места подачи должно быть от 3 до 255">
+                                            <f:validateLength minimum="3" maximum="255"/>
+                                            <p:clientValidator event="keyup"/>
+                                        </p:inputTextarea>
+                                        <h:outputText id="placeCounter" />
 
-                                        <h:outputText value="Телефон водителя:" />
-                                        <p:inputText value="#{ticketController.ticket.ticketInfo.ticketDetails.mobileNumberOfDriver}"/>
+                                        <p:outputLabel for="mobileNumberOfDriver" value="Телефон водителя:" />
+                                        <p:inputMask id="mobileNumberOfDriver" value="#{ticketController.ticket.ticketInfo.ticketDetails.mobileNumberOfDriver}" mask="8 (999) 99-99-999" required="true" requiredMessage="пожалуйста, укажите телефон водителя">
+                                            <p:clientValidator/>
+                                        </p:inputMask>
+                                        <p:message for="mobileNumberOfDriver" />
 
-                                        <h:outputText value="Телефон ответственного:" />
-                                        <p:inputText value="#{ticketController.ticket.ticketInfo.ticketDetails.mobileNumberOfAgent}"/>
+                                        <p:outputLabel for="mobileNumberOfAgent" value="Телефон ответственного:" />
+                                        <p:inputMask id="mobileNumberOfAgent" value="#{ticketController.ticket.ticketInfo.ticketDetails.mobileNumberOfAgent}" mask="8 (999) 99-99-999" required="true" requiredMessage="пожалуйста, укажите телефон ответственного">
+                                            <p:clientValidator/>
+                                        </p:inputMask>
+                                        <p:message for="mobileNumberOfAgent" />
 
-                                        <h:outputText value="Комментарий:" />
-                                        <p:inputTextarea rows="5" value="#{ticketController.commentContent}" style="width: 99%"/>
+                                        <p:outputLabel for="commentContent" value="Комментарий:" />
+                                        <p:inputTextarea id="commentContent" value="#{ticketController.commentContent}" rows="5" counter="commentContentCounter" maxlength="255" counterTemplate="(символов осталось: {0})"  required="true" requiredMessage="пожалуйста, укажите комментарий" validatorMessage="количество символов в комментарии должно быть от 3 до 255">
+                                            <f:validateLength minimum="3" maximum="255"/>
+                                            <p:clientValidator event="keyup"/>
+                                        </p:inputTextarea>
+                                        <h:outputText id="commentContentCounter" />
 
-                                        <f:facet name="footer">
-                                            <p:commandButton process="@parent" update=":form:msgs :form:transportTabView:transportTable" action="#{ticketController.doAddTicket}" value="Создать" icon="ui-icon-disk" style="float: left">
+                                            <p:commandButton validateClient="true" process="@parent" update=":form:msgs :form:transportTabView:transportTable" action="#{ticketController.doAddTicket}" value="Создать" icon="ui-icon-disk" style="float: left">
                                                 <f:setPropertyActionListener value="#{transport}" target="#{ticketController.unitOfTransport}"/>
-                                                <!--<f:setPropertyActionListener value="{didBy}" target="{ticketController.didBy}"/>-->
                                             </p:commandButton>
-                                        </f:facet>
                                     </p:panelGrid>
                                 </p:panel>
                             </p:tab>
@@ -1311,7 +1327,10 @@
 
 
 
-
+        <!--<h:outputText value="Телефон водителя:" />-->
+        <!--<p:inputText value="{ticketController.ticket.ticketInfo.ticketDetails.mobileNumberOfDriver}"/>-->
+        <!--<h:outputText value="Телефон ответственного:" />-->
+        <!--<p:inputText value="{ticketController.ticket.ticketInfo.ticketDetails.mobileNumberOfAgent}"/>-->
 
         <!--<c:set var="NOT_ONLINE" value="<=TicketHeader.NOT_ONLINE%>"/>-->
         <!--<c:set var="BAD_TRACK" value="<=TicketHeader.BAD_TRACK%>"/>-->
