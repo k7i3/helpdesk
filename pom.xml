@@ -10,7 +10,6 @@
   <name>helpdesk parent</name>
 
   <modules>
-    <module>sketches</module>
     <module>tnc</module>
   </modules>
 

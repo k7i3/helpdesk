@@ -162,7 +162,7 @@
                 style="font-size: small">
 
             <p:outputPanel id="addUserPanel">
-                <p:panelGrid columns="2" style="margin-bottom:10px; width: auto" cellpadding="5">
+                <p:panelGrid columns="2" styleClass="ui-noborder" style="width: auto">
 
                     <h:outputText value="Роли:"/>
                     <p:selectManyMenu value="#{userController.user.roles}" showCheckbox="false" converter="userRoleConverter">
@@ -186,7 +186,9 @@
                     <p:inputText value="#{userController.user.password}"/>
                 </p:panelGrid>
 
-                <p:commandButton process="@parent" update=":form:msgs :form:usersTabView:usersTable" action="#{userController.doAddUser}" onsuccess="PF('addUserDialog').hide()" value="Создать" icon="ui-icon-disk"/>
+                <p:separator/>
+
+                <p:commandButton process="@parent" update=":form:msgs :form:usersTabView:usersTable" action="#{userController.doAddUser}" onsuccess="PF('addUserDialog').hide()" value="Создать" icon="ui-icon-disk" style="float: right"/>
             </p:outputPanel>
         </p:dialog>
 

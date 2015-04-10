@@ -336,11 +336,11 @@
                                 <f:setPropertyActionListener value="#{transport.point}" target="#{pointController.point}" />
                             </p:commandLink>
 
-                            <p:commandLink process="@this" update=":form:showTransportHistoryPanel" oncomplete="PF('showTransportHistoryDialog').show()" rendered="true" value="история (транспорт)" title="нажмите, чтобы открыть историю транспорта" style="margin-right: 10px">
+                            <p:commandLink value="история (транспорт)" process="@this" update=":form:showTransportHistoryPanel" oncomplete="PF('showTransportHistoryDialog').show()" rendered="true" title="нажмите, чтобы открыть историю транспорта" style="margin-right: 10px">
                                 <f:setPropertyActionListener value="#{transport}" target="#{transportController.unitOfTransport}" />
                             </p:commandLink>
 
-                            <p:commandLink process="@this" update=":form:showTerminalHistoryPanel" oncomplete="PF('showTerminalHistoryDialog').show()" rendered="true" value="история (терминал)" title="нажмите, чтобы открыть историю терминала" style="margin-right: 10px">
+                            <p:commandLink value="история (терминал)" process="@this" update=":form:showTerminalHistoryPanel" oncomplete="PF('showTerminalHistoryDialog').show()" rendered="true" title="нажмите, чтобы открыть историю терминала" style="margin-right: 10px">
                                 <f:setPropertyActionListener value="#{transport}" target="#{transportController.unitOfTransport}" />
                             </p:commandLink>
                         </p:panelGrid>
@@ -413,7 +413,7 @@
                                         <p:panelGrid columns="1" style="border: hidden white; width: auto">
                                             <h:panelGrid columns="1" style="border: hidden white">
                                                 <p:panelGrid columns="2" style="width: auto">
-                                                    <h:outputText value="Возможность подачи в Уфу:"/>
+                                                    <h:outputText value="Возможность подачи в Уфу:" style="float: right"/>
                                                     <p:inplace label="#{ticket.ticketInfo.ticketDetails.possibilityOfServiceAtTheDefaultPlace? 'Есть':'Нет'}" style="display:block" disabled="#{not isAdmin and not isModer and not isUser}">
                                                         <p:selectBooleanButton value="#{ticket.ticketInfo.ticketDetails.possibilityOfServiceAtTheDefaultPlace}" onLabel="Есть" offLabel="Нет" onIcon="ui-icon-check" offIcon="ui-icon-close" required="true"/>
                                                     </p:inplace>
@@ -425,7 +425,9 @@
 
                                                     <h:outputText value="Место подачи:"/>
                                                     <p:inplace label="#{ticket.ticketInfo.ticketDetails.place}" style="display:block" disabled="#{not isAdmin and not isModer and not isUser}">
-                                                        <p:inputText value="#{ticket.ticketInfo.ticketDetails.place}" style="width: 380px" required="true"/>
+                                                        <p:inputTextarea value="#{ticket.ticketInfo.ticketDetails.place}" rows="3" maxlength="255" required="true" requiredMessage="пожалуйста, укажите место подачи" validatorMessage="количество символов в указании места подачи должно быть от 3 до 255">
+                                                            <f:validateLength minimum="3" maximum="255"/>
+                                                        </p:inputTextarea>
                                                     </p:inplace>
 
                                                     <h:outputText value="Телефон водителя:"/>
@@ -441,7 +443,7 @@
                                                     </p:inplace>
                                                 </p:panelGrid>
 
-                                                <p:commandLink value="обновить" process="@parent" update=":form:msgs @parent:@parent" action="#{ticketController.doUpdateTicketInfo}" title="нажмите, чтобы сохранить изменения" rendered="#{isAdmin or isModer or isUser}">
+                                                <p:commandLink validateClient="true" value="обновить" process="@parent" update=":form:msgs @parent:@parent" action="#{ticketController.doUpdateTicketInfo}" title="нажмите, чтобы сохранить изменения" rendered="#{isAdmin or isModer or isUser}">
                                                     <f:setPropertyActionListener value="#{transport}" target="#{ticketController.unitOfTransport}" />
                                                     <f:setPropertyActionListener value="#{ticket}" target="#{ticketController.ticket}" />
                                                     <!--<f:setPropertyActionListener value="{didBy}" target="{ticketController.didBy}" />-->
@@ -545,54 +547,11 @@
                                         </f:facet>
                                     </p:panel>
                                 </ui:repeat>
-                                <p:panel id="horizontal" header="Новая заявка" collapsed="true" toggleable="true" toggleOrientation="horizontal" rendered="#{ticketController.doCheckForPossibilityToAddTicket(transport)? isAdmin or isUser : false}" style="max-width: min-content">
-                                    <p:panelGrid columns="3" styleClass="ui-noborder" cellpadding="5" style="width: auto">
-                                        <p:outputLabel for="ticketHeader" value="Причина:" />
-                                        <p:selectOneListbox id="ticketHeader" value="#{ticketController.ticket.ticketInfo.ticketHeader}" required="true" requiredMessage="пожалуйста, укажите причину">
-                                            <f:selectItems value="#{ticketController.ticketHeaders}" var="ticketHeader" itemLabel="#{ticketHeader.toString()}" itemValue="#{ticketHeader}"/>
-                                            <p:clientValidator/>
-                                        </p:selectOneListbox>
-                                        <p:message for="ticketHeader" display="tooltip"/>
 
-                                        <p:outputLabel for="possibilityOfServiceAtTheDefaultPlace" value="Возможность подачи в Уфу:" />
-                                        <p:selectBooleanButton id="possibilityOfServiceAtTheDefaultPlace" value="#{ticketController.ticket.ticketInfo.ticketDetails.possibilityOfServiceAtTheDefaultPlace}" onLabel="Есть" offLabel="Нет" onIcon="ui-icon-check" offIcon="ui-icon-close" required="true"/>
-                                        <p:message for="possibilityOfServiceAtTheDefaultPlace" />
+                                <p:commandButton value="Новая заявка" process="@this" update=":form:openTicketPanel" oncomplete="PF('openTicketDialog').show()" rendered="#{ticketController.doCheckForPossibilityToAddTicket(transport)? isAdmin or isUser : false}" title="нажмите, чтобы добавить новую заявку" style="margin-right: 10px">
+                                    <f:setPropertyActionListener value="#{transport}" target="#{sessionScopedController.unitOfTransport}" />
+                                </p:commandButton>
 
-                                        <p:outputLabel for="isInspected" value="Внешний осмотр:" />
-                                        <p:selectBooleanButton id="isInspected" value="#{ticketController.ticket.ticketInfo.ticketDetails.isInspected}" onLabel="Произведен" offLabel="Не произведен" onIcon="ui-icon-check" offIcon="ui-icon-close" required="true"/>
-                                        <p:message for="isInspected" />
-
-                                        <p:outputLabel for="place" value="Место подачи:" />
-                                        <p:inputTextarea id="place" value="#{ticketController.ticket.ticketInfo.ticketDetails.place}" rows="3" counter="placeCounter" maxlength="255" counterTemplate="(символов осталось: {0})" required="true" requiredMessage="пожалуйста, укажите место подачи" validatorMessage="количество символов в указании места подачи должно быть от 3 до 255">
-                                            <f:validateLength minimum="3" maximum="255"/>
-                                            <p:clientValidator event="keyup"/>
-                                        </p:inputTextarea>
-                                        <h:outputText id="placeCounter" />
-
-                                        <p:outputLabel for="mobileNumberOfDriver" value="Телефон водителя:" />
-                                        <p:inputMask id="mobileNumberOfDriver" value="#{ticketController.ticket.ticketInfo.ticketDetails.mobileNumberOfDriver}" mask="8 (999) 99-99-999" required="true" requiredMessage="пожалуйста, укажите телефон водителя">
-                                            <p:clientValidator/>
-                                        </p:inputMask>
-                                        <p:message for="mobileNumberOfDriver" />
-
-                                        <p:outputLabel for="mobileNumberOfAgent" value="Телефон ответственного:" />
-                                        <p:inputMask id="mobileNumberOfAgent" value="#{ticketController.ticket.ticketInfo.ticketDetails.mobileNumberOfAgent}" mask="8 (999) 99-99-999" required="true" requiredMessage="пожалуйста, укажите телефон ответственного">
-                                            <p:clientValidator/>
-                                        </p:inputMask>
-                                        <p:message for="mobileNumberOfAgent" />
-
-                                        <p:outputLabel for="commentContent" value="Комментарий:" />
-                                        <p:inputTextarea id="commentContent" value="#{ticketController.commentContent}" rows="5" counter="commentContentCounter" maxlength="255" counterTemplate="(символов осталось: {0})"  required="true" requiredMessage="пожалуйста, укажите комментарий" validatorMessage="количество символов в комментарии должно быть от 3 до 255">
-                                            <f:validateLength minimum="3" maximum="255"/>
-                                            <p:clientValidator event="keyup"/>
-                                        </p:inputTextarea>
-                                        <h:outputText id="commentContentCounter" />
-
-                                            <p:commandButton validateClient="true" process="@parent" update=":form:msgs :form:transportTabView:transportTable" action="#{ticketController.doAddTicket}" value="Создать" icon="ui-icon-disk" style="float: left">
-                                                <f:setPropertyActionListener value="#{transport}" target="#{ticketController.unitOfTransport}"/>
-                                            </p:commandButton>
-                                    </p:panelGrid>
-                                </p:panel>
                             </p:tab>
                         </p:accordionPanel>
                     </p:rowExpansion>
@@ -629,7 +588,7 @@
                 style="font-size: small">
 
             <p:outputPanel id="addTransportPanel">
-                <p:panelGrid columns="2" style="margin-bottom:10px; width: auto" cellpadding="5">
+                <p:panelGrid columns="2" styleClass="ui-noborder" style="width: auto">
 
                     <h:outputText value="Проект:"/>
                     <p:selectOneMenu value="#{transportController.unitOfTransport.transportInfo.project}" editable="true">
@@ -695,8 +654,71 @@
                     <p:inputText value="#{transportController.unitOfTransport.terminal.terminalInfo.serialNumber}"/>
                 </p:panelGrid>
 
-                <p:commandButton process="@parent" update=":form:msgs :form:transportTabView:transportTable" action="#{transportController.doAddTransport}" onsuccess="PF('addTransportDialog').hide()" value="Создать" icon="ui-icon-disk">
-                    <!--<f:setPropertyActionListener value="{didBy}" target="{transportController.didBy}"/>-->
+                <p:separator/>
+
+                <p:commandButton process="@parent" update=":form:msgs :form:transportTabView:transportTable" action="#{transportController.doAddTransport}" onsuccess="PF('addTransportDialog').hide()" value="Создать" icon="ui-icon-disk" style="float: right"/>
+            </p:outputPanel>
+        </p:dialog>
+
+        <p:dialog
+                widgetVar="openTicketDialog"
+                header="Новая заявка:"
+                modal="true"
+                showEffect="fade"
+                hideEffect="fade"
+                resizable="false"
+                draggable="false"
+                width="auto"
+                style="font-size: small">
+
+            <p:outputPanel id="openTicketPanel">
+                <p:panelGrid columns="3" styleClass="ui-noborder" style="width: auto">
+                    <p:outputLabel for="ticketHeader" value="Причина:" />
+                    <p:selectOneListbox id="ticketHeader" value="#{ticketController.ticket.ticketInfo.ticketHeader}" required="true" requiredMessage="пожалуйста, укажите причину">
+                        <f:selectItems value="#{ticketController.ticketHeaders}" var="ticketHeader" itemLabel="#{ticketHeader.toString()}" itemValue="#{ticketHeader}"/>
+                        <p:clientValidator/>
+                    </p:selectOneListbox>
+                    <p:message for="ticketHeader" display="tooltip"/>
+
+                    <p:outputLabel for="possibilityOfServiceAtTheDefaultPlace" value="Возможность подачи в Уфу:" />
+                    <p:selectBooleanButton id="possibilityOfServiceAtTheDefaultPlace" value="#{ticketController.ticket.ticketInfo.ticketDetails.possibilityOfServiceAtTheDefaultPlace}" onLabel="Есть" offLabel="Нет" onIcon="ui-icon-check" offIcon="ui-icon-close" required="true"/>
+                    <p:message for="possibilityOfServiceAtTheDefaultPlace" />
+
+                    <p:outputLabel for="isInspected" value="Внешний осмотр:" />
+                    <p:selectBooleanButton id="isInspected" value="#{ticketController.ticket.ticketInfo.ticketDetails.isInspected}" onLabel="Произведен" offLabel="Не произведен" onIcon="ui-icon-check" offIcon="ui-icon-close" required="true"/>
+                    <p:message for="isInspected" />
+
+                    <p:outputLabel for="place" value="Место подачи:" />
+                    <p:inputTextarea id="place" value="#{ticketController.ticket.ticketInfo.ticketDetails.place}" rows="3" counter="placeCounter" maxlength="255" counterTemplate="(символов осталось: {0})" required="true" requiredMessage="пожалуйста, укажите место подачи" validatorMessage="количество символов в указании места подачи должно быть от 3 до 255">
+                        <f:validateLength minimum="3" maximum="255"/>
+                        <p:clientValidator event="keyup"/>
+                    </p:inputTextarea>
+                    <h:outputText id="placeCounter" />
+
+                    <p:outputLabel for="mobileNumberOfDriver" value="Телефон водителя:" />
+                    <p:inputMask id="mobileNumberOfDriver" value="#{ticketController.ticket.ticketInfo.ticketDetails.mobileNumberOfDriver}" mask="8 (999) 99-99-999" required="true" requiredMessage="пожалуйста, укажите телефон водителя">
+                        <p:clientValidator/>
+                    </p:inputMask>
+                    <p:message for="mobileNumberOfDriver" />
+
+                    <p:outputLabel for="mobileNumberOfAgent" value="Телефон ответственного:" />
+                    <p:inputMask id="mobileNumberOfAgent" value="#{ticketController.ticket.ticketInfo.ticketDetails.mobileNumberOfAgent}" mask="8 (999) 99-99-999" required="true" requiredMessage="пожалуйста, укажите телефон ответственного">
+                        <p:clientValidator/>
+                    </p:inputMask>
+                    <p:message for="mobileNumberOfAgent" />
+
+                    <p:outputLabel for="commentContent" value="Комментарий:" />
+                    <p:inputTextarea id="commentContent" value="#{ticketController.commentContent}" rows="5" counter="commentContentCounter" maxlength="255" counterTemplate="(символов осталось: {0})"  required="true" requiredMessage="пожалуйста, укажите комментарий" validatorMessage="количество символов в комментарии должно быть от 3 до 255">
+                        <f:validateLength minimum="3" maximum="255"/>
+                        <p:clientValidator event="keyup"/>
+                    </p:inputTextarea>
+                    <h:outputText id="commentContentCounter" />
+                </p:panelGrid>
+
+                <p:separator/>
+
+                <p:commandButton validateClient="true" process="@parent" update="@parent :form:msgs :form:transportTabView:transportTable" action="#{ticketController.doAddTicket}" onsuccess="PF('openTicketDialog').hide()" value="Создать" icon="ui-icon-disk" style="float: right">
+                    <f:setPropertyActionListener value="#{sessionScopedController.unitOfTransport}" target="#{ticketController.unitOfTransport}"/>
                 </p:commandButton>
             </p:outputPanel>
         </p:dialog>
@@ -716,19 +738,20 @@
             <!--<f:selectItems value="{ticketController.ticketResults}" var="ticketResult" itemLabel="{ticketResult.toString()}" itemValue="{ticketResult}"/>-->
             <!--</p:selectManyCheckbox>-->
             <p:outputPanel id="closeTicketPanel">
-                <p:panelGrid columns="2" style="margin-bottom:10px; width: auto" cellpadding="5">
+                <p:panelGrid columns="2" styleClass="ui-noborder" style="width: auto">
                     <h:outputText value="Проведенная работа:" />
                     <p:selectManyMenu value="#{ticketController.selectedTicketResults}" showCheckbox="false" converter="ticketResultConverter">
                         <f:selectItems value="#{ticketController.ticketResults}" var="ticketResult" itemLabel="#{ticketResult.toString()}" itemValue="#{ticketResult}"/>
                     </p:selectManyMenu>
-                    <h:outputText value="Комментарий:" />
+                    <h:outputText value="Комментарий:"/>
                     <p:inputTextarea rows="5" value="#{ticketController.commentContent}" style="width: 99%"/>
                 </p:panelGrid>
 
-                <p:commandButton process="@parent" update=":form:msgs :form:transportTabView:transportTable" action="#{ticketController.doCloseTicket}" onsuccess="PF('closeTicketDialog').hide()" value="Закрыть" icon="ui-icon-disk">
+                <p:separator/>
+
+                <p:commandButton process="@parent" update=":form:msgs :form:transportTabView:transportTable" action="#{ticketController.doCloseTicket}" onsuccess="PF('closeTicketDialog').hide()" value="Закрыть" icon="ui-icon-disk" style="float: right">
                     <f:setPropertyActionListener value="#{sessionScopedController.unitOfTransport}" target="#{ticketController.unitOfTransport}" />
                     <f:setPropertyActionListener value="#{sessionScopedController.ticket}" target="#{ticketController.ticket}" />
-                    <!--<f:setPropertyActionListener value="{didBy}" target="{ticketController.didBy}" />-->
                 </p:commandButton>
             </p:outputPanel>
         </p:dialog>
@@ -745,12 +768,14 @@
                 style="font-size: small">
 
             <p:outputPanel id="repeatedOnServiceTicketPanel">
-                <p:panelGrid columns="2" style="margin-bottom:10px; width: auto" cellpadding="5">
+                <p:panelGrid columns="2" styleClass="ui-noborder" style="width: auto">
                     <h:outputText value="Причина повторного выезда:" />
                     <p:inputTextarea rows="5" value="#{ticketController.commentContent}" style="width: 99%"/>
                 </p:panelGrid>
 
-                <p:commandButton process="@parent" update=":form:msgs :form:transportTabView:transportTable" action="#{ticketController.doRepeatedOnServiceTicket}" onsuccess="PF('repeatedOnServiceTicketDialog').hide()" value="Назначить повторный выезд" icon="ui-icon-disk">
+                <p:separator/>
+
+                <p:commandButton process="@parent" update=":form:msgs :form:transportTabView:transportTable" action="#{ticketController.doRepeatedOnServiceTicket}" onsuccess="PF('repeatedOnServiceTicketDialog').hide()" value="Назначить повторный выезд" icon="ui-icon-disk" style="float: right">
                     <f:setPropertyActionListener value="#{sessionScopedController.unitOfTransport}" target="#{ticketController.unitOfTransport}" />
                     <f:setPropertyActionListener value="#{sessionScopedController.ticket}" target="#{ticketController.ticket}" />
                     <!--<f:setPropertyActionListener value="{didBy}" target="{ticketController.didBy}" />-->
@@ -770,7 +795,7 @@
                 style="font-size: small">
 
             <p:outputPanel id="repeatedCloseTicketPanel">
-                <p:panelGrid columns="2" style="margin-bottom:10px; width: auto" cellpadding="5">
+                <p:panelGrid columns="2" styleClass="ui-noborder" style="width: auto">
                     <h:outputText value="Проведенная работа:" />
                     <p:selectManyMenu value="#{ticketController.selectedTicketResults}" showCheckbox="false" converter="ticketResultConverter">
                         <f:selectItems value="#{ticketController.ticketResults}" var="ticketResult" itemLabel="#{ticketResult.toString()}" itemValue="#{ticketResult}"/>
@@ -779,10 +804,11 @@
                     <p:inputTextarea rows="5" value="#{ticketController.commentContent}" style="width: 99%"/>
                 </p:panelGrid>
 
-                <p:commandButton process="@parent" update=":form:msgs :form:transportTabView:transportTable" action="#{ticketController.doRepeatedCloseTicket}" onsuccess="PF('repeatedCloseTicketDialog').hide()" value="Закрыть повторно" icon="ui-icon-disk">
+                <p:separator/>
+
+                <p:commandButton process="@parent" update=":form:msgs :form:transportTabView:transportTable" action="#{ticketController.doRepeatedCloseTicket}" onsuccess="PF('repeatedCloseTicketDialog').hide()" value="Закрыть повторно" icon="ui-icon-disk" style="float: right">
                     <f:setPropertyActionListener value="#{sessionScopedController.unitOfTransport}" target="#{ticketController.unitOfTransport}" />
                     <f:setPropertyActionListener value="#{sessionScopedController.ticket}" target="#{ticketController.ticket}" />
-                    <!--<f:setPropertyActionListener value="{didBy}" target="{ticketController.didBy}" />-->
                 </p:commandButton>
             </p:outputPanel>
         </p:dialog>
@@ -799,12 +825,14 @@
                 style="font-size: small">
 
             <p:outputPanel id="markAsIncorrectTicketPanel">
-                <p:panelGrid columns="2" style="margin-bottom:10px; width: auto" cellpadding="5">
+                <p:panelGrid columns="2" styleClass="ui-noborder" style="width: auto">
                     <h:outputText value="Причина пометки как невалидной:" />
                     <p:inputTextarea rows="5" value="#{ticketController.commentContent}" style="width: 99%"/>
                 </p:panelGrid>
 
-                <p:commandButton process="@parent" update=":form:msgs :form:transportTabView:transportTable" action="#{ticketController.doMarkAsIncorrectTicket}" onsuccess="PF('markAsIncorrectTicketDialog').hide()" value="Отметить как невалидную" icon="ui-icon-disk">
+                <p:separator/>
+
+                <p:commandButton process="@parent" update=":form:msgs :form:transportTabView:transportTable" action="#{ticketController.doMarkAsIncorrectTicket}" onsuccess="PF('markAsIncorrectTicketDialog').hide()" value="Отметить как невалидную" icon="ui-icon-disk" style="float: right">
                     <f:setPropertyActionListener value="#{sessionScopedController.unitOfTransport}" target="#{ticketController.unitOfTransport}" />
                     <f:setPropertyActionListener value="#{sessionScopedController.ticket}" target="#{ticketController.ticket}" />
                     <!--<f:setPropertyActionListener value="{didBy}" target="{ticketController.didBy}" />-->
@@ -824,12 +852,14 @@
                 style="font-size: small">
 
             <p:outputPanel id="cancelTicketPanel">
-                <p:panelGrid columns="2" style="margin-bottom:10px; width: auto" cellpadding="5">
+                <p:panelGrid columns="2" styleClass="ui-noborder" style="width: auto">
                     <h:outputText value="Причина отмены заявки:" />
                     <p:inputTextarea rows="5" value="#{ticketController.commentContent}" style="width: 99%"/>
                 </p:panelGrid>
 
-                <p:commandButton process="@parent" update=":form:msgs :form:transportTabView:transportTable" action="#{ticketController.doCancelTicket}" onsuccess="PF('cancelTicketDialog').hide()" value="Отменить заявку" icon="ui-icon-disk">
+                <p:separator/>
+
+                <p:commandButton process="@parent" update=":form:msgs :form:transportTabView:transportTable" action="#{ticketController.doCancelTicket}" onsuccess="PF('cancelTicketDialog').hide()" value="Отменить заявку" icon="ui-icon-disk" style="float: right">
                     <f:setPropertyActionListener value="#{sessionScopedController.unitOfTransport}" target="#{ticketController.unitOfTransport}" />
                     <f:setPropertyActionListener value="#{sessionScopedController.ticket}" target="#{ticketController.ticket}" />
                     <!--<f:setPropertyActionListener value="{didBy}" target="{ticketController.didBy}" />-->
