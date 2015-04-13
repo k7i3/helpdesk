@@ -95,7 +95,7 @@ public class TerminalInfo {
     }
 
     public void setFirmware(String firmware) {
-        this.firmware = firmware;
+        this.firmware = firmware.trim().toUpperCase();
     }
 
     public String getMobileNumber() {
@@ -103,7 +103,7 @@ public class TerminalInfo {
     }
 
     public void setMobileNumber(String mobileNumber) {
-        this.mobileNumber = mobileNumber;
+        this.mobileNumber = mobileNumber.trim();
     }
 
     public String getSerialNumber() {
@@ -111,7 +111,7 @@ public class TerminalInfo {
     }
 
     public void setSerialNumber(String serialNumber) {
-        this.serialNumber = serialNumber;
+        this.serialNumber = serialNumber.trim().toUpperCase();
     }
 
     public String getModel() {
@@ -119,6 +119,6 @@ public class TerminalInfo {
     }
 
     public void setModel(String model) {
-        this.model = model;
+        this.model = model.trim().toUpperCase();
     }
 }

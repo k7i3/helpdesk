@@ -181,7 +181,7 @@ public class DBPopulator {
         user = new User("moder_bat_ufa", "moder_bat_ufa");
         user.getRoles().add(UserRole.MODER);
         user.getProjects().add("БАТ");
-        user.getBranches().add("Уфа");
+        user.getBranches().add("УФА");
         userEJB.createUser(user);
         logger.info("=>=>=>=>=> (moder_bat_ufa-moder_bat_ufa-MODER-БАТ-УФА) was inserted");
 

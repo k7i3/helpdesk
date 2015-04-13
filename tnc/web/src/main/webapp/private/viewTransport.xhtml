@@ -129,7 +129,8 @@
                                 <h:outputText value="#{transport.transportInfo.project}" />
                             </f:facet>
                             <f:facet name="input">
-                                <p:selectOneMenu value="#{transport.transportInfo.project}" editable="true">
+                                <p:selectOneMenu value="#{transport.transportInfo.project}" editable="true" required="true" maxlength="255" requiredMessage="пожалуйста, укажите проект" validatorMessage="количество символов в указании проекта должно быть от 2 до 255">
+                                    <f:validateLength minimum="2" maximum="255"/>
                                     <f:selectItems value="#{transportController.projects}"/>
                                 </p:selectOneMenu>
                             </f:facet>
@@ -147,7 +148,8 @@
                                 <h:outputText value="#{transport.transportInfo.branch}" />
                             </f:facet>
                             <f:facet name="input">
-                                <p:selectOneMenu value="#{transport.transportInfo.branch}" editable="true">
+                                <p:selectOneMenu value="#{transport.transportInfo.branch}" editable="true" required="true" maxlength="255" requiredMessage="пожалуйста, укажите филиал" validatorMessage="количество символов в указании филиала должно быть от 2 до 255">
+                                    <f:validateLength minimum="2" maximum="255"/>
                                     <f:selectItems value="#{transportController.branches}"/>
                                 </p:selectOneMenu>
                             </f:facet>
@@ -165,7 +167,8 @@
                                 <h:outputText value="#{transport.transportInfo.route}" />
                             </f:facet>
                             <f:facet name="input">
-                                <p:selectOneMenu value="#{transport.transportInfo.route}" editable="true">
+                                <p:selectOneMenu value="#{transport.transportInfo.route}" editable="true" required="true" maxlength="255" requiredMessage="пожалуйста, укажите маршрут" validatorMessage="количество символов в указании маршрута должно быть от 1 до 255">
+                                    <f:validateLength minimum="1" maximum="255"/>
                                     <f:selectItems value="#{transportController.routes}"/>
                                 </p:selectOneMenu>
                             </f:facet>
@@ -178,7 +181,9 @@
                                 <h:outputText value="#{transport.transportInfo.stateNumber}" />
                             </f:facet>
                             <f:facet name="input">
-                                <p:inputText value="#{transport.transportInfo.stateNumber}" style="width:100%"/>
+                                <p:inputText value="#{transport.transportInfo.stateNumber}" style="width:100%" onkeyup="value=value.toUpperCase()" required="true" maxlength="255" requiredMessage="пожалуйста, укажите гос. номер" validatorMessage="количество символов в указании гос. номера должно быть от 3 до 255">
+                                    <f:validateLength minimum="3" maximum="255"/>
+                                </p:inputText>
                             </f:facet>
                         </p:cellEditor>
                     </p:column>
@@ -189,7 +194,9 @@
                                 <h:outputText value="#{transport.transportInfo.garageNumber}" />
                             </f:facet>
                             <f:facet name="input">
-                                <p:inputText value="#{transport.transportInfo.garageNumber}" style="width:100%"/>
+                                <p:inputText value="#{transport.transportInfo.garageNumber}" style="width:100%" onkeyup="value=value.toUpperCase()" required="true" maxlength="255" requiredMessage="пожалуйста, укажите гар. номер" validatorMessage="количество символов в указании гар. номера должно быть от 1 до 255">
+                                    <f:validateLength minimum="1" maximum="255"/>
+                                </p:inputText>
                             </f:facet>
                         </p:cellEditor>
                     </p:column>
@@ -205,7 +212,8 @@
                                 <h:outputText value="#{transport.transportInfo.model}" />
                             </f:facet>
                             <f:facet name="input">
-                                <p:selectOneMenu value="#{transport.transportInfo.model}" editable="true">
+                                <p:selectOneMenu value="#{transport.transportInfo.model}" editable="true" required="true" maxlength="255" requiredMessage="пожалуйста, укажите модель транспорта" validatorMessage="количество символов в указании модели транспорта должно быть от 2 до 255">
+                                    <f:validateLength minimum="2" maximum="255"/>
                                     <f:selectItems value="#{transportController.transportModels}"/>
                                 </p:selectOneMenu>
                             </f:facet>
@@ -218,7 +226,9 @@
                                 <h:outputText value="#{transport.terminal.terminalInfo.number}" />
                             </f:facet>
                             <f:facet name="input">
-                                <p:inputText value="#{transport.terminal.terminalInfo.number}" style="width:100%"/>
+                                <p:inputText value="#{transport.terminal.terminalInfo.number}" style="width:100%" required="true" maxlength="255" requiredMessage="пожалуйста, укажите id терминала" validatorMessage="количество символов в указании id терминала должно быть от 1 до 255">
+                                    <f:validateLength minimum="1" maximum="255"/>
+                                </p:inputText>
                             </f:facet>
                         </p:cellEditor>
                     </p:column>
@@ -234,7 +244,8 @@
                                 <h:outputText value="#{transport.terminal.terminalInfo.model}" />
                             </f:facet>
                             <f:facet name="input">
-                                <p:selectOneMenu value="#{transport.terminal.terminalInfo.model}" editable="true">
+                                <p:selectOneMenu value="#{transport.terminal.terminalInfo.model}" editable="true" required="true" maxlength="255" requiredMessage="пожалуйста, укажите модель терминала" validatorMessage="количество символов в указании модели терминала должно быть от 2 до 255">
+                                    <f:validateLength minimum="2" maximum="255"/>
                                     <f:selectItems value="#{transportController.terminalModels}"/>
                                 </p:selectOneMenu>
                             </f:facet>
@@ -252,7 +263,8 @@
                                 <h:outputText value="#{transport.terminal.terminalInfo.firmware}" />
                             </f:facet>
                             <f:facet name="input">
-                                <p:selectOneMenu value="#{transport.terminal.terminalInfo.firmware}" editable="true">
+                                <p:selectOneMenu value="#{transport.terminal.terminalInfo.firmware}" editable="true" required="true" maxlength="255" requiredMessage="пожалуйста, укажите версию прошивки" validatorMessage="количество символов в указании версии прошивки должно быть от 1 до 255">
+                                    <f:validateLength minimum="1" maximum="255"/>
                                     <f:selectItems value="#{transportController.firmware}"/>
                                 </p:selectOneMenu>
                             </f:facet>
@@ -265,7 +277,9 @@
                                 <h:outputText value="#{transport.terminal.terminalInfo.serialNumber}" />
                             </f:facet>
                             <f:facet name="input">
-                                <p:inputText value="#{transport.terminal.terminalInfo.serialNumber}" style="width:100%"/>
+                                <p:inputText value="#{transport.terminal.terminalInfo.serialNumber}" style="width:100%" onkeyup="value=value.toUpperCase()" required="true" maxlength="255" requiredMessage="пожалуйста, укажите серийный номер" validatorMessage="количество символов в указании серийного номера должно быть от 1 до 255">
+                                    <f:validateLength minimum="1" maximum="255"/>
+                                </p:inputText>
                             </f:facet>
                         </p:cellEditor>
                     </p:column>
@@ -276,7 +290,9 @@
                                 <h:outputText value="#{transport.terminal.terminalInfo.mobileNumber}" />
                             </f:facet>
                             <f:facet name="input">
-                                <p:inputText value="#{transport.terminal.terminalInfo.mobileNumber}" style="width:100%"/>
+                                <p:inputText value="#{transport.terminal.terminalInfo.mobileNumber}" style="width:100%" required="true" maxlength="255" requiredMessage="пожалуйста, укажите телефон" validatorMessage="количество символов в указании телефона должно быть от 7 до 255">
+                                    <f:validateLength minimum="7" maximum="255"/>
+                                </p:inputText>
                             </f:facet>
                         </p:cellEditor>
                     </p:column>
@@ -390,7 +406,10 @@
                                         </p:fieldset>
                                     </ui:repeat>
                                 </p:scrollPanel>
-                                <p:inputTextarea rows="3" value="#{ticketController.commentContent}" style="display:block; margin-bottom: 10px; width: 50%"/>
+                                <p:inputTextarea rows="3" value="#{ticketController.commentContent}" counter="transportCommentContentCounter" maxlength="255" counterTemplate="символов осталось: {0}"  required="true" requiredMessage="пожалуйста, укажите комментарий" validatorMessage="количество символов в комментарии должно быть от 3 до 255" style="display:block; margin-bottom: 10px; width: 50%">
+                                    <f:validateLength minimum="3" maximum="255"/>
+                                </p:inputTextarea>
+                                <h:outputText id="transportCommentContentCounter" style="display:block; margin-bottom: 10px"/>
                                 <p:commandButton id="transportCommentButton" process="@parent" update="@parent:@child(0) @parent:@child(1) :form:msgs" action="#{ticketController.doAddTransportComment(transport)}" value="Отправить" icon="ui-icon-disk"/>
                             </p:tab>
 
@@ -433,13 +452,13 @@
                                                     <h:outputText value="Телефон водителя:"/>
                                                     <p:inplace label="#{ticket.ticketInfo.ticketDetails.mobileNumberOfDriver}" style="display:block" disabled="#{not isAdmin and not isModer and not isUser}">
                                                         <!--<p:inputText value="{ticket.ticketInfo.ticketDetails.mobileNumberOfDriver}"/>-->
-                                                        <p:inputMask value="#{ticket.ticketInfo.ticketDetails.mobileNumberOfDriver}" mask="8 (999) 99-99-999" required="true"/>
+                                                        <p:inputMask value="#{ticket.ticketInfo.ticketDetails.mobileNumberOfDriver}" mask="8 (999) 99-99-999" required="true" requiredMessage="пожалуйста, укажите телефон водителя"/>
                                                     </p:inplace>
 
                                                     <h:outputText value="Телефон ответственного:"/>
                                                     <p:inplace label="#{ticket.ticketInfo.ticketDetails.mobileNumberOfAgent}" style="display:block" disabled="#{not isAdmin and not isModer and not isUser}">
                                                         <!--<p:inputText value="{ticket.ticketInfo.ticketDetails.mobileNumberOfAgent}"/>-->
-                                                        <p:inputMask value="#{ticket.ticketInfo.ticketDetails.mobileNumberOfAgent}" mask="8 (999) 99-99-999" required="true"/>
+                                                        <p:inputMask value="#{ticket.ticketInfo.ticketDetails.mobileNumberOfAgent}" mask="8 (999) 99-99-999" required="true" requiredMessage="пожалуйста, укажите телефон ответственного"/>
                                                     </p:inplace>
                                                 </p:panelGrid>
 
@@ -449,7 +468,8 @@
                                                     <!--<f:setPropertyActionListener value="{didBy}" target="{ticketController.didBy}" />-->
                                                 </p:commandLink>
                                             </h:panelGrid>
-                                        </p:panelGrid>
+                                        </p:panelGrid >
+
                                         <p:scrollPanel mode="native" style="width: auto; height: auto; max-height: 300px; max-width: 100%; margin-bottom: 10px; padding: 10px">
                                             <ui:repeat value="#{ticket.comments}" var="ticketComment">
                                                 <p:fieldset legend="(#{ticketComment.creation.date}) #{ticketComment.creation.didBy}:" toggleable="true" toggleSpeed="500" collapsed="false" style="margin-bottom: 10px; width: auto; max-width: 100%">
@@ -460,7 +480,10 @@
                                                 </p:fieldset>
                                             </ui:repeat>
                                         </p:scrollPanel>
-                                        <p:inputTextarea rows="3" cols="100" value="#{ticketController.commentContent}" style="display:block; margin-bottom: 10px; width: 50%"/>
+                                        <p:inputTextarea rows="3" value="#{ticketController.commentContent}" counter="ticketCommentContentCounter" maxlength="255" counterTemplate="символов осталось: {0}"  required="true" requiredMessage="пожалуйста, укажите комментарий" validatorMessage="количество символов в комментарии должно быть от 3 до 255" style="display:block; margin-bottom: 10px; width: 50%">
+                                            <f:validateLength minimum="3" maximum="255"/>
+                                        </p:inputTextarea>
+                                        <h:outputText id="ticketCommentContentCounter" style="display:block; margin-bottom: 10px"/>
                                         <p:commandButton id="ticketCommentButton" process="@parent" update="@parent:@child(2) @parent:@child(3) :form:msgs" action="#{ticketController.doAddTicketComment(ticket)}" value="Отправить" icon="ui-icon-disk"/>
                                         <!--<f:facet name="options">-->
                                             <!--<p:menu>-->
@@ -591,31 +614,39 @@
                 <p:panelGrid columns="2" styleClass="ui-noborder" style="width: auto">
 
                     <h:outputText value="Проект:"/>
-                    <p:selectOneMenu value="#{transportController.unitOfTransport.transportInfo.project}" editable="true">
+                    <p:selectOneMenu value="#{transportController.unitOfTransport.transportInfo.project}" editable="true" required="true" maxlength="255" requiredMessage="пожалуйста, укажите проект" validatorMessage="количество символов в указании проекта должно быть от 2 до 255">
+                        <f:validateLength minimum="2" maximum="255"/>
                         <f:selectItem itemLabel="*новый или из списка:" itemValue=""/>
                         <f:selectItems value="#{transportController.projects}"/>
                     </p:selectOneMenu>
 
                     <h:outputText value="Филиал:"/>
-                    <p:selectOneMenu value="#{transportController.unitOfTransport.transportInfo.branch}" editable="true">
+                    <p:selectOneMenu value="#{transportController.unitOfTransport.transportInfo.branch}" editable="true" required="true" maxlength="255" requiredMessage="пожалуйста, укажите филиал" validatorMessage="количество символов в указании филиала должно быть от 2 до 255">
+                        <f:validateLength minimum="2" maximum="255"/>
                         <f:selectItem itemLabel="*новый или из списка:" itemValue=""/>
                         <f:selectItems value="#{transportController.branches}"/>
                     </p:selectOneMenu>
 
                     <h:outputText value="Гос. номер:"/>
-                    <p:inputText value="#{transportController.unitOfTransport.transportInfo.stateNumber}"/>
+                    <p:inputText value="#{transportController.unitOfTransport.transportInfo.stateNumber}" onkeyup="value=value.toUpperCase()" required="true" maxlength="255" requiredMessage="пожалуйста, укажите гос. номер" validatorMessage="количество символов в указании гос. номера должно быть от 3 до 255">
+                        <f:validateLength minimum="3" maximum="255"/>
+                    </p:inputText>
 
                     <h:outputText value="Гар. номер:"/>
-                    <p:inputText value="#{transportController.unitOfTransport.transportInfo.garageNumber}"/>
+                    <p:inputText value="#{transportController.unitOfTransport.transportInfo.garageNumber}" onkeyup="value=value.toUpperCase()" required="true" maxlength="255" requiredMessage="пожалуйста, укажите гар. номер" validatorMessage="количество символов в указании гар. номера должно быть от 1 до 255">
+                        <f:validateLength minimum="1" maximum="255"/>
+                    </p:inputText>
 
                     <h:outputText value="Модель транспорта:"/>
-                    <p:selectOneMenu value="#{transportController.unitOfTransport.transportInfo.model}" editable="true">
+                    <p:selectOneMenu value="#{transportController.unitOfTransport.transportInfo.model}" editable="true" required="true" maxlength="255" requiredMessage="пожалуйста, укажите модель транспорта" validatorMessage="количество символов в указании модели транспорта должно быть от 2 до 255">
+                        <f:validateLength minimum="2" maximum="255"/>
                         <f:selectItem itemLabel="*новый или из списка:" itemValue=""/>
                         <f:selectItems value="#{transportController.transportModels}"/>
                     </p:selectOneMenu>
 
                     <h:outputText value="Маршрут:"/>
-                    <p:selectOneMenu value="#{transportController.unitOfTransport.transportInfo.route}" editable="true">
+                    <p:selectOneMenu value="#{transportController.unitOfTransport.transportInfo.route}" editable="true" required="true" maxlength="255" requiredMessage="пожалуйста, укажите маршрут" validatorMessage="количество символов в указании маршрута должно быть от 1 до 255">
+                        <f:validateLength minimum="1" maximum="255"/>
                         <f:selectItem itemLabel="*новый или из списка:" itemValue=""/>
                         <f:selectItems value="#{transportController.routes}"/>
                     </p:selectOneMenu>
@@ -633,25 +664,33 @@
                     <p:selectBooleanButton value="#{transportController.unitOfTransport.transportInfo.transportEquipment.hasDvr}" onLabel="В комплекте" offLabel="Нет" onIcon="ui-icon-check" offIcon="ui-icon-close"/>
 
                     <h:outputText value="Терминал:"/>
-                    <p:inputText value="#{transportController.unitOfTransport.terminal.terminalInfo.number}"/>
+                    <p:inputText value="#{transportController.unitOfTransport.terminal.terminalInfo.number}" required="true" maxlength="255" requiredMessage="пожалуйста, укажите id терминала" validatorMessage="количество символов в указании id терминала должно быть от 1 до 255">
+                        <f:validateLength minimum="1" maximum="255"/>
+                    </p:inputText>
 
                     <h:outputText value="Телефон:"/>
-                    <p:inputText value="#{transportController.unitOfTransport.terminal.terminalInfo.mobileNumber}"/>
+                    <p:inputText value="#{transportController.unitOfTransport.terminal.terminalInfo.mobileNumber}" required="true" maxlength="255" requiredMessage="пожалуйста, укажите телефон" validatorMessage="количество символов в указании телефона должно быть от 7 до 255">
+                        <f:validateLength minimum="7" maximum="255"/>
+                    </p:inputText>
 
                     <h:outputText value="Модель терминала:"/>
-                    <p:selectOneMenu value="#{transportController.unitOfTransport.terminal.terminalInfo.model}" editable="true">
+                    <p:selectOneMenu value="#{transportController.unitOfTransport.terminal.terminalInfo.model}" editable="true" required="true" maxlength="255" requiredMessage="пожалуйста, укажите модель терминала" validatorMessage="количество символов в указании модели терминала должно быть от 2 до 255">
+                        <f:validateLength minimum="2" maximum="255"/>
                         <f:selectItem itemLabel="*новый или из списка:" itemValue=""/>
                         <f:selectItems value="#{transportController.terminalModels}"/>
                     </p:selectOneMenu>
 
                     <h:outputText value="Прошивка:"/>
-                    <p:selectOneMenu value="#{transportController.unitOfTransport.terminal.terminalInfo.firmware}" editable="true">
+                    <p:selectOneMenu value="#{transportController.unitOfTransport.terminal.terminalInfo.firmware}" editable="true" required="true" maxlength="255" requiredMessage="пожалуйста, укажите версию прошивки" validatorMessage="количество символов в указании версии прошивки должно быть от 1 до 255">
+                        <f:validateLength minimum="1" maximum="255"/>
                         <f:selectItem itemLabel="*новый или из списка:" itemValue=""/>
                         <f:selectItems value="#{transportController.firmware}"/>
                     </p:selectOneMenu>
 
                     <h:outputText value="Серийный номер:"/>
-                    <p:inputText value="#{transportController.unitOfTransport.terminal.terminalInfo.serialNumber}"/>
+                    <p:inputText value="#{transportController.unitOfTransport.terminal.terminalInfo.serialNumber}" onkeyup="value=value.toUpperCase()" required="true" maxlength="255" requiredMessage="пожалуйста, укажите серийный номер" validatorMessage="количество символов в указании серийного номера должно быть от 1 до 255">
+                        <f:validateLength minimum="1" maximum="255"/>
+                    </p:inputText>
                 </p:panelGrid>
 
                 <p:separator/>
@@ -676,7 +715,7 @@
                     <p:outputLabel for="ticketHeader" value="Причина:" />
                     <p:selectOneListbox id="ticketHeader" value="#{ticketController.ticket.ticketInfo.ticketHeader}" required="true" requiredMessage="пожалуйста, укажите причину">
                         <f:selectItems value="#{ticketController.ticketHeaders}" var="ticketHeader" itemLabel="#{ticketHeader.toString()}" itemValue="#{ticketHeader}"/>
-                        <p:clientValidator/>
+                        <!--<p:clientValidator/>-->
                     </p:selectOneListbox>
                     <p:message for="ticketHeader" display="tooltip"/>
 
@@ -691,26 +730,26 @@
                     <p:outputLabel for="place" value="Место подачи:" />
                     <p:inputTextarea id="place" value="#{ticketController.ticket.ticketInfo.ticketDetails.place}" rows="3" counter="placeCounter" maxlength="255" counterTemplate="(символов осталось: {0})" required="true" requiredMessage="пожалуйста, укажите место подачи" validatorMessage="количество символов в указании места подачи должно быть от 3 до 255">
                         <f:validateLength minimum="3" maximum="255"/>
-                        <p:clientValidator event="keyup"/>
+                        <!--<p:clientValidator event="keyup"/>-->
                     </p:inputTextarea>
                     <h:outputText id="placeCounter" />
 
                     <p:outputLabel for="mobileNumberOfDriver" value="Телефон водителя:" />
                     <p:inputMask id="mobileNumberOfDriver" value="#{ticketController.ticket.ticketInfo.ticketDetails.mobileNumberOfDriver}" mask="8 (999) 99-99-999" required="true" requiredMessage="пожалуйста, укажите телефон водителя">
-                        <p:clientValidator/>
+                        <!--<p:clientValidator/>-->
                     </p:inputMask>
                     <p:message for="mobileNumberOfDriver" />
 
                     <p:outputLabel for="mobileNumberOfAgent" value="Телефон ответственного:" />
                     <p:inputMask id="mobileNumberOfAgent" value="#{ticketController.ticket.ticketInfo.ticketDetails.mobileNumberOfAgent}" mask="8 (999) 99-99-999" required="true" requiredMessage="пожалуйста, укажите телефон ответственного">
-                        <p:clientValidator/>
+                        <!--<p:clientValidator/>-->
                     </p:inputMask>
                     <p:message for="mobileNumberOfAgent" />
 
                     <p:outputLabel for="commentContent" value="Комментарий:" />
                     <p:inputTextarea id="commentContent" value="#{ticketController.commentContent}" rows="5" counter="commentContentCounter" maxlength="255" counterTemplate="(символов осталось: {0})"  required="true" requiredMessage="пожалуйста, укажите комментарий" validatorMessage="количество символов в комментарии должно быть от 3 до 255">
                         <f:validateLength minimum="3" maximum="255"/>
-                        <p:clientValidator event="keyup"/>
+                        <!--<p:clientValidator event="keyup"/>-->
                     </p:inputTextarea>
                     <h:outputText id="commentContentCounter" />
                 </p:panelGrid>
@@ -740,14 +779,18 @@
             <p:outputPanel id="closeTicketPanel">
                 <p:panelGrid columns="2" styleClass="ui-noborder" style="width: auto">
                     <h:outputText value="Проведенная работа:" />
-                    <p:selectManyMenu value="#{ticketController.selectedTicketResults}" showCheckbox="false" converter="ticketResultConverter">
+                    <p:selectManyMenu value="#{ticketController.selectedTicketResults}" showCheckbox="false" converter="ticketResultConverter" required="true" requiredMessage="пожалуйста, укажите произведенные действия">
                         <f:selectItems value="#{ticketController.ticketResults}" var="ticketResult" itemLabel="#{ticketResult.toString()}" itemValue="#{ticketResult}"/>
                     </p:selectManyMenu>
                     <h:outputText value="Комментарий:"/>
-                    <p:inputTextarea rows="5" value="#{ticketController.commentContent}" style="width: 99%"/>
+                    <p:inputTextarea rows="5" value="#{ticketController.commentContent}" counter="closeTicketCommentContentCounter" maxlength="255" counterTemplate="символов осталось: {0}"  required="true" requiredMessage="пожалуйста, укажите комментарий" validatorMessage="количество символов в комментарии должно быть от 3 до 255">
+                        <f:validateLength minimum="3" maximum="255"/>
+                    </p:inputTextarea>
                 </p:panelGrid>
 
                 <p:separator/>
+
+                <h:outputText id="closeTicketCommentContentCounter" style="margin-bottom: 10px; display: block"/>
 
                 <p:commandButton process="@parent" update=":form:msgs :form:transportTabView:transportTable" action="#{ticketController.doCloseTicket}" onsuccess="PF('closeTicketDialog').hide()" value="Закрыть" icon="ui-icon-disk" style="float: right">
                     <f:setPropertyActionListener value="#{sessionScopedController.unitOfTransport}" target="#{ticketController.unitOfTransport}" />
@@ -770,10 +813,14 @@
             <p:outputPanel id="repeatedOnServiceTicketPanel">
                 <p:panelGrid columns="2" styleClass="ui-noborder" style="width: auto">
                     <h:outputText value="Причина повторного выезда:" />
-                    <p:inputTextarea rows="5" value="#{ticketController.commentContent}" style="width: 99%"/>
+                    <p:inputTextarea rows="5" value="#{ticketController.commentContent}" counter="repeatedOnServiceTicketCommentContentCounter" maxlength="255" counterTemplate="символов осталось: {0}"  required="true" requiredMessage="пожалуйста, укажите комментарий" validatorMessage="количество символов в комментарии должно быть от 3 до 255">
+                        <f:validateLength minimum="3" maximum="255"/>
+                    </p:inputTextarea>
                 </p:panelGrid>
 
                 <p:separator/>
+
+                <h:outputText id="repeatedOnServiceTicketCommentContentCounter" style="margin-bottom: 10px; display: block"/>
 
                 <p:commandButton process="@parent" update=":form:msgs :form:transportTabView:transportTable" action="#{ticketController.doRepeatedOnServiceTicket}" onsuccess="PF('repeatedOnServiceTicketDialog').hide()" value="Назначить повторный выезд" icon="ui-icon-disk" style="float: right">
                     <f:setPropertyActionListener value="#{sessionScopedController.unitOfTransport}" target="#{ticketController.unitOfTransport}" />
@@ -801,10 +848,14 @@
                         <f:selectItems value="#{ticketController.ticketResults}" var="ticketResult" itemLabel="#{ticketResult.toString()}" itemValue="#{ticketResult}"/>
                     </p:selectManyMenu>
                     <h:outputText value="Комментарий:" />
-                    <p:inputTextarea rows="5" value="#{ticketController.commentContent}" style="width: 99%"/>
+                    <p:inputTextarea rows="5" value="#{ticketController.commentContent}" counter="repeatedCloseTicketCommentContentCounter" maxlength="255" counterTemplate="символов осталось: {0}"  required="true" requiredMessage="пожалуйста, укажите комментарий" validatorMessage="количество символов в комментарии должно быть от 3 до 255">
+                        <f:validateLength minimum="3" maximum="255"/>
+                    </p:inputTextarea>
                 </p:panelGrid>
 
                 <p:separator/>
+
+                <h:outputText id="repeatedCloseTicketCommentContentCounter" style="margin-bottom: 10px; display: block"/>
 
                 <p:commandButton process="@parent" update=":form:msgs :form:transportTabView:transportTable" action="#{ticketController.doRepeatedCloseTicket}" onsuccess="PF('repeatedCloseTicketDialog').hide()" value="Закрыть повторно" icon="ui-icon-disk" style="float: right">
                     <f:setPropertyActionListener value="#{sessionScopedController.unitOfTransport}" target="#{ticketController.unitOfTransport}" />
@@ -827,10 +878,14 @@
             <p:outputPanel id="markAsIncorrectTicketPanel">
                 <p:panelGrid columns="2" styleClass="ui-noborder" style="width: auto">
                     <h:outputText value="Причина пометки как невалидной:" />
-                    <p:inputTextarea rows="5" value="#{ticketController.commentContent}" style="width: 99%"/>
+                    <p:inputTextarea rows="5" value="#{ticketController.commentContent}" counter="markAsIncorrectTicketCommentContentCounter" maxlength="255" counterTemplate="символов осталось: {0}"  required="true" requiredMessage="пожалуйста, укажите комментарий" validatorMessage="количество символов в комментарии должно быть от 3 до 255">
+                        <f:validateLength minimum="3" maximum="255"/>
+                    </p:inputTextarea>
                 </p:panelGrid>
 
                 <p:separator/>
+
+                <h:outputText id="markAsIncorrectTicketCommentContentCounter" style="margin-bottom: 10px; display: block"/>
 
                 <p:commandButton process="@parent" update=":form:msgs :form:transportTabView:transportTable" action="#{ticketController.doMarkAsIncorrectTicket}" onsuccess="PF('markAsIncorrectTicketDialog').hide()" value="Отметить как невалидную" icon="ui-icon-disk" style="float: right">
                     <f:setPropertyActionListener value="#{sessionScopedController.unitOfTransport}" target="#{ticketController.unitOfTransport}" />
@@ -854,10 +909,14 @@
             <p:outputPanel id="cancelTicketPanel">
                 <p:panelGrid columns="2" styleClass="ui-noborder" style="width: auto">
                     <h:outputText value="Причина отмены заявки:" />
-                    <p:inputTextarea rows="5" value="#{ticketController.commentContent}" style="width: 99%"/>
+                    <p:inputTextarea rows="5" value="#{ticketController.commentContent}" counter="cancelTicketCommentContentCounter" maxlength="255" counterTemplate="символов осталось: {0}"  required="true" requiredMessage="пожалуйста, укажите комментарий" validatorMessage="количество символов в комментарии должно быть от 3 до 255">
+                        <f:validateLength minimum="3" maximum="255"/>
+                    </p:inputTextarea>
                 </p:panelGrid>
 
                 <p:separator/>
+
+                <h:outputText id="cancelTicketCommentContentCounter" style="margin-bottom: 10px; display: block"/>
 
                 <p:commandButton process="@parent" update=":form:msgs :form:transportTabView:transportTable" action="#{ticketController.doCancelTicket}" onsuccess="PF('cancelTicketDialog').hide()" value="Отменить заявку" icon="ui-icon-disk" style="float: right">
                     <f:setPropertyActionListener value="#{sessionScopedController.unitOfTransport}" target="#{ticketController.unitOfTransport}" />

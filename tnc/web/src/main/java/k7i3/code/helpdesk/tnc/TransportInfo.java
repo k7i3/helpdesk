@@ -34,8 +34,8 @@ public class TransportInfo {
 
     public TransportInfo(LifeCycleInfo modification, String project, String stateNumber) {
         this.modification = modification;
-        this.project = project;
-        this.stateNumber = stateNumber;
+        this.project = project.trim().toUpperCase();
+        this.stateNumber = stateNumber.trim().toUpperCase();
     }
 
     public TransportInfo(TransportInfo transportInfo) {
@@ -99,7 +99,7 @@ public class TransportInfo {
     }
 
     public void setProject(String project) {
-        this.project = project;
+        this.project = project.trim().toUpperCase();
     }
 
     public String getBranch() {
@@ -107,7 +107,7 @@ public class TransportInfo {
     }
 
     public void setBranch(String branch) {
-        this.branch = branch;
+        this.branch = branch.trim().toUpperCase();
     }
 
     public String getStateNumber() {
@@ -115,7 +115,7 @@ public class TransportInfo {
     }
 
     public void setStateNumber(String stateNumber) {
-        this.stateNumber = stateNumber;
+        this.stateNumber = stateNumber.trim().toUpperCase();
     }
 
     public String getGarageNumber() {
@@ -123,7 +123,7 @@ public class TransportInfo {
     }
 
     public void setGarageNumber(String garageNumber) {
-        this.garageNumber = garageNumber;
+        this.garageNumber = garageNumber.trim().toUpperCase();
     }
 
     public String getModel() {
@@ -131,7 +131,7 @@ public class TransportInfo {
     }
 
     public void setModel(String model) {
-        this.model = model;
+        this.model = model.trim().toUpperCase();
     }
 
     public String getRoute() {
@@ -139,7 +139,7 @@ public class TransportInfo {
     }
 
     public void setRoute(String route) {
-        this.route = route;
+        this.route = route.trim().toLowerCase();
     }
 
     public TransportEquipment getTransportEquipment() {
