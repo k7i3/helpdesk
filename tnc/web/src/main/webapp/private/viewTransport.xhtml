@@ -181,8 +181,9 @@
                                 <h:outputText value="#{transport.transportInfo.stateNumber}" />
                             </f:facet>
                             <f:facet name="input">
-                                <p:inputText value="#{transport.transportInfo.stateNumber}" style="width:100%" onkeyup="value=value.toUpperCase()" required="true" maxlength="255" requiredMessage="пожалуйста, укажите гос. номер" validatorMessage="количество символов в указании гос. номера должно быть от 3 до 255">
-                                    <f:validateLength minimum="3" maximum="255"/>
+                                <p:inputText value="#{transport.transportInfo.stateNumber}" style="width:100%" onkeyup="value=value.toUpperCase()" required="true" maxlength="255" requiredMessage="пожалуйста, укажите гос. номер" validatorMessage="формат гос. номера должен быть: А123БВ102 или А123БВ02 или АБ12302">
+                                    <!--<f:validateLength minimum="3" maximum="255"/>-->
+                                    <f:validateRegex pattern="^(([А-Я][А-Я])([0-9][0-9][0-9])(02))$|^(([А-Я])([0-9][0-9][0-9])([А-Я][А-Я](02|102)))$"/>
                                 </p:inputText>
                             </f:facet>
                         </p:cellEditor>
@@ -226,9 +227,9 @@
                                 <h:outputText value="#{transport.terminal.terminalInfo.number}" />
                             </f:facet>
                             <f:facet name="input">
-                                <p:inputText value="#{transport.terminal.terminalInfo.number}" style="width:100%" required="true" maxlength="255" requiredMessage="пожалуйста, укажите id терминала" validatorMessage="количество символов в указании id терминала должно быть от 1 до 255">
-                                    <f:validateLength minimum="1" maximum="255"/>
-                                </p:inputText>
+                                <p:inputMask value="#{transport.terminal.terminalInfo.number}" mask="9999" style="width:100%" required="true" maxlength="255" requiredMessage="пожалуйста, укажите id терминала" validatorMessage="количество символов в указании id терминала должно быть 4">
+                                    <f:validateLength minimum="4" maximum="4"/>
+                                </p:inputMask>
                             </f:facet>
                         </p:cellEditor>
                     </p:column>
@@ -290,9 +291,9 @@
                                 <h:outputText value="#{transport.terminal.terminalInfo.mobileNumber}" />
                             </f:facet>
                             <f:facet name="input">
-                                <p:inputText value="#{transport.terminal.terminalInfo.mobileNumber}" style="width:100%" required="true" maxlength="255" requiredMessage="пожалуйста, укажите телефон" validatorMessage="количество символов в указании телефона должно быть от 7 до 255">
-                                    <f:validateLength minimum="7" maximum="255"/>
-                                </p:inputText>
+                                <p:inputMask value="#{transport.terminal.terminalInfo.mobileNumber}" mask="89999999999" style="width:100%" required="true" maxlength="255" requiredMessage="пожалуйста, укажите телефон" validatorMessage="количество символов в указании телефона должно быть 11">
+                                    <f:validateLength minimum="11" maximum="11"/>
+                                </p:inputMask>
                             </f:facet>
                         </p:cellEditor>
                     </p:column>
@@ -628,8 +629,9 @@
                     </p:selectOneMenu>
 
                     <h:outputText value="Гос. номер:"/>
-                    <p:inputText value="#{transportController.unitOfTransport.transportInfo.stateNumber}" onkeyup="value=value.toUpperCase()" required="true" maxlength="255" requiredMessage="пожалуйста, укажите гос. номер" validatorMessage="количество символов в указании гос. номера должно быть от 3 до 255">
-                        <f:validateLength minimum="3" maximum="255"/>
+                    <p:inputText value="#{transportController.unitOfTransport.transportInfo.stateNumber}" onkeyup="value=value.toUpperCase()" required="true" maxlength="255" requiredMessage="пожалуйста, укажите гос. номер" validatorMessage="формат гос. номера должен быть: А123БВ102 или А123БВ02 или АБ12302">
+                        <!--<f:validateLength minimum="3" maximum="255"/>-->
+                        <f:validateRegex pattern="^(([А-Я][А-Я])([0-9][0-9][0-9])(02))$|^(([А-Я])([0-9][0-9][0-9])([А-Я][А-Я](02|102)))$"/>
                     </p:inputText>
 
                     <h:outputText value="Гар. номер:"/>
@@ -664,14 +666,14 @@
                     <p:selectBooleanButton value="#{transportController.unitOfTransport.transportInfo.transportEquipment.hasDvr}" onLabel="В комплекте" offLabel="Нет" onIcon="ui-icon-check" offIcon="ui-icon-close"/>
 
                     <h:outputText value="Терминал:"/>
-                    <p:inputText value="#{transportController.unitOfTransport.terminal.terminalInfo.number}" required="true" maxlength="255" requiredMessage="пожалуйста, укажите id терминала" validatorMessage="количество символов в указании id терминала должно быть от 1 до 255">
-                        <f:validateLength minimum="1" maximum="255"/>
-                    </p:inputText>
+                    <p:inputMask value="#{transportController.unitOfTransport.terminal.terminalInfo.number}" mask="9999" required="true" maxlength="255" requiredMessage="пожалуйста, укажите id терминала" validatorMessage="количество символов в указании id терминала должно быть 4">
+                        <f:validateLength minimum="4" maximum="4"/>
+                    </p:inputMask>
 
                     <h:outputText value="Телефон:"/>
-                    <p:inputText value="#{transportController.unitOfTransport.terminal.terminalInfo.mobileNumber}" required="true" maxlength="255" requiredMessage="пожалуйста, укажите телефон" validatorMessage="количество символов в указании телефона должно быть от 7 до 255">
-                        <f:validateLength minimum="7" maximum="255"/>
-                    </p:inputText>
+                    <p:inputMask value="#{transportController.unitOfTransport.terminal.terminalInfo.mobileNumber}" mask="89999999999" required="true" maxlength="255" requiredMessage="пожалуйста, укажите телефон" validatorMessage="количество символов в указании телефона должно быть 11">
+                        <f:validateLength minimum="11" maximum="11"/>
+                    </p:inputMask>
 
                     <h:outputText value="Модель терминала:"/>
                     <p:selectOneMenu value="#{transportController.unitOfTransport.terminal.terminalInfo.model}" editable="true" required="true" maxlength="255" requiredMessage="пожалуйста, укажите модель терминала" validatorMessage="количество символов в указании модели терминала должно быть от 2 до 255">
