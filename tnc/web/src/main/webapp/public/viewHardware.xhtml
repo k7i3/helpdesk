@@ -2,6 +2,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
         "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:p="http://primefaces.org/ui">
 
@@ -14,7 +15,40 @@
     </ui:define>
 
     <ui:define name="content">
+        <p:tabView style="font-size: small">
 
+        <p:tab title="Voyager 2N">
+            <h:outputText value="Профессиональный GPS-трекер Voyager 2N для учета топлива и контроля маршрутов"
+                          style="font-size: medium;font-weight: 600; text-align: center ; display: block"/>
+            <p:graphicImage name="images/2N.jpg" style="text-align: center; display: block" />
+            <h:outputText value="Использование Voyager 2N дает возможность сократить расходы на топливо на 25-30%,
+            увеличивая прибыльность бизнеса." style="display: block"/>
+            <h:outputText value="Экономический эффект от использования Voyager 2N обусловлен пресечением попыток
+            махинаций с топливом: осознавая неизбежность обнаружения фактов слива или недолива топлива, водители перестают
+            воровать, а у руководства транспортного предприятия появляется удобный инструмент контроля состояния баков
+            транспортных средств."  style="display: block"/>
+            <p:graphicImage name="images/2N_disassembled.jpg" style="text-align: center; display: block" />
+            <h:outputText value="Как показывает практика, реальный расход топлива зачастую ниже норм, по которым оно
+            списывается, поэтому использование Voyager 2N позволяет скорректировать нормы потребления топлива
+            индивидуально под каждое транспортное средство и режим управления конкретного водителя." style="display: block"/>
+        </p:tab>
+
+            <p:tab title="Voyager 4N">
+                <h:outputText value="Профессиональный GPS-трекер Voyager 2N для учета топлива и контроля маршрутов"
+                              style="font-size: medium;font-weight: 600; text-align: center ; display: block"/>
+                <p:graphicImage name="images/4N_disassembled.jpg" style="text-align: center; display: block" />
+                <h:outputText value="Использование Voyager 2N дает возможность сократить расходы на топливо на 25-30%,
+            увеличивая прибыльность бизнеса." style="display: block"/>
+                <h:outputText value="Экономический эффект от использования Voyager 2N обусловлен пресечением попыток
+            махинаций с топливом: осознавая неизбежность обнаружения фактов слива или недолива топлива, водители перестают
+            воровать, а у руководства транспортного предприятия появляется удобный инструмент контроля состояния баков
+            транспортных средств."  style="display: block"/>
+                <p:graphicImage name="images/4N.jpg" style="text-align: center; display: block" />
+                <h:outputText value="Как показывает практика, реальный расход топлива зачастую ниже норм, по которым оно
+            списывается, поэтому использование Voyager 2N позволяет скорректировать нормы потребления топлива
+            индивидуально под каждое транспортное средство и режим управления конкретного водителя." style="display: block"/>
+            </p:tab>
+        </p:tabView>
     </ui:define>
 
 </ui:composition>
