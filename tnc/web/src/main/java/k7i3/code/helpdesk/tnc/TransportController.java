@@ -1,6 +1,8 @@
 package k7i3.code.helpdesk.tnc;
 
+import org.primefaces.event.FileUploadEvent;
 import org.primefaces.event.RowEditEvent;
+import org.primefaces.model.UploadedFile;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.RequestScoped;
@@ -8,7 +10,14 @@ import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
+import java.io.IOException;
+import java.io.InputStream;
 import java.io.Serializable;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.Date;
 import java.util.List;
 import java.util.logging.Logger;
@@ -166,6 +175,32 @@ public class TransportController implements Serializable {
     public void onRowCancel(RowEditEvent event) {
         FacesMessage msg = new FacesMessage("Отмена", ((Transport) event.getObject()).getTransportInfo().getStateNumber());
         FacesContext.getCurrentInstance().addMessage(null, msg);
+    }
+
+    public void handleFileUpload(FileUploadEvent event) throws IOException {
+        UploadedFile uploadedFile = event.getFile();
+//        File directory = new File("/home/k7i3/test");
+//        File file = File.createTempFile("importTransport", ".csv", directory);
+//        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "uploadedFile.getFileName() -> " + uploadedFile.getFileName(), "file.getAbsolutePath -> " + file.getAbsolutePath() + " ||| " + "file.getCanonicalPath() -> " + file.getCanonicalPath()));
+
+
+        Path directory = Paths.get("/home/k7i3/test");
+        if (Files.notExists(directory)) Files.createDirectory(directory);
+        Path file = Files.createTempFile(directory, "importTransport", ".csv");
+
+        try (InputStream input = uploadedFile.getInputstream()) {
+            Files.copy(input, file, StandardCopyOption.REPLACE_EXISTING);
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, uploadedFile.getFileName() + " загружен", "директория на сервере: " + file));
+        }
+
+
+        List <String> lines = Files.readAllLines(file, StandardCharsets.UTF_16);
+        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Files.readAllLines(file)", lines.isEmpty()? "empty" : "notEmpty"));
+        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Files.readAllLines(file).toString()", lines.toString()));
+        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Files.readAllLines(file).size()", lines.size() + ""));
+        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Files.readAllLines(file).get(0)", lines.get(0)));
+        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Files.readAllLines(file).get(lines.size() - 1)", lines.get(lines.size() - 1)));
+
     }
 
     //HELPER METHODS

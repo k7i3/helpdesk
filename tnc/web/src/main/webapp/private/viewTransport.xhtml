@@ -37,6 +37,12 @@
                              sortMode="multiple"
                              editable="true"
                              liveResize="true"
+
+                             rows="15"
+                             paginator="true"
+                             paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                             rowsPerPageTemplate="5,10,15,20,30,40,50"
+
                              style="margin-bottom:20px; word-wrap: break-word; table-layout: fixed; white-space: normal" >
                     <!--filteredValue was deleted and all working better-->
                     <!--filteredValue="{sessionScopedController.filteredTransport}"-->
@@ -66,11 +72,11 @@
                                 <f:facet name="left">
                                     <p:commandButton process="@this" value="Добавить" icon="ui-icon-document" update=":form:addTransportPanel" oncomplete="PF('addTransportDialog').show()" rendered="#{isAdmin or isModer}"/>
 
-                                    <!--<span class="ui-separator">-->
-                                        <!--<span class="ui-icon ui-icon-grip-dotted-vertical" />-->
-                                    <!--</span>-->
+                                    <span class="ui-separator">
+                                        <span class="ui-icon ui-icon-grip-dotted-vertical" />
+                                    </span>
 
-                                    <p:commandButton type="button" value="Удалить" icon="ui-icon-folder-open" rendered="false"/>
+                                    <p:commandButton process="@this" value="Добавить из файла" icon="ui-icon-folder-open" update=":form:addTransportFromFilePanel" oncomplete="PF('addTransportFromFileDialog').show()" rendered="#{isAdmin or isModer}"/>
 
                                     <!--<span class="ui-separator">-->
                                         <!--<span class="ui-icon ui-icon-grip-dotted-vertical" />-->
@@ -698,6 +704,24 @@
                 <p:separator/>
 
                 <p:commandButton process="@parent" update=":form:msgs :form:transportTabView:transportTable" action="#{transportController.doAddTransport}" onsuccess="PF('addTransportDialog').hide()" value="Создать" icon="ui-icon-disk" style="float: right"/>
+            </p:outputPanel>
+        </p:dialog>
+
+        <p:dialog
+                widgetVar="addTransportFromFileDialog"
+                header="Добавление транспорта из файла:"
+                modal="true"
+                showEffect="fade"
+                hideEffect="fade"
+                resizable="false"
+                draggable="true"
+                width="auto"
+                style="font-size: small">
+
+            <p:outputPanel id="addTransportFromFilePanel">
+                <p:fileUpload fileUploadListener="#{transportController.handleFileUpload}" mode="advanced" dragDropSupport="false" update=":form:transportTabView:transportTable" sizeLimit="100000" fileLimit="1" allowTypes="/(\.|\/)(csv)$/" />
+                <p:messages id="messages" showDetail="true" autoUpdate="true" closable="true" />
+                <!--<p:commandButton process="@parent" update=":form:msgs :form:transportTabView:transportTable" action="{transportController.doAddTransport}" onsuccess="PF('addTransportDialog').hide()" value="Создать" icon="ui-icon-disk" style="float: right"/>-->
             </p:outputPanel>
         </p:dialog>
 
