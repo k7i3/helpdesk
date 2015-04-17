@@ -1,5 +1,6 @@
 package k7i3.code.helpdesk.tnc;
 
+import com.opencsv.CSVReader;
 import org.primefaces.event.FileUploadEvent;
 import org.primefaces.event.RowEditEvent;
 import org.primefaces.model.UploadedFile;
@@ -10,6 +11,7 @@ import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.Serializable;
@@ -18,6 +20,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.logging.Logger;
@@ -194,7 +197,26 @@ public class TransportController implements Serializable {
         }
 
 
-        List <String> lines = Files.readAllLines(file, StandardCharsets.UTF_16);
+        CSVReader reader = new CSVReader(new FileReader(file.toFile()), ',', '"', 1);
+        List<String[]> list = reader.readAll();
+
+        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "List<String[]> list = reader.readAll()", list.isEmpty()? "empty" : "notEmpty"));
+        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "list.toString()", list.toString()));
+        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "list.size()", list.size() + ""));
+        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Arrays.toString(list.get(0))", Arrays.toString(list.get(0))));
+        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Arrays.toString(list.get(list.size() - 1))", Arrays.toString(list.get(list.size() - 1))));
+
+        list.stream().forEach(a -> a[0] = a[0] + "!!!");
+
+        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "List<String[]> list = reader.readAll()", list.isEmpty()? "empty" : "notEmpty"));
+        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "list.toString()", list.toString()));
+        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "list.size()", list.size() + ""));
+        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "Arrays.toString(list.get(0))", Arrays.toString(list.get(0))));
+        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "Arrays.toString(list.get(list.size() - 1))", Arrays.toString(list.get(list.size() - 1))));
+
+        //        Stream<String> streamLines = Files.lines(file);
+        List <String> lines = Files.readAllLines(file, StandardCharsets.UTF_8);
+
         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Files.readAllLines(file)", lines.isEmpty()? "empty" : "notEmpty"));
         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Files.readAllLines(file).toString()", lines.toString()));
         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Files.readAllLines(file).size()", lines.size() + ""));
