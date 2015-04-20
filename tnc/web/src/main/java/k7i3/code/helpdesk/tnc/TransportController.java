@@ -206,22 +206,26 @@ public class TransportController implements Serializable {
         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Arrays.toString(list.get(0))", Arrays.toString(list.get(0))));
         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Arrays.toString(list.get(list.size() - 1))", Arrays.toString(list.get(list.size() - 1))));
 
-        list.stream().forEach(a -> a[0] = a[0] + "!!!");
+        list.forEach(this::addTransportFromArray);
 
-        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "List<String[]> list = reader.readAll()", list.isEmpty()? "empty" : "notEmpty"));
-        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "list.toString()", list.toString()));
-        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "list.size()", list.size() + ""));
-        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "Arrays.toString(list.get(0))", Arrays.toString(list.get(0))));
-        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "Arrays.toString(list.get(list.size() - 1))", Arrays.toString(list.get(list.size() - 1))));
+
+
+//        list.stream().forEach(a -> a[0] = a[0] + "!!!");
+//
+//        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "List<String[]> list = reader.readAll()", list.isEmpty()? "empty" : "notEmpty"));
+//        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "list.toString()", list.toString()));
+//        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "list.size()", list.size() + ""));
+//        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "Arrays.toString(list.get(0))", Arrays.toString(list.get(0))));
+//        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "Arrays.toString(list.get(list.size() - 1))", Arrays.toString(list.get(list.size() - 1))));
 
         //        Stream<String> streamLines = Files.lines(file);
         List <String> lines = Files.readAllLines(file, StandardCharsets.UTF_8);
 
-        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Files.readAllLines(file)", lines.isEmpty()? "empty" : "notEmpty"));
-        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Files.readAllLines(file).toString()", lines.toString()));
-        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Files.readAllLines(file).size()", lines.size() + ""));
-        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Files.readAllLines(file).get(0)", lines.get(0)));
-        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Files.readAllLines(file).get(lines.size() - 1)", lines.get(lines.size() - 1)));
+        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Files.readAllLines(file)", lines.isEmpty()? "empty" : "notEmpty"));
+        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Files.readAllLines(file).toString()", lines.toString()));
+        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Files.readAllLines(file).size()", lines.size() + ""));
+        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Files.readAllLines(file).get(0)", lines.get(0)));
+        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Files.readAllLines(file).get(lines.size() - 1)", lines.get(lines.size() - 1)));
 
     }
 
@@ -253,6 +257,28 @@ public class TransportController implements Serializable {
         unitOfTransport.getTerminal().setCreation(lifeCycleInfo);
         unitOfTransport.getTerminal().getTerminalInfo().setModification(lifeCycleInfo);
         unitOfTransport.getPoint().getPointInfo().setModification(lifeCycleInfo);
+    }
+
+    private void addTransportFromArray(String[] strings) {
+        unitOfTransport = new Transport();
+        unitOfTransport.getTransportInfo().setProject(strings[0]);
+        unitOfTransport.getTransportInfo().setBranch(strings[1]);
+        unitOfTransport.getTransportInfo().setRoute(strings[2]);
+        unitOfTransport.getTransportInfo().setStateNumber(strings[3]);
+        unitOfTransport.getTransportInfo().setGarageNumber(strings[4]);
+        unitOfTransport.getTransportInfo().setModel(strings[5]);
+        unitOfTransport.getTransportInfo().getTransportEquipment().setHasPtt(Boolean.parseBoolean(strings[6]));
+        unitOfTransport.getTransportInfo().getTransportEquipment().setHasSpeaker(Boolean.parseBoolean(strings[7]));
+        unitOfTransport.getTransportInfo().getTransportEquipment().setHasInformer(Boolean.parseBoolean(strings[8]));
+        unitOfTransport.getTransportInfo().getTransportEquipment().setHasDvr(Boolean.parseBoolean(strings[9]));
+        unitOfTransport.getTerminal().getTerminalInfo().setNumber(Integer.parseInt(strings[10]));
+        unitOfTransport.getTerminal().getTerminalInfo().setModel(strings[11]);
+        unitOfTransport.getTerminal().getTerminalInfo().setFirmware(strings[12]);
+        unitOfTransport.getTerminal().getTerminalInfo().setSerialNumber(strings[13]);
+        unitOfTransport.getTerminal().getTerminalInfo().setMobileNumber(strings[14]);
+//        unitOfTransport.getPoint().getPointInfo().setDate(Date.from(Instant.parse(strings[15].subSequence(0, strings[15].length()))));
+
+        doAddTransport();
     }
 
 //    public void onCellEdit(CellEditEvent event) {
