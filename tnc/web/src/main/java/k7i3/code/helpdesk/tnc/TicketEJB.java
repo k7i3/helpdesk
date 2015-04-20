@@ -5,6 +5,7 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import javax.persistence.EntityManager;
 import java.io.Serializable;
+import java.util.List;
 import java.util.logging.Logger;
 
 /**
@@ -26,5 +27,19 @@ public class TicketEJB implements Serializable {
     public Ticket findTicketById(Long id) {
         logger.info("=>=>=>=>=> TicketEJB.findTicketById");
         return em.find(Ticket.class, id);
+    }
+
+    public List<TicketHeader> findAllActiveTicketHeaders() {
+        logger.info("=>=>=>=>=> TicketEJB.findAllActiveTicketHeaders");
+        return em.createNamedQuery("findAllActiveTicketHeaders", TicketHeader.class).getResultList();
+    }
+
+    public List<TicketResult> findAllActiveTicketResults() {
+        logger.info("=>=>=>=>=> TicketEJB.findAllActiveTicketResults");
+        return em.createNamedQuery("findAllActiveTicketResults", TicketResult.class).getResultList();
+    }
+
+    public TicketHeader findTicketHeaderById(String s) {
+        return em.find(TicketHeader.class, s);
     }
 }

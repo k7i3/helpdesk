@@ -76,6 +76,10 @@ public class DBPopulator {
     private Logger logger = Logger.getLogger("k7i3");
     Random random = new Random(new Date().getTime());
 
+    TicketHeader th1 = new TicketHeader("не на связи", true);
+    TicketHeader th2 = new TicketHeader("прочее", true);
+    TicketHeader th3 = new TicketHeader("некорректный трек", true);
+
     private final static String[] projects;
     private final static String[] branches;
     private final static String[] models;
@@ -378,14 +382,24 @@ public class DBPopulator {
         return places[(int) (Math.random() * 5)];
     }
 
+//    private TicketHeader getRandomTicketHeader() {
+//        if (random.nextBoolean()) {
+//            if (random.nextBoolean()){
+//                return TicketHeader.NOT_ONLINE;
+//            }
+//            return TicketHeader.OTHER;
+//        }
+//        return TicketHeader.BAD_TRACK;
+//    }
+
     private TicketHeader getRandomTicketHeader() {
         if (random.nextBoolean()) {
             if (random.nextBoolean()){
-                return TicketHeader.NOT_ONLINE;
+                return th1;
             }
-            return TicketHeader.OTHER;
+            return th2;
         }
-        return TicketHeader.BAD_TRACK;
+        return th3;
     }
 
     // COMMON

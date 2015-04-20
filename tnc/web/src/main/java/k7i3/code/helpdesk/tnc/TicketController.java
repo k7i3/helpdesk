@@ -27,16 +27,22 @@ public class TicketController {
 
     private Transport unitOfTransport;
     private Ticket ticket = new Ticket();
-    private List<TicketHeader> ticketHeaders = Arrays.asList(TicketHeader.values());
     private List<TicketStatus> ticketStatuses = Arrays.asList(TicketStatus.values());
-    private List<TicketResult> ticketResults = Arrays.asList(TicketResult.values());
+
+//    private List<TicketHeader> ticketHeaders = Arrays.asList(TicketHeader.values());
+//    private List<TicketResult> ticketResults = Arrays.asList(TicketResult.values());
+    private List<TicketHeader> ticketHeaders;
+    private List<TicketResult> ticketResults;
+
     List<TicketResult> selectedTicketResults;
     private String didBy;
     private String commentContent;
 
     @PostConstruct
-    public void initDidBy() {
+    public void init() {
         didBy = userEJB.initUser().getLogin();
+        ticketHeaders = ticketEJB.findAllActiveTicketHeaders();
+        ticketResults = ticketEJB.findAllActiveTicketResults();
     }
 
     //Do ADD

@@ -554,9 +554,9 @@
                                                 <!--<f:setPropertyActionListener value="{didBy}" target="{ticketController.didBy}" />-->
                                             </p:commandButton>
 
-                                            <p:commandLink process="@this" update=":form:showTicketHistoryPanel" oncomplete="PF('showTicketHistoryDialog').show()" rendered="#{isAdmin or isModer or isService}" value="хронология" title="нажмите, чтобы открыть хронологию заявки" styleClass="ui-panel-titlebar-icon ui-corner-all ui-state-default" style="margin-right: 5px">
+                                            <p:commandButton process="@this" update=":form:showTicketHistoryPanel" oncomplete="PF('showTicketHistoryDialog').show()" rendered="#{isAdmin or isModer or isService}" icon="fa fa-history" title="нажмите, чтобы открыть хронологию заявки" styleClass="ui-panel-titlebar-icon ui-corner-all ui-state-default" style="margin-right: 5px">
                                                 <f:setPropertyActionListener value="#{ticket}" target="#{ticketController.ticket}" />
-                                            </p:commandLink>
+                                            </p:commandButton>
 
                                             <!--rendered="{empty ticket.archiving and empty ticket.cancellation and empty ticket.incorrectness}"-->
                                             <!--rendered="{ticketController.doCheckForPossibilityToMarkAsIncorrectTicket(ticket)}"-->
@@ -739,7 +739,7 @@
             <p:outputPanel id="openTicketPanel">
                 <p:panelGrid columns="3" styleClass="ui-noborder" style="width: auto">
                     <p:outputLabel for="ticketHeader" value="Причина:" />
-                    <p:selectOneListbox id="ticketHeader" value="#{ticketController.ticket.ticketInfo.ticketHeader}" required="true" requiredMessage="пожалуйста, укажите причину">
+                    <p:selectOneListbox id="ticketHeader" converter="ticketHeaderConverter" value="#{ticketController.ticket.ticketInfo.ticketHeader}" required="true" requiredMessage="пожалуйста, укажите причину">
                         <f:selectItems value="#{ticketController.ticketHeaders}" var="ticketHeader" itemLabel="#{ticketHeader.toString()}" itemValue="#{ticketHeader}"/>
                         <!--<p:clientValidator/>-->
                     </p:selectOneListbox>
@@ -805,7 +805,7 @@
             <p:outputPanel id="closeTicketPanel">
                 <p:panelGrid columns="2" styleClass="ui-noborder" style="width: auto">
                     <h:outputText value="Проведенная работа:" />
-                    <p:selectManyMenu value="#{ticketController.selectedTicketResults}" showCheckbox="false" converter="ticketResultConverter" required="true" requiredMessage="пожалуйста, укажите произведенные действия">
+                    <p:selectManyMenu value="#{ticketController.selectedTicketResults}" showCheckbox="false" required="true" requiredMessage="пожалуйста, укажите произведенные действия">
                         <f:selectItems value="#{ticketController.ticketResults}" var="ticketResult" itemLabel="#{ticketResult.toString()}" itemValue="#{ticketResult}"/>
                     </p:selectManyMenu>
                     <h:outputText value="Комментарий:"/>
@@ -870,7 +870,7 @@
             <p:outputPanel id="repeatedCloseTicketPanel">
                 <p:panelGrid columns="2" styleClass="ui-noborder" style="width: auto">
                     <h:outputText value="Проведенная работа:" />
-                    <p:selectManyMenu value="#{ticketController.selectedTicketResults}" showCheckbox="false" converter="ticketResultConverter">
+                    <p:selectManyMenu value="#{ticketController.selectedTicketResults}" showCheckbox="false">
                         <f:selectItems value="#{ticketController.ticketResults}" var="ticketResult" itemLabel="#{ticketResult.toString()}" itemValue="#{ticketResult}"/>
                     </p:selectManyMenu>
                     <h:outputText value="Комментарий:" />
