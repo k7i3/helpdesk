@@ -46,7 +46,7 @@
                     <f:facet name="header" >
                         <p:toolbar>
                             <f:facet name="left">
-                                <p:commandButton process="@this" value="Добавить" icon="ui-icon-document" update=":form:addUserPanel" oncomplete="PF('addUserDialog').show()" disabled="false"/>
+                                <p:commandButton process="@this" icon="fa fa-plus" title="Добавить пользователя"  update=":form:addUserPanel" oncomplete="PF('addUserDialog').show()" disabled="false"/>
                             </f:facet>
                             <f:facet name="right">
                                 <p:inputText id="globalFilter" onkeyup="PF('usersTable').filter()" placeholder="поиск..."  />
