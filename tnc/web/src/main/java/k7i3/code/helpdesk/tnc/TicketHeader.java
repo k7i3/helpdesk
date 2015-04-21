@@ -4,6 +4,7 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import java.io.Serializable;
 
 /**
  * Created by k7i3 on 29.01.15.
@@ -29,7 +30,7 @@ import javax.persistence.NamedQuery;
         @NamedQuery(name = "findAllTicketHeaders", query = "SELECT t FROM TicketHeader t"),
         @NamedQuery(name = "findAllActiveTicketHeaders", query = "SELECT t FROM TicketHeader t WHERE t.isActive = true")
 })
-public class TicketHeader {
+public class TicketHeader implements Serializable{
     @Id
     private String description;
     private Boolean isActive;

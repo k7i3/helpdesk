@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:fn="http://xmlns.jcp.org/jsp/jstl/functions"
+        >
+
+<ui:composition template="/layout.xhtml">
+
+    <ui:define name="title">
+        <p:outputLabel style="font-size: small">
+            Реагирование
+        </p:outputLabel>
+    </ui:define>
+
+    <ui:define name="content">
+        <p:tabView id="ticketResultsTabView" dynamic="true" cache="true" style="font-size: small">
+
+            <p:tab title="Реагирование">
+                <p:dataTable id="ticketResultsTable"
+                             widgetVar="ticketResultsTable"
+                             var="ticketResult"
+                             value="#{ticketResultController.ticketResults}"
+                             varStatus="ticketResultVarStatus"
+                             selection="#{ticketResultController.checkboxSelectedTicketResults}"
+                             rowKey="#{ticketResult.description}"
+                             emptyMessage="не найдено..."
+                             draggableColumns="true"
+                             draggableRows="false"
+                             resizableColumns="true"
+                             stickyHeader="false"
+                             scrollable="false"
+                             scrollHeight="500"
+                             sortMode="multiple"
+                             editable="true"
+                             liveResize="true"
+                             style="margin-bottom:20px; word-wrap: break-word; table-layout: fixed; white-space: normal">
+
+                    <p:ajax event="rowEdit" listener="#{ticketResultController.onRowEdit}" update=":form:msgs"/>
+                    <p:ajax event="rowEditCancel" listener="#{ticketResultController.onRowCancel}" update=":form:msgs" />
+
+                    <f:facet name="header" >
+                        <p:toolbar>
+                            <f:facet name="left">
+                                <p:commandButton process="@this" icon="fa fa-plus" title="Добавить причину"  update=":form:addTicketResultPanel" oncomplete="PF('addTicketResultDialog').show()" disabled="false"/>
+                            </f:facet>
+                            <f:facet name="right">
+                                <p:inputText id="globalFilter" onkeyup="PF('ticketResultsTable').filter()" placeholder="поиск..."  />
+
+                                    <span class="ui-separator">
+                                        <span class="ui-icon ui-icon-grip-dotted-vertical" />
+                                    </span>
+
+                                <p:commandButton id="ticketResultsToggler" type="button"  icon="ui-icon-calculator" />
+                                <p:columnToggler datasource="ticketResultsTable" trigger="ticketResultsToggler" />
+                            </f:facet>
+                        </p:toolbar>
+                    </f:facet>
+                    <f:facet name="footer">
+                        <h:outputText value="всего в базе: #{fn:length(ticketResultController.ticketResults)}" style="font-size: small; text-align:left"/>
+                    </f:facet>
+
+                    <p:column headerText="-" selectionMode="multiple" style="width:16px;text-align:center"/>
+                    <p:column headerText="-" style="width:16px">
+                        <p:rowToggler />
+                    </p:column>
+                    <p:column headerText="-" style="width:16px">
+                        <p:rowEditor />
+                    </p:column>
+
+                    <p:column headerText="Описание" sortBy="#{ticketResult.description}" filterBy="#{ticketResult.description}" filterMatchMode="contains">
+                        <h:outputText value="#{ticketResult.description}" />
+                    </p:column>
+
+                    <p:column headerText="Активность" sortBy="#{ticketResult.isActive}" filterBy="#{ticketResult.isActive}" filterMatchMode="equals">
+                        <f:facet name="filter">
+                            <p:selectOneButton onchange="PF('ticketResultsTable').filter()">
+                                <f:converter converterId="javax.faces.Boolean" />
+                                <f:selectItem itemLabel="все" itemValue="" />
+                                <f:selectItem itemLabel="активные" itemValue="true" />
+                                <f:selectItem itemLabel="отключенные" itemValue="false" />
+                            </p:selectOneButton>
+                        </f:facet>
+                        <p:cellEditor>
+                            <f:facet name="output">
+                                <h:outputText value="#{ticketResult.isActive? 'активна' : 'отключена'}" />
+                            </f:facet>
+                            <f:facet name="input">
+                                <p:selectBooleanButton value="#{ticketResult.isActive}" onLabel="активна" offLabel="отключена" onIcon="ui-icon-check" offIcon="ui-icon-close"/>
+                            </f:facet>
+                        </p:cellEditor>
+                    </p:column>
+
+                    <p:rowExpansion>
+                        ку-ку
+                    </p:rowExpansion>
+
+                </p:dataTable>
+            </p:tab>
+
+        </p:tabView>
+
+        <p:dialog
+                widgetVar="addTicketResultDialog"
+                header="Добавление реагирования:"
+                modal="true"
+                showEffect="fade"
+                hideEffect="fade"
+                resizable="false"
+                draggable="false"
+                width="auto"
+                style="font-size: small">
+
+            <p:outputPanel id="addTicketResultPanel">
+                <p:panelGrid columns="2" styleClass="ui-noborder" style="width: auto">
+
+                    <h:outputText value="Описание:"/>
+                    <p:inputText value="#{ticketResultController.ticketResult.description}" maxlength="255" required="true" requiredMessage="пожалуйста, укажите описание" validatorMessage="количество символов в описании должно быть от 3 до 255">
+                        <f:validateLength minimum="3" maximum="255"/>
+                    </p:inputText>
+
+                    <h:outputText value="Активность:"/>
+                    <p:selectBooleanButton value="#{ticketResultController.ticketResult.isActive}" onLabel="активна" offLabel="отключена" onIcon="ui-icon-check" offIcon="ui-icon-close"/>
+
+                </p:panelGrid>
+
+                <p:separator/>
+
+                <p:commandButton process="@parent" update=":form:msgs :form:ticketResultsTabView:ticketResultsTable" action="#{ticketResultController.doAddTicketResult}" onsuccess="PF('addTicketResultDialog').hide()" value="Создать" icon="ui-icon-disk" style="float: right"/>
+            </p:outputPanel>
+        </p:dialog>
+
+    </ui:define>
+
+</ui:composition>
+</html>

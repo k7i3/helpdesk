@@ -39,6 +39,16 @@ public class TicketEJB implements Serializable {
         return em.createNamedQuery("findAllActiveTicketResults", TicketResult.class).getResultList();
     }
 
+    public List<TicketHeader> findAllTicketHeaders() {
+        logger.info("=>=>=>=>=> TicketEJB.findAllTicketHeaders");
+        return em.createNamedQuery("findAllTicketHeaders", TicketHeader.class).getResultList();
+    }
+
+    public List<TicketResult> findAllTicketResults() {
+        logger.info("=>=>=>=>=> TicketEJB.findAllTicketResults");
+        return em.createNamedQuery("findAllTicketResults", TicketResult.class).getResultList();
+    }
+
     public TicketHeader findTicketHeaderById(String s) {
         logger.info("=>=>=>=>=> TicketEJB.findTicketHeaderById");
         return em.find(TicketHeader.class, s);
@@ -52,6 +62,24 @@ public class TicketEJB implements Serializable {
     public TicketResult createTicketResult(TicketResult ticketResult) {
         logger.info("=>=>=>=>=> TicketEJB.createTicketResult");
         em.persist(ticketResult);
+        return ticketResult;
+    }
+
+    public TicketHeader createTicketHeader(TicketHeader ticketHeader) {
+        logger.info("=>=>=>=>=> TicketEJB.createTicketHeader");
+        em.persist(ticketHeader);
+        return ticketHeader;
+    }
+
+    public TicketHeader updateTicketHeader(TicketHeader ticketHeader) {
+        logger.info("=>=>=>=>=> TicketEJB.updateTicketHeader()");
+        em.merge(ticketHeader);
+        return ticketHeader;
+    }
+
+    public TicketResult updateTicketResult(TicketResult ticketResult) {
+        logger.info("=>=>=>=>=> TicketEJB.updateTicketHeader()");
+        em.merge(ticketResult);
         return ticketResult;
     }
 }

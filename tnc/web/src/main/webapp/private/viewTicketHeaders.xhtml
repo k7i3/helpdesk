@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:fn="http://xmlns.jcp.org/jsp/jstl/functions"
+        >
+
+<ui:composition template="/layout.xhtml">
+
+    <ui:define name="title">
+        <p:outputLabel style="font-size: small">
+            Неисправности
+        </p:outputLabel>
+    </ui:define>
+
+    <ui:define name="content">
+        <p:tabView id="ticketHeadersTabView" dynamic="true" cache="true" style="font-size: small">
+
+            <p:tab title="Неисправности">
+                <p:dataTable id="ticketHeadersTable"
+                             widgetVar="ticketHeadersTable"
+                             var="ticketHeader"
+                             value="#{ticketHeaderController.ticketHeaders}"
+                             varStatus="ticketHeaderVarStatus"
+                             selection="#{ticketHeaderController.checkboxSelectedTicketHeaders}"
+                             rowKey="#{ticketHeader.description}"
+                             emptyMessage="не найдено..."
+                             draggableColumns="true"
+                             draggableRows="false"
+                             resizableColumns="true"
+                             stickyHeader="false"
+                             scrollable="false"
+                             scrollHeight="500"
+                             sortMode="multiple"
+                             editable="true"
+                             liveResize="true"
+                             style="margin-bottom:20px; word-wrap: break-word; table-layout: fixed; white-space: normal">
+
+                    <p:ajax event="rowEdit" listener="#{ticketHeaderController.onRowEdit}" update=":form:msgs"/>
+                    <p:ajax event="rowEditCancel" listener="#{ticketHeaderController.onRowCancel}" update=":form:msgs" />
+
+                    <f:facet name="header" >
+                        <p:toolbar>
+                            <f:facet name="left">
+                                <p:commandButton process="@this" icon="fa fa-plus" title="Добавить причину"  update=":form:addTicketHeaderPanel" oncomplete="PF('addTicketHeaderDialog').show()" disabled="false"/>
+                            </f:facet>
+                            <f:facet name="right">
+                                <p:inputText id="globalFilter" onkeyup="PF('ticketHeadersTable').filter()" placeholder="поиск..."  />
+
+                                    <span class="ui-separator">
+                                        <span class="ui-icon ui-icon-grip-dotted-vertical" />
+                                    </span>
+
+                                <p:commandButton id="ticketHeadersToggler" type="button"  icon="ui-icon-calculator" />
+                                <p:columnToggler datasource="ticketHeadersTable" trigger="ticketHeadersToggler" />
+                            </f:facet>
+                        </p:toolbar>
+                    </f:facet>
+                    <f:facet name="footer">
+                        <h:outputText value="всего в базе: #{fn:length(ticketHeaderController.ticketHeaders)}" style="font-size: small; text-align:left"/>
+                    </f:facet>
+
+                    <p:column headerText="-" selectionMode="multiple" style="width:16px;text-align:center"/>
+                    <p:column headerText="-" style="width:16px">
+                        <p:rowToggler />
+                    </p:column>
+                    <p:column headerText="-" style="width:16px">
+                        <p:rowEditor />
+                    </p:column>
+
+                    <p:column headerText="Описание" sortBy="#{ticketHeader.description}" filterBy="#{ticketHeader.description}" filterMatchMode="contains">
+                        <h:outputText value="#{ticketHeader.description}" />
+                    </p:column>
+
+                    <p:column headerText="Активность" sortBy="#{ticketHeader.isActive}" filterBy="#{ticketHeader.isActive}" filterMatchMode="equals">
+                        <f:facet name="filter">
+                            <p:selectOneButton onchange="PF('ticketHeadersTable').filter()">
+                                <f:converter converterId="javax.faces.Boolean" />
+                                <f:selectItem itemLabel="все" itemValue="" />
+                                <f:selectItem itemLabel="активные" itemValue="true" />
+                                <f:selectItem itemLabel="отключенные" itemValue="false" />
+                            </p:selectOneButton>
+                        </f:facet>
+                        <p:cellEditor>
+                            <f:facet name="output">
+                                <h:outputText value="#{ticketHeader.isActive? 'активна' : 'отключена'}" />
+                            </f:facet>
+                            <f:facet name="input">
+                                <p:selectBooleanButton value="#{ticketHeader.isActive}" onLabel="активна" offLabel="отключена" onIcon="ui-icon-check" offIcon="ui-icon-close"/>
+                            </f:facet>
+                        </p:cellEditor>
+                    </p:column>
+
+                    <p:rowExpansion>
+                        ку-ку
+                    </p:rowExpansion>
+
+                </p:dataTable>
+            </p:tab>
+
+        </p:tabView>
+
+        <p:dialog
+                widgetVar="addTicketHeaderDialog"
+                header="Добавление неисправности:"
+                modal="true"
+                showEffect="fade"
+                hideEffect="fade"
+                resizable="false"
+                draggable="false"
+                width="auto"
+                style="font-size: small">
+
+            <p:outputPanel id="addTicketHeaderPanel">
+                <p:panelGrid columns="2" styleClass="ui-noborder" style="width: auto">
+
+                    <h:outputText value="Описание:"/>
+                    <p:inputText value="#{ticketHeaderController.ticketHeader.description}" maxlength="255" required="true" requiredMessage="пожалуйста, укажите описание" validatorMessage="количество символов в описании должно быть от 3 до 255">
+                        <f:validateLength minimum="3" maximum="255"/>
+                    </p:inputText>
+
+                    <h:outputText value="Активность:"/>
+                    <p:selectBooleanButton value="#{ticketHeaderController.ticketHeader.isActive}" onLabel="активна" offLabel="отключена" onIcon="ui-icon-check" offIcon="ui-icon-close"/>
+                    <!--<p:selectOneMenu value="{ticketHeaderController.ticketHeader.isActive}" showCheckbox="false">-->
+                        <!--<f:selectItem itemLabel="активна" itemValue="{true}"/>-->
+                        <!--<f:selectItem itemLabel="отключена" itemValue="{false}"/>-->
+                    <!--</p:selectOneMenu>-->
+
+                </p:panelGrid>
+
+                <p:separator/>
+
+                <p:commandButton process="@parent" update=":form:msgs :form:ticketHeadersTabView:ticketHeadersTable" action="#{ticketHeaderController.doAddTicketHeader}" onsuccess="PF('addTicketHeaderDialog').hide()" value="Создать" icon="ui-icon-disk" style="float: right"/>
+            </p:outputPanel>
+        </p:dialog>
+
+    </ui:define>
+
+</ui:composition>
+</html>
+
+        <!--<p:selectCheckboxMenu label="..." onchange="PF('ticketHeadersTable').filter()" panelStyle="width:200px" scrollHeight="200">-->
+        <!--<f:selectItem itemLabel="активна" itemValue="{true}"/>-->
+        <!--<f:selectItem itemLabel="отключена" itemValue="\{false}"/>-->
+        <!--</p:selectCheckboxMenu>-->
+
+        <!--<p:selectBooleanButton onchange="PF('ticketHeadersTable').filter()" onLabel="активные" offLabel="отключенные" onIcon="ui-icon-check" offIcon="ui-icon-close"/>-->
