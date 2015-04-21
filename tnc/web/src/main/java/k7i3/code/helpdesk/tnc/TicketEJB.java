@@ -40,6 +40,18 @@ public class TicketEJB implements Serializable {
     }
 
     public TicketHeader findTicketHeaderById(String s) {
+        logger.info("=>=>=>=>=> TicketEJB.findTicketHeaderById");
         return em.find(TicketHeader.class, s);
+    }
+
+    public TicketResult findTicketResultById(String s) {
+        logger.info("=>=>=>=>=> TicketEJB.findTicketResultById");
+        return em.find(TicketResult.class, s);
+    }
+
+    public TicketResult createTicketResult(TicketResult ticketResult) {
+        logger.info("=>=>=>=>=> TicketEJB.createTicketResult");
+        em.persist(ticketResult);
+        return ticketResult;
     }
 }

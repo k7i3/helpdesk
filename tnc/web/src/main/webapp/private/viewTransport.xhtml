@@ -805,7 +805,7 @@
             <p:outputPanel id="closeTicketPanel">
                 <p:panelGrid columns="2" styleClass="ui-noborder" style="width: auto">
                     <h:outputText value="Проведенная работа:" />
-                    <p:selectManyMenu value="#{ticketController.selectedTicketResults}" showCheckbox="false" required="true" requiredMessage="пожалуйста, укажите произведенные действия">
+                    <p:selectManyMenu value="#{ticketController.selectedTicketResults}" converter="ticketResultConverter" showCheckbox="false" required="true" requiredMessage="пожалуйста, укажите произведенные действия">
                         <f:selectItems value="#{ticketController.ticketResults}" var="ticketResult" itemLabel="#{ticketResult.toString()}" itemValue="#{ticketResult}"/>
                     </p:selectManyMenu>
                     <h:outputText value="Комментарий:"/>
@@ -870,7 +870,7 @@
             <p:outputPanel id="repeatedCloseTicketPanel">
                 <p:panelGrid columns="2" styleClass="ui-noborder" style="width: auto">
                     <h:outputText value="Проведенная работа:" />
-                    <p:selectManyMenu value="#{ticketController.selectedTicketResults}" showCheckbox="false">
+                    <p:selectManyMenu value="#{ticketController.selectedTicketResults}" converter="ticketResultConverter" showCheckbox="false">
                         <f:selectItems value="#{ticketController.ticketResults}" var="ticketResult" itemLabel="#{ticketResult.toString()}" itemValue="#{ticketResult}"/>
                     </p:selectManyMenu>
                     <h:outputText value="Комментарий:" />

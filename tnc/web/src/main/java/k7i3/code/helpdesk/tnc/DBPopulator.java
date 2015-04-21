@@ -73,6 +73,8 @@ public class DBPopulator {
     private TransportEJB transportEJB;
     @Inject
     private UserEJB userEJB;
+    @Inject
+    private TicketEJB ticketEJB;
     private Logger logger = Logger.getLogger("k7i3");
     Random random = new Random(new Date().getTime());
 
@@ -198,6 +200,16 @@ public class DBPopulator {
         user.getRoles().add(UserRole.SERVICE);
         userEJB.createUser(user);
         logger.info("=>=>=>=>=> (service-service-SERVICE-...-...) was inserted");
+
+        TicketResult ticketResult = new TicketResult("удаленно", true);
+        ticketEJB.createTicketResult(ticketResult);
+        logger.info("=>=>=>=>=> (удаленно-true) was inserted");
+        ticketResult = new TicketResult("на месте (программно)", true);
+        ticketEJB.createTicketResult(ticketResult);
+        logger.info("=>=>=>=>=> (на месте (программно)-true) was inserted");
+        ticketResult = new TicketResult("на месте (железо)", true);
+        ticketEJB.createTicketResult(ticketResult);
+        logger.info("=>=>=>=>=> (на месте (железо)-true) was inserted");
     }
 
 // RANDOM METHODS BEGIN //
