@@ -32,6 +32,7 @@ public class TicketController {
 //    private List<TicketHeader> ticketHeaders = Arrays.asList(TicketHeader.values());
 //    private List<TicketResult> ticketResults = Arrays.asList(TicketResult.values());
     private List<TicketHeader> ticketHeaders;
+    private List<TicketHeader> allTicketHeaders;
     private List<TicketResult> ticketResults;
 
     List<TicketResult> selectedTicketResults;
@@ -42,6 +43,7 @@ public class TicketController {
     public void init() {
         didBy = userEJB.initUser().getLogin();
         ticketHeaders = ticketEJB.findAllActiveTicketHeaders();
+        allTicketHeaders = ticketEJB.findAllTicketHeaders();
         ticketResults = ticketEJB.findAllActiveTicketResults();
     }
 
@@ -517,6 +519,14 @@ public class TicketController {
 
     public void setTicketHeaders(List<TicketHeader> ticketHeaders) {
         this.ticketHeaders = ticketHeaders;
+    }
+
+    public List<TicketHeader> getAllTicketHeaders() {
+        return allTicketHeaders;
+    }
+
+    public void setAllTicketHeaders(List<TicketHeader> allTicketHeaders) {
+        this.allTicketHeaders = allTicketHeaders;
     }
 
     public List<TicketStatus> getTicketStatuses() {

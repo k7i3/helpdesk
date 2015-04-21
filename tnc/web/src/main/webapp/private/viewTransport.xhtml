@@ -327,7 +327,7 @@
                         <f:facet name="filter">
                             <p:selectCheckboxMenu label="..." onchange="PF('transportTable').filter()" panelStyle="width:200px" scrollHeight="200">
                                 <f:selectItem itemLabel="нет" itemValue="нет" />
-                                <f:selectItems value="#{ticketController.ticketHeaders}" var="ticketHeaders" itemLabel="#{ticketHeaders.toString()}" itemValue="#{ticketHeaders.toString()}"/>
+                                <f:selectItems value="#{ticketController.allTicketHeaders}" var="ticketHeaders" itemLabel="#{ticketHeaders.toString()}" itemValue="#{ticketHeaders.toString()}"/>
                             </p:selectCheckboxMenu>
                         </f:facet>
                         <h:outputText value="#{transport.currentTicketHeader}" title="последняя заявка"/>
