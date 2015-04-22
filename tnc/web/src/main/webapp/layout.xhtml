@@ -42,13 +42,13 @@
 
                 <p:submenu label="НАСТРОЙКИ:" rendered="#{securityController.isAdmin()}">
                     <p:menuitem value="Пользователи" outcome="/private/viewUsers.xhtml" icon="fa fa-users"/>
-                    <p:menuitem value="Неисправности" outcome="/private/viewTicketHeaders.xhtml" icon="fa fa-bomb"/>
-                    <p:menuitem value="Реагирование" outcome="/private/viewTicketResults.xhtml" icon="fa fa-legal"/>
+                    <p:menuitem value="Неисправности" outcome="/private/viewTicketHeaders.xhtml" icon="fa fa-fire"/>
+                    <p:menuitem value="Реагирования" outcome="/private/viewTicketResults.xhtml" icon="fa fa-fire-extinguisher"/>
                 </p:submenu>
 
                 <p:submenu label="ВОПРОСЫ:">
-                    <p:menuitem value="Software" outcome="/public/viewSoftware.xhtml" icon="fa fa-code"/>
-                    <p:menuitem value="Hardware" outcome="/public/viewHardware.xhtml" icon="fa fa-wrench"/>
+                    <p:menuitem value="Программы" outcome="/public/viewSoftware.xhtml" icon="fa fa-code"/>
+                    <p:menuitem value="Устройства" outcome="/public/viewHardware.xhtml" icon="fa fa-wrench"/>
                 </p:submenu>
             </p:menu>
         <!--menu button-->
