@@ -15,4 +15,10 @@ public class DBProducer {
     @Produces @Users
     @PersistenceContext(unitName = "usersPU")
     private EntityManager emUsers;
+
+    @Produces @News
+    @PersistenceContext(unitName = "newsPU")
+    private EntityManager emNews;
+
+
 }

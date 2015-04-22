@@ -57,15 +57,26 @@ import java.util.logging.Logger;
         ),
 
         @DataSourceDefinition(
-            name = "java:global/jdbc/usersDS",
+            name = "java:global/jdbc/newsDS",
 //            className = "org.apache.derby.jdbc.EmbeddedDataSource",
 //            className = "org.apache.derby.jdbc.ClientXADataSource",
             className = "org.apache.derby.jdbc.EmbeddedXADataSource",
             user = "app",
             password = "app",
-            databaseName = "usersDB",
+            databaseName = "newsDB",
             properties = {"connectionAttributes=;create=true"}
         )
+
+//        @DataSourceDefinition(
+//            name = "java:global/jdbc/usersDS",
+////            className = "org.apache.derby.jdbc.EmbeddedDataSource",
+////            className = "org.apache.derby.jdbc.ClientXADataSource",
+//            className = "org.apache.derby.jdbc.EmbeddedXADataSource",
+//            user = "app",
+//            password = "app",
+//            databaseName = "usersDB",
+//            properties = {"connectionAttributes=;create=true"}
+//        )
 })
 
 public class DBPopulator {

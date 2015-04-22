@@ -5,7 +5,8 @@
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:p="http://primefaces.org/ui"
-      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core" xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:fn="http://xmlns.jcp.org/jsp/jstl/functions"
         >
 
 <ui:composition template="layout.xhtml">
@@ -37,40 +38,132 @@
                           style="text-indent: 10px; display: block" />
             <br />
             <br />
+
             <p:button process="@this" outcome="/private/viewTransport.faces" rendered="#{empty securityController.user}"
-                        value="Вход в систему" title="нажмите, чтобы войти в систему HelpDesk" style=" margin: 0% 45%; font-size: large"/>
-            <p:commandButton process="@this" action="#{securityController.logout()}" rendered="#{not empty securityController.user}"
-                             value="#{securityController.user.login} (выйти)"
-                             title="проекты: #{securityController.user.projects.size() == 0? 'все' : securityController.user.projects} /
-                             филиалы: #{securityController.user.branches.size() == 0? 'все' : securityController.user.branches}"
-                             style="margin: 0% 45%; font-size: large"/>
+                        value="ВОЙТИ" title="нажмите, чтобы войти в систему HelpDesk" style=" margin: 0% 47%; font-size: large"/>
             <br />
             <br />
+
+
+            <h:outputText value="Последние новости и оповещения" style="font-size: medium; text-align: center; font-weight: 600; display: block" />
+            <br />
+
+        <!--**********************************************************    -->
 
             <c:set var="isAdmin" value="#{securityController.isAdmin()}"/>
             <c:set var="isModer" value="#{securityController.isModer()}"/>
 
-        <h:outputText value="Последние новости и оповещения" style="font-size: medium; text-align: center; font-weight: 600; display: block" />
-            <br />
-            <p:inputText value="" counter="" style="margin-bottom: 10px; width: 50% " rendered="#{isAdmin or isModer}"/>
-            <p:commandButton id="transportCommentButton" process="@parent" update="@parent:@child(0) @parent:@child(1) :form:msgs"
-                             action="#{ticketController.doAddTransportComment(transport)}"  value="Добавить новость" rendered="#{isAdmin or isModer}"/>
-            <br />
-            <p:dataTable var="contact" width="30%" style="font-size: small; text-align: center">
-            <p:column headerText="Дата создания" >
-                <h:outputText value="01.01.2001" />
+            <p:dataTable id="noticesTable"
+                         widgetVar="noticesTable"
+                         var="notice"
+                         value="#{noticeController.notices}"
+                         varStatus="noticeVarStatus"
+                         selection="#{noticeController.checkboxSelectedNotices}"
+                         rowKey="#{notice.id}"
+                         emptyMessage="уведомления не найдены..."
+                         draggableColumns="true"
+                         draggableRows="false"
+                         resizableColumns="true"
+                         stickyHeader="false"
+                         scrollable="false"
+                         scrollHeight="500"
+                         sortMode="multiple"
+                         editable="true"
+                         liveResize="true"
+                         style="margin-bottom:20px; word-wrap: break-word; table-layout: fixed; white-space: normal"
+
+                         rows="5"
+                         paginator="true"
+                         paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                         rowsPerPageTemplate="5,10,15,20,30,40,50">
+
+                <p:ajax event="rowEdit" listener="#{noticeController.onRowEdit}" update=":form:msgs"/>
+                <p:ajax event="rowEditCancel" listener="#{noticeController.onRowCancel}" update=":form:msgs" />
+
+                <f:facet name="header" >
+                    <p:toolbar>
+                        <f:facet name="left">
+                            <p:commandButton process="@this" icon="fa fa-plus" title="Добавить новость"  update=":form:addNoticePanel" oncomplete="PF('addNoticeDialog').show()" rendered="#{isAdmin or isModer}"/>
+                        </f:facet>
+                        <f:facet name="right">
+                            <p:inputText id="globalFilter" onkeyup="PF('noticesTable').filter()" placeholder="поиск..."  />
+
+                                    <span class="ui-separator">
+                                        <span class="ui-icon ui-icon-grip-dotted-vertical" />
+                                    </span>
+
+                            <p:commandButton id="noticesToggler" type="button"  icon="ui-icon-calculator" />
+                            <p:columnToggler datasource="noticesTable" trigger="noticesToggler" />
+                        </f:facet>
+                    </p:toolbar>
+                </f:facet>
+                <f:facet name="footer">
+                    <h:outputText value="всего в базе: #{fn:length(noticeController.notices)}" style="font-size: small; text-align:left"/>
+                </f:facet>
+
+                <p:column headerText="-" selectionMode="multiple" style="width:16px;text-align:center"/>
+                <p:column headerText="-" style="width:16px">
+                    <p:rowToggler />
+                </p:column>
+                <p:column headerText="-" style="width:16px" rendered="#{isAdmin or isModer}">
+                    <p:rowEditor />
+                </p:column>
+
+            <p:column headerText="Дата" >
+                <h:outputText value="#{notice.date}" />
             </p:column>
 
             <p:column headerText="Пользователь" >
-                <td>Администратор</td>
+                <h:outputText value="#{notice.didBy}" />
             </p:column>
 
             <p:column headerText="Новость" >
-                <td>Перезагрузка сервера</td>
+                <p:cellEditor>
+                    <f:facet name="output">
+                        <h:outputText value="#{notice.content}" />
+                    </f:facet>
+                    <f:facet name="input">
+                        <p:inputTextarea value="#{notice.content}" style="width:100%" maxlength="255" required="true" requiredMessage="пожалуйста, укажите новость" validatorMessage="количество символов в указании новости должно быть от 3 до 255">
+                            <f:validateLength maximum="255" minimum="3"/>
+                        </p:inputTextarea>
+                    </f:facet>
+                </p:cellEditor>
             </p:column>
-        </p:dataTable>
-        <br />
 
+            <p:rowExpansion>
+            </p:rowExpansion>
+        </p:dataTable>
+
+            <p:dialog
+                    widgetVar="addNoticeDialog"
+                    header="Добавление новости:"
+                    modal="true"
+                    showEffect="fade"
+                    hideEffect="fade"
+                    resizable="false"
+                    draggable="false"
+                    width="auto"
+                    style="font-size: small">
+
+                <p:outputPanel id="addNoticePanel">
+                    <p:panelGrid columns="2" styleClass="ui-noborder" style="width: auto">
+
+                        <h:outputText value="Новость:"/>
+                        <p:inputTextarea value="#{noticeController.notice.content}" maxlength="255" required="true" requiredMessage="пожалуйста, укажите новость" validatorMessage="количество символов в указании новости должно быть от 3 до 255">
+                            <f:validateLength maximum="255" minimum="3"/>
+                        </p:inputTextarea>
+                    </p:panelGrid>
+
+                    <p:separator/>
+
+                    <p:commandButton process="@parent" update=":form:msgs :form:noticesTable" action="#{noticeController.doAddNotice()}" onsuccess="PF('addNoticeDialog').hide()" value="Создать" icon="ui-icon-disk" style="float: right"/>
+                </p:outputPanel>
+            </p:dialog>
+
+
+        <!--**********************************************************    -->
+
+            <br />
         <h:outputText value="Контакты" style="font-size: medium; text-align: center; font-weight: 600; display: block" />
 
             <h:panelGrid columns="2" columnClasses="column" cellpadding="5" style="margin:0% 35%;font-size: small">

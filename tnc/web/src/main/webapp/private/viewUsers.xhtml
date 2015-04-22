@@ -130,13 +130,15 @@
                         </p:cellEditor>
                     </p:column>
 
-                    <p:column headerText="Password" sortBy="#{user.password}" filterBy="#{user.password}" filterMatchMode="contains">
+                    <p:column headerText="Password" sortBy="#{user.password}" filterBy="#{user.password}" filterMatchMode="contains" >
                         <p:cellEditor>
                             <f:facet name="output">
                                 <h:outputText value="#{user.password}" />
                             </f:facet>
                             <f:facet name="input">
-                                <p:inputText value="#{user.password}" style="width:100%" required="true" requiredMessage="пожалуйста, укажите password"/>
+                                <p:inputText value="#{user.password}" style="width:100%" maxlength="255" required="true" requiredMessage="пожалуйста, укажите password" validatorMessage="количество символов в указании пароля должно быть от 3 до 255">
+                                    <f:validateLength maximum="255" minimum="3"/>
+                                </p:inputText>
                             </f:facet>
                         </p:cellEditor>
                     </p:column>
@@ -180,10 +182,14 @@
                     </p:selectManyMenu>
 
                     <h:outputText value="Login:"/>
-                    <p:inputText value="#{userController.user.login}" required="true" requiredMessage="пожалуйста, укажите login"/>
+                    <p:inputText value="#{userController.user.login}" maxlength="255" required="true" requiredMessage="пожалуйста, укажите login" validatorMessage="количество символов в указании логина должно быть от 3 до 255">
+                        <f:validateLength maximum="255" minimum="3"/>
+                    </p:inputText>
 
                     <h:outputText value="Password:"/>
-                    <p:inputText value="#{userController.user.password}" required="true" requiredMessage="пожалуйста, укажите password"/>
+                    <p:inputText value="#{userController.user.password}" maxlength="255" required="true" requiredMessage="пожалуйста, укажите password" validatorMessage="количество символов в указании пароля должно быть от 3 до 255">
+                        <f:validateLength maximum="255" minimum="3"/>
+                    </p:inputText>
                 </p:panelGrid>
 
                 <p:separator/>

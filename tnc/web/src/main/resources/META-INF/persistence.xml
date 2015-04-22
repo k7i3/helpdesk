@@ -32,6 +32,21 @@
             <property name="eclipselink.logging.level" value="INFO"/>
         </properties>
     </persistence-unit>
+
+    <persistence-unit name="newsPU" transaction-type="JTA">
+        <jta-data-source>java:global/jdbc/newsDS</jta-data-source>
+
+        <!--<class>k7i3.code.helpdesk.tnc.Transport</class>-->
+        <!--<class>k7i3.code.helpdesk.tnc.TransportInfo</class>-->
+        <!--&lt;!&ndash;...&ndash;&gt;-->
+        <!--<exclude-unlisted-classes>true</exclude-unlisted-classes>-->
+
+        <properties>
+            <property name="eclipselink.canonicalmodel.subpackage" value="newsPU"/>
+            <property name="javax.persistence.schema-generation.database.action" value="drop-and-create"/>
+            <property name="eclipselink.logging.level" value="INFO"/>
+        </properties>
+    </persistence-unit>
 </persistence>
 
 
