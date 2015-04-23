@@ -37,7 +37,7 @@ public class NoticeController {
         notice.setDidBy(userEJB.initUser().getLogin());
         noticeEJB.createNotice(notice);
 
-        FacesMessage msg = new FacesMessage("Сохранено (уведомление)", notice.getDate().toString());
+        FacesMessage msg = new FacesMessage("Сохранено (новость)", notice.getDate().toString());
         FacesContext.getCurrentInstance().addMessage(null, msg);
     }
 
@@ -45,6 +45,8 @@ public class NoticeController {
 
     public void onRowEdit(RowEditEvent event) {
         Notice editedNotice = (Notice) event.getObject();
+        editedNotice.setDate(new Date());
+        editedNotice.setDidBy(userEJB.initUser().getLogin());
 
         noticeEJB.updateNotice(editedNotice);
 

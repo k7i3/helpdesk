@@ -14,7 +14,7 @@ import java.util.logging.Logger;
 @Named
 @Stateless
 public class NoticeEJB implements Serializable{
-    @Inject @News
+    @Inject @Notices
     private EntityManager em;
     private Logger logger = Logger.getLogger("k7i3");
 

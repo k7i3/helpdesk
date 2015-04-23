@@ -18,37 +18,56 @@
     </ui:define>
 
     <ui:define name="content">
-        <p:outputPanel style="font-size: small; line-height: 2">
-        <h:outputText value="Добро пожаловать в HELPDESK!" style="font-size: medium;font-weight: 600;text-align: center; display: block"/>
-        <br />
-        <p:graphicImage name="images/logotype.jpg" style="float:left; margin: 7px 7px 7px 0;" width="350" height="200"/>
-        <h:outputText value="Система HELPDESK - автоматизированная система подачи и контроля выполнения заявок. Наша система имеет простой и
-        понятный интерфейс для пользователей и достаточный функционал для большинства задач." style="display: block" />
-        <h:outputText value="Наша техподдержка всегда на связи. Все наши клиенты получат ответ в короткий срок." style="display: block"/>
-        <h:outputText value="Система HELPDESK обеспечивает:" style="display: block" />
-            <h:outputText value="- единую точку обращения к службе поддержки. Удобный и понятный для пользователей механизм позволит направлять
-            заявки в службу поддержки, минуя менее эффективные способы разрешения проблем (попытки решить самостоятельно,
-            пытаться дозвониться или написать на email);" style="text-indent: 10px; display: block" />
-            <h:outputText value=" - обработка заявок и выявление не валидных заявок;" style="text-indent: 10px; display: block" />
-            <h:outputText value=" - контроль за последовательностью исполнения работ, потраченным временем и ресурсами;"
-                          style="text-indent: 10px; display: block" />
-            <h:outputText value=" - хранение базы знаний по прошлым запросам, позволяющее специалистам быстро разрешать
-            проблемы, схожие с уже возникавшими;" style="text-indent: 10px; display: block" />
-            <h:outputText value=" - отчётность по затратам времени и средств на выполнение запросов."
-                          style="text-indent: 10px; display: block" />
-            <br />
-            <br />
+        <p:outputPanel style="font-size: small">
 
-            <p:button process="@this" outcome="/private/viewTransport.faces" rendered="#{empty securityController.user}"
-                        value="ВОЙТИ" title="нажмите, чтобы войти в систему HelpDesk" style=" margin: 0% 47%; font-size: large"/>
-            <br />
-            <br />
+            <p:panelGrid columns="3" styleClass="ui-noborder" style="width: auto; margin-bottom: 30px">
+                <p:graphicImage name="images/logotype.jpg" width="250"/>
+                <p:panel>
+                    <p:panelGrid columns="2" style="font-size: small">
+                        <f:facet name="header">
+                            <h:outputText value="КОНТАКТЫ" style="font-size: medium"/>
+                        </f:facet>
 
+                        <h:outputLabel for="phone" value="телефон:" style="font-weight: 600"/>
+                        <h:outputText id="phone" value="8 (347) 246-12-45" />
 
-            <h:outputText value="Последние новости и оповещения" style="font-size: medium; text-align: center; font-weight: 600; display: block" />
-            <br />
+                        <h:outputLabel for="site" value="сайт:" style="font-weight: 600"/>
+                        <p:link id="site" href="http://tncrb.ru" target="_blank" value="tncrb.ru" title="нажмите, чтобы перейти на сайт АО 'ТНЦ'" />
 
-        <!--**********************************************************    -->
+                        <h:outputLabel for="email" value="email:" style="font-weight: 600"/>
+                        <h:outputText id="email" value="info@tncrb.ru / helpdesk@tncrb.ru" />
+
+                        <h:outputLabel for="skype" value="skype:" style="font-weight: 600"/>
+                        <h:outputText id="skype" value="ТНЦ ТНЦ" />
+
+                        <h:outputLabel for="address" value="адрес:" style="font-weight: 600"/>
+                        <h:outputText id="address" value="450077, г.Уфа, ул.Октябрьской революции, д. 34, офис 1, секция Б" />
+                    </p:panelGrid>
+                </p:panel>
+                <p:panel>
+                    <h:outputText value="Добро пожаловать в HELPDESK!" style="font-size: medium; font-weight: 600; text-align: center; display: block; margin-bottom: 10px"/>
+                    <h:outputText escape="false" style="display: block;"
+                                  value="Система HELPDESK - автоматизированная система подачи и контроля выполнения заявок. Наша система имеет простой и
+                                  понятный интерфейс для пользователей и достаточный функционал для большинства задач. Наша техподдержка всегда на связи.
+                                  Все наши клиенты получают ответ в короткий срок. &lt;br /&gt;
+                                  &lt;br /&gt;
+                                  Система HELPDESK обеспечивает: &lt;br /&gt;
+                                  - единую точку обращения к службе поддержки. Удобный и понятный для пользователей механизм позволит направлять заявки в службу поддержки,
+                                  минуя менее эффективные способы разрешения проблем (попытки решить самостоятельно, пытаться дозвониться или написать на email); &lt;br /&gt;
+                                  - обработка заявок и выявление невалидных заявок; &lt;br /&gt;
+                                  - контроль за последовательностью исполнения работ, потраченным временем и ресурсами; &lt;br /&gt;
+                                  - хранение базы знаний по прошлым запросам, позволяющее специалистам быстро разрешать проблемы, схожие с уже возникавшими; &lt;br /&gt;
+                                  - отчётность по затратам времени и средств на выполнение запросов."  />
+                </p:panel>
+            </p:panelGrid>
+
+            <p:panelGrid style="margin-bottom: 30px">
+                <h:panelGroup style="display:block; text-align:center">
+                    <p:button process="@this" outcome="/private/viewTransport.faces" rendered="#{empty securityController.user}"
+                              value="ВОЙТИ" title="нажмите, чтобы войти в систему HELPDESK"
+                              style="font-size: large" />
+                </h:panelGroup>
+            </p:panelGrid>
 
             <c:set var="isAdmin" value="#{securityController.isAdmin()}"/>
             <c:set var="isModer" value="#{securityController.isModer()}"/>
@@ -77,11 +96,13 @@
                          paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
                          rowsPerPageTemplate="5,10,15,20,30,40,50">
 
+                <!--word-break: break-all;-->
+
                 <p:ajax event="rowEdit" listener="#{noticeController.onRowEdit}" update=":form:msgs"/>
                 <p:ajax event="rowEditCancel" listener="#{noticeController.onRowCancel}" update=":form:msgs" />
 
                 <f:facet name="header" >
-                    <p:toolbar>
+                    <p:toolbar rendered="#{isAdmin or isModer}">
                         <f:facet name="left">
                             <p:commandButton process="@this" icon="fa fa-plus" title="Добавить новость"  update=":form:addNoticePanel" oncomplete="PF('addNoticeDialog').show()" rendered="#{isAdmin or isModer}"/>
                         </f:facet>
@@ -96,103 +117,106 @@
                             <p:columnToggler datasource="noticesTable" trigger="noticesToggler" />
                         </f:facet>
                     </p:toolbar>
+                    НОВОСТИ И ОПОВЕЩЕНИЯ
                 </f:facet>
                 <f:facet name="footer">
                     <h:outputText value="всего в базе: #{fn:length(noticeController.notices)}" style="font-size: small; text-align:left"/>
                 </f:facet>
 
-                <p:column headerText="-" selectionMode="multiple" style="width:16px;text-align:center"/>
-                <p:column headerText="-" style="width:16px">
+                <p:column headerText="-" selectionMode="multiple" style="width:16px;text-align:center" rendered="#{isAdmin or isModer}"/>
+                <p:column headerText="-" style="width:16px" rendered="false">
                     <p:rowToggler />
                 </p:column>
                 <p:column headerText="-" style="width:16px" rendered="#{isAdmin or isModer}">
                     <p:rowEditor />
                 </p:column>
 
-            <p:column headerText="Дата" >
-                <h:outputText value="#{notice.date}" />
-            </p:column>
+                <p:column headerText="Дата" sortBy="#{notice.date}" filterBy="#{notice.date}" filterMatchMode="contains" style="width:200px">
+                    <h:outputText value="#{notice.date}" />
+                </p:column >
 
-            <p:column headerText="Пользователь" >
-                <h:outputText value="#{notice.didBy}" />
-            </p:column>
+                <p:column headerText="Пользователь" sortBy="#{notice.didBy}" filterBy="#{notice.didBy}" filterMatchMode="contains" style="width:200px">
+                    <h:outputText value="#{notice.didBy}" />
+                </p:column>
 
-            <p:column headerText="Новость" >
-                <p:cellEditor>
-                    <f:facet name="output">
-                        <h:outputText value="#{notice.content}" />
-                    </f:facet>
-                    <f:facet name="input">
-                        <p:inputTextarea value="#{notice.content}" style="width:100%" maxlength="255" required="true" requiredMessage="пожалуйста, укажите новость" validatorMessage="количество символов в указании новости должно быть от 3 до 255">
-                            <f:validateLength maximum="255" minimum="3"/>
-                        </p:inputTextarea>
-                    </f:facet>
-                </p:cellEditor>
-            </p:column>
+                <p:column headerText="Новость" sortBy="#{notice.content}" filterBy="#{notice.content}" filterMatchMode="contains">
+                    <p:cellEditor>
+                        <f:facet name="output">
+                            <h:outputText value="#{notice.content}" />
+                        </f:facet>
+                        <f:facet name="input">
+                            <p:inputTextarea value="#{notice.content}" style="width:100%" maxlength="255" required="true" requiredMessage="пожалуйста, укажите новость" validatorMessage="количество символов в указании новости должно быть от 3 до 255">
+                                <f:validateLength maximum="255" minimum="3"/>
+                            </p:inputTextarea>
+                        </f:facet>
+                    </p:cellEditor>
+                </p:column>
 
-            <p:rowExpansion>
-            </p:rowExpansion>
-        </p:dataTable>
+                <p:rowExpansion>
+                </p:rowExpansion>
+            </p:dataTable>
 
-            <p:dialog
-                    widgetVar="addNoticeDialog"
-                    header="Добавление новости:"
-                    modal="true"
-                    showEffect="fade"
-                    hideEffect="fade"
-                    resizable="false"
-                    draggable="false"
-                    width="auto"
-                    style="font-size: small">
-
-                <p:outputPanel id="addNoticePanel">
-                    <p:panelGrid columns="2" styleClass="ui-noborder" style="width: auto">
-
-                        <h:outputText value="Новость:"/>
-                        <p:inputTextarea value="#{noticeController.notice.content}" maxlength="255" required="true" requiredMessage="пожалуйста, укажите новость" validatorMessage="количество символов в указании новости должно быть от 3 до 255">
-                            <f:validateLength maximum="255" minimum="3"/>
-                        </p:inputTextarea>
-                    </p:panelGrid>
-
-                    <p:separator/>
-
-                    <p:commandButton process="@parent" update=":form:msgs :form:noticesTable" action="#{noticeController.doAddNotice()}" onsuccess="PF('addNoticeDialog').hide()" value="Создать" icon="ui-icon-disk" style="float: right"/>
-                </p:outputPanel>
-            </p:dialog>
-
-
-        <!--**********************************************************    -->
-
-            <br />
-        <h:outputText value="Контакты" style="font-size: medium; text-align: center; font-weight: 600; display: block" />
-
-            <h:panelGrid columns="2" columnClasses="column" cellpadding="5" style="margin:0% 35%;font-size: small">
-                <h:outputLabel for="phone" value="Телефон:" />
-                <p:inplace id="phone">
-                    <p:inputText value="8 (347) 246-12-45" />
-                </p:inplace>
-
-                <h:outputLabel for="site" value="Сайт:" />
-                <p:inplace id="site">
-                    <p:link href="http://tncrb.ru" target="_blank" value="tncrb.ru" title="нажмите, чтобы перейти на сайт АО 'ТНЦ'" />
-                </p:inplace>
-
-                <h:outputLabel for="email" value="Email:" />
-                <p:inplace id="email">
-                    <p:inputText value="info@tncrb.ru или helpdesk@tncrb.ru" />
-                </p:inplace>
-                <h:outputLabel for="skype" value="Skype:" />
-                <p:inplace id="skype">
-                    <p:inputText value="ТНЦ ТНЦ" />
-                </p:inplace>
-                <h:outputLabel for="address" value="Почтовый адрес:" />
-                <p:inplace id="address">
-                    <p:inputText value="450077, г.Уфа, ул.Октябрьской революции, д. 34, офис 1, секция Б" />
-                </p:inplace>
-            </h:panelGrid>
         </p:outputPanel>
+
+        <p:dialog
+                widgetVar="addNoticeDialog"
+                header="Добавление новости:"
+                modal="true"
+                showEffect="fade"
+                hideEffect="fade"
+                resizable="false"
+                draggable="true"
+                width="auto"
+                style="font-size: small">
+
+            <p:outputPanel id="addNoticePanel">
+                <p:panelGrid columns="2" styleClass="ui-noborder" style="width: auto">
+
+                    <h:outputText value="Новость:"/>
+                    <p:inputTextarea counter="noticeContentCounter" counterTemplate="символов осталось: {0}" cols="70" rows="5" value="#{noticeController.notice.content}" autoResize="false" maxlength="255" required="true" requiredMessage="пожалуйста, укажите новость" validatorMessage="количество символов в указании новости должно быть от 3 до 255">
+                        <f:validateLength maximum="255" minimum="3"/>
+                    </p:inputTextarea>
+                </p:panelGrid>
+
+                <p:separator/>
+
+                <h:outputText id="noticeContentCounter" style="margin-bottom: 10px; display: block"/>
+
+                <p:commandButton process="@parent" update=":form:msgs :form:noticesTable" action="#{noticeController.doAddNotice()}" onsuccess="PF('addNoticeDialog').hide()" value="Создать" icon="ui-icon-disk" style="float: right"/>
+            </p:outputPanel>
+        </p:dialog>
 
     </ui:define>
 
 </ui:composition>
 </html>
+
+
+
+        <!--<h:outputText value="Добро пожаловать в HELPDESK!" style="font-size: medium;font-weight: 600;text-align: center; display: block"/>-->
+        <!--<br />-->
+        <!--<p:graphicImage name="images/logotype.jpg" style="float:left; margin: 7px 7px 7px 0;" width="350" height="200"/>-->
+        <!--<h:outputText value="Система HELPDESK - автоматизированная система подачи и контроля выполнения заявок. Наша система имеет простой и-->
+        <!--понятный интерфейс для пользователей и достаточный функционал для большинства задач." style="display: block" />-->
+        <!--<h:outputText value="Наша техподдержка всегда на связи. Все наши клиенты получат ответ в короткий срок." style="display: block"/>-->
+        <!--<h:outputText value="Система HELPDESK обеспечивает:" style="display: block" />-->
+        <!--<h:outputText value="- единую точку обращения к службе поддержки. Удобный и понятный для пользователей механизм позволит направлять-->
+        <!--заявки в службу поддержки, минуя менее эффективные способы разрешения проблем (попытки решить самостоятельно,-->
+        <!--пытаться дозвониться или написать на email);" style="text-indent: 10px; display: block" />-->
+        <!--<h:outputText value=" - обработка заявок и выявление не валидных заявок;" style="text-indent: 10px; display: block" />-->
+        <!--<h:outputText value=" - контроль за последовательностью исполнения работ, потраченным временем и ресурсами;"-->
+        <!--style="text-indent: 10px; display: block" />-->
+        <!--<h:outputText value=" - хранение базы знаний по прошлым запросам, позволяющее специалистам быстро разрешать-->
+        <!--проблемы, схожие с уже возникавшими;" style="text-indent: 10px; display: block" />-->
+        <!--<h:outputText value=" - отчётность по затратам времени и средств на выполнение запросов."-->
+        <!--style="text-indent: 10px; display: block" />-->
+        <!--<br />-->
+        <!--<br />-->
+
+
+        <!--<br />-->
+        <!--<br />-->
+
+
+        <!--<h:outputText value="Последние новости и оповещения" style="font-size: medium; text-align: center; font-weight: 600; display: block" />-->
+        <!--<br />-->

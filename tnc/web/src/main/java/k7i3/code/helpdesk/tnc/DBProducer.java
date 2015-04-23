@@ -16,7 +16,7 @@ public class DBProducer {
     @PersistenceContext(unitName = "usersPU")
     private EntityManager emUsers;
 
-    @Produces @News
+    @Produces @Notices
     @PersistenceContext(unitName = "newsPU")
     private EntityManager emNews;
 

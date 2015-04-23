@@ -10,7 +10,7 @@ import java.util.Date;
  */
 @Entity
 @NamedQueries({
-        @NamedQuery(name = "findAllNotices", query = "SELECT n FROM Notice n")
+        @NamedQuery(name = "findAllNotices", query = "SELECT n FROM Notice n ORDER BY n.date DESC")
 })
 public class Notice implements Serializable{
     @Id
@@ -29,7 +29,7 @@ public class Notice implements Serializable{
     }
 
     public Notice(String content, String didBy, Date date) {
-        this.content = content;
+        this.content = content.trim();
         this.didBy = didBy;
         this.date = date;
     }
@@ -43,7 +43,7 @@ public class Notice implements Serializable{
     }
 
     public void setContent(String content) {
-        this.content = content;
+        this.content = content.trim();
     }
 
     public String getDidBy() {

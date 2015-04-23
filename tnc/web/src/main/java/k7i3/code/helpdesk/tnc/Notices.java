@@ -13,5 +13,5 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 @Qualifier
 @Retention(RUNTIME)
 @Target({FIELD, TYPE, METHOD})
-public @interface News {
+public @interface Notices {
 }
