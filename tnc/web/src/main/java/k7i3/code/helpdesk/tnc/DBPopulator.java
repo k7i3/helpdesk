@@ -57,13 +57,13 @@ import java.util.logging.Logger;
         ),
 
         @DataSourceDefinition(
-            name = "java:global/jdbc/newsDS",
+            name = "java:global/jdbc/noticesDS",
 //            className = "org.apache.derby.jdbc.EmbeddedDataSource",
 //            className = "org.apache.derby.jdbc.ClientXADataSource",
             className = "org.apache.derby.jdbc.EmbeddedXADataSource",
             user = "app",
             password = "app",
-            databaseName = "newsDB",
+            databaseName = "noticesDB",
             properties = {"connectionAttributes=;create=true"}
         )
 

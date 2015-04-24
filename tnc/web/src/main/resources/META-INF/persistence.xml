@@ -22,6 +22,7 @@
     <persistence-unit name="usersPU" transaction-type="JTA">
         <!--<jta-data-source>java:global/jdbc/usersDS</jta-data-source>-->
         <jta-data-source>jdbc/security</jta-data-source>
+        <!--<jta-data-source>jdbc/postgresSecurity</jta-data-source>-->
 
         <!--<class>k7i3.code.helpdesk.tnc.User</class>-->
         <!--<exclude-unlisted-classes>true</exclude-unlisted-classes>-->
@@ -33,16 +34,15 @@
         </properties>
     </persistence-unit>
 
-    <persistence-unit name="newsPU" transaction-type="JTA">
-        <jta-data-source>java:global/jdbc/newsDS</jta-data-source>
+    <persistence-unit name="noticesPU" transaction-type="JTA">
+        <jta-data-source>java:global/jdbc/noticesDS</jta-data-source>
 
         <!--<class>k7i3.code.helpdesk.tnc.Transport</class>-->
         <!--<class>k7i3.code.helpdesk.tnc.TransportInfo</class>-->
-        <!--&lt;!&ndash;...&ndash;&gt;-->
         <!--<exclude-unlisted-classes>true</exclude-unlisted-classes>-->
 
         <properties>
-            <property name="eclipselink.canonicalmodel.subpackage" value="newsPU"/>
+            <property name="eclipselink.canonicalmodel.subpackage" value="noticesPU"/>
             <property name="javax.persistence.schema-generation.database.action" value="drop-and-create"/>
             <property name="eclipselink.logging.level" value="INFO"/>
         </properties>
