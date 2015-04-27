@@ -9,7 +9,7 @@ import javax.validation.constraints.NotNull;
 @Entity
 public class CommentInfo {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @NotNull
     @AttributeOverrides({

@@ -45,27 +45,49 @@ import java.util.logging.Logger;
 //)
 
 @DataSourceDefinitions({
-        @DataSourceDefinition(
-            name = "java:global/jdbc/dataDS",
-//            className = "org.apache.derby.jdbc.EmbeddedDataSource",
-//            className = "org.apache.derby.jdbc.ClientXADataSource",
-            className = "org.apache.derby.jdbc.EmbeddedXADataSource",
-            user = "app",
-            password = "app",
-            databaseName = "dataDB",
-            properties = {"connectionAttributes=;create=true"}
-        ),
+//        @DataSourceDefinition(
+//            name = "java:global/jdbc/dataDS",
+////            className = "org.apache.derby.jdbc.EmbeddedDataSource",
+////            className = "org.apache.derby.jdbc.ClientXADataSource",
+//            className = "org.apache.derby.jdbc.EmbeddedXADataSource",
+//            user = "app",
+//            password = "app",
+//            databaseName = "dataDB",
+//            properties = {"connectionAttributes=;create=true"}
+//        ),
 
         @DataSourceDefinition(
-            name = "java:global/jdbc/noticesDS",
-//            className = "org.apache.derby.jdbc.EmbeddedDataSource",
-//            className = "org.apache.derby.jdbc.ClientXADataSource",
-            className = "org.apache.derby.jdbc.EmbeddedXADataSource",
-            user = "app",
-            password = "app",
-            databaseName = "noticesDB",
-            properties = {"connectionAttributes=;create=true"}
-        )
+                name = "java:global/jdbc/dataDS",
+                className = "org.postgresql.xa.PGXADataSource",
+                user = "postgres",
+                password = "postgres",
+                databaseName = "dataDB",
+                portNumber = 5432,
+                serverName = "localhost",
+                properties = {"connectionAttributes=;create=true"}
+        ),
+
+//        @DataSourceDefinition(
+//            name = "java:global/jdbc/noticesDS",
+////            className = "org.apache.derby.jdbc.EmbeddedDataSource",
+////            className = "org.apache.derby.jdbc.ClientXADataSource",
+//            className = "org.apache.derby.jdbc.EmbeddedXADataSource",
+//            user = "app",
+//            password = "app",
+//            databaseName = "noticesDB",
+//            properties = {"connectionAttributes=;create=true"}
+//        ),
+
+        @DataSourceDefinition(
+        name = "java:global/jdbc/noticesDS",
+        className = "org.postgresql.xa.PGXADataSource",
+        user = "postgres",
+        password = "postgres",
+        databaseName = "noticesDB",
+        portNumber = 5432,
+        serverName = "localhost",
+        properties = {"connectionAttributes=;create=true"}
+),
 
 //        @DataSourceDefinition(
 //            name = "java:global/jdbc/usersDS",

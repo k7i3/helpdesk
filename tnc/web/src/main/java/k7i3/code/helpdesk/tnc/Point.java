@@ -9,7 +9,7 @@ import javax.validation.constraints.NotNull;
 @Entity
 public class Point {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @NotNull
     @OneToOne(cascade = CascadeType.ALL)

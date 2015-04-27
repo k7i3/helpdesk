@@ -9,7 +9,7 @@ import javax.validation.constraints.NotNull;
 @Entity
 public class TerminalInfo {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @NotNull
     @AttributeOverrides({

@@ -11,7 +11,7 @@ import java.util.List;
 @Entity
 public class Terminal {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @NotNull
     @AttributeOverrides({

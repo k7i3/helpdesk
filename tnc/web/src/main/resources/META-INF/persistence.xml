@@ -4,13 +4,27 @@
              xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd"
              version="2.1">
 
+<!--***********************************************dataPU    -->
+
   <persistence-unit name="dataPU" transaction-type="JTA">
     <jta-data-source>java:global/jdbc/dataDS</jta-data-source>
 
-      <!--<class>k7i3.code.helpdesk.tnc.Transport</class>-->
-      <!--<class>k7i3.code.helpdesk.tnc.TransportInfo</class>-->
-      <!--&lt;!&ndash;...&ndash;&gt;-->
-      <!--<exclude-unlisted-classes>true</exclude-unlisted-classes>-->
+      <class>k7i3.code.helpdesk.tnc.Comment</class>
+      <class>k7i3.code.helpdesk.tnc.CommentInfo</class>
+      <class>k7i3.code.helpdesk.tnc.LifeCycleInfo</class>
+      <class>k7i3.code.helpdesk.tnc.Point</class>
+      <class>k7i3.code.helpdesk.tnc.PointInfo</class>
+      <class>k7i3.code.helpdesk.tnc.Terminal</class>
+      <class>k7i3.code.helpdesk.tnc.TerminalInfo</class>
+      <class>k7i3.code.helpdesk.tnc.Ticket</class>
+      <class>k7i3.code.helpdesk.tnc.TicketDetails</class>
+      <class>k7i3.code.helpdesk.tnc.TicketHeader</class>
+      <class>k7i3.code.helpdesk.tnc.TicketInfo</class>
+      <class>k7i3.code.helpdesk.tnc.TicketResult</class>
+      <class>k7i3.code.helpdesk.tnc.Transport</class>
+      <class>k7i3.code.helpdesk.tnc.TransportEquipment</class>
+      <class>k7i3.code.helpdesk.tnc.TransportInfo</class>
+      <exclude-unlisted-classes>true</exclude-unlisted-classes>
 
     <properties>
         <property name="eclipselink.canonicalmodel.subpackage" value="dataPU"/>
@@ -19,13 +33,17 @@
     </properties>
   </persistence-unit>
 
+<!--***********************************************dataPU    -->
+
+<!--***********************************************usersPU    -->
+
     <persistence-unit name="usersPU" transaction-type="JTA">
         <!--<jta-data-source>java:global/jdbc/usersDS</jta-data-source>-->
-        <jta-data-source>jdbc/security</jta-data-source>
-        <!--<jta-data-source>jdbc/postgresSecurity</jta-data-source>-->
+        <!--<jta-data-source>jdbc/security</jta-data-source>-->
+        <jta-data-source>jdbc/postgresSecurity</jta-data-source>
 
-        <!--<class>k7i3.code.helpdesk.tnc.User</class>-->
-        <!--<exclude-unlisted-classes>true</exclude-unlisted-classes>-->
+        <class>k7i3.code.helpdesk.tnc.User</class>
+        <exclude-unlisted-classes>true</exclude-unlisted-classes>
 
         <properties>
             <property name="eclipselink.canonicalmodel.subpackage" value="usersPU"/>
@@ -34,12 +52,15 @@
         </properties>
     </persistence-unit>
 
+<!--***********************************************usersPU    -->
+
+<!--***********************************************noticesPU    -->
+
     <persistence-unit name="noticesPU" transaction-type="JTA">
         <jta-data-source>java:global/jdbc/noticesDS</jta-data-source>
 
-        <!--<class>k7i3.code.helpdesk.tnc.Transport</class>-->
-        <!--<class>k7i3.code.helpdesk.tnc.TransportInfo</class>-->
-        <!--<exclude-unlisted-classes>true</exclude-unlisted-classes>-->
+        <class>k7i3.code.helpdesk.tnc.Notice</class>
+        <exclude-unlisted-classes>true</exclude-unlisted-classes>
 
         <properties>
             <property name="eclipselink.canonicalmodel.subpackage" value="noticesPU"/>
@@ -48,5 +69,7 @@
         </properties>
     </persistence-unit>
 </persistence>
+
+<!--***********************************************noticesPU    -->
 
 

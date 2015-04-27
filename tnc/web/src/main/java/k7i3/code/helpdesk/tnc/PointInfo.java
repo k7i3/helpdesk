@@ -10,7 +10,7 @@ import java.util.Date;
 @Entity
 public class PointInfo {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @NotNull
     @AttributeOverrides({
