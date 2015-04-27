@@ -5,6 +5,7 @@
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:p="http://primefaces.org/ui"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
         >
 
 <ui:composition template="/layout.xhtml">
@@ -16,158 +17,318 @@
     </ui:define>
     <ui:define name="content">
 
+        <c:set var="isAdmin" value="#{securityController.isAdmin()}"/>
+        <c:set var="isModer" value="#{securityController.isModer()}"/>
+        <c:set var="isService" value="#{securityController.isService()}"/>
+        <c:set var="isUser" value="#{securityController.isUser()}"/>
+        <p:outputPanel style="font-size: small">
       <p:tabView style="font-size: small">
 
         <p:tab title="HelpDesk">
+        <h:outputText value="Система HELPDESK - автоматизированная система подачи и контроля выполнения заявок." style=" margin-bottom: 10px; display: block; text-indent:20px"/>
+        <h:outputText value="Наша система имеет простой и понятный интерфейс для пользователей и достаточный функционал для большинства задач."
+                      style=" margin-bottom: 10px; display: block; text-indent:20px"/>
+            <h:outputText value="Наша техподдержка всегда на связи. Все наши клиенты получают ответ в короткий срок."
+                          style=" margin-bottom: 10px; display: block; text-indent:20px"/>
 
-                <h:outputText value="Здесь будет все о работе в helpdesk" />
+          <p:accordionPanel activeIndex="">
+                <p:tab title="Подача заявки" rendered="#{isAdmin or isUser}">
+                    <h:outputText value="Заявки подаются на каждое ТС отдельно!" style=" margin-bottom: 10px; display: block; text-indent:20px"/>
+                    <h:outputText value="Для подачи заявки находим интересующий государственный регистрационный номер ТС в столбце 'Гос.номер'.
+                    Для удобства поиска можно воспользовальзоваться встроенным фильтром." style="display: block; text-indent:20px"/>
+                    <h:outputText value="Расскрываем выбранную строку, нажимая на стрелочку."  style="text-indent:20px; display: block"/>
 
+                    <h:outputText value="Далее открываем вкладку 'Заявки' -> '+ Новая заявка'" style=" margin-bottom: 10px;
+                    display: block; text-indent:20px"/>
+                    <p:graphicImage name="images/HelpDesk.jpg" style="max-width: 80%; margin-bottom: 10px"/>
+                    <h:outputText value="В заявке указывается причина заявки; возможность подачи ТС в Уфу и место подачи;
+                    был ли произведен внешний осмотр; телефоны водителя и ответственного для связи; коммментарий"
+                                  style="text-indent:20px; display: block"/>
+                    <p:graphicImage name="images/new_z.jpg" style="max-width: 80%;display: block;margin-bottom: 10px"/>
+                    <h:outputText value="После сохранения, Вы можете отслеживать состояние заявки" style="text-indent:20px; display: block"/>
+                    <p:graphicImage name="images/z_go.jpg" style="max-width: 80%; display: block;margin-bottom: 10px"/>
+                    <h:outputText value="Зявка может быть:" style="text-indent:20px; display: block"/>
+                    <h:outputText value="Открыта - устанавливается при сохранение Вами заявки, до тех пор пока она не будет
+                     рассмотрена сотрудниками Helpdesk." style="text-indent:20px; display: block"/>
+                    <h:outputText value="Невалидная - устанавливается при некорректном заполнении заявки."
+                                  style="text-indent:20px; display: block"/>
+                    <h:outputText value="Принята - устанавливется при рассмотрение сотрудниками Helpdesk Вашей заявки.
+                    После рассмотрения проблема решается удаленно (статус 'Закрыта' или назначается выезд специалиста (статус 'Выезд')."
+                                  style="text-indent:20px; display: block"/>
+                    <h:outputText value="Выезд - устанавливается если проблему не получается решить удаленно." style="text-indent:20px; display: block"/>
+                    <h:outputText value="Закрыта - устанавливается если проблема решается удаленно или после выезда специалиста.
+                    После закрытия заявки проверяется устранена ли проблема. Если да, то устанавливается статус 'В архив'. Если нет - 'Повторный выезд'."
+                                  style="text-indent:20px; display: block"/>
+                    <h:outputText value="В архиве - устанавливается когда проблема решена/" style="text-indent:20px; display: block; margin-bottom: 10px"/>
+                    <h:outputText value="Также  в любом статусе Вы моете отменить заявку, указав причину отмены/" style="text-indent:20px; display: block"/>
+
+                </p:tab>
+
+                <p:tab title="Возможности программы" rendered="#{isAdmin or isUser}">
+                    <h:outputText value="Во вкладке 'Транспорт' Вы можете отслеживать статусы активных заявок (столбец 'Статус'), общее
+                    количество заявок по каждому транспортному средству (столбец 'З.')" style="text-indent:20px; display: block; margin-bottom: 10px"/>
+                    <h:outputText value="При раскрытие строчки Вы можете открыть Историю ТС, Историю терминала, увидеть ТС на карте"
+                                  style="text-indent:20px; display: block;margin-bottom: 10px"/>
+                    <h:outputText value="Во вкладке 'Дополнительное оборудование' можно посмотреть дополнительное обрудование
+                    установленое на данном ТС" style="text-indent:20px; display: block;margin-bottom: 10px"/>
+                    <h:outputText value="Во вкладке 'Комментарии к транспорту' сохраняются комментарии всех поьзователей,
+                    а также можно добавить свой комментарий" style="text-indent:20px; display: block;margin-bottom: 10px"/>
+                </p:tab>
+
+            </p:accordionPanel>
         </p:tab>
 
         <p:tab title="VMS-client">
-                <h:outputText value="VMS-client – это программный продукт, который помогает пользователям
-                            контролировать их объекты (автопарк, технику, работников и т.п.)."/><br />
-                Мониторинг позволяет:<br />
-                <ul>
-                    <li>наблюдать за местонахождением объектов и их передвижениями на карте;</li>
-                    <li>отслеживать изменения скорости движения, уровня топлива;</li>
-                    <li>составлять отчеты нескольких видов;</li>
-                    <li>отслеживать движение объекта по заданному маршруту;</li>
-                    <li>интерпретировать полученную от объекта информацию в виде графика;</li>
-                    <li>и многое другое.</li>
-                </ul>
-                За объектами мониторинга можно наблюдать на экране компьютера в режиме «Онлайн».<br />
-                Пользовательский интерфейс VMS-client прост, существуют всплывающие подсказки, дающие
-                поясняющую информацию к кнопкам и иконкам.<br />
+            <h:outputText value="VMS-client – это программный продукт, который помогает пользователям
+                            контролировать их объекты (автопарк, технику, работников и т.п.)." style="text-indent:20px; display: block; margin-bottom: 10px"/>
+            <h:outputText value="Мониторинг позволяет:" style="text-indent:20px; display: block"/>
+            <h:outputText value="- наблюдать за местонахождением объектов и их передвижениями на карте;" style="text-indent:20px; display: block"/>
+            <h:outputText value="-отслеживать изменения скорости движения, уровня топлива;" style="text-indent:20px; display: block" />
+            <h:outputText value="-составлять отчеты нескольких видов;" style="text-indent:20px; display: block"/>
+            <h:outputText value="-отслеживать движение объекта по заданному маршруту;" style="text-indent:20px; display: block"/>
+            <h:outputText value="-интерпретировать полученную от объекта информацию в виде графика;" style="text-indent:20px; display: block"/>
+            <h:outputText value="-и многое другое." style="text-indent:20px; display: block; margin-bottom: 10px"/>
+
+            <h:outputText value="За объектами мониторинга можно наблюдать на экране компьютера в режиме «Онлайн»." style="text-indent:20px; display: block"/>
+            <h:outputText value="Пользовательский интерфейс VMS-client прост, существуют всплывающие подсказки, дающие
+                поясняющую информацию к кнопкам и иконкам." style="text-indent:20px; display: block"/>
                 <p:accordionPanel activeIndex="">
                     <p:tab title="Как войти в систему?">
-                            Для начала работы в системе необходимо авторизоваться. Укажите логин и пароль, которые
-                            Вам были выданы. После того как Вы ввели все необходимые данные, нажмите кнопку «Ок».<br />
-                            <p:graphicImage name="images/login.jpg"/><br />
-                            Рисунок 1 Вход в систему<br />
-                            Если логин и пароль были введены неправильно, система выдает ошибку:<br />
-                            <p:graphicImage name="images/error_login.jpg" style="max-width: 100%" /><br />
-                            Рисунок 2 Ошибка входа в систему<br />
-                            При введение неправильного логина и пароля более 5 раз, вход в систему блокируется.
-                            Для разблокировки пользователя необходимо позвонить по тел.: 8(347) 246-12-45
-                            либо написать на электронную почту: info@tncrb.ru.<br />
-                            При успешном входе откроется окно:<br />
-                            <p:graphicImage name="images/startWindow.jpg" style="max-width: 100%" /><br />
-                            Рисунок 3 Стартовое окно при успешном входе в систему<br />
+                        <h:outputText value="Для начала работы в системе необходимо авторизоваться. Укажите логин и пароль, которые
+                            Вам были выданы. После того как Вы ввели все необходимые данные, нажмите кнопку «Ок»." style="text-indent:20px; display: block"/>
+                        <p:graphicImage name="images/login.jpg"/>
+                        <h:outputText value="Рисунок 1 Вход в систему" style="text-indent:20px; display: block; margin-bottom: 10px"/>
+                        <h:outputText value="Если логин и пароль были введены неправильно, система выдает ошибку:" style="text-indent:20px; display: block"/>
+                        <p:graphicImage name="images/error_login.jpg" style="max-width: 100%"  />
+                        <h:outputText value="Рисунок 2 Ошибка входа в систему" style="text-indent:20px; display: block; margin-bottom: 10px"/>
+                        <h:outputText value="При введение неправильного логина и пароля более 5 раз, вход в систему блокируется.
+                        Для разблокировки пользователя необходимо позвонить по тел.: 8(347) 246-12-45 либо написать на электронную почту:
+                        info@tncrb.ru." style="text-indent:20px; display: block"/>
+                        <h:outputText value="При успешном входе откроется окно:" style="text-indent:20px; display: block"/>
+                        <p:graphicImage name="images/startWindow.jpg" style="max-width: 100%; margin-bottom: 10px" />
+                        <h:outputText value="Рисунок 3 Стартовое окно при успешном входе в систему" style="text-indent:20px; display: block; margin-bottom: 10px"/>
                     </p:tab>
                     <p:tab title="Посмотреть путь объекта за определенный промежуток времени">
-                            Для просмотра всего пути объекта за определенный промежуток времени необходимо нажать на
-                            "АРМ диспетчера" -> Отображение всего пути"<br />
-                            Подраздел «Отображение всего пути» предназначен для просмотра всего пути
-                            выбранного объекта за выбранный период времени, с выводом пробега на экрана (см. Рисунок 4)<br />
-                            Для вывода всего пути выбранного объекта необходимо:<br />
-                            <ol>
-                            <li>Задать интересующий период времени. Для простоты выбора даты в программу
-                                встроен календарь, который можно увидеть при нажатии иконки <p:graphicImage name="images/arrow.jpg" style="max-width: 100%" />.</li>
-                                <li>При нажатие <p:graphicImage name="images/bd.jpg" style="max-width: 100%"/> открывается список Ваших
-                                    объектов, в котором выбираем интересующий Вас объект и нажимаем на «Ок».</li>
-                                <li>Далее нажимаем «Загрузить данные».  Прогресс выполнения данной команды можно
-                                    отследить на полосе загрузок.</li>
-                                <li>После завершения загрузки данных нажимаем на кнопку «Показать весь путь» и с правой
-                                    стороны окна на карте видим отображения трека объекта (см. Рисунок 5)</li>
-                            </ol>
-                            Пробег выбранного объекта за выбранный период показан в левом нижнем углу (см. Рисунок 5).<br />
-                            Также можно вывести на экран график, параметрами которого являются время, наличие данных и скорость.<br />
-                        <p:graphicImage name="images/image4.jpg" style="max-width: 100%"/><br />
-                        Рисунок 4 Подраздел «Отображение всего пути»<br />
-                        <p:graphicImage name="images/image5.jpg" style="max-width: 100%"/><br />
-                        Рисунок 5 Отображение всего пути<br />
+                        <h:outputText value="Для просмотра всего пути объекта за определенный промежуток времени необходимо нажать на
+                            'АРМ диспетчера' -> Отображение всего пути" style="text-indent:20px; display: block"/>
+                        <h:outputText value="Подраздел «Отображение всего пути» предназначен для просмотра всего пути
+                            выбранного объекта за выбранный период времени, с выводом пробега на экрана (см. Рисунок 4)" style="text-indent:20px; display: block"/>
+                        <h:outputText value="Для вывода всего пути выбранного объекта необходимо:" style="text-indent:20px; display: block"/>
+                        <h:outputText value="Задать интересующий период времени. Для простоты выбора даты в программу
+                                встроен календарь, который можно увидеть при нажатии иконки" style="text-indent:20px"/>
+                        <p:graphicImage name="images/arrow.jpg" style="max-width: 100%;display: block" />
+                        <h:outputText value="При нажатие" style="text-indent:20px"/>
+                        <p:graphicImage name="images/bd.jpg" style="max-width: 100%"/>
+                        <h:outputText value="открывается список Ваших объектов, в котором выбираем интересующий Вас объект
+                        и нажимаем на «Ок»." style="text-indent:20px" />
+                        <h:outputText value="Далее нажимаем «Загрузить данные».  Прогресс выполнения данной команды можно
+                                    отследить на полосе загрузок." style="text-indent:20px;display: block" />
+                        <h:outputText value="После завершения загрузки данных нажимаем на кнопку «Показать весь путь» и с правой
+                                    стороны окна на карте видим отображения трека объекта (см. Рисунок 5)" style="text-indent:20px;display: block" />
+                        <h:outputText value="Пробег выбранного объекта за выбранный период показан в левом нижнем углу
+                        (см. Рисунок 5)." style="text-indent:20px;display: block" />
+                        <h:outputText value="Также можно вывести на экран график, параметрами которого являются время, наличие
+                        данных и скорость." style="text-indent:20px;display: block" />
+                        <p:graphicImage name="images/image4.jpg" style="max-width: 100%;display: block"/>
+                        <h:outputText value="Рисунок 4 Подраздел «Отображение всего пути»" style="text-indent:20px;display: block; margin-bottom: 10px" />
+                        <p:graphicImage name="images/image5.jpg" style="max-width: 100%;display: block"/>
+                        <h:outputText value="Рисунок 5 Отображение всего пути" style="text-indent:20px;display: block; margin-bottom: 10px" />
                     </p:tab>
                     <p:tab title="Как изменить карту, отображение информации?">
-                        При нажатии на иконку объекта появляется информация, например,
+                        <h:outputText value="При нажатии на иконку объекта появляется информация, например,
                         государственный регистрационный номер, дата и время последней передачи данных и скорость,
-                        с которой двигается объект в данный момент времени (см. Рисунок 6).<br />
-                        <p:graphicImage name="images/mapInfo.jpg" style="max-width: 100%"/><br />
-                        Рисунок 6 Подраздел «Отображение в реальном времени с иконками бригад»<br />
-                        Для вывода информации необходимо нажать F4 и в появившемся окне отметить интересующие пункты галочками.<br />
-                        <p:graphicImage name="images/setting.jpg" style="max-width: 100%"/><br />
-                        Рисунок 7 Настройки отображения<br />
-                        Для удобства наблюдения за объектами мы рекомендуем использовать карту OpenStreetMap.<br />
+                        с которой двигается объект в данный момент времени (см. Рисунок 6)." style="text-indent:20px;display: block"/>
+                        <p:graphicImage name="images/mapInfo.jpg" style="max-width: 100%; display: block"/>
+                        <h:outputText value=" Рисунок 6 Подраздел «Отображение в реальном времени с иконками бригад»"
+                                      style="text-indent:20px;display: block; margin-bottom: 10px"/>
+                        <h:outputText value="Для вывода информации необходимо нажать F4 и в появившемся окне отметить
+                        интересующие пункты галочками." style="text-indent:20px;display: block"/>
+                        <p:graphicImage name="images/setting.jpg" style="max-width: 100%;display: block"/>
+                        <h:outputText value="Рисунок 7 Настройки отображения" style="text-indent:20px;display: block; margin-bottom: 10px"/>
+                        <h:outputText value="Для удобства наблюдения за объектами мы рекомендуем использовать карту OpenStreetMap."
+                                      style="text-indent:20px;display: block; margin-bottom: 10px"/>
                     </p:tab>
 
 
                     <p:tab title="Что означают иконки? В чем разница по цвету?">
-                        Иконка объекта может быть 2х видов и 3х цветов: в виде иконки «Парковка» (<p:graphicImage name="images/greenP.jpg" style="max-width: 100%"/> ,
-                        <p:graphicImage name="images/yellowP.jpg" style="max-width: 100%"/>,<p:graphicImage name="images/redP.jpg" style="max-width: 100%"/> )
-                        и в виде стрелочки (<p:graphicImage name="images/greenArrow.jpg" style="max-width: 100%"/> ,
-                        <p:graphicImage name="images/redArrow.jpg" style="max-width: 100%"/>) ; зеленая, желтая и красная.<br />
-                        Если последние данные были переданы 30 минут назад (данное значение вводится в Настройках
-                        отображение ТС – F4), то иконка отображается зеленым цветом.<br />
-                        Если последние данные были переданы 60 минут назад (данное значение вводится в Настройках
-                        отображение ТС – F4), то иконка отображается желтым цветом.<br />
-                        Если данные не передавались более 60 минут, то иконка – красного цвета.<br />
+                        <h:outputText value="Иконка объекта может быть 2х видов и 3х цветов: в виде иконки «Парковка» ("
+                                      style="text-indent:20px" />
+                        <p:graphicImage name="images/greenP.jpg" style="max-width: 100%"/>
+                        <p:graphicImage name="images/yellowP.jpg" style="max-width: 100%"/>
+                        <p:graphicImage name="images/redP.jpg" style="max-width: 100%"/> )
+                        <h:outputText value="и в виде стрелочки (" style="text-indent:20px" />
+                        <p:graphicImage name="images/greenArrow.jpg" style="max-width: 100%"/>
+                        <p:graphicImage name="images/redArrow.jpg" style="max-width: 100%"/>
+                        <h:outputText value=") зеленая, желтая и красная." style="text-indent:20px" />
+                        <h:outputText value="Если последние данные были переданы 30 минут назад (данное значение вводится в Настройках
+                        отображение ТС – F4), то иконка отображается зеленым цветом." style="text-indent:20px; display: block"/>
+                        <h:outputText value=" Если последние данные были переданы 60 минут назад (данное значение вводится в Настройках
+                        отображение ТС – F4), то иконка отображается желтым цветом." style="text-indent:20px; display: block"/>
+                        <h:outputText value="Если данные не передавались более 60 минут, то иконка – красного цвета."
+                                      style="text-indent:20px; display: block; margin-bottom: 10px"/>
                     </p:tab>
 
                     <p:tab title="Какие объекты на маршруте?">
-                        Подраздел «Отображение в реальном времени для автобусов» можно увидеть местонахождение объектов
-                        на данный момент, находящихся на выбранных маршрутах.<br />
-                        Для просмотра всех путевых листов необходимо нажать на кнопку «Путевые листы».
+                        <h:outputText value="Подраздел «Отображение в реальном времени для автобусов» можно увидеть местонахождение объектов
+                        на данный момент, находящихся на выбранных маршрутах." style="text-indent:20px; display: block"/>
+                        <h:outputText value="Для просмотра всех путевых листов необходимо нажать на кнопку «Путевые листы».
                         Интересующий маршрут отмечаем галочкой и на карте справой стороны будет представлено его
-                        отображение и все объекты, прикрепленные к нему.<br />
-                        <p:graphicImage name="images/route.jpg" style="max-width: 100%"/>)<br />
-                        Рисунок 8  Подраздел «Отображение в реальном времени для автобусов»
-                        Выделив гос.номер на карте можно приближенно увидеть местонахождение объекта в данный момент
+                        отображение и все объекты, прикрепленные к нему." style="text-indent:20px; display: block"/>
+                        <p:graphicImage name="images/route.jpg" style="max-width: 100%;display: block"/>
+                        <h:outputText value="Рисунок 8  Подраздел «Отображение в реальном времени для автобусов»" 
+                                      style="text-indent:20px; display: block; margin-bottom: 10px"/>
+                        <h:outputText value="Выделив гос.номер на карте можно приближенно увидеть местонахождение объекта в данный момент
                         времени, а также информацию о последние передачи данных и скорости движения (выводимая
-                        информация настраивается в настройках отображения ТС – F4).<br />
-                        Для отображения всего пути выделенного объекта необходимо нажать «Отображение всего пути» и
-                        Вы перейдете в подраздел «Отображение всего пути».<br />
-                        Во вкладке «Общий список» показано какое состояние у каждого объекта, выделенного маршрута.<br />
-                        <p:graphicImage name="images/generalList.jpg" style="max-width: 100%"/>)<br />
-                        Рисунок 9 Общий список
+                        информация настраивается в настройках отображения ТС – F4)." style="text-indent:20px; display: block"/>
+                        <h:outputText value="Для отображения всего пути выделенного объекта необходимо нажать «Отображение всего пути» и
+                        Вы перейдете в подраздел «Отображение всего пути»." style="text-indent:20px; display: block"/>
+                        <h:outputText value="Во вкладке «Общий список» показано какое состояние у каждого объекта, выделенного маршрута." 
+                                      style="text-indent:20px; display: block"/>
+                        <p:graphicImage name="images/generalList.jpg" style="max-width: 100%; margin-bottom: 10px"/>)
+                        <h:outputText value="Рисунок 9 Общий список" style="text-indent:20px; display: block;margin-bottom: 10px"/>
                     </p:tab>
 
                     <p:tab title="Какие есть виды отчетов?">
-                        В подразделе «Журнал сформированных отчетов» мы можем просмотреть сформированные отчеты либо
-                        сформировать новый.<br />
-                        Для создания отчета необходимо нажать на иконку <p:graphicImage name="images/print.jpg" style="max-width: 100%"/>)
-                        и выбрать интересующий отчет.<br />
-                        <p:graphicImage name="images/report.jpg" style="max-width: 100%"/><br />
-                        Виды отчетов:<br />
-                        <ol>
-                        <li>Детальный отчет – отчет по выбранному объекту, в котором указано общее время работы, за
-                        указанный период, т пробег. При наличии датчиков уровня топлива – норма расхода и общий расход топлива.</li>
-                        <li>Ежедневный пробег по ТС всех групп ТС – отчет по всем ТС, прикрепленным к филиалу с
-                        указание пробега по всем ТС за один день и общий пробег одного ТС за месяц.</li>
-                        <li>Нарушение скоростного режима (детальный отчет).</li>
-                        <li>Нарушение скоростного режима (сводный отчет).</li>
-                        <li>Нарушение скоростного режима по списку ТС (детальный отчет).</li>
-                        <li>По периодам движения для ТС.</li>
-                        <li>Сводный отчет.</li>
-                        </ol>
+                        <h:outputText value="В подразделе «Журнал сформированных отчетов» мы можем просмотреть сформированные отчеты либо
+                        сформировать новый." style="display: block"/>
+                        <h:outputText value="Для создания отчета необходимо нажать на иконку " style="text-indent:20px"/>
+                        <p:graphicImage name="images/print.jpg" style="max-width: 100%"/>
+                        <h:outputText value="и выбрать интересующий отчет." style="text-indent:20px;margin-bottom: 10px"/>
+                        <p:graphicImage name="images/report.jpg" style="max-width: 100%; display: block;margin-bottom: 10px"/>
+                        <h:outputText value="Виды отчетов:" style="text-indent:20px; display: block"/>
+                        <h:outputText value="1. Детальный отчет – отчет по выбранному объекту, в котором указано общее время работы, за
+                        указанный период, т пробег. При наличии датчиков уровня топлива – норма расхода и общий расход топлива."
+                                      style="text-indent:20px; display: block"/>
+                        <h:outputText value="2. Ежедневный пробег по ТС всех групп ТС – отчет по всем ТС, прикрепленным к филиалу с
+                        указание пробега по всем ТС за один день и общий пробег одного ТС за месяц." style="text-indent:20px; display: block"/>
+                        <h:outputText value="3. Нарушение скоростного режима (детальный отчет)." style="text-indent:20px; display: block"/>
+                        <h:outputText value="4. Нарушение скоростного режима (сводный отчет)." style="text-indent:20px; display: block"/>
+                        <h:outputText value="5. Нарушение скоростного режима по списку ТС (детальный отчет)." style="text-indent:20px; display: block"/>
+                        <h:outputText value="6. По периодам движения для ТС." style="text-indent:20px; display: block"/>
+                        <h:outputText value="7. Сводный отчет." style="text-indent:20px; display: block"/>
+
                     </p:tab>
 
                     <p:tab title="Как формировать отчеты?">
-                        Для формирования отчетов необходимо зайти в "АРМ диспетчера" -> "Журнал сформированный отчетов"<br />
-                        Для формирования Детального отчета необходимо из списка выбрать объект ->  выбрать начало
-                        периода (всплывающий календарь <p:graphicImage name="images/arrow.jpg" style="max-width: 100%" /> )
-                        -> выбрать окончание периода (всплывающий календарь <p:graphicImage name="images/arrow.jpg" style="max-width: 100%" />  )
-                        -> Продолжить.<br />
-                        Если Вы хотите, чтобы отчет открылся сразу как сформируется поставьте галочку «Показывать после
-                        формирования».<br />
-                        <p:graphicImage name="images/report_example.jpg" style="max-width: 100%" /><br />
+                        <h:outputText value="Для формирования отчетов необходимо зайти в 'АРМ диспетчера' -> 'Журнал сформированный отчетов'"
+                                      style="text-indent:20px; display: block"/>
+                        <h:outputText value="Для формирования Детального отчета необходимо из списка выбрать объект ->  выбрать начало
+                        периода (всплывающий календарь" style="text-indent:20px"/>
+                        <p:graphicImage name="images/arrow.jpg" style="max-width: 100%" />
+                        <h:outputText value=") -> выбрать окончание периода (всплывающий календарь" style="max-width: 100%" />
+                        <p:graphicImage name="images/arrow.jpg" style="max-width: 100%" />
+                        <h:outputText value=") -> Продолжить." style="max-width: 100%" />
+                        <h:outputText value="Если Вы хотите, чтобы отчет открылся сразу как сформируется поставьте галочку «Показывать после
+                        формирования»." style="max-width: 100%;display: block" />
+                        <p:graphicImage name="images/report_example.jpg" style="max-width: 100%; margin-bottom: 10px" />
                     </p:tab>
                 </p:accordionPanel>
         </p:tab>
 
         <p:tab title="VMS web client">
 
-                <h:outputText value="Раздел посвящен работе в веб клиенте" />
+            <h:outputText value="VMS web client – это программный продукт, который помогает пользователям
+                            контролировать их объекты (автопарк, технику, работников и т.п.)." style="text-indent:20px; display: block; margin-bottom: 10px"/>
+            <h:outputText value="Мониторинг позволяет:" style="text-indent:20px; display: block"/>
+            <h:outputText value="- наблюдать за местонахождением объектов и их передвижениями на карте;" style="text-indent:20px; display: block"/>
+            <h:outputText value="-отслеживать изменения скорости движения, уровня топлива;" style="text-indent:20px; display: block" />
+            <h:outputText value="-составлять отчеты нескольких видов;" style="text-indent:20px; display: block"/>
+            <h:outputText value="-отслеживать движение объекта по заданному маршруту;" style="text-indent:20px; display: block"/>
+            <h:outputText value="-интерпретировать полученную от объекта информацию в виде графика;" style="text-indent:20px; display: block"/>
+            <h:outputText value="-и многое другое." style="text-indent:20px; display: block; margin-bottom: 10px"/>
 
+            <h:outputText value="За объектами мониторинга можно наблюдать на экране компьютера в режиме «Онлайн»." style="text-indent:20px; display: block"/>
+            <h:outputText value="Пользовательский интерфейс VMS-client прост, существуют всплывающие подсказки, дающие
+                поясняющую информацию к кнопкам и иконкам." style="text-indent:20px; display: block"/>
+            <p:accordionPanel activeIndex="">
+                <p:tab title="Как войти в систему?">
+                    <h:outputText value="В браузере вводим ссылку: http://62.133.191.98:47205/. " style="text-indent:20px; display: block"/>
+                    <h:outputText value="Для начала работы в системе необходимо авторизоваться. Укажите логин и пароль, которые
+                            Вам были выданы. После того как Вы ввели все необходимые данные, нажмите кнопку «Ок»." style="text-indent:20px; display: block"/>
+                     <h:outputText value="Если логин и пароль были введены неправильно, система выдает ошибку." style="text-indent:20px; display: block"/>
+                     <h:outputText value="При введение неправильного логина и пароля более 5 раз, вход в систему блокируется.
+                        Для разблокировки пользователя необходимо позвонить по тел.: 8(347) 246-12-45 либо написать на электронную почту:
+                        info@tncrb.ru." style="text-indent:20px; display: block"/>
+                </p:tab>
 
-        </p:tab>
+                <p:tab title="Как отобразить карту во вкладке 'Карта'?">
+                    <h:outputText value="В правом верхнем углу необходимо нажать на '+', после чего необходимо выбрать 'Openstreet map' "
+                                  style="text-indent:20px; display: block"/>
+                </p:tab>
 
-        <p:tab title="RITM">
+                <p:tab title="Посмотреть путь объекта за определенный промежуток времени">
+                    <h:outputText value="1 способ - вкладка 'Карта'" style="text-indent:20px; display: block"/>
+                    <h:outputText value="Выбираем транспортное средство из всплывающего списка. Далее выберите интересующий
+                    период времени и нажмите кнопку 'Получить данные'"
+                                  style="text-indent:20px; display: block"/>
+                    <h:outputText value="На карте справа будет построен трек, также будут показанны: количество точек, пробег.
+                    Можно постоить график" style="text-indent:20px; display: block"/>
+                    <p:graphicImage name="images/track_card.jpg" style="max-width: 100%;display: block; margin-bottom: 20px" />
 
-                <h:outputText value="Раздел посвящен работе в программе Ritm" />
+                    <h:outputText value="2 способ - вкладка 'Диспетчер'" style="text-indent:20px; display: block"/>
+                    <h:outputText value="Выбираем интересующий период времени. Номер ТС можно ввести в поиске либо найти в загруженнм списке.
+                     Нажимаем на выбранное ТС и ждем загрузки данных."
+                                  style="text-indent:20px; display: block"/>
+                    <h:outputText value="На карте справа будет построен трек, также будут показан пробег данного ТС за выбранный период времени.
+                    Будет постоен график" style="text-indent:20px; display: block"/>
+                    <p:graphicImage name="images/track_disp.jpg" style="max-width: 70%;display: block; margin-bottom: 10px" />
 
+                </p:tab>
+
+                <p:tab title="Что означают иконки? В чем разница по цвету?">
+                    <h:outputText value="Иконка объекта может быть 2х видов и 3х цветов: в виде иконки «Парковка» ("
+                                  style="text-indent:20px" />
+                    <p:graphicImage name="images/greenP.jpg" style="max-width: 100%"/>
+                    <p:graphicImage name="images/yellowP.jpg" style="max-width: 100%"/>
+                    <p:graphicImage name="images/redP.jpg" style="max-width: 100%"/> )
+                    <h:outputText value="и в виде стрелочки (" style="text-indent:20px" />
+                    <p:graphicImage name="images/greenArrow.jpg" style="max-width: 100%"/>
+                    <p:graphicImage name="images/redArrow.jpg" style="max-width: 100%"/>
+                    <h:outputText value=") зеленая, желтая и красная." style="text-indent:20px" />
+                    <h:outputText value="Если последние данные были переданы 30 минут назад, то иконка отображается зеленым цветом."
+                                  style="text-indent:20px; display: block"/>
+                    <h:outputText value=" Если последние данные были переданы 60 минут назад, то иконка отображается желтым цветом."
+                                  style="text-indent:20px; display: block"/>
+                    <h:outputText value="Если данные не передавались более 60 минут, то иконка – красного цвета."
+                                  style="text-indent:20px; display: block; margin-bottom: 10px"/>
+                </p:tab>
+
+                <p:tab title="Какие объекты на маршруте?">
+                    <h:outputText value="Во вкладке 'Маршруты' можно увидеть наименование машрутов, какие ТС назначены на
+                    данный маршрут и местонахождение объектов на данный момент, находящихся на выбранных маршрутах." style="text-indent:20px; display: block"/>
+                      <p:graphicImage name="images/web_route.jpg" style="max-width: 100%; margin-bottom: 10px"/>)
+
+                </p:tab>
+
+                <p:tab title="Какие есть виды отчетов?">
+                    <h:outputText value="Во вкладке 'Отчеты' мы можем просмотреть сформированные отчеты или
+                        сформировать новый." style="display: block"/>
+                    <h:outputText value="Для создания отчета необходимо выбрать во всплышающем списке вид отчета"  style="text-indent:20px;margin-bottom: 10px"/>
+                    <h:outputText value="Виды отчетов:" style="text-indent:20px; display: block"/>
+                    <h:outputText value="1. Детальный отчет – отчет по выбранному объекту, в котором указано общее время работы, за
+                        указанный период, т пробег. При наличии датчиков уровня топлива – норма расхода и общий расход топлива."
+                                  style="text-indent:20px; display: block"/>
+                    <h:outputText value="2. Ежедневный пробег по ТС всех групп ТС – отчет по всем ТС, прикрепленным к филиалу с
+                        указание пробега по всем ТС за один день и общий пробег одного ТС за месяц." style="text-indent:20px; display: block"/>
+                    <h:outputText value="3. Нарушение скоростного режима (детальный отчет)." style="text-indent:20px; display: block"/>
+                    <h:outputText value="4. Нарушение скоростного режима (сводный отчет)." style="text-indent:20px; display: block"/>
+                    <h:outputText value="5. Нарушение скоростного режима по списку ТС (детальный отчет)." style="text-indent:20px; display: block"/>
+                    <h:outputText value="6. По периодам движения для ТС." style="text-indent:20px; display: block"/>
+                    <h:outputText value="7. Сводный отчет." style="text-indent:20px; display: block"/>
+                    <h:outputText value="Отчеты формируются в трех форматах: pdf,doc,xls" style="text-indent:20px; display: block"/>
+                </p:tab>
+
+                <p:tab title="Когда были переданы последние данные?">
+                    <h:outputText value="Во вкладке 'Последние данные' можно увидеть сколько прошло времени с последней
+                    передачи данных по каждому ТС в столбце 'Прошло времени'." style="text-indent:20px; display: block"/>
+                    <p:graphicImage name="images/last_data.jpg" style="max-width: 70%; margin-bottom: 10px"/>)
+
+                </p:tab>
+            </p:accordionPanel>
         </p:tab>
 
     </p:tabView>
+        </p:outputPanel>
     </ui:define>
 
 </ui:composition>
