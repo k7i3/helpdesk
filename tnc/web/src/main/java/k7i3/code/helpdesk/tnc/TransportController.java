@@ -15,12 +15,10 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.Serializable;
-import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.logging.Logger;
@@ -200,11 +198,11 @@ public class TransportController implements Serializable {
         CSVReader reader = new CSVReader(new FileReader(file.toFile()), ',', '"', 1);
         List<String[]> list = reader.readAll();
 
-        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "List<String[]> list = reader.readAll()", list.isEmpty()? "empty" : "notEmpty"));
-        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "list.toString()", list.toString()));
-        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "list.size()", list.size() + ""));
-        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Arrays.toString(list.get(0))", Arrays.toString(list.get(0))));
-        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Arrays.toString(list.get(list.size() - 1))", Arrays.toString(list.get(list.size() - 1))));
+//        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "List<String[]> list = reader.readAll()", list.isEmpty()? "empty" : "notEmpty"));
+//        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "list.toString()", list.toString()));
+        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "строк в файле: ", list.size() + ""));
+//        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Arrays.toString(list.get(0))", Arrays.toString(list.get(0))));
+//        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Arrays.toString(list.get(list.size() - 1))", Arrays.toString(list.get(list.size() - 1))));
 
         list.forEach(this::addTransportFromArray);
 
@@ -219,13 +217,13 @@ public class TransportController implements Serializable {
 //        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "Arrays.toString(list.get(list.size() - 1))", Arrays.toString(list.get(list.size() - 1))));
 
         //        Stream<String> streamLines = Files.lines(file);
-        List <String> lines = Files.readAllLines(file, StandardCharsets.UTF_8);
-
-        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Files.readAllLines(file)", lines.isEmpty()? "empty" : "notEmpty"));
-        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Files.readAllLines(file).toString()", lines.toString()));
-        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Files.readAllLines(file).size()", lines.size() + ""));
-        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Files.readAllLines(file).get(0)", lines.get(0)));
-        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Files.readAllLines(file).get(lines.size() - 1)", lines.get(lines.size() - 1)));
+//        List <String> lines = Files.readAllLines(file, StandardCharsets.UTF_8);
+//
+//        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Files.readAllLines(file)", lines.isEmpty()? "empty" : "notEmpty"));
+//        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Files.readAllLines(file).toString()", lines.toString()));
+//        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Files.readAllLines(file).size()", lines.size() + ""));
+//        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Files.readAllLines(file).get(0)", lines.get(0)));
+//        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Files.readAllLines(file).get(lines.size() - 1)", lines.get(lines.size() - 1)));
 
     }
 

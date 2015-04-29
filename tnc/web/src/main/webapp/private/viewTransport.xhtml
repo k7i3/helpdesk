@@ -716,11 +716,12 @@
                 resizable="false"
                 draggable="true"
                 width="auto"
-                style="font-size: small">
+                style="font-size: small; max-width: 100%; max-height: 100%">
 
             <p:outputPanel id="addTransportFromFilePanel">
-                <p:fileUpload fileUploadListener="#{transportController.handleFileUpload}" mode="advanced" dragDropSupport="false" update=":form:transportTabView:transportTable" sizeLimit="100000" fileLimit="1" allowTypes="/(\.|\/)(csv)$/" />
-                <p:messages id="messages" showDetail="true" autoUpdate="true" closable="true" />
+                <p:fileUpload fileUploadListener="#{transportController.handleFileUpload}" mode="advanced" dragDropSupport="false" update=":form:transportTabView:transportTable" sizeLimit="100000" fileLimit="2" allowTypes="/(\.|\/)(csv)$/" />
+                    <p:messages id="messages" showDetail="true" autoUpdate="true" closable="true" style="max-height: 500px"/>
+
                 <!--<p:commandButton process="@parent" update=":form:msgs :form:transportTabView:transportTable" action="{transportController.doAddTransport}" onsuccess="PF('addTransportDialog').hide()" value="Создать" icon="ui-icon-disk" style="float: right"/>-->
             </p:outputPanel>
         </p:dialog>

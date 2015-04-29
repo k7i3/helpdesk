@@ -185,7 +185,7 @@ public class DBPopulator {
     @PostConstruct
     private void createMockData() {
         logger.info("=>=>=>=>=> DBPopulator.createMockData()");
-        for (int i = 0; i < 50; i++) {
+        for (int i = 0; i < 0; i++) {
             Transport transport = new Transport(getRandomTransportInfo(), getRandomLifeCycleInfo(), getRandomTerminal());
             transport.getTickets().addAll(getRandomTickets());
 
@@ -211,18 +211,18 @@ public class DBPopulator {
         userEJB.createUser(user);
         logger.info("=>=>=>=>=> (moder-moder-MODER-...-...) was inserted");
 
-        user = new User("moder_bat", "moder_bat");
-        user.getRoles().add(UserRole.MODER);
-        user.getProjects().add("БАТ");
-        userEJB.createUser(user);
-        logger.info("=>=>=>=>=> (moder_bat-moder_bat-MODER-БАТ-...) was inserted");
-
-        user = new User("moder_bat_ufa", "moder_bat_ufa");
-        user.getRoles().add(UserRole.MODER);
-        user.getProjects().add("БАТ");
-        user.getBranches().add("УФА");
-        userEJB.createUser(user);
-        logger.info("=>=>=>=>=> (moder_bat_ufa-moder_bat_ufa-MODER-БАТ-УФА) was inserted");
+//        user = new User("moder_bat", "moder_bat");
+//        user.getRoles().add(UserRole.MODER);
+//        user.getProjects().add("БАТ");
+//        userEJB.createUser(user);
+//        logger.info("=>=>=>=>=> (moder_bat-moder_bat-MODER-БАТ-...) was inserted");
+//
+//        user = new User("moder_bat_ufa", "moder_bat_ufa");
+//        user.getRoles().add(UserRole.MODER);
+//        user.getProjects().add("БАТ");
+//        user.getBranches().add("УФА");
+//        userEJB.createUser(user);
+//        logger.info("=>=>=>=>=> (moder_bat_ufa-moder_bat_ufa-MODER-БАТ-УФА) was inserted");
 
         user = new User("user", "user");
         user.getRoles().add(UserRole.USER);
@@ -234,15 +234,15 @@ public class DBPopulator {
         userEJB.createUser(user);
         logger.info("=>=>=>=>=> (service-service-SERVICE-...-...) was inserted");
 
-        TicketResult ticketResult = new TicketResult("удаленно", true);
-        ticketEJB.createTicketResult(ticketResult);
-        logger.info("=>=>=>=>=> (удаленно-true) was inserted");
-        ticketResult = new TicketResult("на месте (программно)", true);
-        ticketEJB.createTicketResult(ticketResult);
-        logger.info("=>=>=>=>=> (на месте (программно)-true) was inserted");
-        ticketResult = new TicketResult("на месте (железо)", true);
-        ticketEJB.createTicketResult(ticketResult);
-        logger.info("=>=>=>=>=> (на месте (железо)-true) was inserted");
+//        TicketResult ticketResult = new TicketResult("удаленно", true);
+//        ticketEJB.createTicketResult(ticketResult);
+//        logger.info("=>=>=>=>=> (удаленно-true) was inserted");
+//        ticketResult = new TicketResult("на месте (программно)", true);
+//        ticketEJB.createTicketResult(ticketResult);
+//        logger.info("=>=>=>=>=> (на месте (программно)-true) was inserted");
+//        ticketResult = new TicketResult("на месте (железо)", true);
+//        ticketEJB.createTicketResult(ticketResult);
+//        logger.info("=>=>=>=>=> (на месте (железо)-true) was inserted");
     }
 
 // RANDOM METHODS BEGIN //

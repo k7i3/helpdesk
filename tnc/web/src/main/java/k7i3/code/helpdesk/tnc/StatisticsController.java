@@ -3,9 +3,10 @@ package k7i3.code.helpdesk.tnc;
 import org.primefaces.model.chart.*;
 
 import javax.annotation.PostConstruct;
-import javax.enterprise.context.RequestScoped;
+import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,8 +14,9 @@ import java.util.List;
  * Created by k7i3 on 07.04.15.
  */
 @Named
-@RequestScoped
-public class StatisticsController {
+//@RequestScoped
+@ViewScoped
+public class StatisticsController implements Serializable{
     @Inject
     private TransportEJB transportEJB;
     @Inject
@@ -115,7 +117,7 @@ public class StatisticsController {
         meterGaugeModel = initMeterGaugeModel();
         meterGaugeModel.setTitle("Количество активных заявок:");
         meterGaugeModel.setSeriesColors("66cc66,93b75f,E7E658,cc6666,F50000");
-        meterGaugeModel.setGaugeLabel("25");
+        meterGaugeModel.setGaugeLabel("заявки");
     }
 
     private MeterGaugeChartModel initMeterGaugeModel() {
@@ -126,7 +128,6 @@ public class StatisticsController {
             add(40);
             add(50);
         }};
-
         return new MeterGaugeChartModel(25, intervals);
     }
 
@@ -147,6 +148,9 @@ public class StatisticsController {
     }
 
     public MeterGaugeChartModel getMeterGaugeModel() {
+        createMeterGaugeModel();
+        int i = (int)(Math.random() * 50);
+        meterGaugeModel.setValue(i);
         return meterGaugeModel;
     }
 

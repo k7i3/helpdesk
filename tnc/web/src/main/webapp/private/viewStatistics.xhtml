@@ -17,12 +17,12 @@
 
     <ui:define name="content">
         <p:tabView id="statisticsTabView" dynamic="true" cache="true" style="font-size: small">
-
             <p:tab title="Статистика">
-                <h:panelGrid columns="3" style="width:100%">
-                    <p:chart type="metergauge" model="#{statisticsController.meterGaugeModel}" style="width:400px;height:250px" />
-                    <p:chart type="pie" model="#{statisticsController.pieModel}" style="width:400px;height:250px" />
-                    <p:chart type="bar" model="#{statisticsController.barModel}" style="width:400px;" />
+                <h:panelGrid id="charts" columns="4" style="width:100%">
+                    <p:poll interval="3" update="metergauge" />
+                    <p:chart id="metergauge" type="metergauge" model="#{statisticsController.meterGaugeModel}" style="width:400px;height:250px" />
+                    <p:chart id="pie" type="pie" model="#{statisticsController.pieModel}" style="width:400px;height:250px" />
+                    <p:chart id="bar" type="bar" model="#{statisticsController.barModel}" style="width:400px;" />
                 </h:panelGrid>
             </p:tab>
 
