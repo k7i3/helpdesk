@@ -314,7 +314,9 @@
 
                         <p:cellEditor>
                             <f:facet name="output">
-                                <h:outputText value="#{transport.point.pointInfo.date}" />
+                                <h:outputText value="#{transport.point.pointInfo.date}">
+                                    <f:convertDateTime pattern="dd/MM/yyyy hh:mm"/>
+                                </h:outputText>
                             </f:facet>
                             <f:facet name="input">
                                 <p:calendar id="datetime" value="#{transport.point.pointInfo.date}" pattern="MM/dd/yyyy HH:mm:ss" />

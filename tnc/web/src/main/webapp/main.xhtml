@@ -132,7 +132,9 @@
                 </p:column>
 
                 <p:column headerText="Дата" sortBy="#{notice.date}" filterBy="#{notice.date}" filterMatchMode="contains" style="width:200px">
-                    <h:outputText value="#{notice.date}" />
+                    <h:outputText value="#{notice.date}">
+                        <f:convertDateTime pattern="dd/MM/yyyy hh:mm"/>
+                    </h:outputText>
                 </p:column >
 
                 <p:column headerText="Пользователь" sortBy="#{notice.didBy}" filterBy="#{notice.didBy}" filterMatchMode="contains" style="width:200px">
