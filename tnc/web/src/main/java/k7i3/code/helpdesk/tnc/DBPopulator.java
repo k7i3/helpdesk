@@ -1,8 +1,6 @@
 package k7i3.code.helpdesk.tnc;
 
 import javax.annotation.PostConstruct;
-import javax.annotation.sql.DataSourceDefinition;
-import javax.annotation.sql.DataSourceDefinitions;
 import javax.ejb.Singleton;
 import javax.ejb.Startup;
 import javax.inject.Inject;
@@ -44,7 +42,7 @@ import java.util.logging.Logger;
 //        properties = {"connectionAttributes=;create=true"}
 //)
 
-@DataSourceDefinitions({
+//@DataSourceDefinitions({
 //        @DataSourceDefinition(
 //            name = "java:global/jdbc/dataDS",
 ////            className = "org.apache.derby.jdbc.EmbeddedDataSource",
@@ -56,16 +54,16 @@ import java.util.logging.Logger;
 //            properties = {"connectionAttributes=;create=true"}
 //        ),
 
-        @DataSourceDefinition(
-                name = "java:global/jdbc/dataDS",
-                className = "org.postgresql.xa.PGXADataSource",
-                user = "postgres",
-                password = "postgres",
-                databaseName = "dataDB",
-                portNumber = 5432,
-                serverName = "localhost",
-                properties = {"connectionAttributes=;create=true"}
-        ),
+//        @DataSourceDefinition(
+//                name = "java:global/jdbc/dataDS",
+//                className = "org.postgresql.xa.PGXADataSource",
+//                user = "postgres",
+//                password = "postgres",
+//                databaseName = "dataDB",
+//                portNumber = 5432,
+//                serverName = "localhost",
+//                properties = {"connectionAttributes=;create=true"}
+//        ),
 
 //        @DataSourceDefinition(
 //            name = "java:global/jdbc/noticesDS",
@@ -78,16 +76,16 @@ import java.util.logging.Logger;
 //            properties = {"connectionAttributes=;create=true"}
 //        ),
 
-        @DataSourceDefinition(
-        name = "java:global/jdbc/noticesDS",
-        className = "org.postgresql.xa.PGXADataSource",
-        user = "postgres",
-        password = "postgres",
-        databaseName = "noticesDB",
-        portNumber = 5432,
-        serverName = "localhost",
-        properties = {"connectionAttributes=;create=true"}
-),
+//        @DataSourceDefinition(
+//        name = "java:global/jdbc/noticesDS",
+//        className = "org.postgresql.xa.PGXADataSource",
+//        user = "postgres",
+//        password = "postgres",
+//        databaseName = "noticesDB",
+//        portNumber = 5432,
+//        serverName = "localhost",
+//        properties = {"connectionAttributes=;create=true"}
+//),
 
 //        @DataSourceDefinition(
 //            name = "java:global/jdbc/usersDS",
@@ -99,7 +97,7 @@ import java.util.logging.Logger;
 //            databaseName = "usersDB",
 //            properties = {"connectionAttributes=;create=true"}
 //        )
-})
+//})
 
 public class DBPopulator {
     @Inject

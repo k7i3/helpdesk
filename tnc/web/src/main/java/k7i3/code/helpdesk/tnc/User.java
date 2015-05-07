@@ -27,6 +27,7 @@ public class User implements Serializable{
     private Set<String> projects = new HashSet<>();
     @ElementCollection
     private Set<String> branches = new HashSet<>();
+    private String company;
 
     public User() {
     }
@@ -74,5 +75,13 @@ public class User implements Serializable{
 
     public void setBranches(Set<String> branches) {
         this.branches = branches;
+    }
+
+    public String getCompany() {
+        return company;
+    }
+
+    public void setCompany(String company) {
+        this.company = company;
     }
 }

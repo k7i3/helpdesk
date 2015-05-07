@@ -7,7 +7,8 @@
 <!--***********************************************dataPU    -->
 
   <persistence-unit name="dataPU" transaction-type="JTA">
-    <jta-data-source>java:global/jdbc/dataDS</jta-data-source>
+    <!--<jta-data-source>java:global/jdbc/dataDS</jta-data-source>-->
+      <jta-data-source>jdbc/helpdesk_dataDS</jta-data-source>
 
       <class>k7i3.code.helpdesk.tnc.Comment</class>
       <class>k7i3.code.helpdesk.tnc.CommentInfo</class>
@@ -40,7 +41,8 @@
     <persistence-unit name="usersPU" transaction-type="JTA">
         <!--<jta-data-source>java:global/jdbc/usersDS</jta-data-source>-->
         <!--<jta-data-source>jdbc/security</jta-data-source>-->
-        <jta-data-source>jdbc/postgresSecurity</jta-data-source>
+        <!--<jta-data-source>jdbc/postgresSecurity</jta-data-source>-->
+        <jta-data-source>jdbc/helpdesk_securityDS</jta-data-source>
 
         <class>k7i3.code.helpdesk.tnc.User</class>
         <exclude-unlisted-classes>true</exclude-unlisted-classes>
@@ -57,7 +59,8 @@
 <!--***********************************************noticesPU    -->
 
     <persistence-unit name="noticesPU" transaction-type="JTA">
-        <jta-data-source>java:global/jdbc/noticesDS</jta-data-source>
+        <!--<jta-data-source>java:global/jdbc/noticesDS</jta-data-source>-->
+        <jta-data-source>jdbc/helpdesk_noticesDS</jta-data-source>
 
         <class>k7i3.code.helpdesk.tnc.Notice</class>
         <exclude-unlisted-classes>true</exclude-unlisted-classes>

@@ -81,7 +81,8 @@
     <login-config>
         <auth-method>FORM</auth-method>
         <!--<realm-name>jdbcRealm</realm-name>-->
-        <realm-name>jdbcRealmPostgres</realm-name>
+        <!--<realm-name>jdbcRealmPostgres</realm-name>-->
+        <realm-name>helpdesk_securityJDBCRealm</realm-name>
         <form-login-config>
             <form-login-page>/security/login.xhtml</form-login-page>
             <form-error-page>/security/loginError.xhtml</form-error-page>
