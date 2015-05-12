@@ -11,10 +11,7 @@ import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
-import java.io.FileReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.Serializable;
+import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -185,7 +182,8 @@ public class TransportController implements Serializable {
 //        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "uploadedFile.getFileName() -> " + uploadedFile.getFileName(), "file.getAbsolutePath -> " + file.getAbsolutePath() + " ||| " + "file.getCanonicalPath() -> " + file.getCanonicalPath()));
 
 
-        Path directory = Paths.get("/home/k7i3/test");
+//        Path directory = Paths.get("/home/k7i3/test");
+        Path directory = Paths.get("/opt/glassfish4/glassfish/domains/helpdesk/logs");
         if (Files.notExists(directory)) Files.createDirectory(directory);
         Path file = Files.createTempFile(directory, "importTransport", ".csv");
 
@@ -195,7 +193,8 @@ public class TransportController implements Serializable {
         }
 
 
-        CSVReader reader = new CSVReader(new FileReader(file.toFile()), ',', '"', 1);
+//        CSVReader reader = new CSVReader(new FileReader(file.toFile()), ',', '"', 1);
+        CSVReader reader = new CSVReader(new InputStreamReader(new FileInputStream(file.toFile()), "UTF-8"), ',', '"', 1);
         List<String[]> list = reader.readAll();
 
 //        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "List<String[]> list = reader.readAll()", list.isEmpty()? "empty" : "notEmpty"));

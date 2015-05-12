@@ -199,15 +199,20 @@ public class DBPopulator {
         }
         logger.info("=>=>=>=>=> Inserted " + transportEJB.findAllTransport().size() + " unit(s) of transport");
 
-        User user = new User("admin", "admin");
+        User user = new User("tnc", "tnc34");
         user.getRoles().add(UserRole.ADMIN);
         userEJB.createUser(user);
-        logger.info("=>=>=>=>=> (admin-admin-ADMIN/MODER/SERVICE/USER-...-...) was inserted");
+        logger.info("=>=>=>=>=> (tnc-tnc34-ADMIN-...-...) was inserted");
 
-        user = new User("moder", "moder");
-        user.getRoles().add(UserRole.MODER);
-        userEJB.createUser(user);
-        logger.info("=>=>=>=>=> (moder-moder-MODER-...-...) was inserted");
+//        User user = new User("admin", "admin");
+//        user.getRoles().add(UserRole.ADMIN);
+//        userEJB.createUser(user);
+//        logger.info("=>=>=>=>=> (admin-admin-ADMIN/MODER/SERVICE/USER-...-...) was inserted");
+
+//        user = new User("moder", "moder");
+//        user.getRoles().add(UserRole.MODER);
+//        userEJB.createUser(user);
+//        logger.info("=>=>=>=>=> (moder-moder-MODER-...-...) was inserted");
 
 //        user = new User("moder_bat", "moder_bat");
 //        user.getRoles().add(UserRole.MODER);
@@ -222,15 +227,15 @@ public class DBPopulator {
 //        userEJB.createUser(user);
 //        logger.info("=>=>=>=>=> (moder_bat_ufa-moder_bat_ufa-MODER-БАТ-УФА) was inserted");
 
-        user = new User("user", "user");
-        user.getRoles().add(UserRole.USER);
-        userEJB.createUser(user);
-        logger.info("=>=>=>=>=> (user-user-USER-...-...) was inserted");
-
-        user = new User("service", "service");
-        user.getRoles().add(UserRole.SERVICE);
-        userEJB.createUser(user);
-        logger.info("=>=>=>=>=> (service-service-SERVICE-...-...) was inserted");
+//        user = new User("user", "user");
+//        user.getRoles().add(UserRole.USER);
+//        userEJB.createUser(user);
+//        logger.info("=>=>=>=>=> (user-user-USER-...-...) was inserted");
+//
+//        user = new User("service", "service");
+//        user.getRoles().add(UserRole.SERVICE);
+//        userEJB.createUser(user);
+//        logger.info("=>=>=>=>=> (service-service-SERVICE-...-...) was inserted");
 
 //        TicketResult ticketResult = new TicketResult("удаленно", true);
 //        ticketEJB.createTicketResult(ticketResult);

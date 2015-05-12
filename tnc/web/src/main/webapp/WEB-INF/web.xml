@@ -21,6 +21,11 @@
         <param-value>auto</param-value>
     </context-param>
 
+    <context-param>
+        <param-name>javax.faces.DATETIMECONVERTER_DEFAULT_TIMEZONE_IS_SYSTEM_TIMEZONE</param-name>
+        <param-value>true</param-value>
+    </context-param>
+
     <!--SECURITY-->
 
     <error-page>
