@@ -575,12 +575,17 @@
                                                 <f:setPropertyActionListener value="#{transport}" target="#{sessionScopedController.unitOfTransport}" />
                                                 <f:setPropertyActionListener value="#{ticket}" target="#{sessionScopedController.ticket}" />
                                             </p:commandButton>
+
+                                            <p:commandButton process="@this" action="#{ticketController.doDeleteTicket}" icon="fa fa-remove" update=":form:transportTabView:transportTable :form:msgs" rendered="#{isAdmin}" title="нажмите, чтобы удалить заявку" styleClass="ui-panel-titlebar-icon ui-corner-all ui-state-default" style="float: right; margin-right: 5px">
+                                                <f:setPropertyActionListener value="#{ticket}" target="#{ticketController.ticket}" />
+                                                <f:setPropertyActionListener value="#{transport}" target="#{ticketController.unitOfTransport}" />
+                                            </p:commandButton>
                                             <!--style="float: right;"-->
                                         </f:facet>
                                     </p:panel>
                                 </ui:repeat>
 
-                                <p:commandButton value="Новая заявка" process="@this" update=":form:openTicketPanel" oncomplete="PF('openTicketDialog').show()" icon="fa fa-plus" rendered="#{ticketController.doCheckForPossibilityToAddTicket(transport)? isAdmin or isUser : false}" title="нажмите, чтобы добавить новую заявку" style="margin-right: 10px">
+                                <p:commandButton value="Новая заявка" process="@this" update=":form:openTicketPanel" oncomplete="PF('openTicketDialog').show()" icon="fa fa-plus" rendered="#{ticketController.doCheckForPossibilityToAddTicket(transport)? isAdmin or isModer or isUser : false}" title="нажмите, чтобы добавить новую заявку" style="margin-right: 10px">
                                     <f:setPropertyActionListener value="#{transport}" target="#{sessionScopedController.unitOfTransport}" />
                                 </p:commandButton>
 

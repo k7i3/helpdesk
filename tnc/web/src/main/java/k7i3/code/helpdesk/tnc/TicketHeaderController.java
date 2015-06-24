@@ -25,10 +25,14 @@ public class TicketHeaderController {
     private List<TicketHeader> ticketHeaders;
     private List<TicketHeader> checkboxSelectedTicketHeaders;
 
+    //Do FIND
+
     @PostConstruct
     private void doFindAllTicketHeaders() {
         ticketHeaders = ticketEJB.findAllTicketHeaders();
     }
+
+    //Do ADD
 
     public void doAddTicketHeader() {
         ticketEJB.createTicketHeader(ticketHeader);
@@ -55,8 +59,7 @@ public class TicketHeaderController {
         FacesContext.getCurrentInstance().addMessage(null, msg);
     }
 
-
-
+    //GETTERS AND SETTERS
 
     public TicketHeader getTicketHeader() {
         return ticketHeader;
@@ -81,5 +84,4 @@ public class TicketHeaderController {
     public void setCheckboxSelectedTicketHeaders(List<TicketHeader> checkboxSelectedTicketHeaders) {
         this.checkboxSelectedTicketHeaders = checkboxSelectedTicketHeaders;
     }
-
 }

@@ -39,6 +39,8 @@ public class TicketController {
     private String didBy;
     private String commentContent;
 
+    //Init
+
     @PostConstruct
     public void init() {
         didBy = userEJB.initUser().getLogin();
@@ -90,8 +92,9 @@ public class TicketController {
         ticket.getComments().add(new Comment(lifeCycleInfo, new CommentInfo(lifeCycleInfo, "ОТКРЫТИЕ: " +  commentContent))); // difference
         unitOfTransport.getTickets().add(ticket); // difference
 
-        unitOfTransport.setCurrentTicketHeader(ticket.getTicketInfo().getTicketHeader().toString()); // difference
-        unitOfTransport.setCurrentTicketStatus(ticket.getTicketInfo().getTicketStatus().toString()); // difference
+//        unitOfTransport.setCurrentTicketHeader(ticket.getTicketInfo().getTicketHeader().toString()); // difference
+//        unitOfTransport.setCurrentTicketStatus(ticket.getTicketInfo().getTicketStatus().toString()); // difference
+        setCurrentTicketHeaderAndTicketStatus(ticket);
 
         transportEJB.updateTransport(unitOfTransport);
 
@@ -99,6 +102,28 @@ public class TicketController {
         FacesContext.getCurrentInstance().addMessage(null, msg);
 //        doReset(); for PF('addTicketDialog').show() via JS (@SessionScoped) and for Primefaces dialog framework (@SessionScoped)
 //        RequestContext.getCurrentInstance().closeDialog(null); for Primefaces dialog framework (@SessionScoped)
+    }
+
+    //Do DELETE
+
+    public void doDeleteTicket() {
+//        TODO add checking for update by another user in this time (doesn't work)
+//        unitOfTransport = transportEJB.findTransportById(unitOfTransport.getId());
+//        ticket = ticketEJB.findTicketById(ticket.getId());
+
+        unitOfTransport.getTickets().remove(ticket);
+
+        if (unitOfTransport.getTickets().size() == 0) {
+            setCurrentTicketHeaderAndTicketStatus(null);
+        } else {
+            setCurrentTicketHeaderAndTicketStatus(unitOfTransport.getTickets().get(unitOfTransport.getTickets().size() - 1));
+        }
+
+        transportEJB.updateTransport(unitOfTransport);
+        ticketEJB.deleteTicket(ticket);
+
+        FacesMessage msg = new FacesMessage("Удалено (заявка)", ticket.getCreation().getDate().toString());
+        FacesContext.getCurrentInstance().addMessage(null, msg);
     }
 
     //Do UPDATE
@@ -443,43 +468,17 @@ public class TicketController {
         transportEJB.updateTransport(unitOfTransport);
     }
 
+    private void setCurrentTicketHeaderAndTicketStatus(Ticket ticket) {
+        if (ticket == null) {
+            unitOfTransport.setCurrentTicketStatus("нет");
+            unitOfTransport.setCurrentTicketHeader("нет");
+        } else {
+            unitOfTransport.setCurrentTicketStatus(ticket.getTicketInfo().getTicketStatus().toString());
+            unitOfTransport.setCurrentTicketHeader(ticket.getTicketInfo().getTicketHeader().toString());
+        }
+    }
 
-//    public void doOpenTicketDialog(Transport transport, String didBy) {
-//        this.transport = transport;
-//        this.didBy = didBy;
-//
-//        Map<String,Object> options = new HashMap<>();
-//        options.put("modal", true);
-//        options.put("draggable", true);
-//        options.put("resizable", true);
-//
-//        RequestContext.getCurrentInstance().openDialog("addTicket", options, null);
-//
-////        FacesMessage msg = new FacesMessage(didBy, transport.getId().toString());
-////        FacesContext.getCurrentInstance().addMessage(null, msg);
-//    }
-
-//    public void doReset() {
-//        transport = null;
-//        didBy = null;
-//        ticket = new Ticket();
-//        commentContent = null;
-//    }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    //GETTERS AND SETTERS
 
     public Transport getUnitOfTransport() {
         return unitOfTransport;
@@ -553,3 +552,27 @@ public class TicketController {
         this.selectedTicketResults = selectedTicketResults;
     }
 }
+
+    //TRASH
+
+//    public void doOpenTicketDialog(Transport transport, String didBy) {
+//        this.transport = transport;
+//        this.didBy = didBy;
+//
+//        Map<String,Object> options = new HashMap<>();
+//        options.put("modal", true);
+//        options.put("draggable", true);
+//        options.put("resizable", true);
+//
+//        RequestContext.getCurrentInstance().openDialog("addTicket", options, null);
+//
+////        FacesMessage msg = new FacesMessage(didBy, transport.getId().toString());
+////        FacesContext.getCurrentInstance().addMessage(null, msg);
+//    }
+
+//    public void doReset() {
+//        transport = null;
+//        didBy = null;
+//        ticket = new Ticket();
+//        commentContent = null;
+//    }

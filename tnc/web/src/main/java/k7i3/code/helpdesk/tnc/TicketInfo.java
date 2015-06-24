@@ -18,11 +18,11 @@ public class TicketInfo {
     private TicketStatus ticketStatus;
 //    @NotNull //- it is attempt to fix problem with ajax rowEdit event (when event is executed, validation ticketHeader at TicketController execute to, and broke everything)
 //    @Enumerated(EnumType.STRING)
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
     private TicketHeader ticketHeader;
 //    @Enumerated(EnumType.STRING)
 //    @ElementCollection
-    @OneToMany (cascade = CascadeType.ALL)
+    @OneToMany (cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
     private List<TicketResult> ticketResults = new ArrayList<>();
     @NotNull
     @AttributeOverrides({

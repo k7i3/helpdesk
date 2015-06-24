@@ -28,10 +28,14 @@ public class UserController implements Serializable{
     private List<User> checkboxSelectedUsers;
     private List<UserRole> roles = Arrays.asList(UserRole.values());
 
+    //Do FIND
+
     @PostConstruct
     private void doFindAllUsers() {
         users = userEJB.findAllUsers();
     }
+
+    //Do ADD
 
     public void doAddUser() {
         userEJB.createUser(user);
@@ -58,6 +62,7 @@ public class UserController implements Serializable{
         FacesContext.getCurrentInstance().addMessage(null, msg);
     }
 
+    //GETTERS AND SETTERS
 
     public User getUser() {
         return user;

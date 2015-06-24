@@ -29,7 +29,8 @@
 
     <properties>
         <property name="eclipselink.canonicalmodel.subpackage" value="dataPU"/>
-        <property name="javax.persistence.schema-generation.database.action" value="drop-and-create"/>
+        <!--<property name="javax.persistence.schema-generation.database.action" value="drop-and-create"/>-->
+        <property name="javax.persistence.schema-generation.database.action" value="create"/>
         <property name="eclipselink.logging.level" value="INFO"/>
     </properties>
   </persistence-unit>
@@ -49,7 +50,8 @@
 
         <properties>
             <property name="eclipselink.canonicalmodel.subpackage" value="usersPU"/>
-            <property name="javax.persistence.schema-generation.database.action" value="drop-and-create"/>
+            <!--<property name="javax.persistence.schema-generation.database.action" value="drop-and-create"/>-->
+            <property name="javax.persistence.schema-generation.database.action" value="create"/>
             <property name="eclipselink.logging.level" value="INFO"/>
         </properties>
     </persistence-unit>
@@ -67,7 +69,8 @@
 
         <properties>
             <property name="eclipselink.canonicalmodel.subpackage" value="noticesPU"/>
-            <property name="javax.persistence.schema-generation.database.action" value="drop-and-create"/>
+            <!--<property name="javax.persistence.schema-generation.database.action" value="drop-and-create"/>-->
+            <property name="javax.persistence.schema-generation.database.action" value="create"/>
             <property name="eclipselink.logging.level" value="INFO"/>
         </properties>
     </persistence-unit>

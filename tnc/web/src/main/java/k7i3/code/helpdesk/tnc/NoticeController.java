@@ -27,10 +27,14 @@ public class NoticeController {
     private List<Notice> notices;
     private List<Notice> checkboxSelectedNotices;
 
+    //Do FIND
+
     @PostConstruct
     private void doFindAllNotices() {
         notices = noticeEJB.findAllNotices();
     }
+
+    //Do ADD
 
     public void doAddNotice() {
         notice.setDate(new Date());
@@ -58,6 +62,8 @@ public class NoticeController {
         FacesMessage msg = new FacesMessage("Отмена", ((Notice) event.getObject()).getDate().toString());
         FacesContext.getCurrentInstance().addMessage(null, msg);
     }
+
+    //GETTERS AND SETTERS
 
     public Notice getNotice() {
         return notice;

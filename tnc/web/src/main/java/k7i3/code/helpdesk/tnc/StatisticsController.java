@@ -28,6 +28,8 @@ public class StatisticsController implements Serializable{
     private BarChartModel barModel;
     private MeterGaugeChartModel meterGaugeModel;
 
+    //Init
+
     @PostConstruct
     public void init() {
         createMeterGaugeModel();
@@ -35,14 +37,15 @@ public class StatisticsController implements Serializable{
         createBarModel();
     }
 
-    private void createBarModel() {
-        barModel = initBarModel();
-        barModel.setTitle("Активные заявки по проектам/филиалам:");
-        barModel.setAnimate(true);
-        barModel.setLegendPosition("ne");
-        Axis yAxis = barModel.getAxis(AxisType.Y);
-        yAxis.setMin(0);
-        yAxis.setMax(10);
+    private MeterGaugeChartModel initMeterGaugeModel() {
+        List<Number> intervals = new ArrayList<Number>(){{
+            add(10);
+            add(20);
+            add(30);
+            add(40);
+            add(50);
+        }};
+        return new MeterGaugeChartModel(25, intervals);
     }
 
     private BarChartModel initBarModel() {
@@ -97,6 +100,15 @@ public class StatisticsController implements Serializable{
         return model;
     }
 
+    //Create
+
+    private void createMeterGaugeModel() {
+        meterGaugeModel = initMeterGaugeModel();
+        meterGaugeModel.setTitle("Количество активных заявок:");
+        meterGaugeModel.setSeriesColors("66cc66,93b75f,E7E658,cc6666,F50000");
+        meterGaugeModel.setGaugeLabel("заявки");
+    }
+
     private void createPieModel() {
         pieModel = new PieChartModel();
 
@@ -113,23 +125,17 @@ public class StatisticsController implements Serializable{
         pieModel.setDiameter(150);
     }
 
-    private void createMeterGaugeModel() {
-        meterGaugeModel = initMeterGaugeModel();
-        meterGaugeModel.setTitle("Количество активных заявок:");
-        meterGaugeModel.setSeriesColors("66cc66,93b75f,E7E658,cc6666,F50000");
-        meterGaugeModel.setGaugeLabel("заявки");
+    private void createBarModel() {
+        barModel = initBarModel();
+        barModel.setTitle("Активные заявки по проектам/филиалам:");
+        barModel.setAnimate(true);
+        barModel.setLegendPosition("ne");
+        Axis yAxis = barModel.getAxis(AxisType.Y);
+        yAxis.setMin(0);
+        yAxis.setMax(10);
     }
 
-    private MeterGaugeChartModel initMeterGaugeModel() {
-        List<Number> intervals = new ArrayList<Number>(){{
-            add(10);
-            add(20);
-            add(30);
-            add(40);
-            add(50);
-        }};
-        return new MeterGaugeChartModel(25, intervals);
-    }
+    //GETTERS AND SETTERS
 
     public BarChartModel getBarModel() {
         return barModel;

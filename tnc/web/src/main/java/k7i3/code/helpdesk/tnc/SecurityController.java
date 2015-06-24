@@ -19,6 +19,8 @@ public class SecurityController implements Serializable {
 
     private User user;
 
+    //Init
+
     private void doInitUser() {
 //        if (user == null) {
 //            Principal principal = FacesContext.getCurrentInstance().getExternalContext().getUserPrincipal();
@@ -30,6 +32,16 @@ public class SecurityController implements Serializable {
             user = userEJB.initUser();
         }
     }
+
+    //Special
+
+    public String logout() {
+        FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
+//        return "login?faces-redirect=true";
+        return "/main.faces?faces-redirect=true";
+    }
+
+    //Do CHECK
 
     public Boolean isAdmin() {
         doInitUser();
@@ -51,11 +63,7 @@ public class SecurityController implements Serializable {
         return user != null && getUser().getRoles().contains(UserRole.USER);
     }
 
-    public String logout() {
-        FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
-//        return "login?faces-redirect=true";
-        return "/main.faces?faces-redirect=true";
-    }
+    //GETTERS AND SETTERS
 
     public User getUser() {
         doInitUser();

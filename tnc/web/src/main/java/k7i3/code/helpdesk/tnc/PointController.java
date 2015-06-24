@@ -18,24 +18,15 @@ public class PointController implements Serializable {
     private Point point;
     private MapModel model;
 
+    //Init
+
     public void initModel() {
         model = new DefaultMapModel();
         LatLng latLng = new LatLng(point.getPointInfo().getLatitude(), point.getPointInfo().getLongitude());
         model.addOverlay(new Marker(latLng, point.getPointInfo().getDate().toString() + " - " + point.getPointInfo().getSpeed().toString() + " км/ч " + "(lat/lng: " + point.getPointInfo().getLatitude() + "/" + point.getPointInfo().getLongitude() +")"));
     }
 
-
-
-
-
-
-
-
-
-
-
-
-
+    //GETTERS AND SETTERS
 
     public Point getPoint() {
         return point;

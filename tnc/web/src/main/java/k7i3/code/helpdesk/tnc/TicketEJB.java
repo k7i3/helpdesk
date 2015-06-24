@@ -82,4 +82,10 @@ public class TicketEJB implements Serializable {
         em.merge(ticketResult);
         return ticketResult;
     }
+
+    public Ticket deleteTicket(Ticket ticket) {
+        logger.info("=>=>=>=>=> TicketEJB.deleteTicket");
+        em.remove(em.merge(ticket));
+        return ticket;
+    }
 }

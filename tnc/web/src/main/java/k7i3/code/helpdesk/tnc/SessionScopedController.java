@@ -17,6 +17,8 @@ public class SessionScopedController implements Serializable {
 //    private List<Transport> filteredTransport; //not used after deletion this attribute from dataTable
 
 
+    //GETTERS AND SETTERS
+
     public Transport getUnitOfTransport() {
         return unitOfTransport;
     }

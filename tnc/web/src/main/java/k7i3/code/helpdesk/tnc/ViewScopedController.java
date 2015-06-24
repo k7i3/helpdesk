@@ -12,6 +12,8 @@ import java.util.List;
 public class ViewScopedController {
     private List<Transport> filteredTransport;
 
+    //GETTERS AND SETTERS
+
     public List<Transport> getFilteredTransport() {
         return filteredTransport;
     }

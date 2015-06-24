@@ -48,6 +48,8 @@ public class TransportController implements Serializable {
     private Transport unitOfTransport = new Transport();
     private String didBy;
 
+    //Do FIND
+
     @PostConstruct
     public void doFindAllAccessibleTransport() {
         User user = userEJB.initUser();
@@ -64,7 +66,7 @@ public class TransportController implements Serializable {
 //        requestContext.execute("PF('transportTable').filter()");
     }
 
-//    @PostConstruct
+    //    @PostConstruct
     public void doFindAllTransport() {
         transport = transportEJB.findAllTransport();
 //        transport = transportEJB.findAllAccessibleTransport(userEJB.initUser()); // didBy ==>
@@ -75,8 +77,6 @@ public class TransportController implements Serializable {
 //        doFindAllFirmware();
 //        doFindAllRoutes();
     }
-
-    //Do FIND
 
     public void doFindAllProjects() {
         projects = transportEJB.findAllProjects();
@@ -278,16 +278,7 @@ public class TransportController implements Serializable {
         doAddTransport();
     }
 
-//    public void onCellEdit(CellEditEvent event) {
-//        Object oldValue = event.getOldValue();
-//        Object newValue = event.getNewValue();
-//
-//        if(newValue != null && !newValue.equals(oldValue)) {
-//            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Cell Changed", "Old: " + oldValue + ", New:" + newValue);
-//            FacesContext.getCurrentInstance().addMessage(null, msg);
-//        }
-//    }
-
+    //GETTERS AND SETTERS
 
     public List<Transport> getAccessibleTransport() {
         return accessibleTransport;
@@ -304,14 +295,6 @@ public class TransportController implements Serializable {
     public void setTransport(List<Transport> transport) {
         this.transport = transport;
     }
-
-//    public List<Transport> getFilteredTransport() {
-//        return filteredTransport;
-//    }
-//
-//    public void setFilteredTransport(List<Transport> filteredTransport) {
-//        this.filteredTransport = filteredTransport;
-//    }
 
     public List<String> getProjects() {
         return projects;
@@ -385,3 +368,15 @@ public class TransportController implements Serializable {
         this.didBy = didBy;
     }
 }
+
+    //TRASH
+
+//    public void onCellEdit(CellEditEvent event) {
+//        Object oldValue = event.getOldValue();
+//        Object newValue = event.getNewValue();
+//
+//        if(newValue != null && !newValue.equals(oldValue)) {
+//            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Cell Changed", "Old: " + oldValue + ", New:" + newValue);
+//            FacesContext.getCurrentInstance().addMessage(null, msg);
+//        }
+//    }

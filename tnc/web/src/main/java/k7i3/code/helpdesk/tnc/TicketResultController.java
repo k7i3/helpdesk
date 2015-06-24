@@ -25,10 +25,14 @@ public class TicketResultController {
     private List<TicketResult> ticketResults;
     private List<TicketResult> checkboxSelectedTicketResults;
 
+    //Do FIND
+
     @PostConstruct
     private void doFindAllTicketResults() {
         ticketResults = ticketEJB.findAllTicketResults();
     }
+
+    //Do ADD
 
     public void doAddTicketResult() {
         ticketEJB.createTicketResult(ticketResult);
@@ -54,6 +58,8 @@ public class TicketResultController {
         FacesMessage msg = new FacesMessage("Отмена", ((TicketResult) event.getObject()).getDescription());
         FacesContext.getCurrentInstance().addMessage(null, msg);
     }
+
+    //GETTERS AND SETTERS
 
     public TicketResult getTicketResult() {
         return ticketResult;
