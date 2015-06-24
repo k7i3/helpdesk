@@ -18,6 +18,8 @@
     <ui:define name="content">
         <p:tabView id="statisticsTabView" dynamic="true" cache="true" style="font-size: small">
             <p:tab title="Статистика">
+                <h:outputText value="количество всех заявок: #{statisticsController.countOfAllTickets}" style="display:block"/>
+                <h:outputText value="количество новых заявок: #{statisticsController.countOfOpenedTickets}" style="display:block"/>
                 <h:panelGrid id="charts" columns="4" style="width:100%">
                     <p:poll interval="3" update="metergauge" />
                     <p:chart id="metergauge" type="metergauge" model="#{statisticsController.meterGaugeModel}" style="width:400px;height:250px" />

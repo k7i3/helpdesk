@@ -23,6 +23,11 @@ public class StatisticsController implements Serializable{
     private UserEJB userEJB;
     @Inject
     private TicketEJB ticketEJB;
+    @Inject
+    private StatisticsEJB statisticsEJB;
+
+    private int countOfAllTickets;
+    private int countOfOpenedTickets;
 
     private PieChartModel pieModel;
     private BarChartModel barModel;
@@ -32,6 +37,9 @@ public class StatisticsController implements Serializable{
 
     @PostConstruct
     public void init() {
+        countOfAllTickets = statisticsEJB.countAllTickets();
+        countOfOpenedTickets = statisticsEJB.countOpenedTickets();
+
         createMeterGaugeModel();
         createPieModel();
         createBarModel();
@@ -162,5 +170,21 @@ public class StatisticsController implements Serializable{
 
     public void setMeterGaugeModel(MeterGaugeChartModel meterGaugeModel) {
         this.meterGaugeModel = meterGaugeModel;
+    }
+
+    public int getCountOfAllTickets() {
+        return countOfAllTickets;
+    }
+
+    public void setCountOfAllTickets(int countOfAllTickets) {
+        this.countOfAllTickets = countOfAllTickets;
+    }
+
+    public int getCountOfOpenedTickets() {
+        return countOfOpenedTickets;
+    }
+
+    public void setCountOfOpenedTickets(int countOfOpenedTickets) {
+        this.countOfOpenedTickets = countOfOpenedTickets;
     }
 }
