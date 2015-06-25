@@ -3,7 +3,7 @@
         "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
       xmlns:p="http://primefaces.org/ui"
         >
 
@@ -19,10 +19,35 @@
         <p:tabView id="statisticsTabView" dynamic="true" cache="true" style="font-size: small">
             <p:tab title="Статистика">
                 <h:outputText value="количество всех заявок: #{statisticsController.countOfAllTickets}" style="display:block"/>
-                <h:outputText value="количество новых заявок: #{statisticsController.countOfOpenedTickets}" style="display:block"/>
-                <h:panelGrid id="charts" columns="4" style="width:100%">
-                    <p:poll interval="3" update="metergauge" />
-                    <p:chart id="metergauge" type="metergauge" model="#{statisticsController.meterGaugeModel}" style="width:400px;height:250px" />
+                <h:outputText value="открыта: #{statisticsController.countOfOpenedTickets}" style="display:block"/>
+                <h:outputText value="принята: #{statisticsController.countOfAcceptedTickets}" style="display:block"/>
+                <h:outputText value="на выезд: #{statisticsController.countOfOnServiceTickets}" style="display:block"/>
+                <h:outputText value="закрыта: #{statisticsController.countOfClosedTickets}" style="display:block"/>
+                <h:outputText value="в архиве: #{statisticsController.countOfArchivedTickets}" style="display:block"/>
+                <h:outputText value="невалидная: #{statisticsController.countOfIncorrectTickets}" style="display:block"/>
+                <h:outputText value="отменена: #{statisticsController.countOfCanceledTickets}" style="display:block"/>
+                <h:outputText value="повторно на выезд: #{statisticsController.countOfRepeatedOnServiceTickets}" style="display:block"/>
+                <h:outputText value="повторно закрыта: #{statisticsController.countOfRepeatedClosedTickets}" style="display:block"/>
+
+                <p:separator/>
+
+                <ui:repeat value="#{statisticsController.countOfTicketsByHeader}" var="countOfTicketsByHeader">
+                    <ui:repeat value="#{countOfTicketsByHeader}" var="ticketHeader" offset="0" size="1">
+                        <h:outputText value="#{ticketHeader}: "/>
+                    </ui:repeat>
+                    <ui:repeat value="#{countOfTicketsByHeader}" var="count" offset="1" >
+                        <h:outputText value="#{count}"/>
+                    </ui:repeat>
+                    <h:outputText value="" style="display:block"/>
+                </ui:repeat>
+
+                <p:separator/>
+
+                <h:panelGrid id="charts" columns="3" style="width:100%">
+                    <p:panelGrid columns="2" styleClass="ui-noborder" style="width: auto">
+                        <p:poll interval="3" update="metergauge" />
+                        <p:chart id="metergauge" type="metergauge" model="#{statisticsController.meterGaugeModel}" style="width:400px;height:250px" />
+                    </p:panelGrid>
                     <p:chart id="pie" type="pie" model="#{statisticsController.pieModel}" style="width:400px;height:250px" />
                     <p:chart id="bar" type="bar" model="#{statisticsController.barModel}" style="width:400px;" />
                 </h:panelGrid>

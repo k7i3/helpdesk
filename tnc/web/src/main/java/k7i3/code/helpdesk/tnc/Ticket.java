@@ -11,7 +11,10 @@ import java.util.List;
 @Entity
 @NamedQueries({
         @NamedQuery(name = "countAllTickets", query = "SELECT COUNT (t) FROM Ticket t"),
-        @NamedQuery(name = "countOpenedTickets", query = "SELECT COUNT (t) FROM Ticket t WHERE t.ticketInfo.ticketStatus = k7i3.code.helpdesk.tnc.TicketStatus.OPENED"),
+        @NamedQuery(name = "countTicketsByStatus", query = "SELECT COUNT (t) FROM Ticket t WHERE t.ticketInfo.ticketStatus = :status"),
+        @NamedQuery(name = "countTicketsByHeader", query = "SELECT t.ticketInfo.ticketHeader, COUNT (t) FROM Ticket t GROUP BY t.ticketInfo.ticketHeader"),
+
+
 //        @NamedQuery(name = "findAllBranches", query = "SELECT DISTINCT b.transportInfo.branch FROM Transport b ORDER BY b.transportInfo.branch DESC"),
 //        @NamedQuery(name = "findAllTransportModels", query = "SELECT DISTINCT b.transportInfo.model FROM Transport b ORDER BY b.transportInfo.model DESC"),
 //        @NamedQuery(name = "findAllTerminalModels", query = "SELECT DISTINCT b.terminal.terminalInfo.model FROM Transport b ORDER BY b.terminal.terminalInfo.model DESC"),

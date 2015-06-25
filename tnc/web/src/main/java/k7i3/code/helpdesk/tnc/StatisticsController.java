@@ -28,17 +28,37 @@ public class StatisticsController implements Serializable{
 
     private int countOfAllTickets;
     private int countOfOpenedTickets;
+    private int countOfAcceptedTickets;
+    private int countOfOnServiceTickets;
+    private int countOfClosedTickets;
+    private int countOfArchivedTickets;
+    private int countOfIncorrectTickets;
+    private int countOfCanceledTickets;
+    private int countOfRepeatedOnServiceTickets;
+    private int countOfRepeatedClosedTickets;
 
     private PieChartModel pieModel;
     private BarChartModel barModel;
     private MeterGaugeChartModel meterGaugeModel;
+
+    private List <Object[]> countOfTicketsByHeader;
 
     //Init
 
     @PostConstruct
     public void init() {
         countOfAllTickets = statisticsEJB.countAllTickets();
-        countOfOpenedTickets = statisticsEJB.countOpenedTickets();
+        countOfOpenedTickets = statisticsEJB.countTicketsByStatus(TicketStatus.OPENED);
+        countOfAcceptedTickets = statisticsEJB.countTicketsByStatus(TicketStatus.ACCEPTED);
+        countOfOnServiceTickets = statisticsEJB.countTicketsByStatus(TicketStatus.ON_SERVICE);
+        countOfClosedTickets = statisticsEJB.countTicketsByStatus(TicketStatus.CLOSED);
+        countOfArchivedTickets = statisticsEJB.countTicketsByStatus(TicketStatus.ARCHIVED);
+        countOfIncorrectTickets = statisticsEJB.countTicketsByStatus(TicketStatus.INCORRECT);
+        countOfCanceledTickets = statisticsEJB.countTicketsByStatus(TicketStatus.CANCELED);
+        countOfRepeatedOnServiceTickets = statisticsEJB.countTicketsByStatus(TicketStatus.REPEATED_ON_SERVICE);
+        countOfRepeatedClosedTickets = statisticsEJB.countTicketsByStatus(TicketStatus.REPEATED_CLOSED);
+
+        countOfTicketsByHeader = statisticsEJB.countTicketsByHeader();
 
         createMeterGaugeModel();
         createPieModel();
@@ -186,5 +206,77 @@ public class StatisticsController implements Serializable{
 
     public void setCountOfOpenedTickets(int countOfOpenedTickets) {
         this.countOfOpenedTickets = countOfOpenedTickets;
+    }
+
+    public int getCountOfAcceptedTickets() {
+        return countOfAcceptedTickets;
+    }
+
+    public void setCountOfAcceptedTickets(int countOfAcceptedTickets) {
+        this.countOfAcceptedTickets = countOfAcceptedTickets;
+    }
+
+    public int getCountOfOnServiceTickets() {
+        return countOfOnServiceTickets;
+    }
+
+    public void setCountOfOnServiceTickets(int countOfOnServiceTickets) {
+        this.countOfOnServiceTickets = countOfOnServiceTickets;
+    }
+
+    public int getCountOfClosedTickets() {
+        return countOfClosedTickets;
+    }
+
+    public void setCountOfClosedTickets(int countOfClosedTickets) {
+        this.countOfClosedTickets = countOfClosedTickets;
+    }
+
+    public int getCountOfArchivedTickets() {
+        return countOfArchivedTickets;
+    }
+
+    public void setCountOfArchivedTickets(int countOfArchivedTickets) {
+        this.countOfArchivedTickets = countOfArchivedTickets;
+    }
+
+    public int getCountOfIncorrectTickets() {
+        return countOfIncorrectTickets;
+    }
+
+    public void setCountOfIncorrectTickets(int countOfIncorrectTickets) {
+        this.countOfIncorrectTickets = countOfIncorrectTickets;
+    }
+
+    public int getCountOfCanceledTickets() {
+        return countOfCanceledTickets;
+    }
+
+    public void setCountOfCanceledTickets(int countOfCanceledTickets) {
+        this.countOfCanceledTickets = countOfCanceledTickets;
+    }
+
+    public int getCountOfRepeatedOnServiceTickets() {
+        return countOfRepeatedOnServiceTickets;
+    }
+
+    public void setCountOfRepeatedOnServiceTickets(int countOfRepeatedOnServiceTickets) {
+        this.countOfRepeatedOnServiceTickets = countOfRepeatedOnServiceTickets;
+    }
+
+    public int getCountOfRepeatedClosedTickets() {
+        return countOfRepeatedClosedTickets;
+    }
+
+    public void setCountOfRepeatedClosedTickets(int countOfRepeatedClosedTickets) {
+        this.countOfRepeatedClosedTickets = countOfRepeatedClosedTickets;
+    }
+
+    public List<Object[]> getCountOfTicketsByHeader() {
+        return countOfTicketsByHeader;
+    }
+
+    public void setCountOfTicketsByHeader(List<Object[]> countOfTicketsByHeader) {
+        this.countOfTicketsByHeader = countOfTicketsByHeader;
     }
 }

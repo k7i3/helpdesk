@@ -5,6 +5,7 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import javax.persistence.EntityManager;
 import java.io.Serializable;
+import java.util.List;
 import java.util.logging.Logger;
 
 /**
@@ -18,10 +19,18 @@ public class StatisticsEJB implements Serializable {
     private Logger logger = Logger.getLogger("k7i3");
 
     public int countAllTickets() {
+        logger.info("=>=>=>=>=> StatisticsEJB.countAllTickets()");
         return ((Number)em.createNamedQuery("countAllTickets").getSingleResult()).intValue();
     }
 
-    public int countOpenedTickets() {
-        return ((Number)em.createNamedQuery("countOpenedTickets").getSingleResult()).intValue();
+    public int countTicketsByStatus(TicketStatus ticketStatus) {
+        logger.info("=>=>=>=>=> StatisticsEJB.countTicketsByStatus(TicketStatus ticketStatus)");
+        return ((Number)em.createNamedQuery("countTicketsByStatus").setParameter("status", ticketStatus).getSingleResult()).intValue();
+    }
+
+    @SuppressWarnings("unchecked")
+    public List <Object[]> countTicketsByHeader() {
+        logger.info("=>=>=>=>=> StatisticsEJB.countTicketsByHeader()");
+        return em.createNamedQuery("countTicketsByHeader").getResultList();
     }
 }
