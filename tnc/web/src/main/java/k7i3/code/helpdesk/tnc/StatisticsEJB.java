@@ -33,4 +33,16 @@ public class StatisticsEJB implements Serializable {
         logger.info("=>=>=>=>=> StatisticsEJB.countTicketsByHeader()");
         return em.createNamedQuery("countTicketsByHeader").getResultList();
     }
+
+//    @SuppressWarnings("unchecked")
+//    public List <Object[]> countTicketsByResults() {
+//        logger.info("=>=>=>=>=> StatisticsEJB.countTicketsByResults()");
+//        return em.createNamedQuery("countTicketsByResults").getResultList();
+//    }
+
+    public int countTicketsByResult(TicketResult ticketResult) {
+        logger.info("=>=>=>=>=> StatisticsEJB.countTicketsByResult(TicketResult ticketResult)");
+        return ((Number)em.createNamedQuery("countTicketsByResult").setParameter("result", ticketResult).getSingleResult()).intValue();
+    }
+
 }

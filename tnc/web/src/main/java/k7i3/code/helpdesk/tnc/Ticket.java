@@ -13,6 +13,8 @@ import java.util.List;
         @NamedQuery(name = "countAllTickets", query = "SELECT COUNT (t) FROM Ticket t"),
         @NamedQuery(name = "countTicketsByStatus", query = "SELECT COUNT (t) FROM Ticket t WHERE t.ticketInfo.ticketStatus = :status"),
         @NamedQuery(name = "countTicketsByHeader", query = "SELECT t.ticketInfo.ticketHeader, COUNT (t) FROM Ticket t GROUP BY t.ticketInfo.ticketHeader"),
+//        @NamedQuery(name = "countTicketsByResults", query = "SELECT t.ticketInfo.ticketResults, COUNT (t) FROM Ticket t GROUP BY t.ticketInfo.ticketResults"),
+        @NamedQuery(name = "countTicketsByResult", query = "SELECT COUNT (t) FROM Ticket t WHERE :result MEMBER OF t.ticketInfo.ticketResults"),
 
 
 //        @NamedQuery(name = "findAllBranches", query = "SELECT DISTINCT b.transportInfo.branch FROM Transport b ORDER BY b.transportInfo.branch DESC"),

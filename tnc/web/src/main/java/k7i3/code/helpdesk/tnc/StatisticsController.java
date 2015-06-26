@@ -42,6 +42,7 @@ public class StatisticsController implements Serializable{
     private MeterGaugeChartModel meterGaugeModel;
 
     private List <Object[]> countOfTicketsByHeader;
+    private List <Object[]> countOfTicketsByResult;
 
     //Init
 
@@ -59,6 +60,7 @@ public class StatisticsController implements Serializable{
         countOfRepeatedClosedTickets = statisticsEJB.countTicketsByStatus(TicketStatus.REPEATED_CLOSED);
 
         countOfTicketsByHeader = statisticsEJB.countTicketsByHeader();
+        doCountTicketsByResult();
 
         createMeterGaugeModel();
         createPieModel();
@@ -126,6 +128,18 @@ public class StatisticsController implements Serializable{
         model.addSeries(branch5);
 
         return model;
+    }
+
+    //Do COUNT
+
+    public void doCountTicketsByResult() {
+        countOfTicketsByResult = new ArrayList<>();
+        for (TicketResult ticketResult: ticketEJB.findAllActiveTicketResults()) {
+            Object[] resultCount = new Object[2];
+            resultCount[0] = ticketResult;
+            resultCount[1] = statisticsEJB.countTicketsByResult(ticketResult);
+            countOfTicketsByResult.add(resultCount);
+        }
     }
 
     //Create
@@ -278,5 +292,13 @@ public class StatisticsController implements Serializable{
 
     public void setCountOfTicketsByHeader(List<Object[]> countOfTicketsByHeader) {
         this.countOfTicketsByHeader = countOfTicketsByHeader;
+    }
+
+    public List<Object[]> getCountOfTicketsByResult() {
+        return countOfTicketsByResult;
+    }
+
+    public void setCountOfTicketsByResult(List<Object[]> countOfTicketsByResult) {
+        this.countOfTicketsByResult = countOfTicketsByResult;
     }
 }
