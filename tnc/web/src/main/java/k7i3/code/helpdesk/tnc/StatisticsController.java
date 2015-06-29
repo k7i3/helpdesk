@@ -8,6 +8,7 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -41,8 +42,12 @@ public class StatisticsController implements Serializable{
     private BarChartModel barModel;
     private MeterGaugeChartModel meterGaugeModel;
 
-    private List <Object[]> countOfTicketsByHeader;
-    private List <Object[]> countOfTicketsByResult;
+    private List <Object[]> countOfTicketsByResults;
+    private List <Object[]> countOfTicketsByStatuses;
+    private List <Object[]> countOfTicketsByHeaders;
+    private List <Object[]> countOfTicketsByProjects;
+    private List <Object[]> countOfTicketsByBranches;
+    private List <Object[]> countOfTicketsByStatusesBetweenDates;
 
     //Init
 
@@ -59,8 +64,13 @@ public class StatisticsController implements Serializable{
         countOfRepeatedOnServiceTickets = statisticsEJB.countTicketsByStatus(TicketStatus.REPEATED_ON_SERVICE);
         countOfRepeatedClosedTickets = statisticsEJB.countTicketsByStatus(TicketStatus.REPEATED_CLOSED);
 
-        countOfTicketsByHeader = statisticsEJB.countTicketsByHeader();
-        doCountTicketsByResult();
+        doCountTicketsByResults();
+        countOfTicketsByStatuses = statisticsEJB.countTicketsByStatuses();
+        countOfTicketsByHeaders = statisticsEJB.countTicketsByHeaders();
+        countOfTicketsByProjects = statisticsEJB.countTicketsByProjects();
+        countOfTicketsByBranches = statisticsEJB.countTicketsByBranches();
+//        countOfTicketsByStatusesBetweenDates = statisticsEJB.countTicketsByStatusesBetweenDates(LocalDate.of(2015, Month.JUNE, 25), LocalDate.of(2015, Month.JUNE, 25));
+        countOfTicketsByStatusesBetweenDates = statisticsEJB.countTicketsByStatusesBetweenDates(new Date(0), new Date());
 
         createMeterGaugeModel();
         createPieModel();
@@ -132,14 +142,33 @@ public class StatisticsController implements Serializable{
 
     //Do COUNT
 
-    public void doCountTicketsByResult() {
-        countOfTicketsByResult = new ArrayList<>();
-        for (TicketResult ticketResult: ticketEJB.findAllActiveTicketResults()) {
+    public void doCountTicketsByResults() {
+        int count;
+        countOfTicketsByResults = new ArrayList<>();
+        for (TicketResult result: ticketEJB.findAllTicketResults()) {
             Object[] resultCount = new Object[2];
-            resultCount[0] = ticketResult;
-            resultCount[1] = statisticsEJB.countTicketsByResult(ticketResult);
-            countOfTicketsByResult.add(resultCount);
+            resultCount[0] = result;
+            count = statisticsEJB.countTicketsByResult(result);
+            if (count == 0) continue;
+            resultCount[1] = count;
+            countOfTicketsByResults.add(resultCount);
         }
+
+        countOfTicketsByResults.sort((o1,o2) -> (int) o2[1] - (int) o1[1]);
+
+//        Collections.sort(countOfTicketsByResults, new Comparator<Object[]>() {
+//            @Override
+//            public int compare(Object[] o1, Object[] o2) {
+//                return ((Number) o1[1]).intValue() - ((Number) o2[1]).intValue();
+//            }
+//        });
+
+//        countOfTicketsByResults.sort(new Comparator<Object[]>() {
+//            @Override
+//            public int compare(Object[] o1, Object[] o2) {
+//                return o1[1].toString().compareTo(o2[1].toString());
+//            }
+//        });
     }
 
     //Create
@@ -286,19 +315,51 @@ public class StatisticsController implements Serializable{
         this.countOfRepeatedClosedTickets = countOfRepeatedClosedTickets;
     }
 
-    public List<Object[]> getCountOfTicketsByHeader() {
-        return countOfTicketsByHeader;
+    public List<Object[]> getCountOfTicketsByStatuses() {
+        return countOfTicketsByStatuses;
     }
 
-    public void setCountOfTicketsByHeader(List<Object[]> countOfTicketsByHeader) {
-        this.countOfTicketsByHeader = countOfTicketsByHeader;
+    public void setCountOfTicketsByStatuses(List<Object[]> countOfTicketsByStatuses) {
+        this.countOfTicketsByStatuses = countOfTicketsByStatuses;
     }
 
-    public List<Object[]> getCountOfTicketsByResult() {
-        return countOfTicketsByResult;
+    public List<Object[]> getCountOfTicketsByHeaders() {
+        return countOfTicketsByHeaders;
     }
 
-    public void setCountOfTicketsByResult(List<Object[]> countOfTicketsByResult) {
-        this.countOfTicketsByResult = countOfTicketsByResult;
+    public void setCountOfTicketsByHeaders(List<Object[]> countOfTicketsByHeaders) {
+        this.countOfTicketsByHeaders = countOfTicketsByHeaders;
+    }
+
+    public List<Object[]> getCountOfTicketsByResults() {
+        return countOfTicketsByResults;
+    }
+
+    public void setCountOfTicketsByResults(List<Object[]> countOfTicketsByResults) {
+        this.countOfTicketsByResults = countOfTicketsByResults;
+    }
+
+    public List<Object[]> getCountOfTicketsByProjects() {
+        return countOfTicketsByProjects;
+    }
+
+    public void setCountOfTicketsByProjects(List<Object[]> countOfTicketsByProjects) {
+        this.countOfTicketsByProjects = countOfTicketsByProjects;
+    }
+
+    public List<Object[]> getCountOfTicketsByBranches() {
+        return countOfTicketsByBranches;
+    }
+
+    public void setCountOfTicketsByBranches(List<Object[]> countOfTicketsByBranches) {
+        this.countOfTicketsByBranches = countOfTicketsByBranches;
+    }
+
+    public List<Object[]> getCountOfTicketsByStatusesBetweenDates() {
+        return countOfTicketsByStatusesBetweenDates;
+    }
+
+    public void setCountOfTicketsByStatusesBetweenDates(List<Object[]> countOfTicketsByStatusesBetweenDates) {
+        this.countOfTicketsByStatusesBetweenDates = countOfTicketsByStatusesBetweenDates;
     }
 }

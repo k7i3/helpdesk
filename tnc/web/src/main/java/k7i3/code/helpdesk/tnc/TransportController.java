@@ -182,8 +182,8 @@ public class TransportController implements Serializable {
 //        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "uploadedFile.getFileName() -> " + uploadedFile.getFileName(), "file.getAbsolutePath -> " + file.getAbsolutePath() + " ||| " + "file.getCanonicalPath() -> " + file.getCanonicalPath()));
 
 
-//        Path directory = Paths.get("/home/k7i3/test");
-        Path directory = Paths.get("/opt/glassfish4/glassfish/domains/helpdesk/logs");
+        Path directory = Paths.get("/home/k7i3/test");
+//        Path directory = Paths.get("/opt/glassfish4/glassfish/domains/helpdesk/logs");
         if (Files.notExists(directory)) Files.createDirectory(directory);
         Path file = Files.createTempFile(directory, "importTransport", ".csv");
 
