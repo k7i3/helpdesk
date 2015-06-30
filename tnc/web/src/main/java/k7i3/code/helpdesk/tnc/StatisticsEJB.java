@@ -36,38 +36,32 @@ public class StatisticsEJB implements Serializable {
         return ((Number)em.createNamedQuery("countTicketsByStatus").setParameter("status", ticketStatus).getSingleResult()).intValue();
     }
 
-    public int countTicketsByResult(TicketResult ticketResult) {
+    public int countTicketsByResult(TicketResult ticketResult, Date startDate, Date endDate) {
         logger.info("=>=>=>=>=> StatisticsEJB.countTicketsByResult(TicketResult ticketResult)");
-        return ((Number)em.createNamedQuery("countTicketsByResult").setParameter("result", ticketResult).getSingleResult()).intValue();
+        return ((Number)em.createNamedQuery("countTicketsByResult").setParameter("result", ticketResult).setParameter("startDate", startDate, TemporalType.TIMESTAMP).setParameter("endDate", endDate, TemporalType.TIMESTAMP).getSingleResult()).intValue();
     }
 
     @SuppressWarnings("unchecked")
-    public List <Object[]> countTicketsByStatuses() {
+    public List <Object[]> countTicketsByStatuses(Date startDate, Date endDate) {
         logger.info("=>=>=>=>=> StatisticsEJB.countTicketsByStatuses()");
-        return em.createNamedQuery("countTicketsByStatuses").getResultList();
+        return em.createNamedQuery("countTicketsByStatuses").setParameter("startDate", startDate, TemporalType.TIMESTAMP).setParameter("endDate", endDate, TemporalType.TIMESTAMP).getResultList();
     }
 
     @SuppressWarnings("unchecked")
-    public List <Object[]> countTicketsByStatusesBetweenDates(Date startDate, Date endDate) {
-        logger.info("=>=>=>=>=> StatisticsEJB.countTicketsByStatusesBetweenDates()");
-        return em.createNamedQuery("countTicketsByStatusesBetweenDates").setParameter("startDate", startDate, TemporalType.TIMESTAMP).setParameter("endDate", endDate, TemporalType.TIMESTAMP).getResultList();
-    }
-
-    @SuppressWarnings("unchecked")
-    public List <Object[]> countTicketsByHeaders() {
+    public List <Object[]> countTicketsByHeaders(Date startDate, Date endDate) {
         logger.info("=>=>=>=>=> StatisticsEJB.countTicketsByHeaders()");
-        return em.createNamedQuery("countTicketsByHeaders").getResultList();
+        return em.createNamedQuery("countTicketsByHeaders").setParameter("startDate", startDate, TemporalType.TIMESTAMP).setParameter("endDate", endDate, TemporalType.TIMESTAMP).getResultList();
     }
 
     @SuppressWarnings("unchecked")
-    public List <Object[]> countTicketsByProjects() {
+    public List <Object[]> countTicketsByProjects(Date startDate, Date endDate) {
         logger.info("=>=>=>=>=> StatisticsEJB.countTicketsByProjects()");
-        return em.createNamedQuery("countTicketsByProjects").getResultList();
+        return em.createNamedQuery("countTicketsByProjects").setParameter("startDate", startDate, TemporalType.TIMESTAMP).setParameter("endDate", endDate, TemporalType.TIMESTAMP).getResultList();
     }
 
     @SuppressWarnings("unchecked")
-    public List <Object[]> countTicketsByBranches() {
+    public List <Object[]> countTicketsByBranches(Date startDate, Date endDate) {
         logger.info("=>=>=>=>=> StatisticsEJB.countTicketsByBranches()");
-        return em.createNamedQuery("countTicketsByBranches").getResultList();
+        return em.createNamedQuery("countTicketsByBranches").setParameter("startDate", startDate, TemporalType.TIMESTAMP).setParameter("endDate", endDate, TemporalType.TIMESTAMP).getResultList();
     }
 }

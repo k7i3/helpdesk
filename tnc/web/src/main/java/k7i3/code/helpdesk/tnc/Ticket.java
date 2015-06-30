@@ -13,22 +13,11 @@ import java.util.List;
 //        @NamedQuery(name = "countTicketsByResults", query = "SELECT t.ticketInfo.ticketResults, COUNT (t) FROM Ticket t GROUP BY t.ticketInfo.ticketResults"),
         @NamedQuery(name = "countAllTickets", query = "SELECT COUNT(t) FROM Ticket t"),
         @NamedQuery(name = "countTicketsByStatus", query = "SELECT COUNT(t) FROM Ticket t WHERE t.ticketInfo.ticketStatus = :status"),
-        @NamedQuery(name = "countTicketsByResult", query = "SELECT COUNT(t) FROM Ticket t WHERE :result MEMBER OF t.ticketInfo.ticketResults"),
-        @NamedQuery(name = "countTicketsByStatuses", query = "SELECT t.ticketInfo.ticketStatus, COUNT(t) FROM Ticket t GROUP BY t.ticketInfo.ticketStatus ORDER BY COUNT(t) DESC"),
-        @NamedQuery(name = "countTicketsByStatusesBetweenDates", query = "SELECT t.ticketInfo.ticketStatus, COUNT(t) FROM Ticket t WHERE t.creation.date BETWEEN :startDate AND :endDate GROUP BY t.ticketInfo.ticketStatus ORDER BY COUNT(t) DESC"),
-        @NamedQuery(name = "countTicketsByHeaders", query = "SELECT t.ticketInfo.ticketHeader, COUNT(t) FROM Ticket t GROUP BY t.ticketInfo.ticketHeader ORDER BY COUNT(t) DESC"),
-        @NamedQuery(name = "countTicketsByProjects", query = "SELECT t.ticketInfo.transportInfo.project, COUNT(t) FROM Ticket t GROUP BY t.ticketInfo.transportInfo.project ORDER BY COUNT(t) DESC"),
-        @NamedQuery(name = "countTicketsByBranches", query = "SELECT t.ticketInfo.transportInfo.branch, COUNT(t) FROM Ticket t GROUP BY t.ticketInfo.transportInfo.branch ORDER BY COUNT(t) DESC"),
-
-
-//        @NamedQuery(name = "findAllBranches", query = "SELECT DISTINCT b.transportInfo.branch FROM Transport b ORDER BY b.transportInfo.branch DESC"),
-//        @NamedQuery(name = "findAllTransportModels", query = "SELECT DISTINCT b.transportInfo.model FROM Transport b ORDER BY b.transportInfo.model DESC"),
-//        @NamedQuery(name = "findAllTerminalModels", query = "SELECT DISTINCT b.terminal.terminalInfo.model FROM Transport b ORDER BY b.terminal.terminalInfo.model DESC"),
-//        @NamedQuery(name = "findAllFirmware", query = "SELECT DISTINCT b.terminal.terminalInfo.firmware FROM Transport b ORDER BY b.terminal.terminalInfo.firmware DESC"),
-//        @NamedQuery(name = "findAllRoutes", query = "SELECT DISTINCT b.transportInfo.route FROM Transport b ORDER BY b.transportInfo.route DESC"),
-//        @NamedQuery(name = "findAllAccessibleTransportByProjectsAndBranches", query = "SELECT b FROM Transport b WHERE b.transportInfo.project IN :projects AND b.transportInfo.branch IN :branches ORDER BY b.creation.date DESC"),
-//        @NamedQuery(name = "findAllAccessibleTransportByProjects", query = "SELECT b FROM Transport b WHERE b.transportInfo.project IN :projects ORDER BY b.creation.date DESC"),
-//        @NamedQuery(name = "findAllAccessibleTransportByBranches", query = "SELECT b FROM Transport b WHERE b.transportInfo.branch IN :branches ORDER BY b.creation.date DESC")
+        @NamedQuery(name = "countTicketsByResult", query = "SELECT COUNT(t) FROM Ticket t WHERE :result MEMBER OF t.ticketInfo.ticketResults AND t.creation.date BETWEEN :startDate AND :endDate"),
+        @NamedQuery(name = "countTicketsByStatuses", query = "SELECT t.ticketInfo.ticketStatus, COUNT(t) FROM Ticket t WHERE t.creation.date BETWEEN :startDate AND :endDate GROUP BY t.ticketInfo.ticketStatus ORDER BY COUNT(t) DESC"),
+        @NamedQuery(name = "countTicketsByHeaders", query = "SELECT t.ticketInfo.ticketHeader, COUNT(t) FROM Ticket t WHERE t.creation.date BETWEEN :startDate AND :endDate GROUP BY t.ticketInfo.ticketHeader ORDER BY COUNT(t) DESC"),
+        @NamedQuery(name = "countTicketsByProjects", query = "SELECT t.ticketInfo.transportInfo.project, COUNT(t) FROM Ticket t WHERE t.creation.date BETWEEN :startDate AND :endDate GROUP BY t.ticketInfo.transportInfo.project ORDER BY COUNT(t) DESC"),
+        @NamedQuery(name = "countTicketsByBranches", query = "SELECT t.ticketInfo.transportInfo.branch, COUNT(t) FROM Ticket t WHERE t.creation.date BETWEEN :startDate AND :endDate GROUP BY t.ticketInfo.transportInfo.branch ORDER BY COUNT(t) DESC"),
 })
 public class Ticket {
     @Id

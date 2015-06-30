@@ -3,10 +3,14 @@ package k7i3.code.helpdesk.tnc;
 import org.primefaces.model.chart.*;
 
 import javax.annotation.PostConstruct;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ViewScoped;
+import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.Serializable;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -27,6 +31,10 @@ public class StatisticsController implements Serializable{
     @Inject
     private StatisticsEJB statisticsEJB;
 
+    private PieChartModel pieModel;
+    private BarChartModel barModel;
+    private MeterGaugeChartModel meterGaugeModel;
+
     private int countOfAllTickets;
     private int countOfOpenedTickets;
     private int countOfAcceptedTickets;
@@ -38,21 +46,46 @@ public class StatisticsController implements Serializable{
     private int countOfRepeatedOnServiceTickets;
     private int countOfRepeatedClosedTickets;
 
-    private PieChartModel pieModel;
-    private BarChartModel barModel;
-    private MeterGaugeChartModel meterGaugeModel;
-
     private List <Object[]> countOfTicketsByResults;
     private List <Object[]> countOfTicketsByStatuses;
     private List <Object[]> countOfTicketsByHeaders;
     private List <Object[]> countOfTicketsByProjects;
     private List <Object[]> countOfTicketsByBranches;
-    private List <Object[]> countOfTicketsByStatusesBetweenDates;
+
+    private List <Object[]> countOfTodaysTicketsByResults;
+    private List <Object[]> countOfTodaysTicketsByStatuses;
+    private List <Object[]> countOfTodaysTicketsByHeaders;
+    private List <Object[]> countOfTodaysTicketsByProjects;
+    private List <Object[]> countOfTodaysTicketsByBranches;
+
+    private List <Object[]> countOfFilteredTicketsByResults;
+    private List <Object[]> countOfFilteredTicketsByStatuses;
+    private List <Object[]> countOfFilteredTicketsByHeaders;
+    private List <Object[]> countOfFilteredTicketsByProjects;
+    private List <Object[]> countOfFilteredTicketsByBranches;
+
+    Date todayStartDate;
+    Date todayEndDate;
+
+    Date startDate;
+    Date endDate;
 
     //Init
 
     @PostConstruct
     public void init() {
+        createMeterGaugeModel();
+        createPieModel();
+        createBarModel();
+
+        LocalDateTime todayStart = LocalDateTime.now().withHour(0).withMinute(0).withSecond(0).withNano(0);
+        LocalDateTime todayEnd = LocalDateTime.now().withHour(23).withMinute(59).withSecond(59).withNano(59);
+        todayStartDate = Date.from(todayStart.atZone(ZoneId.systemDefault()).toInstant());
+        todayEndDate = Date.from(todayEnd.atZone(ZoneId.systemDefault()).toInstant());
+        //TEMP
+        startDate = Date.from(todayStart.minusDays(1).atZone(ZoneId.systemDefault()).toInstant());
+        endDate = Date.from(todayEnd.minusDays(1).atZone(ZoneId.systemDefault()).toInstant());
+
         countOfAllTickets = statisticsEJB.countAllTickets();
         countOfOpenedTickets = statisticsEJB.countTicketsByStatus(TicketStatus.OPENED);
         countOfAcceptedTickets = statisticsEJB.countTicketsByStatus(TicketStatus.ACCEPTED);
@@ -65,16 +98,18 @@ public class StatisticsController implements Serializable{
         countOfRepeatedClosedTickets = statisticsEJB.countTicketsByStatus(TicketStatus.REPEATED_CLOSED);
 
         doCountTicketsByResults();
-        countOfTicketsByStatuses = statisticsEJB.countTicketsByStatuses();
-        countOfTicketsByHeaders = statisticsEJB.countTicketsByHeaders();
-        countOfTicketsByProjects = statisticsEJB.countTicketsByProjects();
-        countOfTicketsByBranches = statisticsEJB.countTicketsByBranches();
-//        countOfTicketsByStatusesBetweenDates = statisticsEJB.countTicketsByStatusesBetweenDates(LocalDate.of(2015, Month.JUNE, 25), LocalDate.of(2015, Month.JUNE, 25));
-        countOfTicketsByStatusesBetweenDates = statisticsEJB.countTicketsByStatusesBetweenDates(new Date(0), new Date());
+        countOfTicketsByStatuses = statisticsEJB.countTicketsByStatuses(new Date(0), todayEndDate);
+        countOfTicketsByHeaders = statisticsEJB.countTicketsByHeaders(new Date(0), todayEndDate);
+        countOfTicketsByProjects = statisticsEJB.countTicketsByProjects(new Date(0), todayEndDate);
+        countOfTicketsByBranches = statisticsEJB.countTicketsByBranches(new Date(0), todayEndDate);
 
-        createMeterGaugeModel();
-        createPieModel();
-        createBarModel();
+        doCountTodaysTicketsByResults();
+        countOfTodaysTicketsByStatuses = statisticsEJB.countTicketsByStatuses(todayStartDate, todayEndDate);
+        countOfTodaysTicketsByHeaders = statisticsEJB.countTicketsByHeaders(todayStartDate, todayEndDate);
+        countOfTodaysTicketsByProjects = statisticsEJB.countTicketsByProjects(todayStartDate, todayEndDate);
+        countOfTodaysTicketsByBranches = statisticsEJB.countTicketsByBranches(todayStartDate, todayEndDate);
+
+        doCountFilteredTickets();
     }
 
     private MeterGaugeChartModel initMeterGaugeModel() {
@@ -145,10 +180,11 @@ public class StatisticsController implements Serializable{
     public void doCountTicketsByResults() {
         int count;
         countOfTicketsByResults = new ArrayList<>();
-        for (TicketResult result: ticketEJB.findAllTicketResults()) {
+        List<TicketResult> ticketResults = ticketEJB.findAllTicketResults();
+        for (TicketResult result: ticketResults) {
             Object[] resultCount = new Object[2];
             resultCount[0] = result;
-            count = statisticsEJB.countTicketsByResult(result);
+            count = statisticsEJB.countTicketsByResult(result, new Date(0), todayEndDate);
             if (count == 0) continue;
             resultCount[1] = count;
             countOfTicketsByResults.add(resultCount);
@@ -169,6 +205,49 @@ public class StatisticsController implements Serializable{
 //                return o1[1].toString().compareTo(o2[1].toString());
 //            }
 //        });
+    }
+
+    public void doCountTodaysTicketsByResults() {
+        int count;
+        countOfTodaysTicketsByResults = new ArrayList<>();
+        List<TicketResult> ticketResults = ticketEJB.findAllTicketResults();
+        for (TicketResult result: ticketResults) {
+            Object[] resultCount = new Object[2];
+            resultCount[0] = result;
+            count = statisticsEJB.countTicketsByResult(result, todayStartDate, todayEndDate);
+            if (count == 0) continue;
+            resultCount[1] = count;
+            countOfTodaysTicketsByResults.add(resultCount);
+        }
+
+        countOfTicketsByResults.sort((o1,o2) -> (int) o2[1] - (int) o1[1]);
+    }
+
+    public void doCountFilteredTicketsByResults() {
+        int count;
+        countOfFilteredTicketsByResults = new ArrayList<>();
+        List<TicketResult> ticketResults = ticketEJB.findAllTicketResults();
+        for (TicketResult result: ticketResults) {
+            Object[] resultCount = new Object[2];
+            resultCount[0] = result;
+            count = statisticsEJB.countTicketsByResult(result, startDate, endDate);
+            if (count == 0) continue;
+            resultCount[1] = count;
+            countOfFilteredTicketsByResults.add(resultCount);
+        }
+
+        countOfTicketsByResults.sort((o1,o2) -> (int) o2[1] - (int) o1[1]);
+    }
+
+    public void doCountFilteredTickets() {
+        doCountFilteredTicketsByResults();
+        countOfFilteredTicketsByStatuses = statisticsEJB.countTicketsByStatuses(startDate, endDate);
+        countOfFilteredTicketsByHeaders = statisticsEJB.countTicketsByHeaders(startDate, endDate);
+        countOfFilteredTicketsByProjects = statisticsEJB.countTicketsByProjects(startDate, endDate);
+        countOfFilteredTicketsByBranches = statisticsEJB.countTicketsByBranches(startDate, endDate);
+
+        FacesMessage msg = new FacesMessage(startDate.toString(), endDate.toString());
+        FacesContext.getCurrentInstance().addMessage(null, msg);
     }
 
     //Create
@@ -355,11 +434,115 @@ public class StatisticsController implements Serializable{
         this.countOfTicketsByBranches = countOfTicketsByBranches;
     }
 
-    public List<Object[]> getCountOfTicketsByStatusesBetweenDates() {
-        return countOfTicketsByStatusesBetweenDates;
+    public List<Object[]> getCountOfTodaysTicketsByResults() {
+        return countOfTodaysTicketsByResults;
     }
 
-    public void setCountOfTicketsByStatusesBetweenDates(List<Object[]> countOfTicketsByStatusesBetweenDates) {
-        this.countOfTicketsByStatusesBetweenDates = countOfTicketsByStatusesBetweenDates;
+    public void setCountOfTodaysTicketsByResults(List<Object[]> countOfTodaysTicketsByResults) {
+        this.countOfTodaysTicketsByResults = countOfTodaysTicketsByResults;
+    }
+
+    public List<Object[]> getCountOfTodaysTicketsByStatuses() {
+        return countOfTodaysTicketsByStatuses;
+    }
+
+    public void setCountOfTodaysTicketsByStatuses(List<Object[]> countOfTodaysTicketsByStatuses) {
+        this.countOfTodaysTicketsByStatuses = countOfTodaysTicketsByStatuses;
+    }
+
+    public List<Object[]> getCountOfTodaysTicketsByHeaders() {
+        return countOfTodaysTicketsByHeaders;
+    }
+
+    public void setCountOfTodaysTicketsByHeaders(List<Object[]> countOfTodaysTicketsByHeaders) {
+        this.countOfTodaysTicketsByHeaders = countOfTodaysTicketsByHeaders;
+    }
+
+    public List<Object[]> getCountOfTodaysTicketsByProjects() {
+        return countOfTodaysTicketsByProjects;
+    }
+
+    public void setCountOfTodaysTicketsByProjects(List<Object[]> countOfTodaysTicketsByProjects) {
+        this.countOfTodaysTicketsByProjects = countOfTodaysTicketsByProjects;
+    }
+
+    public List<Object[]> getCountOfTodaysTicketsByBranches() {
+        return countOfTodaysTicketsByBranches;
+    }
+
+    public void setCountOfTodaysTicketsByBranches(List<Object[]> countOfTodaysTicketsByBranches) {
+        this.countOfTodaysTicketsByBranches = countOfTodaysTicketsByBranches;
+    }
+
+    public List<Object[]> getCountOfFilteredTicketsByResults() {
+        return countOfFilteredTicketsByResults;
+    }
+
+    public void setCountOfFilteredTicketsByResults(List<Object[]> countOfFilteredTicketsByResults) {
+        this.countOfFilteredTicketsByResults = countOfFilteredTicketsByResults;
+    }
+
+    public List<Object[]> getCountOfFilteredTicketsByStatuses() {
+        return countOfFilteredTicketsByStatuses;
+    }
+
+    public void setCountOfFilteredTicketsByStatuses(List<Object[]> countOfFilteredTicketsByStatuses) {
+        this.countOfFilteredTicketsByStatuses = countOfFilteredTicketsByStatuses;
+    }
+
+    public List<Object[]> getCountOfFilteredTicketsByHeaders() {
+        return countOfFilteredTicketsByHeaders;
+    }
+
+    public void setCountOfFilteredTicketsByHeaders(List<Object[]> countOfFilteredTicketsByHeaders) {
+        this.countOfFilteredTicketsByHeaders = countOfFilteredTicketsByHeaders;
+    }
+
+    public List<Object[]> getCountOfFilteredTicketsByProjects() {
+        return countOfFilteredTicketsByProjects;
+    }
+
+    public void setCountOfFilteredTicketsByProjects(List<Object[]> countOfFilteredTicketsByProjects) {
+        this.countOfFilteredTicketsByProjects = countOfFilteredTicketsByProjects;
+    }
+
+    public List<Object[]> getCountOfFilteredTicketsByBranches() {
+        return countOfFilteredTicketsByBranches;
+    }
+
+    public void setCountOfFilteredTicketsByBranches(List<Object[]> countOfFilteredTicketsByBranches) {
+        this.countOfFilteredTicketsByBranches = countOfFilteredTicketsByBranches;
+    }
+
+    public Date getTodayStartDate() {
+        return todayStartDate;
+    }
+
+    public void setTodayStartDate(Date todayStartDate) {
+        this.todayStartDate = todayStartDate;
+    }
+
+    public Date getTodayEndDate() {
+        return todayEndDate;
+    }
+
+    public void setTodayEndDate(Date todayEndDate) {
+        this.todayEndDate = todayEndDate;
+    }
+
+    public Date getStartDate() {
+        return startDate;
+    }
+
+    public void setStartDate(Date startDate) {
+        this.startDate = startDate;
+    }
+
+    public Date getEndDate() {
+        return endDate;
+    }
+
+    public void setEndDate(Date endDate) {
+        this.endDate = endDate;
     }
 }
