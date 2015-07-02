@@ -51,25 +51,29 @@ public class TicketController {
 
     //Do ADD
 
-    public void doAddTransportComment(Transport transport) {
+    public void doAddTransportComment(Transport transportFromView) {
         logger.info("=>=>=>=>=> TicketController.doAddTransportComment()");
         Comment comment = new Comment(new LifeCycleInfo(new Date(), didBy), new CommentInfo(new LifeCycleInfo(new Date(), didBy), commentContent));
-        transport.getComments().add(comment);
-        transportEJB.updateTransport(transport);
+        Transport transportFromDb = transportEJB.findTransportById(transportFromView.getId());
+        transportFromDb.getComments().add(comment);
+        transportFromView.setComments(transportFromDb.getComments()); // for updating view
+        transportEJB.updateTransport(transportFromDb);
         commentContent = null;
 
-        FacesMessage msg = new FacesMessage("Сохранено (комментарий к транспорту)", transport.getTransportInfo().getStateNumber());
+        FacesMessage msg = new FacesMessage("Сохранено (комментарий к транспорту)", transportFromView.getTransportInfo().getStateNumber());
         FacesContext.getCurrentInstance().addMessage(null, msg);
     }
 
-    public void doAddTicketComment(Ticket ticket) {
+    public void doAddTicketComment(Ticket ticketFromView) {
         logger.info("=>=>=>=>=> TicketController.doAddTicketComment()");
         Comment comment = new Comment(new LifeCycleInfo(new Date(), didBy), new CommentInfo(new LifeCycleInfo(new Date(), didBy), commentContent));
-        ticket.getComments().add(comment);
-        ticketEJB.updateTicket(ticket);
+        Ticket ticketFromDb = ticketEJB.findTicketById(ticketFromView.getId());
+        ticketFromDb.getComments().add(comment);
+        ticketFromView.setComments(ticketFromDb.getComments()); // for updating view
+        ticketEJB.updateTicket(ticketFromDb);
         commentContent = null;
 
-        FacesMessage msg = new FacesMessage("Сохранено (комментарий к заявке)", ticket.getTicketInfo().getTransportInfo().getStateNumber());
+        FacesMessage msg = new FacesMessage("Сохранено (комментарий к заявке)", ticketFromView.getTicketInfo().getTransportInfo().getStateNumber());
         FacesContext.getCurrentInstance().addMessage(null, msg);
     }
 
@@ -82,7 +86,7 @@ public class TicketController {
             FacesContext.getCurrentInstance().addMessage(null, msg);
             return;
         }
-        //TODO update unitOfTransport from the database is going on above in if statement, but may be repeat it for logicality
+        //TODO update unitOfTransport from the database is going on above in 'if' statement (doCheckForPossibilityToAddTicket(unitOfTransport)), but may be repeat it for logicality
         //unitOfTransport = transportEJB.findTransportById(unitOfTransport.getId());
 
         LifeCycleInfo lifeCycleInfo = new LifeCycleInfo(new Date(), didBy);
@@ -92,9 +96,7 @@ public class TicketController {
         ticket.getComments().add(new Comment(lifeCycleInfo, new CommentInfo(lifeCycleInfo, "ОТКРЫТИЕ: " +  commentContent))); // difference
         unitOfTransport.getTickets().add(ticket); // difference
 
-//        unitOfTransport.setCurrentTicketHeader(ticket.getTicketInfo().getTicketHeader().toString()); // difference
-//        unitOfTransport.setCurrentTicketStatus(ticket.getTicketInfo().getTicketStatus().toString()); // difference
-        setCurrentTicketHeaderAndTicketStatus(ticket);
+        setCurrentTicketHeaderAndTicketStatus(ticket); // difference
 
         transportEJB.updateTransport(unitOfTransport);
 
@@ -157,6 +159,7 @@ public class TicketController {
     public void doAcceptTicket() {
         logger.info("=>=>=>=>=> TicketController.doAcceptTicket()");
 
+        // TODO (never used) it working automatically by container and i don't now how (but in this case message is not showing)...
         if (!doCheckForPossibilityToAcceptTicket(ticket)) {
             FacesMessage msg = new FacesMessage("Действие невозможно", unitOfTransport.getTransportInfo().getStateNumber());
             FacesContext.getCurrentInstance().addMessage(null, msg);
@@ -185,6 +188,7 @@ public class TicketController {
     public void doOnServiceTicket() {
         logger.info("=>=>=>=>=> TicketController.doOnServiceTicket()");
 
+        // TODO (never used) it working automatically by container and i don't now how (but in this case message is not showing)...
         if (!doCheckForPossibilityToOnServiceTicket(ticket)) {
             FacesMessage msg = new FacesMessage("Действие невозможно", unitOfTransport.getTransportInfo().getStateNumber());
             FacesContext.getCurrentInstance().addMessage(null, msg);
@@ -213,6 +217,7 @@ public class TicketController {
     public void doCloseTicket() {
         logger.info("=>=>=>=>=> TicketController.doCloseTicket()");
 
+        // TODO (never used) it working automatically by container and i don't now how (but in this case message is not showing)...
         if (!doCheckForPossibilityToCloseTicket(ticket)) {
             FacesMessage msg = new FacesMessage("Действие невозможно", unitOfTransport.getTransportInfo().getStateNumber());
             FacesContext.getCurrentInstance().addMessage(null, msg);
@@ -243,6 +248,7 @@ public class TicketController {
     public void doArchiveTicket() {
         logger.info("=>=>=>=>=> TicketController.doArchiveTicket()");
 
+        // TODO (never used) it working automatically by container and i don't now how (but in this case message is not showing)...
         if (!doCheckForPossibilityToArchiveTicket(ticket)) {
             FacesMessage msg = new FacesMessage("Действие невозможно", unitOfTransport.getTransportInfo().getStateNumber());
             FacesContext.getCurrentInstance().addMessage(null, msg);
@@ -271,6 +277,7 @@ public class TicketController {
     public void doMarkAsIncorrectTicket() {
         logger.info("=>=>=>=>=> TicketController.doMarkAsIncorrectTicket()");
 
+        // TODO (never used) it working automatically by container and i don't now how (but in this case message is not showing)...
         if (!doCheckForPossibilityToMarkAsIncorrectTicket(ticket)) {
             FacesMessage msg = new FacesMessage("Действие невозможно", unitOfTransport.getTransportInfo().getStateNumber());
             FacesContext.getCurrentInstance().addMessage(null, msg);
@@ -300,6 +307,7 @@ public class TicketController {
     public void doCancelTicket() {
         logger.info("=>=>=>=>=> TicketController.doCancelTicket()");
 
+        // TODO (never used) it working automatically by container and i don't now how (but in this case message is not showing)...
         if (!doCheckForPossibilityToCancelTicket(ticket)) {
             FacesMessage msg = new FacesMessage("Действие невозможно", unitOfTransport.getTransportInfo().getStateNumber());
             FacesContext.getCurrentInstance().addMessage(null, msg);
@@ -329,6 +337,7 @@ public class TicketController {
     public void doRepeatedOnServiceTicket() {
         logger.info("=>=>=>=>=> TicketController.doRepeatedOnServiceTicket()");
 
+        // TODO (never used) it working automatically by container and i don't now how (but in this case message is not showing)...
         if (!doCheckForPossibilityToRepeatedOnServiceTicket(ticket)) {
             FacesMessage msg = new FacesMessage("Действие невозможно", unitOfTransport.getTransportInfo().getStateNumber());
             FacesContext.getCurrentInstance().addMessage(null, msg);
@@ -358,6 +367,7 @@ public class TicketController {
     public void doRepeatedCloseTicket() {
         logger.info("=>=>=>=>=> TicketController.doRepeatedCloseTicket()");
 
+        // TODO (never used) it working automatically by container and i don't now how (but in this case message is not showing)...
         if (!doCheckForPossibilityToRepeatedCloseTicket(ticket)) {
             FacesMessage msg = new FacesMessage("Действие невозможно", unitOfTransport.getTransportInfo().getStateNumber());
             FacesContext.getCurrentInstance().addMessage(null, msg);
@@ -390,6 +400,7 @@ public class TicketController {
     public Boolean doCheckForPossibilityToAddTicket(Transport transport) {
         logger.info("=>=>=>=>=> TicketController.doCheckForPossibilityToAddTicket()");
         transport = transportEJB.findTransportById(transport.getId());
+        unitOfTransport = transport; // for update value from DB when this method is called in doAddTicket()
         List<Ticket> tickets = transport.getTickets();
         if (tickets.isEmpty()) return true;
         Ticket lastTicket = tickets.get(tickets.size() - 1);
@@ -399,48 +410,56 @@ public class TicketController {
     public Boolean doCheckForPossibilityToAcceptTicket(Ticket ticket) {
         logger.info("=>=>=>=>=> TicketController.doCheckForPossibilityToAcceptTicket()");
         ticket = ticketEJB.findTicketById(ticket.getId());
+        this.ticket = ticket; // for update value from DB when this method is called in 'Do CHANGE STATUS' methods
         return ticket.getAcceptance() == null && ticket.getIncorrectness() == null && ticket.getCancellation() == null;
     }
 
     public Boolean doCheckForPossibilityToOnServiceTicket(Ticket ticket) {
         logger.info("=>=>=>=>=> TicketController.doCheckForPossibilityToOnServiceTicket()");
         ticket = ticketEJB.findTicketById(ticket.getId());
+        this.ticket = ticket; // for update value from DB when this method is called in 'Do CHANGE STATUS' methods
         return ticket.getService() == null && ticket.getClosing() == null && ticket.getAcceptance() != null && ticket.getIncorrectness() == null && ticket.getCancellation() == null;
     }
 
     public Boolean doCheckForPossibilityToCloseTicket(Ticket ticket) {
         logger.info("=>=>=>=>=> TicketController.doCheckForPossibilityToCloseTicket()");
         ticket = ticketEJB.findTicketById(ticket.getId());
+        this.ticket = ticket; // for update value from DB when this method is called in 'Do CHANGE STATUS' methods
         return ticket.getClosing() == null && ticket.getAcceptance() != null && ticket.getIncorrectness() == null && ticket.getCancellation() == null;
     }
 
     public Boolean doCheckForPossibilityToArchiveTicket(Ticket ticket) {
         logger.info("=>=>=>=>=> TicketController.doCheckForPossibilityToArchiveTicket()");
         ticket = ticketEJB.findTicketById(ticket.getId());
+        this.ticket = ticket; // for update value from DB when this method is called in 'Do CHANGE STATUS' methods
         return ticket.getArchiving() == null && ticket.getClosing() != null && ticket.getAcceptance() != null && ticket.getIncorrectness() == null && ticket.getCancellation() == null;
     }
 
     public Boolean doCheckForPossibilityToCancelTicket(Ticket ticket) {
         logger.info("=>=>=>=>=> TicketController.doCheckForPossibilityToCancelTicket()");
         ticket = ticketEJB.findTicketById(ticket.getId());
+        this.ticket = ticket; // for update value from DB when this method is called in 'Do CHANGE STATUS' methods
         return ticket.getArchiving() == null && ticket.getIncorrectness() == null && ticket.getCancellation() == null;
     }
 
     public Boolean doCheckForPossibilityToMarkAsIncorrectTicket(Ticket ticket) {
         logger.info("=>=>=>=>=> TicketController.doCheckForPossibilityToMarkAsIncorrectTicket()");
         ticket = ticketEJB.findTicketById(ticket.getId());
+        this.ticket = ticket; // for update value from DB when this method is called in 'Do CHANGE STATUS' methods
         return ticket.getArchiving() == null && ticket.getIncorrectness() == null && ticket.getCancellation() == null;
     }
 
     public Boolean doCheckForPossibilityToRepeatedOnServiceTicket(Ticket ticket) {
         logger.info("=>=>=>=>=> TicketController.doCheckForPossibilityToRepeatedOnServiceTicket()");
         ticket = ticketEJB.findTicketById(ticket.getId());
+        this.ticket = ticket; // for update value from DB when this method is called in 'Do CHANGE STATUS' methods
         return ticket.getService() != null && ticket.getClosing() != null && ticket.getRepeatedService().size() == ticket.getRepeatedClosing().size() && ticket.getArchiving() == null && ticket.getIncorrectness() == null && ticket.getCancellation() == null;
     }
 
     public Boolean doCheckForPossibilityToRepeatedCloseTicket(Ticket ticket) {
         logger.info("=>=>=>=>=> TicketController.doCheckForPossibilityToRepeatedCloseTicket()");
         ticket = ticketEJB.findTicketById(ticket.getId());
+        this.ticket = ticket; // for update value from DB when this method is called in 'Do CHANGE STATUS' methods
         return ticket.getService() != null && ticket.getClosing() != null && ticket.getRepeatedService().size() != ticket.getRepeatedClosing().size() && ticket.getArchiving() == null && ticket.getIncorrectness() == null && ticket.getCancellation() == null;
     }
 

@@ -168,7 +168,6 @@ public class StatisticsController implements Serializable{
 
     //Do COUNT
 
-
     public void doCountTicketsByStatuses() {
         countOfAllTickets = statisticsEJB.countAllTickets();
 

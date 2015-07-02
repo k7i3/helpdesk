@@ -28,6 +28,10 @@ public class TransportEJB implements Serializable {
 
     public Transport updateTransport(Transport transport) {
         logger.info("=>=>=>=>=> TransportEJB.updateTransport()");
+
+        // TODO temp (working?)
+//        transport.getTickets().sort((o1, o2) -> o2.getCreation().getDate().compareTo(o1.getCreation().getDate()));
+
         em.merge(transport);
         return transport;
     }
