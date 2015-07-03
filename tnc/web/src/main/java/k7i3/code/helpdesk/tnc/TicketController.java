@@ -128,6 +128,13 @@ public class TicketController {
         FacesContext.getCurrentInstance().addMessage(null, msg);
     }
 
+    public void doDeleteTicketById() {
+//        for deleting ticket-orphans (bug)
+//        ticketEJB.deleteTicket(ticketEJB.findTicketById(37L));
+//        FacesMessage msg = new FacesMessage("Удалено (заявка)", "id = 37");
+//        FacesContext.getCurrentInstance().addMessage(null, msg);
+    }
+
     //Do UPDATE
 
     public void doUpdateTicketInfo() {

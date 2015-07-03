@@ -232,6 +232,7 @@
                     <p:outputLabel for="endDate" value="по" />
                     <p:calendar id="endDate" value="#{statisticsController.endDate}" pattern="dd/MM/yyyy HH:mm:ss" />
                     <p:commandButton process="@parent" update=":form:msgs tablesOfFilteredTickets" action="#{statisticsController.doCountFilteredTickets}" icon="fa fa-refresh" />
+                    <!--<p:commandButton process="@this" update=":form:msgs" action="{ticketController.doDeleteTicketById}" value="удалить заявку"/>-->
                 </h:panelGrid>
 
                 <h:panelGrid id="tablesOfFilteredTickets" columns="5" styleClass="verticalAlignTop" style="width:100%">
