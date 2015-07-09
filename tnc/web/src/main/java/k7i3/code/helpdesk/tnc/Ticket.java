@@ -13,11 +13,20 @@ import java.util.List;
 //        @NamedQuery(name = "countTicketsByResults", query = "SELECT t.ticketInfo.ticketResults, COUNT (t) FROM Ticket t GROUP BY t.ticketInfo.ticketResults"),
         @NamedQuery(name = "countAllTickets", query = "SELECT COUNT(t) FROM Ticket t"),
         @NamedQuery(name = "countTicketsByStatus", query = "SELECT COUNT(t) FROM Ticket t WHERE t.ticketInfo.ticketStatus = :status"),
-        @NamedQuery(name = "countTicketsByResult", query = "SELECT COUNT(t) FROM Ticket t WHERE :result MEMBER OF t.ticketInfo.ticketResults AND t.creation.date BETWEEN :startDate AND :endDate"),
-        @NamedQuery(name = "countTicketsByStatuses", query = "SELECT t.ticketInfo.ticketStatus, COUNT(t) FROM Ticket t WHERE t.creation.date BETWEEN :startDate AND :endDate GROUP BY t.ticketInfo.ticketStatus ORDER BY COUNT(t) DESC"),
-        @NamedQuery(name = "countTicketsByHeaders", query = "SELECT t.ticketInfo.ticketHeader, COUNT(t) FROM Ticket t WHERE t.creation.date BETWEEN :startDate AND :endDate GROUP BY t.ticketInfo.ticketHeader ORDER BY COUNT(t) DESC"),
-        @NamedQuery(name = "countTicketsByProjects", query = "SELECT t.ticketInfo.transportInfo.project, COUNT(t) FROM Ticket t WHERE t.creation.date BETWEEN :startDate AND :endDate GROUP BY t.ticketInfo.transportInfo.project ORDER BY COUNT(t) DESC"),
-        @NamedQuery(name = "countTicketsByBranches", query = "SELECT t.ticketInfo.transportInfo.branch, COUNT(t) FROM Ticket t WHERE t.creation.date BETWEEN :startDate AND :endDate GROUP BY t.ticketInfo.transportInfo.branch ORDER BY COUNT(t) DESC"),
+        @NamedQuery(name = "countTicketsByResult", query = "SELECT COUNT(t) FROM Ticket t " +
+                "WHERE :result MEMBER OF t.ticketInfo.ticketResults AND t.creation.date BETWEEN :startDate AND :endDate AND t.ticketInfo.transportInfo.project IN :projects AND t.ticketInfo.transportInfo.branch IN :branches"),
+        @NamedQuery(name = "countTicketsByStatuses", query = "SELECT t.ticketInfo.ticketStatus, COUNT(t) FROM Ticket t " +
+                "WHERE t.creation.date BETWEEN :startDate AND :endDate AND t.ticketInfo.transportInfo.project IN :projects AND t.ticketInfo.transportInfo.branch IN :branches " +
+                "GROUP BY t.ticketInfo.ticketStatus ORDER BY COUNT(t) DESC"),
+        @NamedQuery(name = "countTicketsByHeaders", query = "SELECT t.ticketInfo.ticketHeader, COUNT(t) FROM Ticket t " +
+                "WHERE t.creation.date BETWEEN :startDate AND :endDate AND t.ticketInfo.transportInfo.project IN :projects AND t.ticketInfo.transportInfo.branch IN :branches " +
+                "GROUP BY t.ticketInfo.ticketHeader ORDER BY COUNT(t) DESC"),
+        @NamedQuery(name = "countTicketsByProjects", query = "SELECT t.ticketInfo.transportInfo.project, COUNT(t) FROM Ticket t " +
+                "WHERE t.creation.date BETWEEN :startDate AND :endDate AND t.ticketInfo.transportInfo.project IN :projects AND t.ticketInfo.transportInfo.branch IN :branches " +
+                "GROUP BY t.ticketInfo.transportInfo.project ORDER BY COUNT(t) DESC"),
+        @NamedQuery(name = "countTicketsByBranches", query = "SELECT t.ticketInfo.transportInfo.branch, COUNT(t) FROM Ticket t " +
+                "WHERE t.creation.date BETWEEN :startDate AND :endDate AND t.ticketInfo.transportInfo.project IN :projects AND t.ticketInfo.transportInfo.branch IN :branches " +
+                "GROUP BY t.ticketInfo.transportInfo.branch ORDER BY COUNT(t) DESC"),
 })
 public class Ticket {
     @Id

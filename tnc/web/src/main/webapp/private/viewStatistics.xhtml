@@ -226,11 +226,19 @@
 
                 <h:outputText value="Заявки (фильтр):" style="display:block; margin-bottom: 20px; margin-top: 20px; font-size: larger; font-weight: 700"/>
 
-                <h:panelGrid columns="6" cellpadding="6">
+                <h:panelGrid columns="9" cellpadding="5">
                     <p:outputLabel for="startDate" value="c" />
                     <p:calendar id="startDate" value="#{statisticsController.startDate}" pattern="dd/MM/yyyy HH:mm:ss" />
                     <p:outputLabel for="endDate" value="по" />
                     <p:calendar id="endDate" value="#{statisticsController.endDate}" pattern="dd/MM/yyyy HH:mm:ss" />
+                    <p:outputLabel for="projects" value="проекты:" />
+                    <p:selectManyMenu id="projects" value="#{statisticsController.selectedProjects}" showCheckbox="true">
+                        <f:selectItems value="#{statisticsController.projects}" var="project" itemLabel="#{project}" itemValue="#{project}"/>
+                    </p:selectManyMenu>
+                    <p:outputLabel for="branches" value="филиалы:" />
+                    <p:selectManyMenu id="branches" value="#{statisticsController.selectedBranches}" showCheckbox="true">
+                        <f:selectItems value="#{statisticsController.branches}" var="branches" itemLabel="#{branches}" itemValue="#{branches}"/>
+                    </p:selectManyMenu>
                     <p:commandButton process="@parent" update=":form:msgs tablesOfFilteredTickets" action="#{statisticsController.doCountFilteredTickets}" icon="fa fa-refresh" />
                     <!--<p:commandButton process="@this" update=":form:msgs" action="{ticketController.doDeleteTicketById}" value="удалить заявку"/>-->
                 </h:panelGrid>

@@ -11,9 +11,7 @@ import javax.inject.Named;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 import java.util.logging.Logger;
 
 /**
@@ -35,6 +33,11 @@ public class StatisticsController implements Serializable{
 
 //    private PieChartModel pieModel;
 //    private BarChartModel barModel;
+
+    private Set<String> projects;
+    private Set<String> branches;
+    private Set<String> selectedProjects;
+    private Set<String> selectedBranches;
 
     private MeterGaugeChartModel meterGaugeModel;
 
@@ -80,6 +83,13 @@ public class StatisticsController implements Serializable{
 
 //        createPieModel();
 //        createBarModel();
+        User user = userEJB.initUser();
+        projects = user.getProjects();
+        if (projects.isEmpty()) projects = new HashSet<>(transportEJB.findAllProjects());
+        selectedProjects = projects;
+        branches = user.getBranches();
+        if (branches.isEmpty()) branches = new HashSet<>(transportEJB.findAllBranches());
+        selectedBranches = branches;
 
         initDates();
 
@@ -184,27 +194,27 @@ public class StatisticsController implements Serializable{
 
     public void doCountTickets() {
         doCountTicketsByResults();
-        countOfTicketsByStatuses = statisticsEJB.countTicketsByStatuses(new Date(0), todayEndDate);
-        countOfTicketsByHeaders = statisticsEJB.countTicketsByHeaders(new Date(0), todayEndDate);
-        countOfTicketsByProjects = statisticsEJB.countTicketsByProjects(new Date(0), todayEndDate);
-        countOfTicketsByBranches = statisticsEJB.countTicketsByBranches(new Date(0), todayEndDate);
+        countOfTicketsByStatuses = statisticsEJB.countTicketsByStatuses(new Date(0), todayEndDate, projects, branches);
+        countOfTicketsByHeaders = statisticsEJB.countTicketsByHeaders(new Date(0), todayEndDate, projects, branches);
+        countOfTicketsByProjects = statisticsEJB.countTicketsByProjects(new Date(0), todayEndDate, projects, branches);
+        countOfTicketsByBranches = statisticsEJB.countTicketsByBranches(new Date(0), todayEndDate, projects, branches);
     }
 
     public void doCountTodaysTickets() {
         doCountTodaysTicketsByResults();
-        countOfTodaysTicketsByStatuses = statisticsEJB.countTicketsByStatuses(todayStartDate, todayEndDate);
-        countOfTodaysTicketsByHeaders = statisticsEJB.countTicketsByHeaders(todayStartDate, todayEndDate);
-        countOfTodaysTicketsByProjects = statisticsEJB.countTicketsByProjects(todayStartDate, todayEndDate);
-        countOfTodaysTicketsByBranches = statisticsEJB.countTicketsByBranches(todayStartDate, todayEndDate);
+        countOfTodaysTicketsByStatuses = statisticsEJB.countTicketsByStatuses(todayStartDate, todayEndDate, projects, branches);
+        countOfTodaysTicketsByHeaders = statisticsEJB.countTicketsByHeaders(todayStartDate, todayEndDate, projects, branches);
+        countOfTodaysTicketsByProjects = statisticsEJB.countTicketsByProjects(todayStartDate, todayEndDate, projects, branches);
+        countOfTodaysTicketsByBranches = statisticsEJB.countTicketsByBranches(todayStartDate, todayEndDate, projects, branches);
     }
 
     public void doCountFilteredTickets() {
         logger.info("=>=>=>=>=> StatisticsController.doCountFilteredTickets()");
         doCountFilteredTicketsByResults();
-        countOfFilteredTicketsByStatuses = statisticsEJB.countTicketsByStatuses(startDate, endDate);
-        countOfFilteredTicketsByHeaders = statisticsEJB.countTicketsByHeaders(startDate, endDate);
-        countOfFilteredTicketsByProjects = statisticsEJB.countTicketsByProjects(startDate, endDate);
-        countOfFilteredTicketsByBranches = statisticsEJB.countTicketsByBranches(startDate, endDate);
+        countOfFilteredTicketsByStatuses = statisticsEJB.countTicketsByStatuses(startDate, endDate, selectedProjects, selectedBranches);
+        countOfFilteredTicketsByHeaders = statisticsEJB.countTicketsByHeaders(startDate, endDate, selectedProjects, selectedBranches);
+        countOfFilteredTicketsByProjects = statisticsEJB.countTicketsByProjects(startDate, endDate, selectedProjects, selectedBranches);
+        countOfFilteredTicketsByBranches = statisticsEJB.countTicketsByBranches(startDate, endDate, selectedProjects, selectedBranches);
 
         FacesMessage msg = new FacesMessage("Фильтр применен", "таблицы обновлены");
         FacesContext.getCurrentInstance().addMessage(null, msg);
@@ -218,7 +228,7 @@ public class StatisticsController implements Serializable{
         for (TicketResult result: ticketResults) {
             Object[] resultCount = new Object[2];
             resultCount[0] = result;
-            count = statisticsEJB.countTicketsByResult(result, new Date(0), todayEndDate);
+            count = statisticsEJB.countTicketsByResult(result, new Date(0), todayEndDate, projects, branches);
             if (count == 0) continue;
             resultCount[1] = count;
             countOfTicketsByResults.add(resultCount);
@@ -249,7 +259,7 @@ public class StatisticsController implements Serializable{
         for (TicketResult result: ticketResults) {
             Object[] resultCount = new Object[2];
             resultCount[0] = result;
-            count = statisticsEJB.countTicketsByResult(result, todayStartDate, todayEndDate);
+            count = statisticsEJB.countTicketsByResult(result, todayStartDate, todayEndDate, projects, branches);
             if (count == 0) continue;
             resultCount[1] = count;
             countOfTodaysTicketsByResults.add(resultCount);
@@ -266,7 +276,7 @@ public class StatisticsController implements Serializable{
         for (TicketResult result: ticketResults) {
             Object[] resultCount = new Object[2];
             resultCount[0] = result;
-            count = statisticsEJB.countTicketsByResult(result, startDate, endDate);
+            count = statisticsEJB.countTicketsByResult(result, startDate, endDate, selectedProjects, selectedBranches);
             if (count == 0) continue;
             resultCount[1] = count;
             countOfFilteredTicketsByResults.add(resultCount);
@@ -577,5 +587,37 @@ public class StatisticsController implements Serializable{
 
     public void setEndDate(Date endDate) {
         this.endDate = endDate;
+    }
+
+    public Set<String> getProjects() {
+        return projects;
+    }
+
+    public void setProjects(Set<String> projects) {
+        this.projects = projects;
+    }
+
+    public Set<String> getBranches() {
+        return branches;
+    }
+
+    public void setBranches(Set<String> branches) {
+        this.branches = branches;
+    }
+
+    public Set<String> getSelectedProjects() {
+        return selectedProjects;
+    }
+
+    public void setSelectedProjects(Set<String> selectedProjects) {
+        this.selectedProjects = selectedProjects;
+    }
+
+    public Set<String> getSelectedBranches() {
+        return selectedBranches;
+    }
+
+    public void setSelectedBranches(Set<String> selectedBranches) {
+        this.selectedBranches = selectedBranches;
     }
 }
