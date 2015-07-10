@@ -37,32 +37,32 @@ public class StatisticsEJB implements Serializable {
         return ((Number)em.createNamedQuery("countTicketsByStatus").setParameter("status", ticketStatus).getSingleResult()).intValue();
     }
 
-    public int countTicketsByResult(TicketResult ticketResult, Date startDate, Date endDate, Set<String> projects, Set<String> branches) {
+    public int countTicketsByResult(TicketResult ticketResult, Date startDate, Date endDate, Set<String> projects, Set<String> branches, Set<TicketHeader> ticketHeaders, Set<TicketStatus> ticketStatuses) {
         logger.info("=>=>=>=>=> StatisticsEJB.countTicketsByResult(TicketResult ticketResult)");
-        return ((Number)em.createNamedQuery("countTicketsByResult").setParameter("result", ticketResult).setParameter("startDate", startDate, TemporalType.TIMESTAMP).setParameter("endDate", endDate, TemporalType.TIMESTAMP).setParameter("projects", projects).setParameter("branches", branches).getSingleResult()).intValue();
+        return ((Number)em.createNamedQuery("countTicketsByResult").setParameter("result", ticketResult).setParameter("startDate", startDate, TemporalType.TIMESTAMP).setParameter("endDate", endDate, TemporalType.TIMESTAMP).setParameter("projects", projects).setParameter("branches", branches).setParameter("ticketHeaders", ticketHeaders).setParameter("ticketStatuses", ticketStatuses).getSingleResult()).intValue();
     }
 
     @SuppressWarnings("unchecked")
-    public List <Object[]> countTicketsByStatuses(Date startDate, Date endDate, Set<String> projects, Set<String> branches) {
+    public List <Object[]> countTicketsByStatuses(Date startDate, Date endDate, Set<String> projects, Set<String> branches, Set<TicketHeader> ticketHeaders, Set<TicketStatus> ticketStatuses) {
         logger.info("=>=>=>=>=> StatisticsEJB.countTicketsByStatuses()");
-        return em.createNamedQuery("countTicketsByStatuses").setParameter("startDate", startDate, TemporalType.TIMESTAMP).setParameter("endDate", endDate, TemporalType.TIMESTAMP).setParameter("projects", projects).setParameter("branches", branches).getResultList();
+        return em.createNamedQuery("countTicketsByStatuses").setParameter("startDate", startDate, TemporalType.TIMESTAMP).setParameter("endDate", endDate, TemporalType.TIMESTAMP).setParameter("projects", projects).setParameter("branches", branches).setParameter("ticketHeaders", ticketHeaders).setParameter("ticketStatuses", ticketStatuses).getResultList();
     }
 
     @SuppressWarnings("unchecked")
-    public List <Object[]> countTicketsByHeaders(Date startDate, Date endDate, Set<String> projects, Set<String> branches) {
+    public List <Object[]> countTicketsByHeaders(Date startDate, Date endDate, Set<String> projects, Set<String> branches, Set<TicketHeader> ticketHeaders, Set<TicketStatus> ticketStatuses) {
         logger.info("=>=>=>=>=> StatisticsEJB.countTicketsByHeaders()");
-        return em.createNamedQuery("countTicketsByHeaders").setParameter("startDate", startDate, TemporalType.TIMESTAMP).setParameter("endDate", endDate, TemporalType.TIMESTAMP).setParameter("projects", projects).setParameter("branches", branches).getResultList();
+        return em.createNamedQuery("countTicketsByHeaders").setParameter("startDate", startDate, TemporalType.TIMESTAMP).setParameter("endDate", endDate, TemporalType.TIMESTAMP).setParameter("projects", projects).setParameter("branches", branches).setParameter("ticketHeaders", ticketHeaders).setParameter("ticketStatuses", ticketStatuses).getResultList();
     }
 
     @SuppressWarnings("unchecked")
-    public List <Object[]> countTicketsByProjects(Date startDate, Date endDate, Set<String> projects, Set<String> branches) {
+    public List <Object[]> countTicketsByProjects(Date startDate, Date endDate, Set<String> projects, Set<String> branches, Set<TicketHeader> ticketHeaders, Set<TicketStatus> ticketStatuses) {
         logger.info("=>=>=>=>=> StatisticsEJB.countTicketsByProjects()");
-        return em.createNamedQuery("countTicketsByProjects").setParameter("startDate", startDate, TemporalType.TIMESTAMP).setParameter("endDate", endDate, TemporalType.TIMESTAMP).setParameter("projects", projects).setParameter("branches", branches).getResultList();
+        return em.createNamedQuery("countTicketsByProjects").setParameter("startDate", startDate, TemporalType.TIMESTAMP).setParameter("endDate", endDate, TemporalType.TIMESTAMP).setParameter("projects", projects).setParameter("branches", branches).setParameter("ticketHeaders", ticketHeaders).setParameter("ticketStatuses", ticketStatuses).getResultList();
     }
 
     @SuppressWarnings("unchecked")
-    public List <Object[]> countTicketsByBranches(Date startDate, Date endDate, Set<String> projects, Set<String> branches) {
+    public List <Object[]> countTicketsByBranches(Date startDate, Date endDate, Set<String> projects, Set<String> branches, Set<TicketHeader> ticketHeaders, Set<TicketStatus> ticketStatuses) {
         logger.info("=>=>=>=>=> StatisticsEJB.countTicketsByBranches()");
-        return em.createNamedQuery("countTicketsByBranches").setParameter("startDate", startDate, TemporalType.TIMESTAMP).setParameter("endDate", endDate, TemporalType.TIMESTAMP).setParameter("projects", projects).setParameter("branches", branches).getResultList();
+        return em.createNamedQuery("countTicketsByBranches").setParameter("startDate", startDate, TemporalType.TIMESTAMP).setParameter("endDate", endDate, TemporalType.TIMESTAMP).setParameter("projects", projects).setParameter("branches", branches).setParameter("ticketHeaders", ticketHeaders).setParameter("ticketStatuses", ticketStatuses).getResultList();
     }
 }

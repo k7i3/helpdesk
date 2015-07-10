@@ -68,6 +68,36 @@
 
                 <h:outputText value="Заявки (все):" style="display:block; margin-bottom: 20px; margin-top: 20px; font-size: larger; font-weight: 700"/>
                 <h:panelGrid id="tablesOfAllTickets" columns="5" styleClass="verticalAlignTop" style="width:100%">
+                    <p:dataTable value="#{statisticsController.countOfTicketsByProjects}" var="countOfTicketsByProject" style="width: auto">
+                        <f:facet name="header">
+                            Проекты
+                        </f:facet>
+                        <p:column headerText="проект" style="width: auto">
+                            <ui:repeat value="#{countOfTicketsByProject}" var="project" offset="0" size="1">
+                                <h:outputText value="#{project}"/>
+                            </ui:repeat>
+                        </p:column>
+                        <p:column headerText="кол-во" style="width: auto">
+                            <ui:repeat value="#{countOfTicketsByProject}" var="count" offset="1" >
+                                <h:outputText value="#{count}"/>
+                            </ui:repeat>
+                        </p:column>
+                    </p:dataTable>
+                    <p:dataTable value="#{statisticsController.countOfTicketsByBranches}" var="countOfTicketsByBranch" style="width: auto">
+                        <f:facet name="header">
+                            Филиалы
+                        </f:facet>
+                        <p:column headerText="филиал" style="width: auto">
+                            <ui:repeat value="#{countOfTicketsByBranch}" var="branch" offset="0" size="1">
+                                <h:outputText value="#{branch}"/>
+                            </ui:repeat>
+                        </p:column>
+                        <p:column headerText="кол-во" style="width: auto">
+                            <ui:repeat value="#{countOfTicketsByBranch}" var="count" offset="1" >
+                                <h:outputText value="#{count}"/>
+                            </ui:repeat>
+                        </p:column>
+                    </p:dataTable>
                     <p:dataTable value="#{statisticsController.countOfTicketsByStatuses}" var="countOfTicketsByStatus" style="width: auto">
                         <f:facet name="header">
                             Статусы
@@ -113,40 +143,40 @@
                             </ui:repeat>
                         </p:column>
                     </p:dataTable>
-                    <p:dataTable value="#{statisticsController.countOfTicketsByProjects}" var="countOfTicketsByProject" style="width: auto">
-                        <f:facet name="header">
-                            Проекты
-                        </f:facet>
-                        <p:column headerText="проект" style="width: auto">
-                            <ui:repeat value="#{countOfTicketsByProject}" var="project" offset="0" size="1">
-                                <h:outputText value="#{project}"/>
-                            </ui:repeat>
-                        </p:column>
-                        <p:column headerText="кол-во" style="width: auto">
-                            <ui:repeat value="#{countOfTicketsByProject}" var="count" offset="1" >
-                                <h:outputText value="#{count}"/>
-                            </ui:repeat>
-                        </p:column>
-                    </p:dataTable>
-                    <p:dataTable value="#{statisticsController.countOfTicketsByBranches}" var="countOfTicketsByBranch" style="width: auto">
-                        <f:facet name="header">
-                            Филиалы
-                        </f:facet>
-                        <p:column headerText="филиал" style="width: auto">
-                            <ui:repeat value="#{countOfTicketsByBranch}" var="branch" offset="0" size="1">
-                                <h:outputText value="#{branch}"/>
-                            </ui:repeat>
-                        </p:column>
-                        <p:column headerText="кол-во" style="width: auto">
-                            <ui:repeat value="#{countOfTicketsByBranch}" var="count" offset="1" >
-                                <h:outputText value="#{count}"/>
-                            </ui:repeat>
-                        </p:column>
-                    </p:dataTable>
                 </h:panelGrid>
 
                 <h:outputText value="Заявки (сегодня):" style="display:block; margin-bottom: 20px; margin-top: 20px; font-size: larger; font-weight: 700"/>
                 <h:panelGrid id="tablesOfTodaysTickets" columns="5" styleClass="verticalAlignTop" style="width:100%">
+                    <p:dataTable value="#{statisticsController.countOfTodaysTicketsByProjects}" var="countOfTodaysTicketsByProject" style="width: auto">
+                        <f:facet name="header">
+                            Проекты
+                        </f:facet>
+                        <p:column headerText="проект" style="width: auto">
+                            <ui:repeat value="#{countOfTodaysTicketsByProject}" var="project" offset="0" size="1">
+                                <h:outputText value="#{project}"/>
+                            </ui:repeat>
+                        </p:column>
+                        <p:column headerText="кол-во" style="width: auto">
+                            <ui:repeat value="#{countOfTodaysTicketsByProject}" var="count" offset="1" >
+                                <h:outputText value="#{count}"/>
+                            </ui:repeat>
+                        </p:column>
+                    </p:dataTable>
+                    <p:dataTable value="#{statisticsController.countOfTodaysTicketsByBranches}" var="countOfTodaysTicketsByBranch" style="width: auto">
+                        <f:facet name="header">
+                            Филиалы
+                        </f:facet>
+                        <p:column headerText="филиал" style="width: auto">
+                            <ui:repeat value="#{countOfTodaysTicketsByBranch}" var="branch" offset="0" size="1">
+                                <h:outputText value="#{branch}"/>
+                            </ui:repeat>
+                        </p:column>
+                        <p:column headerText="кол-во" style="width: auto">
+                            <ui:repeat value="#{countOfTodaysTicketsByBranch}" var="count" offset="1" >
+                                <h:outputText value="#{count}"/>
+                            </ui:repeat>
+                        </p:column>
+                    </p:dataTable>
                     <p:dataTable value="#{statisticsController.countOfTodaysTicketsByStatuses}" var="countOfTodaysTicketsByStatuses" style="width: auto">
                         <f:facet name="header">
                             Статусы
@@ -192,58 +222,77 @@
                             </ui:repeat>
                         </p:column>
                     </p:dataTable>
-                    <p:dataTable value="#{statisticsController.countOfTodaysTicketsByProjects}" var="countOfTodaysTicketsByProject" style="width: auto">
-                        <f:facet name="header">
-                            Проекты
-                        </f:facet>
-                        <p:column headerText="проект" style="width: auto">
-                            <ui:repeat value="#{countOfTodaysTicketsByProject}" var="project" offset="0" size="1">
-                                <h:outputText value="#{project}"/>
-                            </ui:repeat>
-                        </p:column>
-                        <p:column headerText="кол-во" style="width: auto">
-                            <ui:repeat value="#{countOfTodaysTicketsByProject}" var="count" offset="1" >
-                                <h:outputText value="#{count}"/>
-                            </ui:repeat>
-                        </p:column>
-                    </p:dataTable>
-                    <p:dataTable value="#{statisticsController.countOfTodaysTicketsByBranches}" var="countOfTodaysTicketsByBranch" style="width: auto">
-                        <f:facet name="header">
-                            Филиалы
-                        </f:facet>
-                        <p:column headerText="филиал" style="width: auto">
-                            <ui:repeat value="#{countOfTodaysTicketsByBranch}" var="branch" offset="0" size="1">
-                                <h:outputText value="#{branch}"/>
-                            </ui:repeat>
-                        </p:column>
-                        <p:column headerText="кол-во" style="width: auto">
-                            <ui:repeat value="#{countOfTodaysTicketsByBranch}" var="count" offset="1" >
-                                <h:outputText value="#{count}"/>
-                            </ui:repeat>
-                        </p:column>
-                    </p:dataTable>
                 </h:panelGrid>
 
                 <h:outputText value="Заявки (фильтр):" style="display:block; margin-bottom: 20px; margin-top: 20px; font-size: larger; font-weight: 700"/>
 
-                <h:panelGrid columns="9" cellpadding="5">
-                    <p:outputLabel for="startDate" value="c" />
+                <h:panelGrid columns="15" cellpadding="5">
+                    <p:outputLabel for="startDate" value="открыта c" />
                     <p:calendar id="startDate" value="#{statisticsController.startDate}" pattern="dd/MM/yyyy HH:mm:ss" />
                     <p:outputLabel for="endDate" value="по" />
                     <p:calendar id="endDate" value="#{statisticsController.endDate}" pattern="dd/MM/yyyy HH:mm:ss" />
+
                     <p:outputLabel for="projects" value="проекты:" />
                     <p:selectManyMenu id="projects" value="#{statisticsController.selectedProjects}" showCheckbox="true">
                         <f:selectItems value="#{statisticsController.projects}" var="project" itemLabel="#{project}" itemValue="#{project}"/>
                     </p:selectManyMenu>
+
                     <p:outputLabel for="branches" value="филиалы:" />
                     <p:selectManyMenu id="branches" value="#{statisticsController.selectedBranches}" showCheckbox="true">
-                        <f:selectItems value="#{statisticsController.branches}" var="branches" itemLabel="#{branches}" itemValue="#{branches}"/>
+                        <f:selectItems value="#{statisticsController.branches}" var="branch" itemLabel="#{branch}" itemValue="#{branch}"/>
                     </p:selectManyMenu>
+
+                    <p:outputLabel for="ticketStatuses" value="статусы:" />
+                    <p:selectManyMenu id="ticketStatuses" converter="ticketStatusConverter" value="#{statisticsController.selectedTicketStatuses}" showCheckbox="true">
+                        <f:selectItems value="#{statisticsController.ticketStatuses}" var="ticketStatus" itemLabel="#{ticketStatus}" itemValue="#{ticketStatus}"/>
+                    </p:selectManyMenu>
+
+                    <p:outputLabel for="ticketHeaders" value="неисправности:" />
+                    <p:selectManyMenu id="ticketHeaders" converter="ticketHeaderConverter" value="#{statisticsController.selectedTicketHeaders}" showCheckbox="true">
+                        <f:selectItems value="#{statisticsController.ticketHeaders}" var="ticketHeader" itemLabel="#{ticketHeader}" itemValue="#{ticketHeader}"/>
+                    </p:selectManyMenu>
+
+                    <p:outputLabel for="ticketResults" value="реагирования(x):" />
+                    <p:selectManyMenu id="ticketResults" converter="ticketResultConverter" value="#{statisticsController.selectedTicketResults}" showCheckbox="true">
+                        <f:selectItems value="#{statisticsController.ticketResults}" var="ticketResult" itemLabel="#{ticketResult}" itemValue="#{ticketResult}"/>
+                    </p:selectManyMenu>
+
                     <p:commandButton process="@parent" update=":form:msgs tablesOfFilteredTickets" action="#{statisticsController.doCountFilteredTickets}" icon="fa fa-refresh" />
+
                     <!--<p:commandButton process="@this" update=":form:msgs" action="{ticketController.doDeleteTicketById}" value="удалить заявку"/>-->
                 </h:panelGrid>
 
                 <h:panelGrid id="tablesOfFilteredTickets" columns="5" styleClass="verticalAlignTop" style="width:100%">
+                    <p:dataTable value="#{statisticsController.countOfFilteredTicketsByProjects}" var="countOfFilteredTicketsByProject" style="width: auto">
+                        <f:facet name="header">
+                            Проекты
+                        </f:facet>
+                        <p:column headerText="проект" style="width: auto">
+                            <ui:repeat value="#{countOfFilteredTicketsByProject}" var="project" offset="0" size="1">
+                                <h:outputText value="#{project}"/>
+                            </ui:repeat>
+                        </p:column>
+                        <p:column headerText="кол-во" style="width: auto">
+                            <ui:repeat value="#{countOfFilteredTicketsByProject}" var="count" offset="1" >
+                                <h:outputText value="#{count}"/>
+                            </ui:repeat>
+                        </p:column>
+                    </p:dataTable>
+                    <p:dataTable value="#{statisticsController.countOfFilteredTicketsByBranches}" var="countOfFilteredTicketsByBranch" style="width: auto">
+                        <f:facet name="header">
+                            Филиалы
+                        </f:facet>
+                        <p:column headerText="филиал" style="width: auto">
+                            <ui:repeat value="#{countOfFilteredTicketsByBranch}" var="branch" offset="0" size="1">
+                                <h:outputText value="#{branch}"/>
+                            </ui:repeat>
+                        </p:column>
+                        <p:column headerText="кол-во" style="width: auto">
+                            <ui:repeat value="#{countOfFilteredTicketsByBranch}" var="count" offset="1" >
+                                <h:outputText value="#{count}"/>
+                            </ui:repeat>
+                        </p:column>
+                    </p:dataTable>
                     <p:dataTable value="#{statisticsController.countOfFilteredTicketsByStatuses}" var="countOfFilteredTicketsByStatuses" style="width: auto">
                         <f:facet name="header">
                             Статусы
@@ -285,36 +334,6 @@
                         </p:column>
                         <p:column headerText="кол-во" style="width: auto">
                             <ui:repeat value="#{countOfFilteredTicketsByResult}" var="count" offset="1" >
-                                <h:outputText value="#{count}"/>
-                            </ui:repeat>
-                        </p:column>
-                    </p:dataTable>
-                    <p:dataTable value="#{statisticsController.countOfFilteredTicketsByProjects}" var="countOfFilteredTicketsByProject" style="width: auto">
-                        <f:facet name="header">
-                            Проекты
-                        </f:facet>
-                        <p:column headerText="проект" style="width: auto">
-                            <ui:repeat value="#{countOfFilteredTicketsByProject}" var="project" offset="0" size="1">
-                                <h:outputText value="#{project}"/>
-                            </ui:repeat>
-                        </p:column>
-                        <p:column headerText="кол-во" style="width: auto">
-                            <ui:repeat value="#{countOfFilteredTicketsByProject}" var="count" offset="1" >
-                                <h:outputText value="#{count}"/>
-                            </ui:repeat>
-                        </p:column>
-                    </p:dataTable>
-                    <p:dataTable value="#{statisticsController.countOfFilteredTicketsByBranches}" var="countOfFilteredTicketsByBranch" style="width: auto">
-                        <f:facet name="header">
-                            Филиалы
-                        </f:facet>
-                        <p:column headerText="филиал" style="width: auto">
-                            <ui:repeat value="#{countOfFilteredTicketsByBranch}" var="branch" offset="0" size="1">
-                                <h:outputText value="#{branch}"/>
-                            </ui:repeat>
-                        </p:column>
-                        <p:column headerText="кол-во" style="width: auto">
-                            <ui:repeat value="#{countOfFilteredTicketsByBranch}" var="count" offset="1" >
                                 <h:outputText value="#{count}"/>
                             </ui:repeat>
                         </p:column>
