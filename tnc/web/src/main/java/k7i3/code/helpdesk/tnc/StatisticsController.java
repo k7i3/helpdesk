@@ -1,6 +1,7 @@
 package k7i3.code.helpdesk.tnc;
 
 import org.primefaces.model.chart.MeterGaugeChartModel;
+import org.primefaces.model.chart.PieChartModel;
 
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
@@ -31,8 +32,11 @@ public class StatisticsController implements Serializable{
 
     private Logger logger = Logger.getLogger("k7i3");
 
-//    private PieChartModel pieModel;
-//    private BarChartModel barModel;
+    private PieChartModel pieModel;
+    private PieChartModel pieModelTicket;
+    private PieChartModel pieModelHeader;
+ /*private BarChartModel barModel;
+ */
 
     private Set<String> projects;
     private Set<String> branches;
@@ -89,7 +93,7 @@ public class StatisticsController implements Serializable{
     public void init() {
         logger.info("=>=>=>=>=> StatisticsController.init()");
 
-//        createPieModel();
+
 //        createBarModel();
         User user = userEJB.initUser();
         projects = user.getProjects();
@@ -108,16 +112,27 @@ public class StatisticsController implements Serializable{
         selectedTicketStatuses = ticketStatuses;
 
         initDates();
-
+        doCountTicketsByResults();
         doCountTicketsByStatuses();
+        doCountTodaysTickets();
+        doCountFilteredTickets();
+        doCountTickets();
 
         createMeterGaugeModel();
         initMeterGaugeModel();
 
+
+        createPieModel();
+        initPieModel();
+
+        createPieModelTicket();
+        initPieModelTicket();
+
+        createPieModelHeader();
+        initPieModelHeader();
         //FOR RATINGS
-        doCountTickets();
-        doCountTodaysTickets();
-        doCountFilteredTickets();
+
+
 
     }
 
@@ -192,6 +207,37 @@ public class StatisticsController implements Serializable{
         meterGaugeModel.setValue(countOfAllActiveTickets);
     }
 
+    private void initPieModel() {
+        logger.info("=>=>=>=>=> StatisticsController.initPieModel()");
+
+        for (Object[] countOfTicketsByProject : countOfTicketsByProjects) {
+            pieModel.set((String) countOfTicketsByProject[0], (Long) countOfTicketsByProject[1]);
+        }
+        pieModel.setTitle("Количество проектов, имеющих заявки: " + countOfTicketsByProjects.size());
+        pieModel.setLegendPosition("e");
+        pieModel.setShowDataLabels(true);
+    }
+    private void initPieModelTicket() {
+        logger.info("=>=>=>=>=> StatisticsController.initPieModelTicket()");
+
+        for (Object[] countOfTicketsByResult : countOfTicketsByResults) {
+            pieModelTicket.set(String.valueOf((TicketResult) countOfTicketsByResult[0]), (Integer) countOfTicketsByResult[1]);
+        }
+        pieModelTicket.setTitle("Закрытых заявок: " + countOfTicketsByResults.size());
+        pieModelTicket.setLegendPosition("e");
+        pieModelTicket.setShowDataLabels(true);
+    }
+
+    private void initPieModelHeader() {
+        logger.info("=>=>=>=>=> StatisticsController.initPieModelHeader()");
+
+        for (Object[] countOfTicketsByHeader : countOfTicketsByHeaders) {
+            pieModelHeader.set(String.valueOf((TicketHeader) countOfTicketsByHeader[0]), (Long) countOfTicketsByHeader[1]);
+        }
+        pieModelHeader.setTitle("Причины неисправностей");
+        pieModelHeader.setLegendPosition("e");
+        pieModelHeader.setShowDataLabels(true);
+    }
     //Do COUNT
 
     public void doCountTicketsByStatuses() {
@@ -209,7 +255,7 @@ public class StatisticsController implements Serializable{
     }
 
     public void doCountTickets() {
-        doCountTicketsByResults();
+       // doCountTicketsByResults();
         countOfTicketsByStatuses = statisticsEJB.countTicketsByStatuses(new Date(0), todayEndDate, projects, branches, ticketHeaders, ticketStatuses);
         countOfTicketsByHeaders = statisticsEJB.countTicketsByHeaders(new Date(0), todayEndDate, projects, branches, ticketHeaders, ticketStatuses);
         countOfTicketsByProjects = statisticsEJB.countTicketsByProjects(new Date(0), todayEndDate, projects, branches, ticketHeaders, ticketStatuses);
@@ -281,7 +327,7 @@ public class StatisticsController implements Serializable{
             countOfTodaysTicketsByResults.add(resultCount);
         }
 
-        countOfTicketsByResults.sort((o1,o2) -> (int) o2[1] - (int) o1[1]);
+        countOfTicketsByResults.sort((o1, o2) -> (int) o2[1] - (int) o1[1]);
     }
 
     public void doCountFilteredTicketsByResults() {
@@ -317,23 +363,20 @@ public class StatisticsController implements Serializable{
         meterGaugeModel.setSeriesColors("66cc66,93b75f,E7E658,cc6666,F50000");
         meterGaugeModel.setGaugeLabel("заявки");
     }
+    private void createPieModel() {
+        logger.info("=>=>=>=>=> StatisticsController.createPieModel()");
+        pieModel = new PieChartModel();
+    }
 
-//    private void createPieModel() {
-//        logger.info("=>=>=>=>=> StatisticsController.createPieModel()");
-//        pieModel = new PieChartModel();
-//
-//        pieModel.set("БАТ(10)", 10);
-//        pieModel.set("БАД(3)", 3);
-//        pieModel.set("АСС(7)", 7);
-//        pieModel.set("Медицина(3)", 3);
-//        pieModel.set("Школьники(2)", 2);
-//
-//        pieModel.setTitle("Активные заявки по проектам:");
-//        pieModel.setLegendPosition("ne");
-//        pieModel.setFill(false);
-//        pieModel.setShowDataLabels(true);
-//        pieModel.setDiameter(150);
-//    }
+    private void createPieModelTicket() {
+        logger.info("=>=>=>=>=> StatisticsController.createPieModelTicket()");
+        pieModelTicket = new PieChartModel();
+    }
+
+    private void createPieModelHeader() {
+        logger.info("=>=>=>=>=> StatisticsController.createPieModelHeader()");
+        pieModelHeader = new PieChartModel();
+    }
 //
 //    private void createBarModel() {
 //        logger.info("=>=>=>=>=> StatisticsController.createBarModel()");
@@ -345,9 +388,9 @@ public class StatisticsController implements Serializable{
 //        yAxis.setMin(0);
 //        yAxis.setMax(10);
 //    }
-
-    //GETTERS AND SETTERS
-
+//
+//    GETTERS AND SETTERS
+//
 //    public BarChartModel getBarModel() {
 //        return barModel;
 //    }
@@ -356,13 +399,32 @@ public class StatisticsController implements Serializable{
 //        this.barModel = barModel;
 //    }
 //
-//    public PieChartModel getPieModel() {
-//        return pieModel;
-//    }
-//
-//    public void setPieModel(PieChartModel pieModel) {
-//        this.pieModel = pieModel;
-//    }
+    public PieChartModel getPieModel() {
+        initPieModel();
+        return pieModel;
+    }
+
+    public void setPieModel(PieChartModel pieModel) {
+        this.pieModel = pieModel;
+    }
+
+    public PieChartModel getPieModelTicket() {
+        initPieModelTicket();
+        return pieModelTicket;
+    }
+
+    public void setPieModelTicket(PieChartModel pieModelTicket) {
+        this.pieModelTicket = pieModelTicket;
+    }
+
+    public PieChartModel getPieModelHeader() {
+        initPieModelHeader();
+        return pieModelHeader;
+    }
+
+    public void setPieModelHeader(PieChartModel pieModelHeader) {
+        this.pieModelHeader = pieModelHeader;
+    }
 
     public MeterGaugeChartModel getMeterGaugeModel() {
         initMeterGaugeModel();

@@ -358,6 +358,58 @@
 
             </p:tab>
 
+
+            <p:tab title="Диаграммы">
+                <p:poll interval="5" listener="#{statisticsController.doCountTicketsByStatuses}" update="charts"/>
+
+                <h:panelGrid id="chart" columns="4" style="width:100%">
+                    <p:panelGrid columns="2">
+                        <f:facet name="header">
+                            <h:outputText value="Заявки"/>
+                        </f:facet>
+
+                        <h:outputText value="открыта"/>
+                        <h:outputText value="#{statisticsController.countOfOpenedTickets}"/>
+
+                        <h:outputText value="принята"/>
+                        <h:outputText value="#{statisticsController.countOfAcceptedTickets}"/>
+
+                        <h:outputText value="на выезд"/>
+                        <h:outputText value="#{statisticsController.countOfOnServiceTickets}"/>
+
+                        <h:outputText value="закрыта"/>
+                        <h:outputText value="#{statisticsController.countOfClosedTickets}"/>
+
+                        <h:outputText value="в архиве"/>
+                        <h:outputText value="#{statisticsController.countOfArchivedTickets}"/>
+
+                        <h:outputText value="невалидная"/>
+                        <h:outputText value="#{statisticsController.countOfIncorrectTickets}"/>
+
+                        <h:outputText value="отменена"/>
+                        <h:outputText value="#{statisticsController.countOfCanceledTickets}"/>
+
+                        <h:outputText value="повторно на выезд"/>
+                        <h:outputText value="#{statisticsController.countOfRepeatedOnServiceTickets}"/>
+
+                        <h:outputText value="повторно закрыта"/>
+                        <h:outputText value="#{statisticsController.countOfRepeatedClosedTickets}"/>
+
+                        <h:outputText value="всего:"/>
+                        <h:outputText value="#{statisticsController.countOfAllTickets}"/>
+                    </p:panelGrid>
+                    <p:chart id="metergauges" type="metergauge" model="#{statisticsController.meterGaugeModel}" style="width:400px;height:250px"/>
+                    <p:chart type="pie" model="#{statisticsController.pieModel}"  style="width:400px;height:250px"/>
+                    <p:chart type="pie" model="#{statisticsController.pieModelTicket}"  style="width:400px;height:250px"/>
+
+                </h:panelGrid>
+
+                <h:panelGrid id="chart1" columns="4" style="width:100%">
+                    <p:chart type="pie" model="#{statisticsController.pieModelHeader}"  style="width: auto"/>
+                    <!--<p:chart id="bar" type="bar" model="{statisticsController.barModel}" style="width:400px;" />-->
+
+                </h:panelGrid>
+            </p:tab>
         </p:tabView>
     </ui:define>
 
